@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Popconfirm, Popover, Modal } from 'antd';
+import { Table, Input,message, DatePicker, Button, Row, Col, Select, Form, Popconfirm, Popover, Modal } from 'antd';
 import PurchaseModal from './PurchaseModal';
 
 const FormItem = Form.Item;
@@ -202,7 +202,6 @@ class Purchase extends Component {
         },
       },
     ];
-
     const paginationProps = {
       total,
       current: currentPage,
