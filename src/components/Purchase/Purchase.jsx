@@ -253,7 +253,7 @@ class Purchase extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('buyerId', {})(
-                  <Select placeholder="请选择用户" optionLabelProp="title" combobox>
+                  <Select placeholder="请选择用户" optionLabelProp="title" mode>
                     {buyer.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
                   </Select>,
                 )}
