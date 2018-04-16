@@ -65,7 +65,7 @@ class Login extends Component {
               登录
             </Button>
           </Row>
-          <p>爱如花科技 版权所有</p>
+          <p>网擒科技 版权所有</p>
         </form>
       </div>
     );
