@@ -389,7 +389,8 @@ class ProductsModal extends Component {
                         <Option value="5">德国</Option>
                         <Option value="6">日本</Option>
                         <Option value="7">澳洲</Option>
-                        <Option value="8">其他</Option>
+                        <Option value="8">加拿大</Option>
+                        <Option value="9">其他</Option>
                       </Select>,     
                     )}
                   </FormItem>
