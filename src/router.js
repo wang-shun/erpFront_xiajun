@@ -21,7 +21,7 @@ import Purchase from './components/Purchase/Purchase'; // 采购管理
 import PurchaseStorage from './components/Purchase/PurchaseStorage'; // 采购入库管理
 import Journal from './components/Check/Journal'; // 流水管理
 import Receipt from './components/Check/Receipt'; // 小票管理
-import UncompletePurchaseStorage from './components/Purchase/UncompletePurchaseStorage';//未完成采购
+import UncompletePurchaseStorage from './components/Purchase/UncompletePurchaseStorage';// 未完成采购
 import Agency from './components/Agency/Agency';
 import AgencyType from './components/Agency/AgencyType';
 import BuyerList from './components/Agency/BuyerList';
@@ -98,9 +98,9 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.PURCHASE}/${routerCfg.CHECK}/${routerCfg.RECEIPT}`} component={Receipt} />
         <Route path={`/${routerCfg.PURCHASE}/${routerCfg.RECEIPT_LIST}`} component={PurchaseReceipt} />
         <Route path={`/${routerCfg.PURCHASE}/${routerCfg.RECEIPT_TASK_LIST}`} component={PurchaseReceiptTask} />
+        <Route path={`/${routerCfg.PURCHASE}/${routerCfg.BUYER_LIST}`} component={BuyerList} />
         <Route path={`/${routerCfg.PERSON}/${routerCfg.AGENCY_LIST}`} component={Agency} />
         <Route path={`/${routerCfg.PERSON}/${routerCfg.AGENCY_TYPE}`} component={AgencyType} />
-        <Route path={`/${routerCfg.PERSON}/${routerCfg.BUYER_LIST}`} component={BuyerList} />
         <Route path={`/${routerCfg.INVENTORY}/${routerCfg.INVENTORY_LIST}`} component={Inventory} />
         <Route path={`/${routerCfg.INVENTORY}/${routerCfg.WAREHOUSE}`} component={Warehouse} />
         <Route path={`/${routerCfg.INVENTORY}/${routerCfg.INOUT}`} component={Inout} />

@@ -5,7 +5,7 @@ export const API_URL = 'http://localhost/haierp1/haiLogin';
 export const backendCfg = {
   products: 'item',
   productsList: 'item_list',
-  finditemList:'finditem_list',//采购商品列表
+  finditemList: 'finditem_list', // 采购商品列表
   brandList: 'item_brand',
   skuList: 'item_skulist',
   packageScale: 'item_scale',
@@ -27,7 +27,7 @@ export const backendCfg = {
   inventory: 'inventory',
   inventoryList: 'inventory_list',
   warehouse: 'inventory_warehouse',
-  stockwarehouse: 'inventory_stockwarehouse',//备货仓库管理
+  stockwarehouse: 'inventory_stockwarehouse', // 备货仓库管理
   inout: 'inventory_inout',
   out: 'inventory_out',
   report: 'report',
@@ -39,18 +39,18 @@ export const backendCfg = {
   reportDeliveryByDate: 'report_delivery_bydate',
   reportSaleRefund: 'report_sale_refund',
   reportFreightByDay: 'report_freight_byday',
-  reportPurchaseBySku:'report_purchase_bysku',
-  reportSaleByScale:'report_sale_byscale',
-  reportSaleBySaleName:'report_sale_byscalename',
-  receiptList:'receipt_List',
-  receiptTaskList:'receipt_task_List',
-  reportNoStockReport:'report_NoStockReport',
-  reportPxPackageReport:'report_PxPackageReport',
-  reportAvgReport:'report_AvgReport',
-  /*wxuser:'wxuser',
+  reportPurchaseBySku: 'report_purchase_bysku',
+  reportSaleByScale: 'report_sale_byscale',
+  reportSaleBySaleName: 'report_sale_byscalename',
+  receiptList: 'receipt_List',
+  receiptTaskList: 'receipt_task_List',
+  reportNoStockReport: 'report_NoStockReport',
+  reportPxPackageReport: 'report_PxPackageReport',
+  reportAvgReport: 'report_AvgReport',
+  /* wxuser:'wxuser',
   wxactivity:'wx_activity',*/
-  
-  
+
+
   // 内置
   overview: 'overview',
 };
@@ -75,7 +75,7 @@ export const routerCfg = {
   CATE_LIST: 'cateList',
   PACKAGE_SCALE: 'packageScale',
   PACKAGE_LEVEL: 'packageLevel',
-  FINDITEM_LIST:'finditemList',//采购商品列表
+  FINDITEM_LIST: 'finditemList', // 采购商品列表
   // 销售管理
   SALE: 'sale',
   ORDER_LIST: 'orderList',
@@ -87,9 +87,9 @@ export const routerCfg = {
   PURCHASE_LIST: 'purchaseList',
   PURCHASE_STORAGE: 'purchaseStorage',
   UNCOMPLETE_TASK_DAILY_ORDER: 'uncompleteTaskDailyOrder',
-  RECEIPT_LIST:'receiptList',//新增小票管理
-  RECEIPT_TASK_LIST:'receiptTaskList',//小票明细管理
-  /*CHECK: 'check', // 盘点管理
+  RECEIPT_LIST: 'receiptList', // 新增小票管理
+  RECEIPT_TASK_LIST: 'receiptTaskList', // 小票明细管理
+  /* CHECK: 'check', // 盘点管理
   JOURNAL: 'journal', // 流水管理
   RECEIPT: 'receipt', // 小票管理*/
   // 客户管理
@@ -103,9 +103,9 @@ export const routerCfg = {
   WAREHOUSE: 'warehouse', // 仓库管理
   INOUT: 'inout', // 出入库管理
   OUT: 'out', // 出库单管理
-  STOCKWAREHOUSE : 'stockwarehouse',//备货仓库管理
-  
-  
+  STOCKWAREHOUSE: 'stockwarehouse', // 备货仓库管理
+
+
   // 报表管理
   REPORT: 'report',
   REPORT_SALE_BY_DAY: 'reportSaleByDay',
@@ -113,19 +113,19 @@ export const routerCfg = {
   REPORT_SALE_BY_BRAND: 'reportSaleByBrand',
   REPORT_ITEM_LISTING: 'reportItemListing',
   REPORT_SHIPPING_BY_DAY: 'reportShippingByDay',
-  REPORT_SALE_BYSCALE_NAME:'reportSaleBySaleName',//录入报表
+  REPORT_SALE_BYSCALE_NAME: 'reportSaleBySaleName', // 录入报表
   REPORT_DELIVERY_BY_DATE: 'reportDeliveryByDate',
   REPORT_SALE_REFUND: 'reportSaleRefund',
   REPORT_FREIGHT_BY_DAY: 'reportFreightByDay',
-  REPORT_PURCHASE_BY_SKU: 'reportPurchaseBySku',//采购入库sku
-  REPORT_SALE_BYSCALE:'reportSaleByScale',//服装尺寸占销售报表
-  REPORT_NOSTOCKREPORT: 'reportNoStockReport',//未备货报表
-  REPORT_PXPACKAGEREPORT:'reportPxPackageReport',//包裹未发出报表
-  REPORT_AVGREPORT:'reportAvgReport',//包裹时效
-  //微信用户管理
-  /*WXUSER:'wxuser',
+  REPORT_PURCHASE_BY_SKU: 'reportPurchaseBySku', // 采购入库sku
+  REPORT_SALE_BYSCALE: 'reportSaleByScale', // 服装尺寸占销售报表
+  REPORT_NOSTOCKREPORT: 'reportNoStockReport', // 未备货报表
+  REPORT_PXPACKAGEREPORT: 'reportPxPackageReport', // 包裹未发出报表
+  REPORT_AVGREPORT: 'reportAvgReport', // 包裹时效
+  // 微信用户管理
+  /* WXUSER:'wxuser',
   WXUSERLIST:'wxactivity',*/
-  
+
 };
 
 export const originalNavigation = [
@@ -149,7 +149,7 @@ export const originalNavigation = [
       { key: routerCfg.FINDITEM_LIST, name: '采购商品' },
     ],
   },
-  { key: routerCfg.SALE, name: '销售管理', icon: 'book',
+  { key: routerCfg.SALE, name: '订单管理', icon: 'book',
     child: [
       { key: routerCfg.ORDER_LIST, name: '主订单管理' },
       { key: routerCfg.ERP_ORDER, name: '子订单管理' },
@@ -159,6 +159,7 @@ export const originalNavigation = [
   },
   { key: routerCfg.PURCHASE, name: '采购管理', icon: 'appstore-o',
     child: [
+      { key: routerCfg.BUYER_LIST, name: '买手管理' },
       { key: routerCfg.PURCHASE_LIST, name: '采购管理' },
       // { key: routerCfg.CHECK,
       //   name: '盘点管理',
@@ -177,7 +178,6 @@ export const originalNavigation = [
     child: [
       { key: routerCfg.AGENCY_LIST, name: '销售管理' },
       { key: routerCfg.AGENCY_TYPE, name: '销售类别' },
-      { key: routerCfg.BUYER_LIST, name: '买手管理' },
     ],
   },
   { key: routerCfg.INVENTORY, name: '库存管理', icon: 'shopping-cart',
@@ -205,8 +205,8 @@ export const originalNavigation = [
       { key: routerCfg.REPORT_NOSTOCKREPORT, name: '未备货商品记录报表' },
       { key: routerCfg.REPORT_PXPACKAGEREPORT, name: '物流公司异常包裹报表' },
       { key: routerCfg.REPORT_AVGREPORT, name: '物流公司时效报表' },
-      
-      
+
+
     ],
   },
    /*{ key: routerCfg.WXUSER, name: '小程序活动管理', icon: 'torsos',

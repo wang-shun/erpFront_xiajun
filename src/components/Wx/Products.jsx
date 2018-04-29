@@ -47,21 +47,21 @@ class Products extends Component {
       p.props.dispatch({ type: 'products/queryProduct', payload: { id } });
     });
   }
-  
+
   cleanVirtualInvModal(itemId) {
     const p = this;
-     p.props.dispatch({
+    p.props.dispatch({
       type: 'products/updateVirtualInvByItemId',
       payload: { itemId },
-      cb() { p._refreshData(); }
+      cb() { p._refreshData(); },
     });
   }
   createDimensionPic(itemId) {
     const p = this;
-     p.props.dispatch({
+    p.props.dispatch({
       type: 'products/getDimensionCodeUtil',
       payload: { itemId },
-      cb() { p._refreshData(); }
+      cb() { p._refreshData(); },
     });
   }
   closeModal() {
@@ -136,7 +136,7 @@ class Products extends Component {
 
   render() {
     const p = this;
-    const { form, currentPage, currentPageSize, productsList = [], productsTotal, allBrands = [], productsValues = {}, tree = [] ,loginRoler} = this.props;
+    const { form, currentPage, currentPageSize, productsList = [], productsTotal, allBrands = [], productsValues = {}, tree = [], loginRoler } = this.props;
     const { getFieldDecorator, resetFields } = form;
     const formItemLayout = {
       labelCol: { span: 10 },
@@ -226,25 +226,27 @@ class Products extends Component {
         key: 'oper',
         width: 50,
         render(text, record) {
-        	if(!record.dimensionCodePic) return (<div>
-	            <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a>
-	            <br/>
-	             <Popconfirm title="是否要生成改小程序的二维码？" onConfirm={p.createDimensionPic.bind(p, record.id)}>
-                		 <a href="javascript:void(0)"><font color='green'>生成二维码</font></a>
+          if (!record.dimensionCodePic) {
+            return (<div>
+              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a>
+              <br />
+              <Popconfirm title="是否要生成改小程序的二维码？" onConfirm={p.createDimensionPic.bind(p, record.id)}>
+                <a href="javascript:void(0)"><font color="green">生成二维码</font></a>
               </Popconfirm>
-	            <br/>
-	            <Popconfirm title="确定清除虚拟库存吗？" onConfirm={p.cleanVirtualInvModal.bind(p, record.id)}>
-                		<a href="javascript:void(0)">清除虚拟库存</a>
+              <br />
+              <Popconfirm title="确定清除虚拟库存吗？" onConfirm={p.cleanVirtualInvModal.bind(p, record.id)}>
+                <a href="javascript:void(0)">清除虚拟库存</a>
               </Popconfirm>
-	         </div>);
+            </div>);
+          }
           return (
-          	<div>
-	            <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a>
-	            <br/>
-	            <Popconfirm title="确定清除虚拟库存吗？" onConfirm={p.cleanVirtualInvModal.bind(p, record.id)}>
-                		<a href="javascript:void(0)">清除虚拟库存</a>
+            <div>
+              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a>
+              <br />
+              <Popconfirm title="确定清除虚拟库存吗？" onConfirm={p.cleanVirtualInvModal.bind(p, record.id)}>
+                <a href="javascript:void(0)">清除虚拟库存</a>
               </Popconfirm>
-	         </div>
+            </div>
           );
         },
       },
@@ -341,7 +343,7 @@ class Products extends Component {
             </Col>
           </Row>
           <Row gutter={20} style={{ width: 800 }}>
-          	<Col span={24}>
+            <Col span={24}>
               <FormItem
                 label="销售时间范围"
                 {...formItemLayout}
@@ -394,7 +396,7 @@ class Products extends Component {
 }
 
 function mapStateToProps(state) {
-  const { productsList, productsTotal, productsValues, allBrands, tree, currentPage, currentPageSize,loginRoler } = state.products;
+  const { productsList, productsTotal, productsValues, allBrands, tree, currentPage, currentPageSize, loginRoler } = state.products;
   return {
     productsList,
     productsTotal,
