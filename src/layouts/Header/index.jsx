@@ -1,8 +1,10 @@
 import React from 'react';
-import { Menu, Icon } from 'antd';
+import { Icon } from 'antd';
+// import { Menu, Icon } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { routerCfg, getNavigation } from '../../constants';
+import { routerCfg } from '../../constants';
+// import { routerCfg, getNavigation } from '../../constants';
 import styles from './style.less';
 
 class Header extends React.Component {
@@ -11,11 +13,11 @@ class Header extends React.Component {
   }
   render() {
     const { session } = this.props;
-    const { pathname } = this.props.location;
+    // const { pathname } = this.props.location;
     return (
       <header className={styles.header}>
         <span className={styles.logo} />
-        <Menu
+        {/* <Menu
           className={styles.navi}
           mode="horizontal"
           selectedKeys={[pathname.split('/')[1] || 'overview']}
@@ -32,7 +34,7 @@ class Header extends React.Component {
               </Menu.Item>
             );
           })}
-        </Menu>
+        </Menu> */}
         <span className={styles.user}>
           <span className={styles.mr10}><Icon type="user" /> { session.username }</span>
           {/* <span className={styles.mr10}><Icon type="lock" /> <Link to="/lock">修改密码</Link></span> */}

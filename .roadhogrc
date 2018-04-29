@@ -16,6 +16,9 @@
     "transform-decorators-legacy",
     ["import", { "libraryName": "antd", "style": true }]
   ],
+  "theme": {
+    "primary-color": "#00cbd7"
+  },
   "env": {
     "development": {
       "extraBabelPlugins": [

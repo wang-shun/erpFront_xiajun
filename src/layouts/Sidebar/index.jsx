@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
-import { Link } from 'dva/router';
+import { Link, hashHistory } from 'dva/router';
 import classNames from 'classnames';
 import { getNavigation } from '../../constants';
 import styles from './style.less';
@@ -25,7 +25,11 @@ class Menus extends Component {
         return menuArray.map((item) => {
           if (item.child) {
             return (
-              <Menu.SubMenu key={item.key} title={<span>{item.icon ? <Icon type={item.icon} /> : ''}{siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}</span>}>
+              <Menu.SubMenu
+                key={item.key}
+                onTitleClick={this.handleClickSubMenu.bind(this)}
+                title={<span>{item.icon ? <Icon type={item.icon} /> : ''}{siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}</span>}
+              >
                 {getMenus(item.child, siderFold, `${parentPath + item.key}/`)}
               </Menu.SubMenu>
             );
@@ -47,6 +51,9 @@ class Menus extends Component {
       this.changeOpenKeys(parent ? [parent] : []);
     }, 100);
   }
+  handleClickSubMenu(t) {
+    hashHistory.push(`/${t.key}`);
+  }
   changeOpenKeys(navOpenKeys) {
     this.setState({ navOpenKeys });
   }
@@ -55,39 +62,40 @@ class Menus extends Component {
   }
   render() {
     const { location, close } = this.props;
-    const { /* navOpenKeys, */siderFold } = this.state;
-    let navArr = [];
-    let navParentPath = '/';
-    getNavigation().forEach((nav) => {
-      if (nav.key === (location.pathname.split('/')[1] || 'overview')) {
-        if (nav.child) navArr = nav.child;
-        navParentPath = `/${nav.key}/`;
+    const { navOpenKeys, siderFold } = this.state;
+    // let navArr = [];
+    // let navParentPath = '/';
+    // getNavigation().forEach((nav) => {
+    //   if (nav.key === (location.pathname.split('/')[1] || 'overview')) {
+    //     if (nav.child) navArr = nav.child;
+    //     navParentPath = `/${nav.key}/`;
+    //   }
+    // });
+    // const menuItems = getMenus(navArr, siderFold, navParentPath);
+    const menuItems = getMenus(getNavigation(), siderFold);
+    const onOpenChange = (openKeys) => {
+      const latestOpenKey = openKeys.find(key => !(navOpenKeys.indexOf(key) > -1));
+      const latestCloseKey = navOpenKeys.find(key => !(openKeys.indexOf(key) > -1));
+      let nextOpenKeys = [];
+      if (latestOpenKey) {
+        nextOpenKeys = getAncestorKeys(latestOpenKey).concat(latestOpenKey);
       }
-    });
-    const menuItems = getMenus(navArr, siderFold, navParentPath);
-    // const onOpenChange = (openKeys) => {
-    //   const latestOpenKey = openKeys.find(key => !(navOpenKeys.indexOf(key) > -1));
-    //   const latestCloseKey = navOpenKeys.find(key => !(openKeys.indexOf(key) > -1));
-    //   let nextOpenKeys = [];
-    //   if (latestOpenKey) {
-    //     nextOpenKeys = getAncestorKeys(latestOpenKey).concat(latestOpenKey);
-    //   }
-    //   if (latestCloseKey) {
-    //     nextOpenKeys = getAncestorKeys(latestCloseKey);
-    //   }
-    //   this.changeOpenKeys(nextOpenKeys);
-    // };
-    // const getAncestorKeys = (key) => {
-    //   const map = {
-    //     navigation2: ['navigation'],
-    //   };
-    //   return map[key] || [];
-    // };
+      if (latestCloseKey) {
+        nextOpenKeys = getAncestorKeys(latestCloseKey);
+      }
+      this.changeOpenKeys(nextOpenKeys);
+    };
+    const getAncestorKeys = (key) => {
+      const map = {
+        navigation2: ['navigation'],
+      };
+      return map[key] || [];
+    };
     // 菜单栏收起时，不能操作openKeys
-    // const menuProps = !siderFold ? {
-    //   onOpenChange,
-    //   openKeys: navOpenKeys,
-    // } : {};
+    const menuProps = !siderFold ? {
+      onOpenChange,
+      openKeys: navOpenKeys,
+    } : {};
 
     const asideClass = classNames({
       [styles.sidebar]: true,
@@ -97,14 +105,14 @@ class Menus extends Component {
     const iconClass = classNames({
       [styles.iconClose]: close,
     });
-
+    console.log(location.pathname.split('/')[2].split('?')[0]);
     return (
       <aside className={asideClass}>
         <Menu
-          /* ...menuProps */
+          {...menuProps}
           mode={siderFold ? 'vertical' : 'inline'}
           theme="dark"
-          selectedKeys={[location.pathname.split('/')[location.pathname.split('/').length - 1] || 'overview']}
+          selectedKeys={[location.pathname.split('/')[2] ? location.pathname.split('/')[2].split('?')[0] : 'overview']}
         >
           {menuItems}
         </Menu>

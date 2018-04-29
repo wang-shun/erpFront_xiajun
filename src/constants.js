@@ -129,7 +129,7 @@ export const routerCfg = {
 };
 
 export const originalNavigation = [
-  { key: routerCfg.OVERVIEW, name: '总览', icon: 'laptop' },
+  { key: routerCfg.OVERVIEW, name: '首页', icon: 'laptop' },
   // { key: routerCfg.PERMISSION, name: '权限管理', icon: 'team',
   //   child: [
   //     { key: routerCfg.RESOURCE, name: '资源管理' },
@@ -205,8 +205,6 @@ export const originalNavigation = [
       { key: routerCfg.REPORT_NOSTOCKREPORT, name: '未备货商品记录报表' },
       { key: routerCfg.REPORT_PXPACKAGEREPORT, name: '物流公司异常包裹报表' },
       { key: routerCfg.REPORT_AVGREPORT, name: '物流公司时效报表' },
-
-
     ],
   },
    /*{ key: routerCfg.WXUSER, name: '小程序活动管理', icon: 'torsos',
