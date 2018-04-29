@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Popconfirm, Popover, Modal } from 'antd';
+import { Table, DatePicker, Button, Row, Col, Form, Popover, Modal } from 'antd';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 @window.regStateCache
@@ -20,8 +19,8 @@ class UncompletePurchaseStorage extends Component {
       selectedRowKeys: [],
     };
   }
- 
-    handleSubmit(e, page) {
+
+  handleSubmit(e, page) {
     if (e) e.preventDefault();
     this.setState({ selectedRowKeys: [] }, () => {
       this.props.form.validateFieldsAndScroll((err, values) => {
@@ -41,35 +40,34 @@ class UncompletePurchaseStorage extends Component {
       });
     });
   }
-  
-  exportNoCompleteDetail(currentlyDate) {  	
-    this.props.dispatch({    	
+
+  exportNoCompleteDetail(currentlyDate) {
+    this.props.dispatch({
       type: 'purchase/exportNoCompleteDetail',
       payload: { currentlyDate },
     });
   }
 
-  purchaseNoCompleteDateil(r){
-   	const p = this;
-   	 this.props.dispatch({
-          type:'purchase/purchaseNoCompleteDateil',
-          payload:{currentlyDate:r.currentlyDate},
-          cb(data) {
-          	console.log(data);
-          p.setState({
+  purchaseNoCompleteDateil(r) {
+    const p = this;
+    this.props.dispatch({
+      type: 'purchase/purchaseNoCompleteDateil',
+      payload: { currentlyDate: r.currentlyDate },
+      cb(data) {
+        p.setState({
           detailData: data,
           showDetail: true,
         });
       },
-      })
-   }
-  
-  
+    });
+  }
+
+
   render() {
     const p = this;
-    const { form, uncompleteTaskDailyOrder = [], noCompleteTimePage, total, noCompleteTimeTotal, editInfo = {}, buyer = [], dispatch } = p.props;
-    const { getFieldDecorator,resetFields } = form;
-    const { title, showDetail,detailData,selectedRowKeys} = p.state;
+    const { form, uncompleteTaskDailyOrder = [], noCompleteTimePage, noCompleteTimeTotal } = p.props;
+    const { getFieldDecorator, resetFields } = form;
+    const { showDetail, detailData } = p.state;
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
@@ -90,38 +88,38 @@ class UncompletePurchaseStorage extends Component {
       },
     ];
 
-			const columnsStorageList = [
-			      { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 80 },
-			      { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 80 },
-			      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 100 },
-			      { title: '采购站点', dataIndex: 'buySite', key: 'buySite', width: 70 },
-			      { title: '图片',
-			        dataIndex: 'skuPic',
-			        key: 'skuPic',
-			        width: 80,
-			        render(t) {
-			          if (t) {
-			            const picObj = JSON.parse(t);
-			            const picList = picObj.picList;
-			            if (picList.length) {
-			              const imgUrl = picList[0].url;
-			              return (
-			                <Popover title={null} content={<img role="presentation" src={imgUrl} style={{ width: 400 }} />}>
-			                  <img role="presentation" src={imgUrl} width={60} height={60} />
-			                </Popover>
-			              );
-			            }
-			          }
-			          return '-';
-			        },
-			      },
-			      { title: '颜色', dataIndex: 'color', key: 'color', width: 60 },
-			      { title: '规格', dataIndex: 'scale', key: 'scale', width: 60 },
-			      { title: '未完成采购数量', dataIndex: 'purchaseNeed', key: 'purchaseNeed', width: 60  },
-			    ];
+    const columnsStorageList = [
+      { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 80 },
+      { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 80 },
+      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 100 },
+      { title: '采购站点', dataIndex: 'buySite', key: 'buySite', width: 70 },
+      { title: '图片',
+        dataIndex: 'skuPic',
+        key: 'skuPic',
+        width: 80,
+        render(t) {
+          if (t) {
+            const picObj = JSON.parse(t);
+            const picList = picObj.picList;
+            if (picList.length) {
+              const imgUrl = picList[0].url;
+              return (
+                <Popover title={null} content={<img role="presentation" src={imgUrl} style={{ width: 400 }} />}>
+                  <img role="presentation" src={imgUrl} width={60} height={60} />
+                </Popover>
+              );
+            }
+          }
+          return '-';
+        },
+      },
+      { title: '颜色', dataIndex: 'color', key: 'color', width: 60 },
+      { title: '规格', dataIndex: 'scale', key: 'scale', width: 60 },
+      { title: '未完成采购数量', dataIndex: 'purchaseNeed', key: 'purchaseNeed', width: 60 },
+    ];
 
     const paginationProps = {
-      total:noCompleteTimeTotal,
+      total: noCompleteTimeTotal,
       current: noCompleteTimePage,
       pageSize: 20,
       onChange(pageIndex) {
@@ -129,18 +127,18 @@ class UncompletePurchaseStorage extends Component {
       },
     };
 
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        const listId = [];
-        selectedRows.forEach((el) => {
-          listId.push(el.id);
-        });
-        p.setState({ taskDailyIds: listId });
-      },
-      selectedRowKeys: p.state.taskDailyIds,
-    };
+    // const rowSelection = {
+    //   onChange: (selectedRowKeys, selectedRows) => {
+    //     const listId = [];
+    //     selectedRows.forEach((el) => {
+    //       listId.push(el.id);
+    //     });
+    //     p.setState({ taskDailyIds: listId });
+    //   },
+    //   selectedRowKeys: p.state.taskDailyIds,
+    // };
 
-    const isNotSelected = this.state.taskDailyIds.length === 0;
+    // const isNotSelected = this.state.taskDailyIds.length === 0;
 
     return (
       <div>
@@ -163,8 +161,7 @@ class UncompletePurchaseStorage extends Component {
               <Button size="large" type="ghost" onClick={() => { resetFields(); }}>清空</Button>
             </Col>
           </Row>
-          <Row className="operBtn">
-          </Row>
+          <Row className="operBtn" />
         </Form>
         <Row>
           <Col>
@@ -185,7 +182,7 @@ class UncompletePurchaseStorage extends Component {
           width={1200}
           onCancel={() => this.setState({ showDetail: false })}
         >
-          <Table columns={columnsStorageList}  dataSource={detailData} />
+          <Table columns={columnsStorageList} dataSource={detailData} />
         </Modal>
       </div>
     );
@@ -193,7 +190,7 @@ class UncompletePurchaseStorage extends Component {
 }
 
 function mapStateToProps(state) {
-  const {noCompleteTimePageSize, noCompleteTimePage,editInfo,uncompleteTaskDailyOrder,noCompleteTimeTotal} = state.purchase;
+  const { noCompleteTimePageSize, noCompleteTimePage, uncompleteTaskDailyOrder, editInfo, noCompleteTimeTotal } = state.purchase;
   return {
     uncompleteTaskDailyOrder,
     noCompleteTimeTotal,

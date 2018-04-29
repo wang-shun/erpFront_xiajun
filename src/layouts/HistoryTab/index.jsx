@@ -7,7 +7,6 @@ const TabPane = Tabs.TabPane;
 class HistoryTab extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.location);
     this.newTabIndex = 0;
     this.state = {
       panes: [],

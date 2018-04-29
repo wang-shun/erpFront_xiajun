@@ -75,15 +75,15 @@ class ProductsModal extends Component {
       if (err) {
         return;
       }
-    if (fieldsValue.defaultBuyer) fieldsValue.buyerName = fieldsValue.defaultBuyer;
-    delete fieldsValue.defaultBuyer;
+      if (fieldsValue.defaultBuyer) fieldsValue.buyerName = fieldsValue.defaultBuyer;
+      delete fieldsValue.defaultBuyer;
       // 检验sku是否填写
       p.getSkuValue((skuList) => {
         const values = {
           ...fieldsValue,
           startDate: fieldsValue.startDate && fieldsValue.startDate.format('YYYY-MM-DD HH:mm:ss'),
           endDate: fieldsValue.endDate && fieldsValue.endDate.format('YYYY-MM-DD HH:mm:ss'),
-          bookingDate:fieldsValue.bookingDate && fieldsValue.bookingDate.format('YYYY-MM-DD HH:mm:ss'),
+          bookingDate: fieldsValue.bookingDate && fieldsValue.bookingDate.format('YYYY-MM-DD HH:mm:ss'),
           skuList: JSON.stringify(skuList),
         };
 
@@ -196,8 +196,8 @@ class ProductsModal extends Component {
 
   render() {
     const p = this;
-    const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes,loginRoler,allBuyers=[] } = this.props;
-    const { previewVisible, previewImage, activeTab,defaultBuyer } = this.state;
+    const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [] } = this.props;
+    const { previewVisible, previewImage, activeTab } = this.state;
     const { getFieldDecorator } = form;
     // 图片字符串解析
     let mainPicNum;
@@ -391,7 +391,7 @@ class ProductsModal extends Component {
                         <Option value="7">澳洲</Option>
                         <Option value="8">加拿大</Option>
                         <Option value="9">其他</Option>
-                      </Select>,     
+                      </Select>,
                     )}
                   </FormItem>
                 </Col>
@@ -471,7 +471,7 @@ class ProductsModal extends Component {
                 </Col>
               </Row>
               <Row>
-               <Col span={7}>
+                <Col span={7}>
                   <FormItem
                     label="预售时间"
                     {...formItemLayout}
@@ -481,20 +481,20 @@ class ProductsModal extends Component {
                       rules: [{ required: false, message: '请选择' }],
                     })(
                       <DatePicker
-      showTime
-      format="YYYY-MM-DD HH:mm:ss"
-      placeholder="请选择预售时间"
-    />,
+                        showTime
+                        format="YYYY-MM-DD HH:mm:ss"
+                        placeholder="请选择预售时间"
+                      />,
                     )}
                   </FormItem>
                 </Col>
-               <Col span={7}>
+                <Col span={7}>
                   <FormItem
                     label="小程序可售"
                     {...formItemLayout}
                   >
                     {getFieldDecorator('wxisSale', {
-                      initialValue: toString(productData.wxisSale!=0 ? 1 : 0),//神解决
+                      initialValue: toString(productData.wxisSale !== 0 ? 1 : 0), // 神解决
                     })(
                       <RadioGroup>
                         <Radio value="1">是</Radio>
@@ -503,7 +503,7 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-                 <Col span={7}>
+                <Col span={7}>
                   <FormItem
                     label="第三方销售平台"
                     {...formItemLayout}
@@ -580,15 +580,15 @@ class ProductsModal extends Component {
                     label="选择商品归属买手"
                     {...formItemLayout}
                   >
-                  {getFieldDecorator('owners', {
-                  initialValue: _roleIds,
-                  rules: [{ required: true, message: '请选择买手' }],
-                })(
-                  <Select placeholder="请选择买手"  mode="multiple" allowClear>
-                    {allBuyers.map((el) => {
-                      return <Option key={el.id} value={el.id.toString()} >{el.nickName}</Option>;
-                    })}
-                  </Select>,
+                    {getFieldDecorator('owners', {
+                      initialValue: _roleIds,
+                      rules: [{ required: true, message: '请选择买手' }],
+                    })(
+                      <Select placeholder="请选择买手" mode="multiple" allowClear>
+                        {allBuyers.map((el) => {
+                          return <Option key={el.id} value={el.id.toString()} >{el.nickName}</Option>;
+                        })}
+                      </Select>,
                 )}
                   </FormItem>
                 </Col>

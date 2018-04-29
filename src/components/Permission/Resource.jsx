@@ -212,6 +212,7 @@ class Resource extends Component {
                     initialValue: (resourceModal.pid && resourceModal.pid.toString()) || undefined,
                   })(
                     <TreeSelect
+                      treeDefaultExpandAll
                       placeholder="请输入父级资源"
                       treeData={resourceList}
                     />,

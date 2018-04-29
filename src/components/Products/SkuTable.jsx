@@ -113,7 +113,7 @@ class SkuTable extends Component {
       costPrice: typeof obj.costPrice === 'string' ? obj.costPrice : '',
       discount: typeof obj.discount === 'string' ? obj.discount : '',
       purchasePrice: typeof obj.purchasePrice === 'string' ? obj.purchasePrice : '',
-      
+
     };
     skuData.push(newItem);
     this.setState({ skuData });
@@ -151,80 +151,79 @@ class SkuTable extends Component {
   inputCostPriceChange(type, key, value) {
     const skuData = this.state.skuData;
     skuData.forEach((el) => {
-      if(el.key == key) {
-          el.costPrice = value;
+      if (el.key === key) {
+        el.costPrice = value;
       }
     });
     this.setState({
-        skuData
+      skuData,
     });
   }
-  //折扣率监听
+  // 折扣率监听
   inputCountChange(type, key, value) {
     const skuData = this.state.skuData;
     let purchasePrice = 0;
     skuData.forEach((el) => {
-      	if(el.key == key) {
-      	  	el.discount = parseFloat(value);
-	        if(el.costPrice > 0) {
-				purchasePrice = el.costPrice * el.discount;
-				purchasePrice = purchasePrice.toFixed(2);
-				el.purchasePrice = purchasePrice;
-	        }
-      	}
+      if (el.key === key) {
+        el.discount = parseFloat(value);
+        if (el.costPrice > 0) {
+          purchasePrice = el.costPrice * el.discount;
+          purchasePrice = purchasePrice.toFixed(2);
+          el.purchasePrice = purchasePrice;
+        }
+      }
     });
     this.setState({
-        skuData
+      skuData,
     });
-	if(purchasePrice > 0) {
-		let obj={};
-		obj["r_"+key+"_purchasePrice"] = purchasePrice;
-		this.props.form.setFieldsValue(obj);
-	}
+    if (purchasePrice > 0) {
+      const obj = {};
+      obj[`r_${key}_purchasePrice`] = purchasePrice;
+      this.props.form.setFieldsValue(obj);
+    }
   }
-  //折后价监听
+  // 折后价监听
   inputPurchaseChange(type, key, value) {
     const skuData = this.state.skuData;
     let discount = 0;
     let salePrice = 0;
     skuData.forEach((el) => {
-        if(el.key == key) {
-	      	el.purchasePrice = parseFloat(value);
-	      	console.log(el.purchasePrice);
-            if(el.costPrice > 0) {
-                discount = el.purchasePrice / el.costPrice;
-                discount = discount.toFixed(2);
-                el.discount = discount;
-            }
-            if(el.purchasePrice <= 100) {
-            		salePrice = el.purchasePrice +10;
-            } else if(el.purchasePrice>=101 && el.purchasePrice<=200) {
-            		salePrice = el.purchasePrice +12;
-            } else if(el.purchasePrice>=201 && el.purchasePrice<=300) {
-            		salePrice = el.purchasePrice +15;
-            } else if(el.purchasePrice>=301 && el.purchasePrice<=500) {
-            		salePrice = el.purchasePrice +18;
-            } else if(el.purchasePrice>=501) {
-            		salePrice = el.purchasePrice +20;
-            }
-            el.salePrice = salePrice;
+      if (el.key === key) {
+        el.purchasePrice = parseFloat(value);
+        if (el.costPrice > 0) {
+          discount = el.purchasePrice / el.costPrice;
+          discount = discount.toFixed(2);
+          el.discount = discount;
         }
+        if (el.purchasePrice <= 100) {
+          salePrice = el.purchasePrice + 10;
+        } else if (el.purchasePrice >= 101 && el.purchasePrice <= 200) {
+          salePrice = el.purchasePrice + 12;
+        } else if (el.purchasePrice >= 201 && el.purchasePrice <= 300) {
+          salePrice = el.purchasePrice + 15;
+        } else if (el.purchasePrice >= 301 && el.purchasePrice <= 500) {
+          salePrice = el.purchasePrice + 18;
+        } else if (el.purchasePrice >= 501) {
+          salePrice = el.purchasePrice + 20;
+        }
+        el.salePrice = salePrice;
+      }
     });
     this.setState({
-        skuData
+      skuData,
     });
-	if(discount > 0) {
-		let obj={};
-		obj["r_"+key+"_discount"] = discount;
-		this.props.form.setFieldsValue(obj);
-	}
-	if(salePrice > 0) {
-		let obj={};
-		obj["r_"+key+"_salePrice"] = salePrice;
-		this.props.form.setFieldsValue(obj);
-	}
-}
-  //采购用户
+    if (discount > 0) {
+      const obj = {};
+      obj[`r_${key}_discount`] = discount;
+      this.props.form.setFieldsValue(obj);
+    }
+    if (salePrice > 0) {
+      const obj = {};
+      obj[`r_${key}_salePrice`] = salePrice;
+      this.props.form.setFieldsValue(obj);
+    }
+  }
+  // 采购用户
   handleBatchSkuAddVisible(batchSkuAddVisible) {
     if (!batchSkuAddVisible) {
       const { batchSelected } = this.state;
@@ -261,15 +260,15 @@ class SkuTable extends Component {
             if (packageLevelId.length) el.packageLevelId = temPackageLevelId;
             if (pic.picList) el.skuPic = tempSkuPic;
             if (el.costPrice > 0) {
-                if(tempDiscount > 0) {
-                    el.discount = tempDiscount;
-                    let purchasePrice = el.costPrice * tempDiscount;
-                    el.purchasePrice = purchasePrice.toFixed(2);
-                } else if(tempPurchasePrice > 0) {
-                    el.purchasePrice = tempPurchasePrice;
-                    let discount = tempPurchasePrice / el.costPrice;
-                    el.discount = discount.toFixed(2);
-                }
+              if (tempDiscount > 0) {
+                el.discount = tempDiscount;
+                const price = el.costPrice * tempDiscount;
+                el.purchasePrice = price.toFixed(2);
+              } else if (tempPurchasePrice > 0) {
+                el.purchasePrice = tempPurchasePrice;
+                const count = tempPurchasePrice / el.costPrice;
+                el.discount = count.toFixed(2);
+              }
             }
             isUpdate = true;
           }
@@ -277,7 +276,7 @@ class SkuTable extends Component {
       }
       if (!isUpdate) {
         batchSelected.forEach((el) => {
-          const obj = { scale: el, salePrice, costPrice,discount,purchasePrice,color, batchFileList, weight, virtualInv, packageLevelId };
+          const obj = { scale: el, salePrice, costPrice, discount, purchasePrice, color, batchFileList, weight, virtualInv, packageLevelId };
           this.addItem(obj);
         });
       }
@@ -294,7 +293,7 @@ class SkuTable extends Component {
     }
     this.setState({ batchSkuAddVisible });
   }
-  //普通用户
+  // 普通用户
   handleBatchSkuAddVisibleFalse(batchSkuAddVisible) {
     if (!batchSkuAddVisible) {
       const { batchSelected } = this.state;
@@ -367,7 +366,7 @@ class SkuTable extends Component {
   }
   render() {
     const p = this;
-    let rolerFlage = p.props.parent.props.loginRoler;
+    const rolerFlage = p.props.parent.props.loginRoler;
     const { form, parent, packageScales, scaleTypes } = this.props;
     const { getFieldDecorator } = form;
     const { skuData, batchSkuSort, batchSelected, previewImage, previewVisible, batchFileList } = this.state;
@@ -730,11 +729,11 @@ class SkuTable extends Component {
           dataIndex: 'discount',
           key: 'discount',
           width: '5%',
-          render(t ,r) {
+          render(t, r) {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_discount`, { initialValue: t || '' })(
-                    <InputNumber step={0.01} min={0} placeholder="请填写" onChange={p.inputCountChange.bind(p, 'discount', r.key)}  />)}
+                  <InputNumber step={0.01} min={0} placeholder="请填写" onChange={p.inputCountChange.bind(p, 'discount', r.key)} />)}
               </FormItem>
             );
           },
@@ -748,7 +747,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_purchasePrice`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
-                  <InputNumber step={0.1} min={0} placeholder="请填写" onChange={p.inputPurchaseChange.bind(p, 'purchasePrice', r.key)}/>)}
+                  <InputNumber step={0.1} min={0} placeholder="请填写" onChange={p.inputPurchaseChange.bind(p, 'purchasePrice', r.key)} />)}
               </FormItem>
             );
           },
@@ -817,7 +816,7 @@ class SkuTable extends Component {
       ],
       dataSource: skuData,
       bordered: false,
-     };
+    };
     const batchUploadProps = {
       action: '/haierp1/uploadFile/picUpload',
       fileList: batchFileList,
@@ -881,7 +880,7 @@ class SkuTable extends Component {
         <Button style={{ marginLeft: 10 }} size="small" onClick={this.handleCloseBatch.bind(this)}>关闭</Button>
       </div>
     );
-     const BatchSkuAddTure = (
+    const BatchSkuAddTure = (
       <div style={{ width: 800 }}>
         <Select placeholder="请选择类型" value={batchSkuSort || undefined} style={{ width: 200, marginTop: 10 }} onChange={this.changeBatchSkuType.bind(this)}>
           {scaleTypes.map(el => <Option key={el.id} value={el.id}>{el.type}</Option>)}
@@ -906,65 +905,63 @@ class SkuTable extends Component {
         <Button style={{ marginLeft: 10 }} size="small" onClick={this.handleCloseBatch.bind(this)}>关闭</Button>
       </div>
     );
-    if(rolerFlage){
-    return (
-      <Row>
-        <Col className={styles.productModalBtn}>
-          <Popover
-            content={BatchSkuAddTure}
-            title="选择类型"
-            trigger="click"
-            visible={this.state.batchSkuAddVisible}
-            style={{ width: 200 }}
-          >
-            <Button type="ghost" onClick={this.handleBatchSkuAddVisible.bind(this, true)}>批量新增SKU</Button>
-          </Popover>
-          <Button type="primary" style={{ marginLeft: 10 }} onClick={this.addItem.bind(this)}>新增SKU</Button>
-        </Col>
-        <Table
-          {...modalTablePropsTure}
-          rowKey={record => record.key}
-          pagination={false}
-          scroll={{ x: '100%'}}
-        />
-        <Modal visible={previewVisible} title="预览图片" footer={null} onCancel={this.handleCancel.bind(this)} style={{ marginLeft: '40%' }} >
-          <img role="presentation" src={previewImage} style={{ width: '100%' }} />
-        </Modal>
-      </Row>
-
-    );
-    }else{
+    if (rolerFlage) {
       return (
-      <Row>
-        <Col className={styles.productModalBtn}>
-          <Popover
-            content={BatchSkuAdd}
-            title="选择类型"
-            trigger="click"
-            visible={this.state.batchSkuAddVisible}
-            style={{ width: 200 }}
-          >
-            <Button type="ghost" onClick={this.handleBatchSkuAddVisible.bind(this, true)}>批量新增SKU</Button>
-          </Popover>
-          <Button type="primary" style={{ marginLeft: 10 }} onClick={this.addItem.bind(this)}>新增SKU</Button>
-        </Col>
-        <Table
-          {...modalTableProps}
-          rowKey={record => record.key}
-          pagination={false}
-          scroll={{ x: '100%'}}
-        />
-        <Modal visible={previewVisible} title="预览图片" footer={null} onCancel={this.handleCancel.bind(this)} style={{ marginLeft: '40%' }} >
-          <img role="presentation" src={previewImage} style={{ width: '100%' }} />
-        </Modal>
-      </Row>
+        <Row>
+          <Col className={styles.productModalBtn}>
+            <Popover
+              content={BatchSkuAddTure}
+              title="选择类型"
+              trigger="click"
+              visible={this.state.batchSkuAddVisible}
+              style={{ width: 200 }}
+            >
+              <Button type="ghost" onClick={this.handleBatchSkuAddVisible.bind(this, true)}>新增批量SKU</Button>
+            </Popover>
+            <Button type="primary" style={{ marginLeft: 10 }} onClick={this.addItem.bind(this)}>新增单品SKU</Button>
+          </Col>
+          <Table
+            {...modalTablePropsTure}
+            rowKey={record => record.key}
+            pagination={false}
+            scroll={{ x: '100%' }}
+          />
+          <Modal visible={previewVisible} title="预览图片" footer={null} onCancel={this.handleCancel.bind(this)} style={{ marginLeft: '40%' }} >
+            <img role="presentation" src={previewImage} style={{ width: '100%' }} />
+          </Modal>
+        </Row>
 
-    );
+      );
+    } else {
+      return (
+        <Row>
+          <Col className={styles.productModalBtn}>
+            <Popover
+              content={BatchSkuAdd}
+              title="选择类型"
+              trigger="click"
+              visible={this.state.batchSkuAddVisible}
+              style={{ width: 200 }}
+            >
+              <Button type="ghost" onClick={this.handleBatchSkuAddVisible.bind(this, true)}>批量新增SKU</Button>
+            </Popover>
+            <Button type="primary" style={{ marginLeft: 10 }} onClick={this.addItem.bind(this)}>新增SKU</Button>
+          </Col>
+          <Table
+            {...modalTableProps}
+            rowKey={record => record.key}
+            pagination={false}
+            scroll={{ x: '100%' }}
+          />
+          <Modal visible={previewVisible} title="预览图片" footer={null} onCancel={this.handleCancel.bind(this)} style={{ marginLeft: '40%' }} >
+            <img role="presentation" src={previewImage} style={{ width: '100%' }} />
+          </Modal>
+        </Row>
+
+      );
     }
-
-
   }
-    
+
 }
 
 export default Form.create()(SkuTable);

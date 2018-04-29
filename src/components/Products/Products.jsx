@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, Button, Row, Col, Select, DatePicker, Form, TreeSelect, Modal, Popover, Icon, Popconfirm } from 'antd';
+import { Table, Input, Button, Row, Col, Select, DatePicker, Form, TreeSelect, Modal, Popover, Icon, Popconfirm, Checkbox } from 'antd';
 import ProductsModal from './ProductsModal';
 
 const FormItem = Form.Item;
@@ -355,13 +355,31 @@ class Products extends Component {
             </Col>
           </Row>
           <Row gutter={20} style={{ width: 800 }}>
-            <Col span={24}>
+            <Col span={14}>
               <FormItem
                 label="销售时间范围"
                 {...formItemLayout}
-                labelCol={{ span: 3 }}
+                labelCol={{ span: 6 }}
               >
                 {getFieldDecorator('saleDate')(<RangePicker />)}
+              </FormItem>
+            </Col>
+            <Col span={5}>
+              <FormItem>
+                {getFieldDecorator('actual', {
+                  valuePropName: 'checked',
+                })(
+                  <Checkbox> 实际库存大于0</Checkbox>,
+                )}
+              </FormItem>
+            </Col>
+            <Col span={5}>
+              <FormItem>
+                {getFieldDecorator('virtual', {
+                  valuePropName: 'checked',
+                })(
+                  <Checkbox> 虚拟库存大于0</Checkbox>,
+                )}
               </FormItem>
             </Col>
           </Row>

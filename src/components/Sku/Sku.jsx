@@ -275,7 +275,7 @@ class Sku extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('brand', {})(
-                  <Select placeholder="请选择品牌" combobox>
+                  <Select placeholder="请选择品牌" mode="combobox">
                     {brandList && brandList.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)}
                   </Select>)}
               </FormItem>

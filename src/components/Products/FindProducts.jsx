@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, Button, Row, Col, Select, DatePicker, Form, TreeSelect, Modal, Popover, Icon, Popconfirm } from 'antd';
+import { Table, Button, Row, Col, Form, Modal, Popover, Icon, Popconfirm } from 'antd';
 import ProductsModal from './ProductsModal';
-
-const FormItem = Form.Item;
-const Option = Select.Option;
-const { RangePicker } = DatePicker;
 
 @window.regStateCache
 class FindProducts extends Component {
@@ -16,7 +12,7 @@ class FindProducts extends Component {
       checkId: [],
     };
   }
-    handleSubmit(e, page, pageSize) {
+  handleSubmit(e, page, pageSize) {
     if (e) e.preventDefault();
     const { currentPageSizeone } = this.props;
     // 清除多选
@@ -41,10 +37,10 @@ class FindProducts extends Component {
   }
   queryFindProduct(id) {
     const p = this;
-     p.props.dispatch({
+    p.props.dispatch({
       type: 'products/queryFindProduct',
       payload: { id },
-      cb() { p._refreshData(); }
+      cb() { p._refreshData(); },
     });
   }
   closeModal() {
@@ -119,19 +115,13 @@ class FindProducts extends Component {
 
   render() {
     const p = this;
-    const { form, currentPage, currentPageSize, findItemList = [], productsTotal, allBrands = [], productsValues = {}, tree = [], currentPageone, currentPageSizeone } = this.props;
-    const { getFieldDecorator, resetFields } = form;
-    const formItemLayout = {
-      labelCol: { span: 10 },
-      wrapperCol: { span: 14 },
-    };
-    const yzBasicUrl = 'https://h5.youzan.com/v2/goods/';
+    const { currentPage, findItemList = [], productsTotal, productsValues = {}, tree = [], currentPageSizeone } = this.props;
     const columns = [
       { title: '采购商品名称',
         dataIndex: 'name',
         key: 'name',
         width: 200,
-      render(text) { return text || '-'; } },
+        render(text) { return text || '-'; } },
       { title: '商品代码', dataIndex: 'itemCode', key: 'itemCode', width: 100 },
       { title: '商品状态',
         dataIndex: 'purchaseStatus',
@@ -139,10 +129,10 @@ class FindProducts extends Component {
         width: 80,
         render(text) {
           switch (text) {
-            case 1: return <font color='#00f'>审核通过</font>;
-            case -1: return <font color='red'>已拒绝</font>;
-            case 0: return <font color='green'>审核中</font>;
-             default: return false;
+            case 1: return <font color="#00f">审核通过</font>;
+            case -1: return <font color="red">已拒绝</font>;
+            case 0: return <font color="green">审核中</font>;
+            default: return false;
           }
         },
       },
@@ -160,7 +150,7 @@ class FindProducts extends Component {
             </Popover> : '-'
           );
         },
-     },
+      },
       { title: '商品品牌', dataIndex: 'brand', key: 'brand', width: 100, render(text) { return text || '-'; } },
       { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80, render(text) { return <span>{text === 0 ? '代购' : '现货' }</span>; } },
       { title: '商品类目',
@@ -190,16 +180,17 @@ class FindProducts extends Component {
         key: 'oper',
         width: 50,
         render(text, record) {
-          if(record.purchaseStatus==0||record.purchaseStatus==-1) return (
-          	<div>
-          		<Popconfirm title="是否要审核通过？" onConfirm={p.queryFindProduct.bind(p, record.id)}>
-                		 <a href="javascript:void(0)"><font color='green'>审核通过</font></a>
-              </Popconfirm>
-	            <br/>
-	         </div>
-          );return (
-          	'-'
-          );
+          if (record.purchaseStatus === 0 || record.purchaseStatus === -1) {
+            return (
+              <div>
+                <Popconfirm title="是否要审核通过？" onConfirm={p.queryFindProduct.bind(p, record.id)}>
+                  <a href="javascript:void(0)"><font color="green">审核通过</font></a>
+                </Popconfirm>
+                <br />
+              </div>
+            );
+          }
+          return '-';
         },
       },
     ];
@@ -229,12 +220,11 @@ class FindProducts extends Component {
       selectedRowKeys: p.state.checkId,
     };
 
-    const isNotSelected = p.state.checkId.length === 0;
 
     return (
       <div>
         <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
-       
+
         <Row>
           <Col className="table-wrapper">
             <Table
@@ -261,7 +251,7 @@ class FindProducts extends Component {
 }
 
 function mapStateToProps(state) {
-  const { findItemList, productsTotal, tree, currentPageone,currentPageSizeone,findItemTotal,productsValues } = state.products;
+  const { findItemList, productsTotal, tree, currentPageone, currentPageSizeone, findItemTotal, productsValues } = state.products;
   return {
     findItemList,
     productsTotal,

@@ -160,7 +160,7 @@ export const originalNavigation = [
   { key: routerCfg.PURCHASE, name: '采购管理', icon: 'appstore-o',
     child: [
       { key: routerCfg.BUYER_LIST, name: '买手管理' },
-      { key: routerCfg.PURCHASE_LIST, name: '采购管理112' },
+      { key: routerCfg.PURCHASE_LIST, name: '采购管理' },
       // { key: routerCfg.CHECK,
       //   name: '盘点管理',
       //   child: [
@@ -171,7 +171,7 @@ export const originalNavigation = [
       { key: routerCfg.PURCHASE_STORAGE, name: '采购入库管理' },
       { key: routerCfg.RECEIPT_LIST, name: '采购小票管理' },
       { key: routerCfg.RECEIPT_TASK_LIST, name: '采购小票明细管理' },
-      { key: routerCfg.UNCOMPLETE_TASK_DAILY_ORDER, name: '未完成采购管理' },
+      // { key: routerCfg.UNCOMPLETE_TASK_DAILY_ORDER, name: '未完成采购管理' },
     ],
   },
   { key: routerCfg.PERSON, name: '客户管理', icon: 'user',
