@@ -160,7 +160,7 @@ export const originalNavigation = [
   { key: routerCfg.PURCHASE, name: '采购管理', icon: 'appstore-o',
     child: [
       { key: routerCfg.BUYER_LIST, name: '买手管理' },
-      { key: routerCfg.PURCHASE_LIST, name: '采购管理' },
+      { key: routerCfg.PURCHASE_LIST, name: '采购管理112' },
       // { key: routerCfg.CHECK,
       //   name: '盘点管理',
       //   child: [

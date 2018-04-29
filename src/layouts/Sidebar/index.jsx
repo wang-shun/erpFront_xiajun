@@ -19,7 +19,7 @@ class Menus extends Component {
   componentDidMount() {
     setTimeout(() => {
       topMenus = getNavigation().map(item => item.key);
-
+      console.log(topMenus);
       getMenus = (menuArray, siderFold, pPath) => {
         const parentPath = pPath || '/';
         return menuArray.map((item) => {
@@ -105,7 +105,7 @@ class Menus extends Component {
     const iconClass = classNames({
       [styles.iconClose]: close,
     });
-    console.log(location.pathname.split('/')[2].split('?')[0]);
+    console.log(menuItems);
     return (
       <aside className={asideClass}>
         <Menu

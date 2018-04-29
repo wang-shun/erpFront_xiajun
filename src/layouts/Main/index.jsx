@@ -25,17 +25,17 @@ export default class MainLayout extends Component {
     const { pathname } = location;
     const { sidebarClose } = this.state;
     const showLogin = pathname === `/${routerCfg.LOGIN}`;
-    const showSideBar = pathname === '/overview';
+    // const showSideBar = pathname === '/overview';
     const wrapperClass = classNames({
       [styles.wrapper]: true,
       [styles.loginWrapper]: showLogin,
-      [styles.noSidebar]: showSideBar || sidebarClose,
+      [styles.noSidebar]: sidebarClose,
     });
 
     return (
       <div id="main">
         {!showLogin && <Header location={location} />}
-        {!showLogin && !showSideBar && <Sidebar location={location} close={sidebarClose} onOpenChange={this.handleSidebarChange.bind(this)} />}
+        {!showLogin && <Sidebar location={location} close={sidebarClose} onOpenChange={this.handleSidebarChange.bind(this)} />}
         <div className={wrapperClass}>
           {!showLogin && <HistoryTab location={location} />}
           {!showLogin && <Breadcrumb location={location} />}
