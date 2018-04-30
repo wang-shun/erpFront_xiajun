@@ -81,6 +81,26 @@ class Brands extends Component {
       }
     });
   }
+  checkEnName(rule, value, cb) {
+    if (!value) cb('请输入');
+    const { brandList = [] } = this.props;
+    const result = brandList.every(brand => brand.name.toLowerCase() !== value.toLowerCase());
+    if (!result) {
+      cb('已有此英文品牌，请重新输入');
+    }
+    cb();
+  }
+  checkCnName(rule, value, cb) {
+    const { brandList = [] } = this.props;
+    const result = brandList.every(brand => brand.nameChina !== value);
+    if (!result) {
+      cb('已有此中文品牌，请重新输入');
+    }
+    cb();
+  }
+  handleSortEnName(a, b) {
+    console.log(a, b);
+  }
   render() {
     const p = this;
     const { form, brandList = [], brandTotal, brandValue = {} } = this.props;
@@ -91,7 +111,12 @@ class Brands extends Component {
       wrapperCol: { span: 15 },
     };
     const columns = [
-      { title: '品牌英文名', dataIndex: 'name', key: 'name' },
+      { title: '品牌英文名',
+        dataIndex: 'name',
+        key: 'name',
+        // sorter: this.handleSortEnName.bind(this),
+        sorter: true,
+      },
       { title: '品牌中文名', dataIndex: 'nameChina', key: 'nameChina' },
       { title: '品牌别名', dataIndex: 'nameAlias', key: 'nameAlias' },
       { title: '操作',
@@ -162,7 +187,7 @@ class Brands extends Component {
               >
                 {getFieldDecorator('enName', {
                   initialValue: brandValue.name,
-                  rules: [{ required: true, message: '请输入' }],
+                  rules: [{ required: true, validator: this.checkEnName.bind(this) }],
                 })(
                   <Input placeholder="请输入品牌名称" />,
                 )}
@@ -177,6 +202,7 @@ class Brands extends Component {
               >
                 {getFieldDecorator('cnName', {
                   initialValue: brandValue.nameChina,
+                  rules: [{ validator: this.checkCnName.bind(this) }],
                 })(
                   <Input placeholder="请输入品牌中文名" />)}
               </FormItem>

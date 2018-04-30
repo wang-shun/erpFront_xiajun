@@ -310,7 +310,7 @@ class Products extends Component {
                 {getFieldDecorator('categoryId', {
                   rules: [{ validator: this.chooseCate.bind(this) }],
                 })(
-                  <TreeSelect placeholder="请选择类目" treeData={tree} />)}
+                  <TreeSelect placeholder="请选择类目" treeDefaultExpandAll treeData={tree} />)}
               </FormItem>
             </Col>
           </Row>

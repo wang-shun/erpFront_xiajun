@@ -46,7 +46,7 @@ class SkuTable extends Component {
     const { form } = this.props;
     const skuList = [];
     form.validateFieldsAndScroll((err, fieldsSku) => {
-      if (err) return;
+      // if (err) return;
       let count = 1;
       const keys = Object.keys(fieldsSku);
       while (Object.prototype.hasOwnProperty.call(fieldsSku, `r_${count}_virtualInv`)) {
@@ -669,7 +669,7 @@ class SkuTable extends Component {
           title: '虚拟库存',
           dataIndex: 'virtualInv',
           key: 'virtualInv',
-          width: '8%',
+          width: '6%',
           render(t, r) {
             return (
               <FormItem>
@@ -683,10 +683,27 @@ class SkuTable extends Component {
           },
         },
         {
+          title: '实际库存',
+          dataIndex: 'actualInv',
+          key: 'actualInv',
+          width: '6%',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.key}_actualInv`, {
+                  initialValue: t === 0 ? '0' : (t || ''),
+                  rules: [{ required: true, message: '请填写' }],
+                })(
+                  <InputNumber step={1} min={0} placeholder="请填写" />)}
+              </FormItem>
+            );
+          },
+        },
+        {
           title: '重量(磅)',
           dataIndex: 'weight',
           key: 'weight',
-          width: '7%',
+          width: '6%',
           render(t, r) {
             return (
               <FormItem>
@@ -756,7 +773,7 @@ class SkuTable extends Component {
           title: '商品图片',
           dataIndex: 'skuPic',
           key: 'skuPic',
-          width: '10%',
+          width: '8%',
           render(t, r) {
             const picList = t ? JSON.parse(t).picList || [] : [];
             const formValue = form.getFieldValue(`r_${r.key}_skuPic`);
@@ -789,7 +806,7 @@ class SkuTable extends Component {
           title: '包装规格',
           dataIndex: 'packageLevelId',
           key: 'packageLevelId',
-          width: '10%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>

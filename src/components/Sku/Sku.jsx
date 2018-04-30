@@ -266,7 +266,7 @@ class Sku extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('categoryId', {})(
-                  <TreeSelect placeholder="请选择类目" treeData={tree} />)}
+                  <TreeSelect placeholder="请选择类目" treeDefaultExpandAll treeData={tree} />)}
               </FormItem>
             </Col>
             <Col span={8}>

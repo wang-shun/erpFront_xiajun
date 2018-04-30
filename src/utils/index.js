@@ -71,7 +71,7 @@ export default () => {
       let cacheData = pageStorage.getItem(`airuhua_${pathname}`);
       if (!cacheData) cacheData = {};
       // 搜索表单
-      cacheData.search = _this.props.form.getFieldsValue();
+      cacheData.search = _this.props.form && _this.props.form.getFieldsValue();
       // 状态
       cacheData.state = _this.state;
       pageStorage.setItem((`airuhua_${pathname}`), cacheData);

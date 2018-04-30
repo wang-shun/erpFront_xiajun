@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input,message, DatePicker, Button, Row, Col, Select, Form, Popconfirm, Popover, Modal } from 'antd';
+import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Popconfirm, Popover, Modal } from 'antd';
 import PurchaseModal from './PurchaseModal';
 
 const FormItem = Form.Item;
@@ -169,7 +169,7 @@ class Purchase extends Component {
             </Popover> : '-'
           );
         },
-     },
+      },
       { title: '状态',
         dataIndex: 'status',
         key: 'status',
@@ -177,8 +177,9 @@ class Purchase extends Component {
         render(t) {
           switch (t) {
             case 0: return <font color="">采购中</font>;
-            case 1: return <font color="blue">已完成</font>;
-            case -1: return <font color="red">已取消</font>;
+            case 1: return <font color="blue">采购结束</font>;
+            case 2: return <font color="red">待采购</font>;
+            case -1: return <font color="red">采购取消</font>;
             default: return '-';
           }
         },
@@ -198,7 +199,7 @@ class Purchase extends Component {
                 <a style={{ marginRight: 10 }} href="javascript:void(0)" >删除</a>
               </Popconfirm>
               <a href="javascript:void(0)" onClick={p.exportPurchase.bind(p, r.id)}>导出</a>
-           </div>);
+            </div>);
         },
       },
     ];

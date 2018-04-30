@@ -220,6 +220,8 @@ class Products extends Component {
           }
         },
       },
+      { title: '实际库存', dataIndex: 'actualInv', key: 'actualInv', width: 80 },
+      { title: '虚拟库存', dataIndex: 'virtualInv', key: 'virtualInv', width: 80 },
       { title: '开始销售时间', dataIndex: 'startDate', key: 'startDate', width: 80, render(text) { return text ? text.split(' ')[0] : '-'; } },
       { title: '结束销售时间', dataIndex: 'endDate', key: 'endDate', width: 80, render(text) { return text ? text.split(' ')[0] : '-'; } },
       { title: '操作',
@@ -310,7 +312,7 @@ class Products extends Component {
                 {getFieldDecorator('categoryId', {
                   rules: [{ validator: this.chooseCate.bind(this) }],
                 })(
-                  <TreeSelect placeholder="请选择类目" treeData={tree} />)}
+                  <TreeSelect placeholder="请选择类目" treeDefaultExpandAll treeData={tree} />)}
               </FormItem>
             </Col>
           </Row>

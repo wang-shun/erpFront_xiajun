@@ -11,7 +11,7 @@ const deleteStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/dele
 const queryPurchaseStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/query', { data: payload }).catch(e => e);
 const multiConfirmStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/multiConfirm', { data: payload }).catch(e => e);
 
-const mergePurchaseStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/mergePurchaseStorage', { data: payload }).catch(e => e);//小程序合并入库
+const mergePurchaseStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/mergePurchaseStorage', { data: payload }).catch(e => e); // 小程序合并入库
 const queryBuyers = ({ payload }) => fetch.post('/haierp1/purchase/queryBuyers', { data: payload }).catch(e => e);
 
 export default {

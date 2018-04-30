@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Icon, Popover } from 'antd';
+import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Icon } from 'antd';
 import ReturnOrderModal from './component/ReturnOrderModal';
 
 const FormItem = Form.Item;
@@ -8,7 +8,7 @@ const Option = Select.Option;
 const { RangePicker } = DatePicker;
 
 @window.regStateCache
-class ReturnOrder extends Component {
+class SaleChannel extends Component {
 
   constructor() {
     super();
@@ -111,90 +111,12 @@ class ReturnOrder extends Component {
       wrapperCol: { span: 14 },
     };
     const columnsList = [
-      { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 120 },
-      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 120, render(text) { return text || '-'; } },
-      { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
-      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 200 },
-      { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 100, render(text) { return text || '-'; } },
-      { title: 'sku图片',
-        dataIndex: 'skuPic',
-        key: 'skuPic',
-        width: 100,
-        render(text) {
-          if (!text) return '-';
-          const picList = JSON.parse(text).picList;
-          const t = picList.length ? picList[0].url : '';
-          return (
-            t ? <Popover title={null} content={<img role="presentation" src={t} style={{ width: 400 }} />}>
-              <img role="presentation" src={t} width={60} height={60} />
-            </Popover> : '-'
-          );
-        },
-      },
-      { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80, render(text) { return text || '-'; } },
-      { title: '退单原因', dataIndex: 'returnReason', key: 'returnReason', width: 80, render(text) { return text || '-'; } },
-      { title: '退单原因详情', dataIndex: 'returnReasonDetail', key: 'returnReasonDetail', width: 130, render(text) { return text ? text.slice(0, 10) : '-'; } },
-      { title: '退款凭证',
-        dataIndex: 'proofImg',
-        key: 'proofImg',
-        width: 100,
-        render(text) {
-          if (!text) return '-';
-          return (
-            <Popover title={null} content={<img role="presentation" src={text} style={{ width: 400 }} />}>
-              <img role="presentation" src={text} width={60} height={60} />
-            </Popover>
-          );
-        },
-      },
-      { title: '状态',
-        dataIndex: 'status',
-        key: 'status',
-        width: 60,
-        render(text) {
-          switch (text) {
-            case 0: return <font color="">待审核</font>;
-            case 1: return <font color="chocolate">审核通过,退款中</font>;
-            case 2: return <font color="blue">退款成功</font>;
-            case -1: return <font color="red">关闭</font>;
-            default: return '-';
-          }
-        },
-      },
-      { title: '退货数量', dataIndex: 'returnQuantity', key: 'returnQuantity', width: 60, render(text) { return text || '-'; } },
-      { title: '退款金额', dataIndex: 'returnPrice', key: 'returnPrice', width: 60, render(text) { return text || '-'; } },
-      { title: '是否国内退货', dataIndex: 'isGn', key: 'isGn', width: 60, render(text) { return text === 1 ? '是' : '否'; } },
-      { title: '是否入库', dataIndex: 'isCheckin', key: 'isCheckin', width: 80, render(text) { return text === 1 ? '是' : '否'; } },
-      { title: '退款形式',
-        dataIndex: 'returnType',
-        key: 'returnType',
-        width: 80,
-        render(text) {
-          if (text === 0) {
-            return '仅退款';
-          } else if (text === 1) {
-            return '既退货又退款';
-          } else {
-            return '-';
-          }
-        } },
-      { title: '退款来源',
-        dataIndex: 'returnRefer',
-        key: 'returnRefer',
-        width: 80,
-        render(text) {
-          if (text === 0) {
-            return 'ERP创建';
-          } else if (text === 1) {
-            return '微信小程序';
-          } else {
-            return '-';
-          }
-        } },
-      { title: '收货时间', dataIndex: 'receiveTime', key: 'receiveTime', width: 100, render(text) { return text || '-'; } },
-      { title: '退款时间', dataIndex: 'returnPayTime', key: 'returnPayTime', width: 100, render(text) { return text || '-'; } },
+      { title: '销售渠道名称', dataIndex: 'orderNo', key: 'orderNo', width: 120 },
+      { title: '类型', dataIndex: 'erpNo', key: 'erpNo', width: 120, render(text) { return text || '-'; } },
+      { title: '折扣率', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
       { title: '备注', dataIndex: 'remark', key: 'remark', width: 60, render(text) { return text || '-'; } },
-      { title: '操作',
+      {
+        title: '操作',
         dataIndex: 'operator',
         key: 'operator',
         width: 60,
@@ -405,4 +327,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Form.create()(ReturnOrder));
+export default connect(mapStateToProps)(Form.create()(SaleChannel));

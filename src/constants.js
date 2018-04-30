@@ -16,6 +16,7 @@ export const backendCfg = {
   erpOrder: 'sale_erporder',
   shippingOrder: 'sale_shippingorder',
   returnOrder: 'sale_erpreturnorder',
+  saleChannel: 'sale_channel',
   purchase: 'purchase',
   purchaseList: 'purchase_task',
   purchaseStorage: 'purchase_storage',
@@ -82,6 +83,7 @@ export const routerCfg = {
   ERP_ORDER: 'erpOrder',
   SHIPPING_ORDER: 'shippingOrder',
   RETURN_ORDER: 'returnOrder',
+  SALE_CHANNEL: 'saleChannel',
   // 采购管理
   PURCHASE: 'purchase',
   PURCHASE_LIST: 'purchaseList',
@@ -155,12 +157,13 @@ export const originalNavigation = [
       { key: routerCfg.ERP_ORDER, name: '子订单管理' },
       { key: routerCfg.SHIPPING_ORDER, name: '发货单管理' },
       { key: routerCfg.RETURN_ORDER, name: '退单管理' },
+      { key: routerCfg.SALE_CHANNEL, name: '销售渠道管理' },
     ],
   },
   { key: routerCfg.PURCHASE, name: '采购管理', icon: 'appstore-o',
     child: [
       { key: routerCfg.BUYER_LIST, name: '买手管理' },
-      { key: routerCfg.PURCHASE_LIST, name: '采购管理' },
+      { key: routerCfg.PURCHASE_LIST, name: '任务管理' },
       // { key: routerCfg.CHECK,
       //   name: '盘点管理',
       //   child: [
