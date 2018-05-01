@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Breadcrumb, Icon } from 'antd';
+import { Breadcrumb } from 'antd';
 import styles from './style.less';
 import { getNavigation, routerCfg } from '../../constants';
 
@@ -43,19 +43,16 @@ function Bread({ location }) {
     }
     return (
       <Breadcrumb.Item key={key} {...((pathNames.length - 1 === key) || !pathSet[item].clickable) ? '' : { href: `#${pathSet[item].path}` }}>
-        {pathSet[item].icon
+        {/* {pathSet[item].icon
           ? <Icon type={pathSet[item].icon} />
-          : ''}
+          : ''} */}
         <span>{pathSet[item].name}</span>
       </Breadcrumb.Item>
     );
   });
 
   return (
-    <Breadcrumb className={styles.navigation}>
-      <Breadcrumb.Item href="#/"><Icon type="home" />
-        <span>主页</span>
-      </Breadcrumb.Item>
+    <Breadcrumb className={styles.navigation} separator=">">
       {breads}
     </Breadcrumb>
   );
