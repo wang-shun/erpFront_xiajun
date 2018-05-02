@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Row, Form, Input } from 'antd';
 import { connect } from 'dva';
-import logoImg from '../../assets/images/logo.png';
+import logoImg from '../../assets/images/logo-white.png';
 import styles from './style.less';
 
 const FormItem = Form.Item;
