@@ -114,8 +114,6 @@ class Brands extends Component {
       { title: '品牌英文名',
         dataIndex: 'name',
         key: 'name',
-        // sorter: this.handleSortEnName.bind(this),
-        sorter: true,
       },
       { title: '品牌中文名', dataIndex: 'nameChina', key: 'nameChina' },
       { title: '品牌别名', dataIndex: 'nameAlias', key: 'nameAlias' },

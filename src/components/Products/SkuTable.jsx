@@ -35,6 +35,7 @@ class SkuTable extends Component {
       previewVisible: false,
       previewImage: '',
       batchFileList: [],
+      mouseOverVisible: false,
     };
   }
   componentWillReceiveProps(...args) {
@@ -223,6 +224,24 @@ class SkuTable extends Component {
       this.props.form.setFieldsValue(obj);
     }
   }
+  // 鼠标移入新增批量SKU按钮
+  handleMouseOverBatchSku(time = 2000) {
+    const changeState = () => {
+      this.setState({
+        mouseOverVisible: true,
+        batchSkuAddVisible: false,
+      });
+    };
+    setTimeout(() => {
+      changeState();
+    }, time);
+  }
+  // 关闭鼠标悬浮出来的popover
+  handleClickMouseOverContent() {
+    this.setState({
+      mouseOverVisible: false,
+    });
+  }
   // 采购用户
   handleBatchSkuAddVisible(batchSkuAddVisible) {
     if (!batchSkuAddVisible) {
@@ -291,7 +310,7 @@ class SkuTable extends Component {
       this.discount.refs.input.value = '';
       this.purchasePrice.refs.input.value = '';
     }
-    this.setState({ batchSkuAddVisible });
+    this.setState({ batchSkuAddVisible, mouseOverVisible: false });
   }
   // 普通用户
   handleBatchSkuAddVisibleFalse(batchSkuAddVisible) {
@@ -353,7 +372,14 @@ class SkuTable extends Component {
     this.setState({ batchFileList: [] });
   }
   changeBatchSkuType(type) {
-    this.setState({ batchSkuSort: type });
+    const { mouseOverVisible } = this.state;
+    if (mouseOverVisible) {
+      this.setState({
+        batchSkuSort: type,
+        mouseOverVisible: false,
+        batchSkuAddVisible: true,
+      });
+    }
     // if (type) {
     //   this.setState({ batchSelected: getScaleOptions(type, this.props.scaleTypes).map(el => el.name) });
     // }
@@ -369,7 +395,7 @@ class SkuTable extends Component {
     const rolerFlage = p.props.parent.props.loginRoler;
     const { form, parent, packageScales, scaleTypes } = this.props;
     const { getFieldDecorator } = form;
-    const { skuData, batchSkuSort, batchSelected, previewImage, previewVisible, batchFileList } = this.state;
+    const { skuData, batchSkuSort, batchSelected, previewImage, previewVisible, batchFileList, mouseOverVisible } = this.state;
     // 注册props
     if (!parent.clearSkuValue) parent.clearSkuValue = this.clearValue.bind(this);
     if (!parent.getSkuValue) parent.getSkuValue = this.getValue.bind(this);
@@ -922,6 +948,15 @@ class SkuTable extends Component {
         <Button style={{ marginLeft: 10 }} size="small" onClick={this.handleCloseBatch.bind(this)}>关闭</Button>
       </div>
     );
+    const mouseOverContent = (
+      <div>
+        <Select placeholder="请选择类型" value={batchSkuSort || undefined} style={{ width: 200, marginTop: 10 }} onChange={this.changeBatchSkuType.bind(this)}>
+          {scaleTypes.map(el => <Option key={el.id} value={el.id}>{el.type}</Option>)}
+        </Select>
+        <div style={{ marginBottom: 10 }} />
+        <Button type="primary" size="small" onClick={this.handleClickMouseOverContent.bind(this)}>关闭</Button>
+      </div>
+    );
     if (rolerFlage) {
       return (
         <Row>
@@ -933,8 +968,19 @@ class SkuTable extends Component {
               visible={this.state.batchSkuAddVisible}
               style={{ width: 200 }}
             >
-              <Button type="ghost" onClick={this.handleBatchSkuAddVisible.bind(this, true)}>新增批量SKU</Button>
+              <Button
+                type="ghost"
+                onMouseOver={this.handleMouseOverBatchSku.bind(this, 2000)}
+                onClick={this.handleBatchSkuAddVisible.bind(this, true)}
+              >新增批量SKU</Button>
             </Popover>
+            {mouseOverVisible && <Popover
+              visible={mouseOverVisible}
+              title="选择类型"
+              trigger="hover"
+              content={mouseOverContent}
+              style={{ width: 200 }}
+            />}
             <Button type="primary" style={{ marginLeft: 10 }} onClick={this.addItem.bind(this)}>新增单品SKU</Button>
           </Col>
           <Table
@@ -960,9 +1006,16 @@ class SkuTable extends Component {
               visible={this.state.batchSkuAddVisible}
               style={{ width: 200 }}
             >
-              <Button type="ghost" onClick={this.handleBatchSkuAddVisible.bind(this, true)}>批量新增SKU</Button>
+              <Button type="ghost" onMouseOver={this.handleMouseOverBatchSku.bind(this, 2000)} onClick={this.handleBatchSkuAddVisible.bind(this, true)}>新增批量SKU</Button>
             </Popover>
-            <Button type="primary" style={{ marginLeft: 10 }} onClick={this.addItem.bind(this)}>新增SKU</Button>
+            {mouseOverVisible && <Popover
+              visible={mouseOverVisible}
+              title="选择类型"
+              trigger="hover"
+              content={mouseOverContent}
+              style={{ width: 200 }}
+            />}
+            <Button type="primary" style={{ marginLeft: 10 }} onClick={this.addItem.bind(this)}>新增单品SKU</Button>
           </Col>
           <Table
             {...modalTableProps}

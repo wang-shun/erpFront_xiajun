@@ -32,7 +32,7 @@ export default {
     currentPage: 1,
     typeCurrent: 1,
     buyerValues: {},
-    buyerCurrent:1,
+    buyerCurrent: 1,
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -43,7 +43,7 @@ export default {
             payload: { pageIndex: 1 },
           });
         }
-        if (pathname === '/person/buyerList' && !window.existCacheState('/person/buyerList')) {
+        if (pathname === '/purchase/buyerList' && !window.existCacheState('/person/buyerList')) {
           dispatch({
             type: 'queryBuyerList',
             payload: { pageIndex: 1 },
@@ -137,13 +137,13 @@ export default {
         });
       }
     },
-    * updateBuyerType({ payload }, { call,put }) {
+    * updateBuyerType({ payload }, { call, put }) {
       const data = yield call(updateBuyerType, { payload });
       if (data.success) {
-        message.success('修改仓库成功'); 
-        const data123 = yield call(queryBuyerList, { payload } );
-        if(data123.success){
-        	yield put({ type: 'updateBuyerList', payload: data123 });
+        message.success('修改仓库成功');
+        const data123 = yield call(queryBuyerList, { payload });
+        if (data123.success) {
+          yield put({ type: 'updateBuyerList', payload: data123 });
         }
       }
     },
@@ -160,13 +160,13 @@ export default {
         cb();
       }
     },
-    * deleteBuyerType({ payload, cb }, { call,put }) {
+    * deleteBuyerType({ payload, cb }, { call, put }) {
       const data = yield call(deleteBuyerType, { payload });
       if (data.success) {
         message.success('删除买手成功');
-        const data1 = yield call(queryBuyerList, { payload } );
-        if(data1.success){
-        	yield put({ type: 'updateBuyerList', payload: data1 });
+        const data1 = yield call(queryBuyerList, { payload });
+        if (data1.success) {
+          yield put({ type: 'updateBuyerList', payload: data1 });
         }
       }
     },
