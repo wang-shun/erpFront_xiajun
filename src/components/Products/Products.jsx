@@ -136,7 +136,7 @@ class Products extends Component {
 
   render() {
     const p = this;
-    const { form, currentPage, currentPageSize, productsList = [], productsTotal, allBrands = [], productsValues = {}, tree = [], loginRoler, allBuyers = [] } = this.props;
+    const { form, currentPage, currentPageSize, productsList = [], productsTotal, allBrands = [], productsValues = {}, tree = [], loginRoler, allBuyers = [], countries = [] } = this.props;
     const { getFieldDecorator, resetFields } = form;
     const formItemLayout = {
       labelCol: { span: 10 },
@@ -422,6 +422,7 @@ class Products extends Component {
           allBuyers={allBuyers}
           tree={tree}
           loginRoler={loginRoler}
+          countries={countries}
         />
       </div>
     );
@@ -429,7 +430,7 @@ class Products extends Component {
 }
 
 function mapStateToProps(state) {
-  const { productsList, productsTotal, productsValues, allBrands, tree, currentPage, currentPageSize, loginRoler, allBuyers } = state.products;
+  const { productsList, productsTotal, productsValues, allBrands, tree, currentPage, currentPageSize, loginRoler, allBuyers, countries } = state.products;
   return {
     productsList,
     productsTotal,
@@ -440,6 +441,7 @@ function mapStateToProps(state) {
     tree,
     loginRoler,
     allBuyers,
+    countries,
   };
 }
 

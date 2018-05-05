@@ -6,6 +6,11 @@ const queryProduct = ({ payload }) => fetch.post('/haierp1/item/query', { data: 
 const updateProducts = ({ payload }) => fetch.post('/haierp1/item/update', { data: payload }).catch(e => e);
 const addProducts = ({ payload }) => fetch.post('/haierp1/item/add', { data: payload }).catch(e => e);
 const queryCatesTree = () => fetch.post('/haierp1/category/tree').catch(e => e);
+const queryAllCountries = () => fetch.post('/haierp1/country/queryAllCountries').catch(e => e);
+const addCountry = ({ payload }) => {
+  console.log(payload);
+  fetch.post('/haierp1/country/add', { data: payload }).catch(e => e);
+};
 // 批量同步
 const batchSynItemYouzan = ({ payload }) => fetch.post('/haierp1/youzanSyn/batchSynItemYouzan', { data: payload }).catch(e => e);
 // 批量上架
@@ -21,7 +26,7 @@ const queryBrand = ({ payload }) => fetch.post('/haierp1/item/brand/query', { da
 const deleteBrand = ({ payload }) => fetch.post('/haierp1/item/brand/delete', { data: payload }).catch(e => e);
 const updateVirtualInvByItemId = ({ payload }) => fetch.post('/haierp1/item/updateVirtualInvByItemId', { data: payload }).catch(e => e);
 const getDimensionCodeUtil = ({ payload }) => fetch.post('/haierp1/item/getDimensionCodeUtil', { data: payload }).catch(e => e);
-//采购商品
+// 采购商品
 const queryFindProductList = ({ payload }) => fetch.post('/haierp1/item/finditem/queryFindItemList', { data: payload }).catch(e => e);
 const queryFindProduct = ({ payload }) => fetch.post('/haierp1/item/finditem/passOrRefuse', { data: payload }).catch(e => e);
 
@@ -40,24 +45,25 @@ export default {
     allBrands: [],
     brandValue: {},
     brandTotal: 1,
-    findItemTotal:0, // 采购商品总数
+    findItemTotal: 0, // 采购商品总数
     findItemList: [], // 采购商品数据
     currentPageone: 1, // 默认采购页码
-    currentPageSizeone: 20,//默认
-    loginRoler:false,//默认普通人员
+    currentPageSizeone: 20, // 默认
+    loginRoler: false, // 默认普通人员
     allBuyers: [],
+    countries: [],
   },
   reducers: {
     saveCatesTree(state, { payload }) {
       return { ...state, tree: payload.data };
     },
     saveItemList(state, { payload }) {
-      return { ...state, productsList: payload.rows, productsTotal: payload.total,loginRoler:payload.productRoler };
+      return { ...state, productsList: payload.rows, productsTotal: payload.total, loginRoler: payload.productRoler };
     },
     saveAllBrands(state, { payload }) {
       return { ...state, allBrands: payload.data };
     },
-     saveAllItaliaBuyers(state, { payload }) {
+    saveAllItaliaBuyers(state, { payload }) {
       return { ...state, allBuyers: payload.data };
     },
     saveBrands(state, { payload }) { // 保存品牌
@@ -72,7 +78,7 @@ export default {
     saveCurrentPageSize(state, { payload }) {
       return { ...state, currentPageSize: payload.pageSize };
     },
-     saveCurrentPageone(state, { payload }) {
+    saveCurrentPageone(state, { payload }) {
       return { ...state, currentPageone: payload.pageIndex };
     },
     saveCurrentPageSizeone(state, { payload }) {
@@ -83,6 +89,12 @@ export default {
     },
     saveFindItems(state, { payload }) { // 保存采购商品
       return { ...state, findItemList: payload.rows, findItemTotal: payload.total };
+    },
+    updateState(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
     },
   },
   effects: {
@@ -152,9 +164,30 @@ export default {
         });
       }
     },
-    //采购商品管理
-    * queryFindProductList({ payload }, { call, put, select}) { 
-    	let pageIndex = yield select(({ products }) => products.currentPageone);
+    * queryAllCountries(_, { call, put }) {
+      const data = yield call(queryAllCountries);
+      if (data.success) {
+        const countries = data.data;
+        yield put({
+          type: 'updateState',
+          payload: {
+            countries,
+          },
+        });
+      }
+    },
+    * addCountry(payload, { call, put }) {
+      const data = yield call(addCountry, payload);
+      if (data.success) {
+        yield put({
+          type: 'queryAllCountries',
+          payload: {},
+        });
+      }
+    },
+    // 采购商品管理
+    * queryFindProductList({ payload }, { call, put, select }) {
+      let pageIndex = yield select(({ products }) => products.currentPageone);
       let pageSize = yield select(({ products }) => products.currentPageSizeone);
       if (payload && payload.pageIndex) {
         pageIndex = payload.pageIndex;
@@ -172,7 +205,7 @@ export default {
         });
       }
     },
-     * queryFindProduct({ payload, cb }, { call }) { // 二维码生成成功
+    * queryFindProduct({ payload, cb }, { call }) { // 二维码生成成功
       const data = yield call(queryFindProduct, { payload });
       if (data.success) {
         message.success('采购商品审核成功！');
@@ -180,7 +213,7 @@ export default {
       }
     },
     // 品牌管理
-    * queryAllBrand(param, { call, put }) {
+    * queryAllBrand(_, { call, put }) {
       const data = yield call(queryAllBrand);
       if (data.success) {
         yield put({
@@ -275,6 +308,7 @@ export default {
             dispatch({ type: 'queryAllBrand', payload: query });
             dispatch({ type: 'queryCatesTree', payload: query });
             dispatch({ type: 'queryAllItaliaBuyer', payload: query });
+            dispatch({ type: 'queryAllCountries', payload: query });
           }, 0);
         }
         if ((pathname === '/products/productsList' && !window.existCacheState('/products/productsList')) || (pathname === '/products/skuList' && !window.existCacheState('/products/skuList'))) {

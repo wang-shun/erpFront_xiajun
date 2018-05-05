@@ -52,7 +52,7 @@ export default () => {
         if (data.state.sortField) data.state.sortField = null;
         if (data.state.sortOrder) data.state.sortOrder = null;
         _this.setState(data.state);
-        _this.props.form.setFieldsValue(data.search);
+        if (_this.props.form) _this.props.form.setFieldsValue(data.search);
       }, 0);
     }
   }

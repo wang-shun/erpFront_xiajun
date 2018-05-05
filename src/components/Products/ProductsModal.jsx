@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Modal, message, Input, Upload, Row, Col, Select, DatePicker, Form, Icon, TreeSelect, Tabs, InputNumber, Radio } from 'antd';
+import { Modal, Button, message, Input, Upload, Row, Col, Select, DatePicker, Form, Icon, TreeSelect, Tabs, InputNumber, Radio } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
@@ -204,9 +204,22 @@ class ProductsModal extends Component {
     } else this.setState({ countryNameExit: false });
   }
 
+  handleAddCountry() {
+    const { form, dispatch } = this.props;
+    const country = form.getFieldValue('newCountry');
+    if (country) {
+      dispatch({
+        type: 'products/addCountry',
+        payload: {
+          name: country,
+        },
+      });
+    }
+  }
+
   render() {
     const p = this;
-    const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [] } = this.props;
+    const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [], countries = [] } = this.props;
     const { previewVisible, previewImage, activeTab, countryNameExit } = this.state;
     const { getFieldDecorator } = form;
     // 图片字符串解析
@@ -427,20 +440,13 @@ class ProductsModal extends Component {
                       rules: [{ required: true, message: '请选择国家' }],
                     })(
                       <Select placeholder="请选择国家" allowClear onChange={this.handleSelectCountry.bind(this)}>
-                        <Option value="1">意大利</Option>
-                        <Option value="2">法国</Option>
-                        <Option value="3">西班牙</Option>
-                        <Option value="4">美国</Option>
-                        <Option value="5">德国</Option>
-                        <Option value="6">日本</Option>
-                        <Option value="7">澳洲</Option>
-                        <Option value="8">加拿大</Option>
-                        <Option value="9">其他</Option>
+                        {countries.map(country => <Option key={country.name} value={country.name}>{country.name}</Option>)}
+                        <Option key="_other" value="9">其他</Option>
                       </Select>,
                     )}
                   </FormItem>
                 </Col>
-                {countryNameExit && <Col span={7}>
+                {countryNameExit && [<Col span={7} key="_1">
                   <FormItem
                     label="新国家名"
                     {...formItemLayout}
@@ -451,7 +457,9 @@ class ProductsModal extends Component {
                       <Input placeholder="请输入新国家名" />,
                     )}
                   </FormItem>
-                </Col>}
+                </Col>, <Col span={7} key="_2">
+                  <FormItem><Button style={{ marginLeft: 10 }} type="primary" size="small" onClick={this.handleAddCountry.bind(this)} >添加</Button></FormItem>
+                </Col>]}
               </Row>
               <Row>
                 <Col span={7}>
