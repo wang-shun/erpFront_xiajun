@@ -7,6 +7,7 @@ import { Table, Input, Row, Col, Form, Modal, Popconfirm, Select, Icon } from 'a
 const FormItem = Form.Item;
 const Option = Select.Option;
 
+
 @window.regStateCache
 class BuyerList extends Component {
 
@@ -15,29 +16,44 @@ class BuyerList extends Component {
     this.state = {
       visible: false,
       title: '-', // modal的title
-      isEditable: [],
+      editable: [],
+      commissionAfter: '%',
     };
+    this.selectAfter = (
+      <Select defaultValue="%" style={{ width: 60 }} onChange={val => this.setState({ commissionAfter: val })}>
+        <Option value="%">%</Option>
+        <Option value="美元">美元</Option>
+      </Select>
+    );
   }
   // 这里的提交是新增或修改 不是分页， TODO: 分页
   handleSubmit() {
-    const {
-      buyerValues,
-      dispatch,
-    } = this.props;
+    const { buyerValues = {}, dispatch } = this.props;
     this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
-      if (err) {
-        return;
-      }
-      if (buyerValues && Object.keys(buyerValues).length > 0) {
+      if (err) return;
+      if (buyerValues.id) { // 修改
         dispatch({
           type: 'agency/updateBuyerType',
-          payload: { ...fieldsValue,
+          payload: {
+            ...fieldsValue,
             id: buyerValues.id,
             pageIndex: 1,
           },
+          cb: () => {
+            this.closeModal(false);
+          },
+        });
+      } else { // 新增
+        dispatch({
+          type: 'agency/addBuyerType',
+          payload: {
+            ...fieldsValue,
+          },
+          cb: () => {
+            this.closeModal(false);
+          },
         });
       }
-      this.closeModal(false);
     });
   }
 
@@ -47,7 +63,7 @@ class BuyerList extends Component {
       visible,
     });
     this.props.dispatch({
-      type: 'agency/saveAgencyType',
+      type: 'agency/saveBuyerType',
       payload: {},
     }, () => {
       this._refreshData();
@@ -69,7 +85,8 @@ class BuyerList extends Component {
     });
   }
 
-  handleDelete(record) {
+  handleDelete(record, i) {
+    const { editable } = this.state;
     this.props.dispatch({
       type: 'agency/deleteBuyerType',
       payload: {
@@ -77,56 +94,78 @@ class BuyerList extends Component {
       },
       cb() {
         this._refreshData();
+        editable.splice(i, 1);
       },
     });
   }
 
   handleEditCommission(i) {
-    const isEditable = this.state.isEditable;
-    isEditable[i] = true;
+    const editable = this.state.editable;
+    editable.forEach(n => n === false);
+    editable[i] = true;
     this.setState({
-      isEditable,
+      editable,
     });
   }
 
-  handleChangeCommission() {}
+  handleChangeCommission(type, i, r) {
+    const { editable } = this.state;
+    if (type) {
+      const value = this.commission.refs.input.value;
+      // const purchaseCommissionStr = commissionAfter === '%' ? `${value}%` : value;
+      const purchaseCommissionStr = value;
+      this.props.dispatch({
+        type: 'agency/setCommission',
+        payload: {
+          id: r.id,
+          purchaseCommissionStr,
+          purchaseCommissionMode: 0,
+        },
+        cb() {
+          editable[i] = false;
+        },
+      });
+    } else {
+      editable[i] = false;
+    }
+    this.setState({ editable });
+  }
 
   renderColumn(t, r, i) {
-    console.log(t, r);
-    const { isEditable } = this.state;
-    if (isEditable[i]) {
+    const { editable } = this.state;
+    if (editable[i]) {
       return (
         <div>
-          <Input placeholder="请输入" style={{ textAlign: 'center' }} />
-          <a onClick={this.handleChangeCommission.bind(this, true)}>确认</a>
-          <span> | </span>
-          <a onClick={this.handleChangeCommission.bind(this, false)}>返回</a>
+          <Input
+            // addonAfter={this.selectAfter}
+            placeholder="请输入佣金率"
+            defaultValue={t}
+            size="small"
+            ref={(c) => { this.commission = c; }}
+            style={{ textAlign: 'center', width: 150, marginRight: 10 }}
+          />
+          <div style={{ display: 'inline', lineHeight: 2.4 }}>
+            <a onClick={this.handleChangeCommission.bind(this, true, i, r)}>确认</a>
+            <span> | </span>
+            <a onClick={this.handleChangeCommission.bind(this, false, i)}>返回</a>
+          </div>
         </div>
       );
     }
     return (
-      <span>{r.commission} <Icon type="edit" onClick={this.handleEditCommission.bind(this, i)} /></span>
+      <span style={{ cursor: 'pointer' }}>{t} <Icon type="edit" style={{ color: '#00cbd7' }} onClick={this.handleEditCommission.bind(this, i)} /></span>
     );
   }
 
   render() {
     const p = this;
-    const {
-      form,
-      buyerList = [],
-      buyerValues = {},
-      wareList = [],
-    } = p.props;
-    const {
-      getFieldDecorator,
-    } = form;
-    const {
-      title,
-      visible,
-    } = p.state;
+    const { form, buyerList = [], buyerValues = {}, wareList = [] } = p.props;
+    console.log(buyerValues);
+    const { getFieldDecorator } = form;
+    const { title, visible } = p.state;
     const formItemLayout = {
       labelCol: {
-        span: 6,
+        span: 10,
       },
       wrapperCol: {
         span: 14,
@@ -136,27 +175,30 @@ class BuyerList extends Component {
       title: '买手名字',
       dataIndex: 'nickName',
       key: 'nickName',
+      width: '25%',
     },
     {
       title: '所属仓库',
       dataIndex: 'warehouseName',
       key: 'warehouseName',
+      width: '25%',
     },
     {
       title: '佣金管理',
-      dataIndex: 'powerCode',
-      key: 'commission',
-      render: (t, r, i) => this.renderColumn.bind(this, t, r, i),
+      dataIndex: 'purchaseCommissionStr',
+      key: 'purchaseCommissionStr',
+      width: '25%',
+      render: (t, r, i) => this.renderColumn(t, r, i),
     },
     {
       title: '操作',
       dataIndex: 'operator',
       key: 'operator',
-      render(t, r) {
+      render(t, r, i) {
         return (
           <div>
             <a href="javascript:void(0)" onClick={p.handleQuery.bind(p, r)} style={{ marginRight: 10 }}>修改</a>
-            <Popconfirm title="确定删除此类别？" onConfirm={p.handleDelete.bind(p, r)}>
+            <Popconfirm title="确定删除此类别？" onConfirm={p.handleDelete.bind(p, r, i)}>
               <a href="javascript:void(0)">删除</a>
             </Popconfirm>
           </div>
@@ -178,6 +220,11 @@ class BuyerList extends Component {
 
     return (
       <div>
+        {/* <Row>
+          <Col className="operBtn" style={{ borderTop: 'none', marginTop: 0 }}>
+            <Button type="primary" size="large" onClick={() => this.setState({ visible: true, title: '新增买手' })}>新增买手</Button>
+          </Col>
+        </Row> */}
         <Row>
           <Col>
             <Table
@@ -191,15 +238,50 @@ class BuyerList extends Component {
         </Row>
         <Modal {...modalProps}>
           <Form>
-            <FormItem
-              label="所属仓库"
-              {...formItemLayout}
-            >
-              {getFieldDecorator('warehouseId', { initialValue: buyerValues.warehouseId })(
-                <Select placeholder="请选择仓库" allowClear>
-                  {wareList.map(el => <Option key={el.id} value={el.id}>{el.name}</Option>)}
-                </Select>)}
-            </FormItem>
+            <Row>
+              <Col span={11}>
+                <FormItem
+                  label="买手名"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('nickName', {
+                    initialValue: buyerValues.nickName,
+                    rules: [{ required: true, message: '请输入' }],
+                  })(
+                    <Input placeholder="请输入买手名" />,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={11}>
+                <FormItem
+                  label="所属仓库"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('warehouseId', {
+                    initialValue: buyerValues.warehouseId && buyerValues.warehouseId.toString(),
+                    rules: [{ required: true, message: '请选择' }],
+                  })(
+                    <Select placeholder="请选择仓库" allowClear>
+                      {wareList.map(el => <Option key={el.id} value={el.id && el.id.toString()}>{el.name}</Option>)}
+                    </Select>)}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={11}>
+                <FormItem
+                  label="佣金设置"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('purchaseCommissionStr', {
+                    initialValue: buyerValues.purchaseCommissionStr,
+                    rules: [{ required: true, message: '请输入' }],
+                  })(
+                    <Input placeholder="请输入佣金比率" />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
           </Form>
         </Modal>
       </div>
@@ -221,3 +303,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Form.create()(BuyerList));
+

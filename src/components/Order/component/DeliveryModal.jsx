@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Modal, Row, Col, Alert, Table, Cascader, Select, Popover ,message} from 'antd';
+import { Form, Input, Modal, Row, Col, Alert, Table, Cascader, Select, Popover, message } from 'antd';
 
 import divisions from '../../../utils/divisions.json';
 import check from '../../../utils/checkLib';
@@ -63,20 +63,19 @@ class DeliveryModal extends Component {
     else cb(new Error('请填写正确的身份证号'));
   }
   handleLogisticCompanyChange(name) {
-  	const p = this;
-  	const { form, dispatch} = this.props;
-  	let idCard = form.getFieldValue("idCard");
-  	let logisticCompany = name;
-  	let isBatch = false;
-  	if(!idCard && logisticCompany == '4PX') {
-    message.warning('申请4PX预报身份证信息不能为空');
-  	}
-  	if(idCard && idCard.trim() && logisticCompany) {
-  		dispatch({
-			type: 'order/checkManyTimesDelivery',
-	        payload: { idCard, logisticCompany, isBatch}
-		});
-  	}
+    const { form, dispatch } = this.props;
+    const idCard = form.getFieldValue('idCard');
+    const logisticCompany = name;
+    const isBatch = false;
+    if (!idCard && logisticCompany === '4PX') {
+      message.warning('申请4PX预报身份证信息不能为空');
+    }
+    if (idCard && idCard.trim() && logisticCompany) {
+      dispatch({
+        type: 'order/checkManyTimesDelivery',
+        payload: { idCard, logisticCompany, isBatch },
+      });
+    }
   }
   render() {
     const p = this;
@@ -182,8 +181,8 @@ class DeliveryModal extends Component {
         let skuWeight = 0;
         selectedRows.forEach((el) => {
           listId.push(el.id);
-          totalSalePrice += el.salePrice*el.quantity;
-          skuWeight += el.weight*el.quantity;
+          totalSalePrice += el.salePrice * el.quantity;
+          skuWeight += el.weight * el.quantity;
         });
         p.props.data.totalSalePrice = totalSalePrice;
         p.props.data.skuWeight = skuWeight;
@@ -294,7 +293,7 @@ class DeliveryModal extends Component {
                     initialValue: data.logisticCompany || undefined,
                     rules: [{ required: true, message: '请选择物流公司名称' }],
                   })(
-                    <Select placeholder="请选择物流公司名称" allowClear  onChange={this.handleLogisticCompanyChange.bind(this)}>
+                    <Select placeholder="请选择物流公司名称" allowClear onChange={this.handleLogisticCompanyChange.bind(this)}>
                       {deliveryCompanyList.map(v => (
                         <Option key={v.name}>{v.name}</Option>
                       ))}
@@ -396,14 +395,14 @@ class DeliveryModal extends Component {
             <Row>
               <Table rowSelection={rowSelection} columns={columns} dataSource={data.erpOrderList || []} rowKey={r => r.id} pagination={false} bordered />
             </Row>
-            <br/>
+            <br />
             <Row>
-            		<Col span={3}>
-                		商品总金额: {data.totalSalePrice}
-              	</Col>
-            		<Col span={3}>
-                		商品总净重(磅): {data.skuWeight}
-              	</Col>
+              <Col span={3}>
+                    商品总金额: {data.totalSalePrice}
+              </Col>
+              <Col span={3}>
+                    商品总净重(磅): {data.skuWeight}
+              </Col>
             </Row>
           </Form>
         </Modal>

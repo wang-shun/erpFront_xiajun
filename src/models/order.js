@@ -53,6 +53,12 @@ const queryReturnOrderById = ({ payload }) => fetch.post('/haierp1/erpReturnOrde
 const updateReturnOrder = ({ payload }) => fetch.post('/haierp1/erpReturnOrder/update', { data: payload }).catch(e => e);
 const addReturnOrder = ({ payload }) => fetch.post('/haierp1/erpReturnOrder/add', { data: payload }).catch(e => e);
 const queryReturnOrderList = ({ payload }) => fetch.post('/haierp1/erpReturnOrder/query', { data: payload }).catch(e => e);
+// 销售渠道管理
+const queryChannelList = () => fetch.post('/haierp1/channel/querylist').catch(e => e);
+const queryChannel = ({ payload }) => fetch.post('/haierp1/channel/query', { data: payload }).catch(e => e);
+const deleteChannel = ({ payload }) => fetch.post('/haierp1/channel/delete', { data: payload }).catch(e => e);
+const addChannel = ({ payload }) => fetch.post('/haierp1/channel/delete', { data: payload }).catch(e => e);
+const updateChannel = ({ payload }) => fetch.post('/haierp1/channel/update', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'order',
@@ -79,17 +85,20 @@ export default {
     deliveryCompanyList: [],
     // 代理商列表
     agentManList: [],
-    
+
     // 退单
     returnOrderList: [],
     returnCurrentPage: 1,
     returnOrderTotal: 1,
     returnOrderValues: {},
-    loginRoler:false,//默认普通人员
+    loginRoler: false, // 默认普通人员
+    // 渠道
+    channels: [],
+    channelValues: {},
   },
   reducers: {
     saveOrderList(state, { payload }) {
-      return { ...state, orderList: payload.data, orderTotal: payload.totalCount, loginRoler:payload.agentRoler };
+      return { ...state, orderList: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };
     },
     saveCurrentPage(state, { payload }) {
       return { ...state, currentPage: payload.pageIndex };
@@ -111,7 +120,7 @@ export default {
       return { ...state, erpCurrentPageSize: payload.pageSize };
     },
     saveErpOrderList(state, { payload }) {
-      return { ...state, erpOrderList: payload.data, erpOrderTotal: payload.totalCount, loginRoler:payload.agentRoler };
+      return { ...state, erpOrderList: payload.data, erpOrderTotal: payload.totalCount, loginRoler: payload.agentRoler };
     },
     saveErpOrder(state, { payload }) {
       return { ...state, erpOrderValues: payload };
@@ -127,7 +136,7 @@ export default {
       return { ...state, shippingCurrentPageSize: payload.pageSize };
     },
     saveShippingOrderList(state, { payload }) {
-      return { ...state, shippingOrderList: payload.data, shippingOrderTotal: payload.totalCount, loginRoler:payload.agentRoler };
+      return { ...state, shippingOrderList: payload.data, shippingOrderTotal: payload.totalCount, loginRoler: payload.agentRoler };
     },
     saveDeliveryCompanyList(state, { payload }) {
       return { ...state, deliveryCompanyList: payload.data };
@@ -144,6 +153,9 @@ export default {
     },
     saveReturnValues(state, { payload }) {
       return { ...state, returnOrderValues: payload.data };
+    },
+    updateState(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
   effects: {
@@ -220,11 +232,11 @@ export default {
       }
     },
     * outerOrderReview({ payload, cb }, { call }) {
-    		const data = yield call(outerOrderReview, { payload });
-    		if (data.success) {
-	        message.success('微信录单确认完成');
-	        cb();
-	    }
+      const data = yield call(outerOrderReview, { payload });
+      if (data.success) {
+        message.success('微信录单确认完成');
+        cb();
+      }
     },
     // 子订单
     * queryErpOrderList({ payload }, { call, put, select }) {
@@ -294,7 +306,7 @@ export default {
       }
     },
     * checkManyTimesDelivery({ payload, cb }, { call }) {
-      const data = yield call(checkManyTimesDelivery, { payload });
+      yield call(checkManyTimesDelivery, { payload });
     },
     * mergeDelivery({ payload, cb }, { call }) {
       const data = yield call(mergeDelivery, { payload });
@@ -365,7 +377,7 @@ export default {
         if (cb) cb(data.data);
       }
     },
-     * queryShippingTrack({ payload, cb }, { call }) {
+    * queryShippingTrack({ payload, cb }, { call }) {
       const data = yield call(queryShippingTrack, { payload });
       if (data.success) {
         if (cb) cb(data.data);
@@ -458,6 +470,56 @@ export default {
       const param = qs.stringify(payload);
       window.open(`http://${location.host}/haierp1/erpReturnOrder/erpReturnOrderExport?${param}`);
     },
+    // 销售渠道
+    * queryChannelList(_, { call, put }) {
+      const data = yield call(queryChannelList);
+      if (data.success) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            channels: data.data,
+          },
+        });
+      }
+    },
+    * deleteChannel({ payload, cb }, { call, put }) {
+      const data = yield call(deleteChannel, { payload });
+      if (data.success) {
+        message.success('删除成功');
+        yield put({
+          type: 'queryChannelList',
+        });
+      }
+    },
+    * addChannel({ payload, cb }, { call, put }) {
+      const data = yield call(addChannel, { payload });
+      if (data.success) {
+        message.success('新建成功');
+        yield put({
+          type: 'queryChannelList',
+        });
+      }
+    },
+    * updateChannel({ payload, cb }, { call, put }) {
+      const data = yield call(updateChannel, { payload });
+      if (data.success) {
+        message.success('修改成功');
+        yield put({
+          type: 'queryChannelList',
+        });
+      }
+    },
+    * queryChannel({ payload, cb }, { call, put }) {
+      const data = yield call(queryChannel, { payload });
+      if (data.success) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            channelValues: data.data,
+          },
+        });
+      }
+    },
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -473,7 +535,7 @@ export default {
             dispatch({ type: 'queryErpOrderList', payload: query });
             dispatch({ type: 'agency/queryAgencyList', payload: query });
             dispatch({ type: 'queryDeliveryCompanyList', payload: query });
-            dispatch({ type: 'queryAgentManList', payload: query });//查询代理
+            dispatch({ type: 'queryAgentManList', payload: query });// 查询代理
             dispatch({ type: 'inventory/queryWareList', payload: {} });
           }, 0);
         }
@@ -481,13 +543,18 @@ export default {
           setTimeout(() => {
             dispatch({ type: 'queryShippingOrderList', payload: query });
             dispatch({ type: 'queryDeliveryCompanyList', payload: query });
-            dispatch({ type: 'queryAgentManList', payload: query });//查询代理
+            dispatch({ type: 'queryAgentManList', payload: query });// 查询代理
           }, 0);
         }
         if (pathname === '/sale/returnOrder' && !window.existCacheState('/sale/returnOrder')) {
           setTimeout(() => {
             dispatch({ type: 'queryReturnOrderList', payload: query });
             dispatch({ type: 'agency/queryAgencyList', payload: query });
+          }, 0);
+        }
+        if (pathname === '/sale/saleChannel' && !window.existCacheState('/sale/saleChannel')) {
+          setTimeout(() => {
+            dispatch({ type: 'queryChannelList', payload: query });
           }, 0);
         }
       });

@@ -14,6 +14,8 @@ const addAgencyType = ({ payload }) => fetch.post('/haierp1/sellerType/add', { d
 const queryBuyerList = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/queryWxPurchaseUser', { data: payload }).catch(e => e);
 const queryBuyerType = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/query', { data: payload }).catch(e => e);
 const updateBuyerType = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/update', { data: payload }).catch(e => e);
+const addBuyerType = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/add', { data: payload }).catch(e => e);
+const setCommission = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/setCommission', { data: payload }).catch(e => e);
 const deleteBuyerType = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/delete', { data: payload }).catch(e => e);
 const queryWareList = ({ payload }) => fetch.get('/haierp1/warehouse/queryWarehouses', { data: payload }).catch(e => e);
 
@@ -137,14 +139,37 @@ export default {
         });
       }
     },
-    * updateBuyerType({ payload }, { call, put }) {
+    * updateBuyerType({ payload, cb }, { call, put }) {
       const data = yield call(updateBuyerType, { payload });
       if (data.success) {
-        message.success('修改仓库成功');
-        const data123 = yield call(queryBuyerList, { payload });
-        if (data123.success) {
-          yield put({ type: 'updateBuyerList', payload: data123 });
+        message.success('修改成功');
+        cb();
+        const listData = yield call(queryBuyerList, { payload });
+        if (listData.success) {
+          yield put({ type: 'updateBuyerList', payload: listData });
         }
+      }
+    },
+    * addBuyerType({ payload, cb }, { call, put }) {
+      const data = yield call(addBuyerType, { payload });
+      if (data.success) {
+        message.success('新增成功');
+        cb();
+        const listData = yield call(queryBuyerList, { payload });
+        if (listData.success) {
+          yield put({ type: 'updateBuyerList', payload: listData });
+        }
+      }
+    },
+    * setCommission({ payload, cb }, { call, put }) {
+      const data = yield call(setCommission, { payload });
+      if (data.success) {
+        message.success('佣金修改成功');
+        yield put({
+          type: 'queryBuyerList',
+          payload: {},
+        });
+        cb();
       }
     },
     * addAgencyType({ payload }, { call }) {
@@ -199,7 +224,8 @@ export default {
       return { ...state, agencyTypeValues: payload.data };
     },
     saveBuyerType(state, { payload }) {
-      return { ...state, buyerValues: payload.data };
+      console.log(payload);
+      return { ...state, buyerValues: payload.data || {} };
     },
     updateList(state, { payload }) {
       return { ...state, list: payload.data, total: payload.totalCount };
@@ -221,6 +247,9 @@ export default {
     },
     saveWareCurrent(state, { payload }) {
       return { ...state, wareCurrent: payload.pageIndex };
+    },
+    updateState(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
 };

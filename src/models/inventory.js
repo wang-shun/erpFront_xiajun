@@ -30,8 +30,8 @@ const queryOut = ({ payload }) => fetch.post('/haierp1/inventory/inventoryOutQue
 const confirmOut = ({ payload }) => fetch.post('/haierp1/inventory/inventoryOutConfirm', { data: payload }).catch(e => e);
 const deleteOut = ({ payload }) => fetch.post('/haierp1/inventory/inventoryOutDelete', { data: payload }).catch(e => e);
 // 备货仓管理
-const queryStockWarehouse = ({ payload }) => fetch.get('/haierp1/inventory/stockWarehouse',{ data: payload }).catch(e => e);
-//备货仓盘出到库存
+const queryStockWarehouse = ({ payload }) => fetch.get('/haierp1/inventory/stockWarehouse', { data: payload }).catch(e => e);
+// 备货仓盘出到库存
 const checkStockIn = ({ payload }) => fetch.post('/haierp1/inventory/inventoryStockCheckIn', { data: payload }).catch(e => e);
 export default {
   namespace: 'inventory',
@@ -49,11 +49,11 @@ export default {
     outCurrent: 1,
     outTotal: 1,
     outValues: {},
-    stockList:[],
+    stockList: [],
     stockCurrent: 1,
     stockTotal: 1,
-    loginRoler:false,//默认普通人员
-    
+    loginRoler: false, // 默认普通人员
+
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -81,8 +81,8 @@ export default {
             dispatch({ type: 'queryWareList', payload: { pageIndex: 1 } });
           }, 0);
         }
-        //备货仓管理
-        if (pathname === '/inventory/stockwarehouse' && !window.existCacheState('/inventory/stockwarehouse') ) {
+        // 备货仓管理
+        if (pathname === '/inventory/stockwarehouse' && !window.existCacheState('/inventory/stockwarehouse')) {
           setTimeout(() => {
             dispatch({ type: 'queryStockWarehouse', payload: { pageIndex: 1 } });
             dispatch({ type: 'queryWareList', payload: { pageIndex: 1 } });
@@ -107,8 +107,8 @@ export default {
         });
       }
     },
-    //备货仓管理
-    *queryStockWarehouse({ payload },{call, put, select}) {
+    // 备货仓管理
+    *queryStockWarehouse({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ inventory }) => inventory.stockCurrent);
       if (payload && payload.pageIndex) {
         pageIndex = payload.pageIndex;
@@ -120,7 +120,7 @@ export default {
           type: 'updateStockList',
           payload: data,
         });
-      }  
+      }
     },
     * changePositionNo({ payload, cb }, { call }) {
       const data = yield call(changePositionNo, { payload });
@@ -161,7 +161,7 @@ export default {
         cb();
       }
     },
-     * checkStockIn({ payload, cb }, { call }) {
+    * checkStockIn({ payload, cb }, { call }) {
       const data = yield call(checkStockIn, { payload });
       if (data.success) {
         message.success('操作成功');
@@ -269,7 +269,7 @@ export default {
   },
   reducers: {
     updateList(state, { payload }) {
-      return { ...state, list: payload.data, total: payload.totalCount,loginRoler:payload.agentRoler};
+      return { ...state, list: payload.data, total: payload.totalCount, loginRoler: payload.agentRoler };
     },
     saveCurrentPage(state, { payload }) {
       return { ...state, currentPage: payload.pageIndex };
@@ -300,6 +300,6 @@ export default {
     },
     saveStockCurrentPage(state, { payload }) {
       return { ...state, stockCurrent: payload.pageIndex };
-    }
+    },
   },
 };

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Icon } from 'antd';
-import ReturnOrderModal from './component/ReturnOrderModal';
+import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Icon, Tooltip } from 'antd';
 
-const FormItem = Form.Item;
-const Option = Select.Option;
-const { RangePicker } = DatePicker;
+// const FormItem = Form.Item;
+// const Option = Select.Option;
+// const { RangePicker } = DatePicker;
+
+// import ChannelModal from './component/ChannelModal';
 
 @window.regStateCache
 class SaleChannel extends Component {
@@ -53,9 +54,7 @@ class SaleChannel extends Component {
   }
 
   closeModal() {
-    this.setState({ visible: false }, () => {
-      this._refreshData();
-    });
+    this.setState({ visible: false });
   }
 
   exportReturnOrder() {
@@ -80,68 +79,71 @@ class SaleChannel extends Component {
     });
   }
 
-  handleEmptyInput(type) { // 清空内容
-    const { setFieldsValue } = this.props.form;
-    switch (type) {
-      case 'orderNo': setFieldsValue({ orderNo: undefined }); break;
-      case 'erpNo': setFieldsValue({ erpNo: undefined }); break;
-      case 'skuCode': setFieldsValue({ skuCode: undefined }); break;
-      case 'itemName': setFieldsValue({ itemName: undefined }); break;
-      case 'upc': setFieldsValue({ upc: undefined }); break;
-      default: return false;
-    }
-  }
-
-  showClear(type) { // 是否显示清除按钮
-    const { getFieldValue } = this.props.form;
-    const data = getFieldValue(type);
-    if (data) {
-      return <Icon type="close-circle" onClick={this.handleEmptyInput.bind(this, type)} />;
-    }
-    return null;
-  }
-
   render() {
     const p = this;
-    const { form, dispatch, currentPage, returnOrderList = [], returnOrderTotal, returnOrderValues = {}, agencyList = [] } = p.props;
-    const { getFieldDecorator, resetFields } = form;
+    const { form, channels, channelValues = {} } = p.props;
+    console.log(channels);
+    // const { getFieldDecorator, resetFields } = form;
     const { visible } = p.state;
-    const formItemLayout = {
-      labelCol: { span: 10 },
-      wrapperCol: { span: 14 },
-    };
+    // const formItemLayout = {
+    //   labelCol: { span: 10 },
+    //   wrapperCol: { span: 14 },
+    // };
     const columnsList = [
-      { title: '销售渠道名称', dataIndex: 'orderNo', key: 'orderNo', width: 120 },
-      { title: '类型', dataIndex: 'erpNo', key: 'erpNo', width: 120, render(text) { return text || '-'; } },
-      { title: '折扣率', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
-      { title: '备注', dataIndex: 'remark', key: 'remark', width: 60, render(text) { return text || '-'; } },
+      { title: '销售渠道名称', dataIndex: 'name', key: 'name', width: '16%' },
+      { title: '类型',
+        dataIndex: 'type',
+        key: 'type',
+        width: '16%',
+        render: (t, r) => {
+          switch (t) {
+            case '1':
+              return '平台';
+            case '2':
+              return r.saleLevel;
+            default: return '-';
+          }
+        },
+      },
+      { title: '折扣率', dataIndex: 'discount', key: 'discount', width: '16%' },
+      { title: '备注', dataIndex: 'remark', key: 'remark', width: '16%' },
+      { title: '对接人',
+        dataIndex: 'contactName',
+        key: 'contactName',
+        width: '16%',
+        render: (t, r) => {
+          console.log(t, r);
+          return (
+            <div>
+              <span>{t}</span>
+              <Tooltip title={r.contactMobile}>
+                <Icon type="phone" style={{ color: '#00cbd7', margin: '0 10px' }} />
+              </Tooltip>
+              <Tooltip title={r.contactEmail}>
+                <Icon type="message" style={{ color: '#00cbd7' }} />
+              </Tooltip>
+            </div>
+          );
+        },
+      },
       {
         title: '操作',
-        dataIndex: 'operator',
         key: 'operator',
-        width: 60,
-        fixed: 'right',
         render(text, record) {
           return (
             <div>
-              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a>
+              <a onClick={p.updateModal.bind(p, record.id)}>修改</a>
+              <span> | </span>
+              <a onClick={p.updateModal.bind(p, record.id)}>查看历史结算</a>
+              <span> | </span>
+              <a onClick={p.updateModal.bind(p, record.id)}>删除</a>
             </div>);
         },
       },
     ];
-
-    const listPaginationProps = {
-      total: returnOrderTotal,
-      pageSize: 20,
-      current: currentPage,
-      onChange(pageIndex) {
-        p.handleSubmit(null, pageIndex);
-      },
-    };
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
-        <Form onSubmit={this.handleSubmit.bind(this)}>
+        {/* <Form onSubmit={this.handleSubmit.bind(this)}>
           <Row gutter={20} style={{ width: 800 }}>
             <Col span="8">
               <FormItem
@@ -209,20 +211,6 @@ class SaleChannel extends Component {
           <Row gutter={20} style={{ width: 800 }}>
             <Col span={8}>
               <FormItem
-                label="销售"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('salesName', {})(
-                  <Select placeholder="请选择销售" allowClear>
-                    {agencyList.map((el) => {
-                      return <Option key={el.id} value={el.name}>{el.name}</Option>;
-                    })}
-                  </Select>,
-                )}
-              </FormItem>
-            </Col>
-            <Col span={8}>
-              <FormItem
                 label="退款形式"
                 {...formItemLayout}
               >
@@ -284,46 +272,38 @@ class SaleChannel extends Component {
               <Button size="large" type="ghost" onClick={() => { resetFields(); }}>清空</Button>
             </Col>
           </Row>
-        </Form>
-        <Row className="operBtn">
+        </Form> */}
+        <Row className="operBtn" style={{ marginTop: 0, borderTop: 'none' }}>
           <Col>
-            <Button type="primary" style={{ float: 'right' }} size="large" onClick={this.exportReturnOrder.bind(this)}>导出退单</Button>
+            <Button type="primary" size="large" onClick={() => this.setState({ visible: true })}>新建渠道</Button>
           </Col>
         </Row>
         <Row>
           <Col>
             <Table
               columns={columnsList}
-              dataSource={returnOrderList}
+              dataSource={channels}
               bordered
               size="large"
               rowKey={record => record.id}
-              pagination={listPaginationProps}
-              scroll={{ x: 1960, y: 500 }}
+              pagination={false}
             />
           </Col>
         </Row>
-        <ReturnOrderModal
+        {/* <ChannelModal
           visible={visible}
           close={this.closeModal.bind(this)}
-          data={returnOrderValues}
-          returnType="修改"
-          dispatch={dispatch}
-        />
+          data={channelValues}
+        /> */}
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  const { returnOrderList, returnOrderTotal, returnCurrentPage, returnOrderValues } = state.order;
-  const { list } = state.agency;
+function mapStateToProps({ order }) {
+  const { channels } = order;
   return {
-    returnOrderList,
-    returnOrderTotal,
-    currentPage: returnCurrentPage,
-    returnOrderValues,
-    agencyList: list,
+    channels,
   };
 }
 

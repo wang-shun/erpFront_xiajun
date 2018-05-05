@@ -710,13 +710,13 @@ class SkuTable extends Component {
         },
         {
           title: '实际库存',
-          dataIndex: 'actualInv',
-          key: 'actualInv',
+          dataIndex: 'inventory',
+          key: 'inventory',
           width: '6%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_actualInv`, {
+                {getFieldDecorator(`r_${r.key}_inventory`, {
                   initialValue: t === 0 ? '0' : (t || ''),
                   rules: [{ required: true, message: '请填写' }],
                 })(

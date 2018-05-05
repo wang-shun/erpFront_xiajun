@@ -28,6 +28,10 @@ class Products extends Component {
           values.startDate = new Date(values.saleDate[0]).format('yyyy-MM-dd');
           values.endDate = new Date(values.saleDate[1]).format('yyyy-MM-dd');
         }
+        if (values.hasVirtualInventory) values.hasVirtualInventory = 1;
+        else values.hasVirtualInventory = 0;
+        if (values.hasInventory) values.hasInventory = 1;
+        else values.hasInventory = 0;
         delete values.saleDate;
         this.props.dispatch({
           type: 'products/queryItemList',
@@ -220,7 +224,7 @@ class Products extends Component {
           }
         },
       },
-      { title: '实际库存', dataIndex: 'actualInv', key: 'actualInv', width: 80 },
+      { title: '实际库存', dataIndex: 'inventory', key: 'inventory', width: 80 },
       { title: '虚拟库存', dataIndex: 'virtualInv', key: 'virtualInv', width: 80 },
       { title: '开始销售时间', dataIndex: 'startDate', key: 'startDate', width: 80, render(text) { return text ? text.split(' ')[0] : '-'; } },
       { title: '结束销售时间', dataIndex: 'endDate', key: 'endDate', width: 80, render(text) { return text ? text.split(' ')[0] : '-'; } },
@@ -368,7 +372,7 @@ class Products extends Component {
             </Col>
             <Col span={5}>
               <FormItem>
-                {getFieldDecorator('actual', {
+                {getFieldDecorator('hasInventory', {
                   valuePropName: 'checked',
                 })(
                   <Checkbox> 实际库存大于0</Checkbox>,
@@ -377,7 +381,7 @@ class Products extends Component {
             </Col>
             <Col span={5}>
               <FormItem>
-                {getFieldDecorator('virtual', {
+                {getFieldDecorator('hasVirtualInventory', {
                   valuePropName: 'checked',
                 })(
                   <Checkbox> 虚拟库存大于0</Checkbox>,

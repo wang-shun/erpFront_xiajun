@@ -7,10 +7,7 @@ const updateProducts = ({ payload }) => fetch.post('/haierp1/item/update', { dat
 const addProducts = ({ payload }) => fetch.post('/haierp1/item/add', { data: payload }).catch(e => e);
 const queryCatesTree = () => fetch.post('/haierp1/category/tree').catch(e => e);
 const queryAllCountries = () => fetch.post('/haierp1/country/queryAllCountries').catch(e => e);
-const addCountry = ({ payload }) => {
-  console.log(payload);
-  fetch.post('/haierp1/country/add', { data: payload }).catch(e => e);
-};
+const addCountry = ({ payload }) => fetch.post('/haierp1/country/add', { data: payload }).catch(e => e);
 // 批量同步
 const batchSynItemYouzan = ({ payload }) => fetch.post('/haierp1/youzanSyn/batchSynItemYouzan', { data: payload }).catch(e => e);
 // 批量上架
@@ -178,10 +175,11 @@ export default {
     },
     * addCountry(payload, { call, put }) {
       const data = yield call(addCountry, payload);
+      console.log(data);
       if (data.success) {
+        message.success('添加成功，请重新选择国家');
         yield put({
           type: 'queryAllCountries',
-          payload: {},
         });
       }
     },

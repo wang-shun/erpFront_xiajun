@@ -13,13 +13,13 @@ const closeTaskDaily = ({ payload }) => fetch.post('/haierp1/purchase/closeTaskD
 const finishTaskDaily = ({ payload }) => fetch.post('/haierp1/purchase/finishTaskDaily', { data: payload }).catch(e => e);
 // 根据当前订单生成采购任务
 const createByOrder = () => fetch.get('/haierp1/purchase/autoAddByOrder').catch(e => e);
-//采购小票
+// 采购小票
 const purchaseReceiptList = ({ payload }) => fetch.post('/haierp1/receipt/queryReceipt', { data: payload }).catch(e => e);
-//采购小票明细
+// 采购小票明细
 const purchaseReceiptTaskList = ({ payload }) => fetch.post('/haierp1/receipt/queryTaskReceipt', { data: payload }).catch(e => e);
-//采购未完成时间
+// 采购未完成时间
 const purchaseNoCompleteTimeList = ({ payload }) => fetch.post('/haierp1/purchase/nocompleteTaskDailyOrderTime', { data: payload }).catch(e => e);
-//采购未完成详情
+// 采购未完成详情
 const purchaseNoCompleteDateil = ({ payload }) => fetch.post('/haierp1/purchase/nocompleteTaskDaily', { data: payload }).catch(e => e);
 export default {
   namespace: 'purchase',
@@ -59,17 +59,17 @@ export default {
             dispatch({ type: 'queryBuyers', payload: {} });
           }, 0);
         }
-        if (pathname === '/purchase/receiptList' && !window.existCacheState('/purchase/receiptList')){
+        if (pathname === '/purchase/receiptList' && !window.existCacheState('/purchase/receiptList')) {
           setTimeout(() => {
             dispatch({ type: 'purchaseReceiptList', payload: {} });
           }, 0);
         }
-        if (pathname === '/purchase/receiptTaskList' && !window.existCacheState('/purchase/receiptTaskList')){
+        if (pathname === '/purchase/receiptTaskList' && !window.existCacheState('/purchase/receiptTaskList')) {
           setTimeout(() => {
             dispatch({ type: 'purchaseReceiptTaskList', payload: {} });
           }, 0);
         }
-         if (pathname === '/purchase/uncompleteTaskDailyOrder' && !window.existCacheState('/purchase/uncompleteTaskDailyOrder')){
+        if (pathname === '/purchase/uncompleteTaskDailyOrder' && !window.existCacheState('/purchase/uncompleteTaskDailyOrder')) {
           setTimeout(() => {
             dispatch({ type: 'purchaseNoCompleteTimeList', payload: {} });
           }, 0);
@@ -140,7 +140,7 @@ export default {
       window.open(`http://${location.host}/haierp1/purchase/taskDailyExport?id=${payload.id}`);
       yield put({ type: 'queryPurchaseList', payload: {} });
     },
-    * exportNoCompleteDetail({ payload }) {
+    exportNoCompleteDetail({ payload }) {
       window.open(`http://${location.host}/haierp1/purchase/noCompleteExport?currentlyDate=${payload.currentlyDate}`);
     },
     * finishTaskDaily({ payload, cb }, { call }) {
@@ -157,15 +157,15 @@ export default {
         if (cb) cb();
       }
     },
-    //小票管理
-    *purchaseReceiptList({ payload },{call, put, select}) {
+    // 小票管理
+    * purchaseReceiptList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ inventory }) => inventory.receiptcurrentPage);
       if (payload && payload.pageIndex) {
         pageIndex = payload.pageIndex;
         yield put({ type: 'saveReceiptcurrentPage', payload });
       }
       if (payload && payload.pageSize) {
-        pageSize = payload.pageSize;
+        // pageSize = payload.pageSize;
         yield put({ type: 'saveReceiptcurrentPageSize', payload });
       }
       const data = yield call(purchaseReceiptList, { payload: { ...payload, pageIndex } });
@@ -174,17 +174,17 @@ export default {
           type: 'updateReceiptList',
           payload: data,
         });
-      }  
+      }
     },
-    //小票明细
-    *purchaseReceiptTaskList({ payload },{call, put, select}) {
+    // 小票明细
+    *purchaseReceiptTaskList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ inventory }) => inventory.receiptTaskPage);
       if (payload && payload.pageIndex) {
         pageIndex = payload.pageIndex;
         yield put({ type: 'saveReceiptTaskPage', payload });
       }
       if (payload && payload.pageSize) {
-        pageSize = payload.pageSize;
+        // pageSize = payload.pageSize;
         yield put({ type: 'saveReceiptTaskPageSize', payload });
       }
       const data = yield call(purchaseReceiptTaskList, { payload: { ...payload, pageIndex } });
@@ -193,17 +193,17 @@ export default {
           type: 'updateReceiptTaskList',
           payload: data,
         });
-      }  
+      }
     },
-    //未完成时间
-    *purchaseNoCompleteTimeList({ payload },{call, put, select}) {
+    // 未完成时间
+    *purchaseNoCompleteTimeList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ purchase }) => purchase.noCompleteTimePage);
       if (payload && payload.pageIndex) {
         pageIndex = payload.pageIndex;
         yield put({ type: 'saveNoCompleteTimePage', payload });
       }
       if (payload && payload.pageSize) {
-        pageSize = payload.pageSize;
+        // pageSize = payload.pageSize;
         yield put({ type: 'saveNoCompleteTimePageSize', payload });
       }
       const data = yield call(purchaseNoCompleteTimeList, { payload: { ...payload, pageIndex } });
@@ -212,14 +212,12 @@ export default {
           type: 'updateNoCompleteTimeList',
           payload: data,
         });
-      }  
+      }
     },
     * purchaseNoCompleteDateil({ payload, cb }, { call }) {
       const data = yield call(purchaseNoCompleteDateil, { payload });
       if (data.success) {
-      	if (cb) {
-          cb(data.data);
-       }
+        if (cb) cb(data.data);
       }
     },
   },
@@ -233,8 +231,8 @@ export default {
     saveCurrentPageSize(state, { payload }) {
       return { ...state, currentPageSize: payload.pageSize };
     },
-    saveReceiptcurrentPage(state,{ payload }) {
-      return { ...state, receiptcurrentPage: payload.pageIndex };  
+    saveReceiptcurrentPage(state, { payload }) {
+      return { ...state, receiptcurrentPage: payload.pageIndex };
     },
     saveReceiptcurrentPageSize(state, { payload }) {
       return { ...state, receiptTaskPageSize: payload.pageSize };
@@ -251,14 +249,14 @@ export default {
     updateReceiptTaskList(state, { payload }) {
       return { ...state, receiptTaskList: payload.data, receiptTaskTotal: payload.totalCount };
     },
-    saveReceiptTaskPage(state,{ payload }) {
-      return { ...state, receiptTaskPage: payload.pageIndex };  
+    saveReceiptTaskPage(state, { payload }) {
+      return { ...state, receiptTaskPage: payload.pageIndex };
     },
     saveReceiptTaskPageSize(state, { payload }) {
       return { ...state, receiptTaskPageSize: payload.pageSize };
     },
-    saveNoCompleteTimePage(state,{ payload }) {
-      return { ...state, noCompleteTimePage: payload.pageIndex };  
+    saveNoCompleteTimePage(state, { payload }) {
+      return { ...state, noCompleteTimePage: payload.pageIndex };
     },
     saveNoCompleteTimePageSize(state, { payload }) {
       return { ...state, noCompleteTimePageSize: payload.pageSize };

@@ -568,13 +568,13 @@ class ProductsModal extends Component {
                     label="发货方式"
                     {...formItemLayout}
                   >
-                    {getFieldDecorator('logisticType', {
-                      initialValue: toString(productData.logisticType || 0),
+                    {getFieldDecorator('deliveryMode', {
+                      initialValue: toString(productData.deliveryMode || 0),
                     })(
                       <RadioGroup>
-                        <Radio value="0">海外直邮</Radio>
-                        <Radio value="1">海外拼邮</Radio>
-                        <Radio value="2">国内直发</Radio>
+                        <Radio value="1">海外直邮</Radio>
+                        <Radio value="2">海外拼邮</Radio>
+                        <Radio value="3">国内直发</Radio>
                       </RadioGroup>,
                     )}
                   </FormItem>
