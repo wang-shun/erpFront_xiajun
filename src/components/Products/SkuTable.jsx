@@ -225,7 +225,7 @@ class SkuTable extends Component {
     }
   }
   // 鼠标移入新增批量SKU按钮
-  handleMouseOverBatchSku(time = 2000) {
+  handleMouseOverBatchSku() {
     const changeState = () => {
       this.setState({
         mouseOverVisible: true,
@@ -234,7 +234,7 @@ class SkuTable extends Component {
     };
     setTimeout(() => {
       changeState();
-    }, time);
+    }, 0);
   }
   // 关闭鼠标悬浮出来的popover
   handleClickMouseOverContent() {
@@ -903,7 +903,7 @@ class SkuTable extends Component {
     </div>);
     const BatchSkuAdd = (
       <div style={{ width: 800 }}>
-        <Select placeholder="请选择类型" value={batchSkuSort || undefined} style={{ width: 200, marginTop: 10 }} onChange={this.changeBatchSkuType.bind(this)}>
+        <Select placeholder="请选择类型" defaultValue={batchSkuSort || undefined} style={{ width: 200, marginTop: 10 }} onChange={this.changeBatchSkuType.bind(this)}>
           {scaleTypes.map(el => <Option key={el.id} value={el.id}>{el.type}</Option>)}
         </Select>
         <div><Input placeholder="请输入颜色" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.color = c; }} /></div>
@@ -919,13 +919,15 @@ class SkuTable extends Component {
         {scaleOptions.length > 0 && <div style={{ height: 10 }} />}
         <CheckboxGroup options={scaleOptions} value={batchSelected} onChange={this.handleBatchSelect.bind(this)} />
         <div style={{ height: 20 }} />
-        <Button type="primary" size="small" onClick={this.handleBatchSkuAddVisibleFalse.bind(this, false)}>添加</Button>
-        <Button style={{ marginLeft: 10 }} size="small" onClick={this.handleCloseBatch.bind(this)}>关闭</Button>
+        <div style={{ position: 'absolute', right: 50, top: 40 }}>
+          <Button type="primary" size="large" onClick={this.handleBatchSkuAddVisibleFalse.bind(this, false)}>添加</Button>
+          <Button style={{ marginLeft: 10 }} size="large" onClick={this.handleCloseBatch.bind(this)}>关闭</Button>
+        </div>
       </div>
     );
     const BatchSkuAddTure = (
       <div style={{ width: 800 }}>
-        <Select placeholder="请选择类型" value={batchSkuSort || undefined} style={{ width: 200, marginTop: 10 }} onChange={this.changeBatchSkuType.bind(this)}>
+        <Select placeholder="请选择类型" defaultValue={batchSkuSort || undefined} showClear style={{ width: 200, marginTop: 10 }} onChange={this.changeBatchSkuType.bind(this)}>
           {scaleTypes.map(el => <Option key={el.id} value={el.id}>{el.type}</Option>)}
         </Select>
         <div><Input placeholder="请输入颜色" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.color = c; }} /></div>
@@ -944,8 +946,10 @@ class SkuTable extends Component {
         {scaleOptions.length > 0 && <div style={{ height: 10 }} />}
         <CheckboxGroup options={scaleOptions} value={batchSelected} onChange={this.handleBatchSelect.bind(this)} />
         <div style={{ height: 20 }} />
-        <Button type="primary" size="small" onClick={this.handleBatchSkuAddVisible.bind(this, false)}>添加</Button>
-        <Button style={{ marginLeft: 10 }} size="small" onClick={this.handleCloseBatch.bind(this)}>关闭</Button>
+        <div style={{ position: 'absolute', right: 50, top: 40 }}>
+          <Button type="primary" size="large" onClick={this.handleBatchSkuAddVisible.bind(this, false)}>添加</Button>
+          <Button style={{ marginLeft: 10 }} size="large" onClick={this.handleCloseBatch.bind(this)}>关闭</Button>
+        </div>
       </div>
     );
     const mouseOverContent = (
@@ -970,7 +974,7 @@ class SkuTable extends Component {
             >
               <Button
                 type="ghost"
-                onMouseOver={this.handleMouseOverBatchSku.bind(this, 2000)}
+                onMouseOver={this.handleMouseOverBatchSku.bind(this, 200)}
                 onClick={this.handleBatchSkuAddVisible.bind(this, true)}
               >新增批量SKU</Button>
             </Popover>
@@ -978,6 +982,7 @@ class SkuTable extends Component {
               visible={mouseOverVisible}
               title="选择类型"
               trigger="hover"
+              placement="rightTop"
               content={mouseOverContent}
               style={{ width: 200 }}
             />}

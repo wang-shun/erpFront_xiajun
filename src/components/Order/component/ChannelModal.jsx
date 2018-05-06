@@ -1,34 +1,46 @@
 import React, { Component } from 'react';
-import { Form, Input, Modal, Row, Col, Select, DatePicker } from 'antd';
-import moment from 'moment';
+import { Form, Input, Modal, Row, Col, Select } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 class ChannelModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      channelType: '2', // 类型，平台1，分销2
+      channelLevelCount: 1, // 折扣率级别
+    };
+  }
   handleSubmit() {
     const p = this;
-    const { form, dispatch, data, returnType } = this.props;
+    const { form, dispatch, data } = this.props;
     form.validateFields((err, values) => {
       if (err) return;
-      if (values.returnPayTime) {
-        values.returnPayTime = values.returnPayTime.format('YYYY-MM-DD');
+      if (values.level1) {
+        values.discount = values.level1;
+        delete values.level1;
       }
-      if (values.receiveTime) {
-        values.receiveTime = values.receiveTime.format('YYYY-MM-DD');
+      if (values.level2) {
+        values.discount = `${values.discount}|${values.level2}`;
+        delete values.level2;
       }
-      if (returnType === '新增') {
-        const { orderNo, outerOrderId, erpNo } = data;
-        const erpOrderId = data.id;
+      if (values.level3) {
+        values.discount = `${values.discount}|${values.level2}|${values.level3}`;
+        delete values.level2;
+        delete values.level3;
+      }
+      console.log(values);
+      if (data.id) {
+        values.id = data.id;
         dispatch({
-          type: 'order/addReturnOrder',
-          payload: { ...values, orderNo, outerOrderId, erpNo, erpOrderId },
+          type: 'order/updateChannel',
+          payload: { ...values },
           cb() { p.handleCancel(); },
         });
       } else {
-        values.id = data.id;
         dispatch({
-          type: 'order/updateReturnOrder',
+          type: 'order/addChannel',
           payload: { ...values },
           cb() { p.handleCancel(); },
         });
@@ -36,32 +48,37 @@ class ChannelModal extends Component {
     });
   }
   handleCancel() {
-    const { form, close } = this.props;
-    form.resetFields();
+    const { close } = this.props;
     close();
   }
-  handleChangeType() {}
-  handleChangeLevel() {}
+  handleChangeType(val) {
+    this.setState({ channelType: val });
+  }
+  handleChangeLevel(val) {
+    console.log(val);
+    this.setState({ channelLevelCount: parseInt(val, 10) });
+  }
   render() {
     const p = this;
-    const { visible, form, data = {}, returnType } = this.props;
+    const { channelType, channelLevelCount } = this.state;
+    const { form, visible, title, data = {} } = this.props;
     const { getFieldDecorator } = form;
     const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 16 },
+      labelCol: { span: 9 },
+      wrapperCol: { span: 15 },
     };
     return (
       <div>
         <Modal
           visible={visible}
-          title={returnType}
+          title={title}
           onOk={p.handleSubmit.bind(p)}
           onCancel={p.handleCancel.bind(p)}
           width={900}
         >
           <Form>
             <Row>
-              <Col span={8}>
+              <Col span={7}>
                 <FormItem
                   label="渠道名称"
                   {...formItemLayout}
@@ -76,42 +93,42 @@ class ChannelModal extends Component {
               </Col>
             </Row>
             <Row>
-              <Col span={8}>
+              <Col span={7}>
                 <FormItem
                   label="类型"
                   {...formItemLayout}
                 >
                   {getFieldDecorator('type', {
-                    initialValue: typeof data.type === 'number' ? data.type.toString() : undefined,
+                    initialValue: typeof data.type === 'number' ? data.type.toString() : '2',
                     rules: [{ required: true, message: '请选择' }],
                   })(
                     <Select placeholder="请选择类型" allowClear onChange={this.handleChangeType.bind(this)}>
-                      <Option key="1">平台</Option>
                       <Option key="2">分销</Option>
+                      <Option key="1">平台</Option>
                     </Select>,
                   )}
                 </FormItem>
               </Col>
-              <Col span={8}>
+              {channelType === '2' && <Col span={7}>
                 <FormItem
                   label="分销层级"
                   {...formItemLayout}
                 >
-                  {getFieldDecorator('status', {
-                    initialValue: typeof data.status === 'number' ? data.status.toString() : undefined,
+                  {getFieldDecorator('saleLevel', {
+                    initialValue: typeof data.saleLevel === 'number' ? data.saleLevel.toString() : '1',
                     rules: [{ required: true, message: '请选择' }],
                   })(
-                    <Select placeholder="请选择" allowClear onClick={this.handleChangeLevel.bind(this)}>
-                      <Option key="0">一级分销</Option>
-                      <Option key="1">二级分销</Option>
-                      <Option key="2">三级分销</Option>
+                    <Select placeholder="请选择" allowClear onChange={this.handleChangeLevel.bind(this)}>
+                      <Option key="1">一级分销</Option>
+                      <Option key="2">二级分销</Option>
+                      <Option key="3">三级分销</Option>
                     </Select>,
                   )}
                 </FormItem>
-              </Col>
+              </Col>}
             </Row>
-            <Row>
-              <Col span={8}>
+            {channelType === '1' && <Row>
+              <Col span={7}>
                 <FormItem
                   label="折扣率"
                   {...formItemLayout}
@@ -120,13 +137,44 @@ class ChannelModal extends Component {
                     initialValue: data.discount,
                     rules: [{ required: true, message: '请输入' }],
                   })(
-                    <Input placeholder="请输入折扣率" />,
+                    <Input placeholder="请输入折扣率" suffix="折" />,
                   )}
                 </FormItem>
               </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
+            </Row>}
+            {channelType === '2' && <Row>
+              <Col span={7}>
+                <FormItem
+                  label="折扣率"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('level1', {
+                    initialValue: data.level1,
+                    rules: [{ required: true, message: '请输入' }],
+                  })(
+                    <Input placeholder="请输入折扣率" addonBefore="一级" suffix="折" />,
+                  )}
+                </FormItem>
+              </Col>
+              {channelLevelCount > 1 && <Col span={6} style={{ margin: '0 20px' }}>
+                <FormItem>
+                  {getFieldDecorator('level2', {
+                    initialValue: data.level2,
+                  })(
+                    <Input placeholder="请输入折扣率" addonBefore="二级" suffix="折" />)}
+                </FormItem>
+              </Col>}
+              {channelLevelCount > 2 && <Col span={6}>
+                <FormItem>
+                  {getFieldDecorator('level3', {
+                    initialValue: data.level3,
+                  })(
+                    <Input placeholder="请输入折扣率" addonBefore="三级" suffix="折" />)}
+                </FormItem>
+              </Col>}
+            </Row>}
+            <Row >
+              <Col span={7}>
                 <FormItem
                   label="对接人"
                   {...formItemLayout}
@@ -137,126 +185,49 @@ class ChannelModal extends Component {
                     <Input placeholder="请输入" />)}
                 </FormItem>
               </Col>
-              <Col span={8}>
+              <Col span={6} style={{ margin: '0 20px' }}>
                 <FormItem>
-                  {getFieldDecorator('contactName', {
-                    initialValue: data.contactName,
+                  {getFieldDecorator('contactMobile', {
+                    initialValue: data.contactMobile,
                   })(
                     <Input placeholder="请输入电话" />)}
                 </FormItem>
               </Col>
-              <Col span={8}>
+              <Col span={6}>
                 <FormItem>
-                  {getFieldDecorator('contactName', {
-                    initialValue: data.contactName,
+                  {getFieldDecorator('contactEmail', {
+                    initialValue: data.contactEmail,
                   })(
                     <Input placeholder="请输入邮箱地址" />)}
                 </FormItem>
               </Col>
-              <Col span={12}>
+            </Row>
+            <Row>
+              <Col span={21}>
                 <FormItem
-                  label="是否国内退货"
+                  label="链接地址"
                   {...formItemLayout}
+                  labelCol={{ span: 3 }}
                 >
-                  {getFieldDecorator('isGn', {
-                    initialValue: typeof (data.isGn) === 'number' ? data.isGn.toString() : '1',
-                    rules: [{ required: true, message: '请选择' }],
+                  {getFieldDecorator('contactUrl', {
+                    initialValue: data.contactUrl,
                   })(
-                    <Select placeholder="请选择" allowClear>
-                      <Option key="1">是</Option>
-                      <Option key="0">否</Option>
-                    </Select>,
+                    <Input placeholder="请输入链接地址" />,
                   )}
                 </FormItem>
               </Col>
             </Row>
             <Row>
-              <Col span={12}>
-                <FormItem
-                  label="收货时间"
-                  {...formItemLayout}
-                >
-                  {getFieldDecorator('receiveTime', {
-                    initialValue: data.receiveTime && moment(data.receiveTime, 'YYYY-MM-DD'),
-                  })(
-                    <DatePicker placeholder="请输入收货时间" style={{ width: '100%' }} />)}
-                </FormItem>
-              </Col>
-              <Col span={12}>
-                <FormItem
-                  label="是否入库"
-                  {...formItemLayout}
-                >
-                  {getFieldDecorator('isCheckin', {
-                    initialValue: typeof data.isCheckin === 'number' ? data.isCheckin.toString() : '1',
-                    rules: [{ required: true, message: '请选择' }],
-                  })(
-                    <Select placeholder="请选择" allowClear>
-                      <Option key="1">是</Option>
-                      <Option key="0">否</Option>
-                    </Select>,
-                  )}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <FormItem
-                  label="退款时间"
-                  {...formItemLayout}
-                >
-                  {getFieldDecorator('returnPayTime', {
-                    initialValue: data.returnPayTime && moment(data.returnPayTime, 'YYYY-MM-DD'),
-                  })(
-                    <DatePicker placeholder="请输入退款时间" style={{ width: '100%' }} />,
-                  )}
-                </FormItem>
-              </Col>
-              <Col span={12}>
-                <FormItem
-                  label="退单原因"
-                  {...formItemLayout}
-                >
-                  {getFieldDecorator('returnReason', {
-                    initialValue: data.returnReason,
-                    rules: [{ required: true, message: '请选择' }],
-                  })(
-                    <Select placeholder="请选择退单原因" allowClear>
-                      <Option key="发错货">发错货</Option>
-                      <Option key="多发货">多发货</Option>
-                      <Option key="采购不到">采购不到</Option>
-                      <Option key="质量问题">质量问题</Option>
-                      <Option key="尺码问题">尺码问题</Option>
-                      <Option key="物流原因">物流原因</Option>
-                      <Option key="客户错误下单">客户错误下单</Option>
-                      <Option key="其他">其他</Option>
-                    </Select>,
-                  )}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <FormItem
-                  label="退单原因详情"
-                  {...formItemLayout}
-                >
-                  {getFieldDecorator('returnReasonDetail', {
-                    initialValue: data.returnReasonDetail,
-                  })(
-                    <Input type="textarea" placeholder="请输入退单原因详情" />,
-                  )}
-                </FormItem>
-              </Col>
-              <Col span={12}>
+              <Col span={21}>
                 <FormItem
                   label="备注"
                   {...formItemLayout}
+                  labelCol={{ span: 3 }}
                 >
                   {getFieldDecorator('remark', {
                     initialValue: data.remark,
                   })(
-                    <Input type="textarea" placeholder="请输入备注详情" />,
+                    <Input placeholder="请输入备注" />,
                   )}
                 </FormItem>
               </Col>

@@ -6,7 +6,7 @@ import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Icon, Tooltip
 // const Option = Select.Option;
 // const { RangePicker } = DatePicker;
 
-// import ChannelModal from './component/ChannelModal';
+import ChannelModal from './component/ChannelModal';
 
 @window.regStateCache
 class SaleChannel extends Component {
@@ -15,67 +15,63 @@ class SaleChannel extends Component {
     super();
     this.state = {
       visible: false,
+      title: '',
     };
   }
 
-  handleSubmit(e, page) {
-    const p = this;
-    if (e) e.preventDefault();
-    // 清除多选
-    this.setState({ checkId: [] }, () => {
-      this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
-        if (err) return;
-        if (fieldsValue.orderTime && fieldsValue.orderTime[0] && fieldsValue.orderTime[1]) {
-          fieldsValue.startGmtCreate = new Date(fieldsValue.orderTime[0]).format('yyyy-MM-dd');
-          fieldsValue.endGmtCreate = new Date(fieldsValue.orderTime[1]).format('yyyy-MM-dd');
-        }
-        delete fieldsValue.orderTime;
-        this.props.dispatch({
-          type: 'order/queryReturnOrderList',
-          payload: {
-            ...fieldsValue,
-            pageIndex: typeof page === 'number' ? page : 1,
-          },
-          cb() {
-            p.closeModal();
-          },
-        });
-      });
-    });
-  }
+  // handleSubmit(e, page) {
+  //   const p = this;
+  //   if (e) e.preventDefault();
+  //   // 清除多选
+  //   this.setState({ checkId: [] }, () => {
+  //     this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
+  //       if (err) return;
+  //       if (fieldsValue.orderTime && fieldsValue.orderTime[0] && fieldsValue.orderTime[1]) {
+  //         fieldsValue.startGmtCreate = new Date(fieldsValue.orderTime[0]).format('yyyy-MM-dd');
+  //         fieldsValue.endGmtCreate = new Date(fieldsValue.orderTime[1]).format('yyyy-MM-dd');
+  //       }
+  //       delete fieldsValue.orderTime;
+  //       this.props.dispatch({
+  //         type: 'order/queryReturnOrderList',
+  //         payload: {
+  //           ...fieldsValue,
+  //           pageIndex: typeof page === 'number' ? page : 1,
+  //         },
+  //         cb() {
+  //           p.closeModal();
+  //         },
+  //       });
+  //     });
+  //   });
+  // }
 
   updateModal(id) {
     const p = this;
     p.setState({
       visible: true,
+      title: '修改',
     }, () => {
-      p.props.dispatch({ type: 'order/queryReturnOrderById', payload: { id } });
+      p.props.dispatch({ type: 'order/queryChannel', payload: { id } });
     });
   }
 
   closeModal() {
-    this.setState({ visible: false });
-  }
-
-  exportReturnOrder() {
-    const { form } = this.props;
-    const p = this;
-    form.validateFields((err, values) => {
-      let startGmtCreate;
-      let endGmtCreate;
-      if (values.orderTime && values.orderTime[0] && values.orderTime[1]) {
-        startGmtCreate = new Date(values.orderTime[0]).format('yyyy-MM-dd');
-        endGmtCreate = new Date(values.orderTime[1]).format('yyyy-MM-dd');
-        delete values.orderTime;
-      }
-      p.props.dispatch({
-        type: 'order/exportReturnOrder',
+    this.setState({ visible: false }, () => {
+      this.props.dispatch({
+        type: 'order/updateState',
         payload: {
-          ...values,
-          startGmtCreate,
-          endGmtCreate,
+          channelValues: {},
         },
       });
+    });
+  }
+
+  handleDeleteChannel(id) {
+    this.props.dispatch({
+      type: 'order/deleteChannel',
+      payload: {
+        id,
+      },
     });
   }
 
@@ -84,7 +80,7 @@ class SaleChannel extends Component {
     const { form, channels, channelValues = {} } = p.props;
     console.log(channels);
     // const { getFieldDecorator, resetFields } = form;
-    const { visible } = p.state;
+    const { visible, title } = p.state;
     // const formItemLayout = {
     //   labelCol: { span: 10 },
     //   wrapperCol: { span: 14 },
@@ -136,7 +132,7 @@ class SaleChannel extends Component {
               <span> | </span>
               <a onClick={p.updateModal.bind(p, record.id)}>查看历史结算</a>
               <span> | </span>
-              <a onClick={p.updateModal.bind(p, record.id)}>删除</a>
+              <a onClick={p.handleDeleteChannel.bind(p, record.id)}>删除</a>
             </div>);
         },
       },
@@ -275,7 +271,7 @@ class SaleChannel extends Component {
         </Form> */}
         <Row className="operBtn" style={{ marginTop: 0, borderTop: 'none' }}>
           <Col>
-            <Button type="primary" size="large" onClick={() => this.setState({ visible: true })}>新建渠道</Button>
+            <Button type="primary" size="large" onClick={() => this.setState({ visible: true, title: '新增' })}>新建渠道</Button>
           </Col>
         </Row>
         <Row>
@@ -290,11 +286,13 @@ class SaleChannel extends Component {
             />
           </Col>
         </Row>
-        {/* <ChannelModal
+        {visible && <ChannelModal
           visible={visible}
+          title={title}
           close={this.closeModal.bind(this)}
           data={channelValues}
-        /> */}
+          dispatch={this.props.dispatch}
+        />}
       </div>
     );
   }

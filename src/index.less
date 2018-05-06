@@ -87,7 +87,7 @@ html, body, :global(#root) {
 
 :global(.refresh-btn) {
   position: absolute;
-  top: 58px;
+  top: 20px;
   right: 30px;
 }
 
@@ -160,4 +160,9 @@ html, body, :global(#root) {
 :global(.ant-input-group-addon:first-child) {
   border-bottom-right-radius: 0 !important;
   border-top-right-radius: 0 !important;
+}
+
+:global(.ant-input-group > .ant-input-affix-wrapper:not(:first-child) .ant-input) {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
 }

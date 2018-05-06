@@ -176,7 +176,7 @@ class Purchase extends Component {
               </FormItem>
             </Col>
           </Row>
-          <Row style={{ marginLeft: 13 }}>
+          <Row style={{ marginLeft: 13, marginBottom: 20 }}>
             <Col className="listBtnGroup">
               <Button htmlType="submit" size="large" type="primary">查询</Button>
               <Button size="large" type="ghost" onClick={() => { resetFields(); }}>清空</Button>

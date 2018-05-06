@@ -418,7 +418,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('idCard', {
-                      initialValue: toString(productData.idCard, 'SELECT'),
+                      initialValue: toString(productData.idCard, 'SELECT') || '1',
                       rules: [{ required: true, message: '请选择是否身份证' }],
                     })(
                       <Select placeholder="请选择是否身份证" allowClear>
@@ -468,7 +468,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('startDate', {
-                      initialValue: (productData.startDateStr && moment(productData.startDateStr, 'YYYY-MM-DD HH:mm:ss')) || undefined,
+                      initialValue: (productData.startDateStr && moment(productData.startDateStr, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
                       rules: [{ required: true, message: '请选择' }],
                     })(
                       <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />,
@@ -620,17 +620,16 @@ class ProductsModal extends Component {
                           return <Option key={el.id} value={el.id.toString()} >{el.nickName}</Option>;
                         })}
                       </Select>,
-                )}
+                    )}
                   </FormItem>
                 </Col>
               </Row>
               <Row>
-                <Col>
+                <Col span={21}>
                   <FormItem
                     label="添加图片"
                     labelCol={{ span: 3 }}
-                    wrapperCol={{ span: 18 }}
-                    style={{ marginRight: '-20px' }}
+                    wrapperCol={{ span: 21 }}
                   >
                     {getFieldDecorator('mainPic', {
                       initialValue: picList,

@@ -7,6 +7,7 @@ import CheckIn from './components/check-in';
 import CheckOut from './components/check-out';
 import ChangePosition from './components/change-position';
 import CheckOutStock from './components/check-out-stock';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -24,8 +25,8 @@ class Inventory extends Component {
     const { form, dispatch } = this.props;
     form.validateFieldsAndScroll((err, values) => {
       if (err) return;
-      const { warehouseId, skuCode, upc, itemName, positionNo,buySite } = values;
-      const payload = { warehouseId, skuCode, upc, itemName, positionNo, buySite,pageIndex: typeof page === 'number' ? page : 1 };
+      const { warehouseId, skuCode, upc, itemName, positionNo, buySite } = values;
+      const payload = { warehouseId, skuCode, upc, itemName, positionNo, buySite, pageIndex: typeof page === 'number' ? page : 1 };
       if (this.state.sortField) payload.orderBy = this.state.sortField;
       if (this.state.sortOrder) payload.sort = this.state.sortOrder.match('asc') ? 'asc' : 'desc';
 
@@ -39,8 +40,8 @@ class Inventory extends Component {
     const { form, dispatch } = this.props;
     form.validateFields((err, values) => {
       if (err) return;
-      const { warehouseId, skuCode, upc, itemName, positionNo,buySite } = values;
-      const payload = { warehouseId, skuCode, upc, itemName, positionNo,buySite};
+      const { warehouseId, skuCode, upc, itemName, positionNo, buySite } = values;
+      const payload = { warehouseId, skuCode, upc, itemName, positionNo, buySite };
 
       dispatch({
         type: 'inventory/exportInv',
@@ -82,7 +83,7 @@ class Inventory extends Component {
   }
   render() {
     const p = this;
-    const { list = [], total, form, dispatch, wareList = [], currentPage,loginRoler } = this.props;
+    const { list = [], total, form, dispatch, wareList = [], currentPage } = this.props;
     const { getFieldDecorator, resetFields } = form;
     const formItemLayout = {
       labelCol: { span: 10 },
@@ -110,7 +111,7 @@ class Inventory extends Component {
       { title: 'UPC', key: 'upc', dataIndex: 'upc', width: 100 },
       { title: '颜色', key: 'color', dataIndex: 'color', width: 80 },
       { title: '尺寸', key: 'scale', dataIndex: 'scale', width: 80 },
-      { title: '销售价', dataIndex: 'salePrice', key: 'salePrice', width: 80},
+      { title: '销售价', dataIndex: 'salePrice', key: 'salePrice', width: 80 },
       { title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80, render(text) { return text || '-'; } },
       { title: '可售库存', key: 'totalAvailableInv', dataIndex: 'totalAvailableInv', width: 80 },
       { title: '现货库存', key: 'inventory', dataIndex: 'inventory', sorter: true, width: 80 },
@@ -122,15 +123,19 @@ class Inventory extends Component {
       { title: '操作',
         key: 'oper',
         width: 130,
+        fixed: 'right',
         render(text, record) {
-        if(p.props.loginRoler) return('-')
+          if (p.props.loginRoler) return ('-');
           return (
             <div>
               <TransTo dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
+              <span> | </span>
               <CheckIn dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
+              <span> | </span>
               <CheckOut dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
+              <span> | </span>
               <ChangePosition dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
-              <br/>
+              <span> | </span>
               <CheckOutStock dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
             </div>
           );
@@ -240,8 +245,8 @@ class Inventory extends Component {
 }
 
 function mapStateToProps(state) {
-  const { list, total, wareList, currentPage,loginRoler} = state.inventory;
-  return { list, total, wareList, currentPage,loginRoler };
+  const { list, total, wareList, currentPage, loginRoler } = state.inventory;
+  return { list, total, wareList, currentPage, loginRoler };
 }
 
 export default connect(mapStateToProps)(Form.create()(Inventory));

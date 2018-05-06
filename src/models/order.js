@@ -57,7 +57,7 @@ const queryReturnOrderList = ({ payload }) => fetch.post('/haierp1/erpReturnOrde
 const queryChannelList = () => fetch.post('/haierp1/channel/querylist').catch(e => e);
 const queryChannel = ({ payload }) => fetch.post('/haierp1/channel/query', { data: payload }).catch(e => e);
 const deleteChannel = ({ payload }) => fetch.post('/haierp1/channel/delete', { data: payload }).catch(e => e);
-const addChannel = ({ payload }) => fetch.post('/haierp1/channel/delete', { data: payload }).catch(e => e);
+const addChannel = ({ payload }) => fetch.post('/haierp1/channel/add', { data: payload }).catch(e => e);
 const updateChannel = ({ payload }) => fetch.post('/haierp1/channel/update', { data: payload }).catch(e => e);
 
 export default {
@@ -486,6 +486,7 @@ export default {
       const data = yield call(deleteChannel, { payload });
       if (data.success) {
         message.success('删除成功');
+        cb();
         yield put({
           type: 'queryChannelList',
         });
@@ -495,6 +496,7 @@ export default {
       const data = yield call(addChannel, { payload });
       if (data.success) {
         message.success('新建成功');
+        cb();
         yield put({
           type: 'queryChannelList',
         });
@@ -504,6 +506,7 @@ export default {
       const data = yield call(updateChannel, { payload });
       if (data.success) {
         message.success('修改成功');
+        cb();
         yield put({
           type: 'queryChannelList',
         });

@@ -1,4 +1,4 @@
-import { message } from 'antd';
+// import { message } from 'antd';
 
 export default () => {
   /* eslint-disable */
@@ -94,42 +94,43 @@ export default () => {
   window.existCacheState = existState;
   window.clearCacheState = clearState;
 
-  let historyTabs = [];
+  // let historyTabs = [];
 
-  window.addHistoryTab = function add(payload) {
-    if (payload) {
-      let isExists = false;
-      historyTabs.forEach((tab) => {
-        if (tab.route === payload.route) isExists = true;
-      });
-      if (!isExists) {
-        if (historyTabs.length >= 10) {
-          message.error('最多打开10个标签页，请关闭标签页后重试');
-          return;
-        }
-        historyTabs.push({ route: payload.route, title: payload.name, key: payload.route });
-        window.renderHistoryTab(historyTabs);
-      }
-    }
-  };
+//   window.addHistoryTab = function add(payload) {
+//     if (payload) {
+//       let isExists = false;
+//       historyTabs.forEach((tab) => {
+//         if (tab.route === payload.route) isExists = true;
+//       });
+//       if (!isExists) {
+//         if (historyTabs.length >= 10) {
+//           message.error('最多打开10个标签页，请关闭标签页后重试');
+//           return;
+//         }
+//         historyTabs.push({ route: payload.route, title: payload.name, key: payload.route });
+//         window.renderHistoryTab(historyTabs);
+//       }
+//     }
+//   };
 
-  window.renderHistoryTab = function render(tabs, route) {
-    window._renderHistoryTab([...tabs], route);
-  };
+//   window.renderHistoryTab = function render(tabs, route) {
+//     window._renderHistoryTab([...tabs], route);
+//   };
 
-  window.removeHistoryTab = function remove(key, currentPath) {
-    let i = -1;
-    const newTabs = historyTabs.filter((tab, index) => {
-      if (tab.route === key) {
-        i = index;
-        return false;
-      }
-      return true;
-    });
-    if (i === 0) i = 1;
-    else i -= 1;
-    const route = historyTabs[i].route;
-    historyTabs = newTabs;
-    window.renderHistoryTab(newTabs, key === currentPath ? route : undefined);
-  };
+//   window.removeHistoryTab = function remove(key, currentPath) {
+//     let i = -1;
+//     const newTabs = historyTabs.filter((tab, index) => {
+//       if (tab.route === key) {
+//         i = index;
+//         return false;
+//       }
+//       return true;
+//     });
+//     if (i === 0) i = 1;
+//     else i -= 1;
+//     const route = historyTabs[i].route;
+//     historyTabs = newTabs;
+//     window.renderHistoryTab(newTabs, key === currentPath ? route : undefined);
+//   };
 };
+
