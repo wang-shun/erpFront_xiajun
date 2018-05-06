@@ -104,8 +104,9 @@ export default () => {
       });
       if (!isExists) {
         if (historyTabs.length >= 10) {
-          message.error('最多打开10个标签页，请关闭标签页后重试');
-          return;
+          historyTabs.shift();
+          // message.error('最多打开10个标签页，请关闭标签页后重试');
+          // return;
         }
         historyTabs.push({ route: payload.route, title: payload.name, key: payload.route });
         window.renderHistoryTab(historyTabs);
