@@ -1,23 +1,23 @@
 import { message } from 'antd';
 import fetch from '../utils/request';
 
-const queryAgencyList = ({ payload }) => fetch.post('/haierp1/seller/querySellerList', { data: payload }).catch(e => e);
-const queryAgency = ({ payload }) => fetch.post('/haierp1/seller/query', { data: payload }).catch(e => e);
-const deleteAgency = ({ payload }) => fetch.post('/haierp1/seller/delete', { data: payload }).catch(e => e);
-const updateAgency = ({ payload }) => fetch.post('/haierp1/seller/update', { data: payload }).catch(e => e);
-const addAgency = ({ payload }) => fetch.post('/haierp1/seller/add', { data: payload }).catch(e => e);
-const queryAgencyTypeList = ({ payload }) => fetch.post('/haierp1/sellerType/querySellerTypeList', { data: payload }).catch(e => e);
-const queryAgencyType = ({ payload }) => fetch.post('/haierp1/sellerType/query', { data: payload }).catch(e => e);
-const deleteAgencyType = ({ payload }) => fetch.post('/haierp1/sellerType/delete', { data: payload }).catch(e => e);
-const updateAgencyType = ({ payload }) => fetch.post('/haierp1/sellerType/update', { data: payload }).catch(e => e);
-const addAgencyType = ({ payload }) => fetch.post('/haierp1/sellerType/add', { data: payload }).catch(e => e);
-const queryBuyerList = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/queryWxPurchaseUser', { data: payload }).catch(e => e);
-const queryBuyerType = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/query', { data: payload }).catch(e => e);
-const updateBuyerType = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/update', { data: payload }).catch(e => e);
-const addBuyerType = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/add', { data: payload }).catch(e => e);
-const setCommission = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/setCommission', { data: payload }).catch(e => e);
-const deleteBuyerType = ({ payload }) => fetch.post('/haierp1/wx/purchaseUser/delete', { data: payload }).catch(e => e);
-const queryWareList = ({ payload }) => fetch.get('/haierp1/warehouse/queryWarehouses', { data: payload }).catch(e => e);
+const queryAgencyList = ({ payload }) => fetch.post('/seller/querySellerList', { data: payload }).catch(e => e);
+const queryAgency = ({ payload }) => fetch.post('/seller/query', { data: payload }).catch(e => e);
+const deleteAgency = ({ payload }) => fetch.post('/seller/delete', { data: payload }).catch(e => e);
+const updateAgency = ({ payload }) => fetch.post('/seller/update', { data: payload }).catch(e => e);
+const addAgency = ({ payload }) => fetch.post('/seller/add', { data: payload }).catch(e => e);
+const queryAgencyTypeList = ({ payload }) => fetch.post('/sellerType/querySellerTypeList', { data: payload }).catch(e => e);
+const queryAgencyType = ({ payload }) => fetch.post('/sellerType/query', { data: payload }).catch(e => e);
+const deleteAgencyType = ({ payload }) => fetch.post('/sellerType/delete', { data: payload }).catch(e => e);
+const updateAgencyType = ({ payload }) => fetch.post('/sellerType/update', { data: payload }).catch(e => e);
+const addAgencyType = ({ payload }) => fetch.post('/sellerType/add', { data: payload }).catch(e => e);
+const queryBuyerList = ({ payload }) => fetch.post('/wx/purchaseUser/queryWxPurchaseUser', { data: payload }).catch(e => e);
+const queryBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/query', { data: payload }).catch(e => e);
+const updateBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/update', { data: payload }).catch(e => e);
+const addBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/add', { data: payload }).catch(e => e);
+const setCommission = ({ payload }) => fetch.post('/wx/purchaseUser/setCommission', { data: payload }).catch(e => e);
+const deleteBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/delete', { data: payload }).catch(e => e);
+const queryWareList = ({ payload }) => fetch.get('/warehouse/queryWarehouses', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'agency',

@@ -152,7 +152,7 @@ class SkuModal extends Component {
       wrapperCol: { span: 13 },
     };
     const uploadProps = {
-      action: '/haierp1/uploadFile/picUpload',
+      action: '/uploadFile/picUpload',
       listType: 'picture-card',
       multiple: true,
       data(file) {

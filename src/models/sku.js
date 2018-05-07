@@ -1,16 +1,16 @@
 import { message } from 'antd';
 import fetch from '../utils/request';
 
-const addSku = ({ payload }) => fetch.post('/haierp1/itemSku/add', { data: payload }).catch(e => e);
-const updateSku = ({ payload }) => fetch.post('/haierp1/itemSku/update', { data: payload }).catch(e => e);
-const querySku = ({ payload }) => fetch.post('/haierp1/itemSku/query', { data: payload }).catch(e => e);
-const querySkuList = ({ payload }) => fetch.post('/haierp1/itemSku/queryItemSkuList', { data: payload }).catch(e => e);
-const querySkuList2 = ({ payload }) => fetch.post('/haierp1/purchase/queryItemSkuList', { data: payload }).catch(e => e);
-const deleteSku = ({ payload }) => fetch.post('/haierp1/itemSku/delete', { data: payload }).catch(e => e);
-const queryPackageScales = () => fetch.post('/haierp1/freight/getPackageScaleList').catch(e => e);
-const queryScaleTypes = () => fetch.post('/haierp1/itemSku/scaleTypeList').catch(e => e);
-const queryItemList = ({ payload }) => fetch.post('/haierp1/item/queryItemList', { data: payload }).catch(e => e);
-const lockVirtualInv = ({ payload }) => fetch.post('/haierp1/itemSku/lockedVirtualInv', { data: payload }).catch(e => e);
+const addSku = ({ payload }) => fetch.post('/itemSku/add', { data: payload }).catch(e => e);
+const updateSku = ({ payload }) => fetch.post('/itemSku/update', { data: payload }).catch(e => e);
+const querySku = ({ payload }) => fetch.post('/itemSku/query', { data: payload }).catch(e => e);
+const querySkuList = ({ payload }) => fetch.post('/itemSku/queryItemSkuList', { data: payload }).catch(e => e);
+const querySkuList2 = ({ payload }) => fetch.post('/purchase/queryItemSkuList', { data: payload }).catch(e => e);
+const deleteSku = ({ payload }) => fetch.post('/itemSku/delete', { data: payload }).catch(e => e);
+const queryPackageScales = () => fetch.post('/freight/getPackageScaleList').catch(e => e);
+const queryScaleTypes = () => fetch.post('/itemSku/scaleTypeList').catch(e => e);
+const queryItemList = ({ payload }) => fetch.post('/item/queryItemList', { data: payload }).catch(e => e);
+const lockVirtualInv = ({ payload }) => fetch.post('/itemSku/lockedVirtualInv', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'sku',

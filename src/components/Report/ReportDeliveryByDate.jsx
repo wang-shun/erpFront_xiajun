@@ -4,7 +4,7 @@ class ReportDeliveryByDate extends Component {
   render() {
     return (
       <div>
-        <iframe src={`http://${location.host}/haierp1/bi/ship/selectBiDeliveryReportByGmtCreate`} width="960" height="1280" scrolling="yes" />
+        <iframe src={`http://${location.host}/bi/ship/selectBiDeliveryReportByGmtCreate`} width="960" height="1280" scrolling="yes" />
       </div>
     );
   }

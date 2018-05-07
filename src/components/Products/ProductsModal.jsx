@@ -48,7 +48,7 @@ class ProductsModal extends Component {
         /* eslint-disable */
         setTimeout(() => {
           editor = new wangEditor('editor-area');
-          editor.config.uploadImgUrl = '/haierp1/uploadFile/picUpload';
+          editor.config.uploadImgUrl = '/uploadFile/picUpload';
           editor.config.uploadImgFileName = 'pic';
 
           // 自定义load事件
@@ -253,7 +253,7 @@ class ProductsModal extends Component {
       },
     };
     const uploadProps = {
-      action: '/haierp1/uploadFile/picUpload',
+      action: '/uploadFile/picUpload',
       listType: 'picture-card',
       multiple: true,
       data(file) {

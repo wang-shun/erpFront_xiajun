@@ -1,16 +1,16 @@
 import { message } from 'antd';
 import fetch from '../utils/request';
 
-const queryPackageScaleList = ({ payload }) => fetch.post('/haierp1/packageScale/queryPackageScaleList', { data: payload }).catch(e => e);
-const queryPackageScale = ({ payload }) => fetch.post('/haierp1/packageScale/query', { data: payload }).catch(e => e);
-const deletePackageScale = ({ payload }) => fetch.post('/haierp1/packageScale/delete', { data: payload }).catch(e => e);
-const updatePackageScale = ({ payload }) => fetch.post('/haierp1/packageScale/update', { data: payload }).catch(e => e);
-const addPackageScale = ({ payload }) => fetch.post('/haierp1/packageScale/add', { data: payload }).catch(e => e);
-const queryPackageLevelList = ({ payload }) => fetch.post('/haierp1/packageLevel/queryPackageLevelList', { data: payload }).catch(e => e);
-const queryPackageLevel = ({ payload }) => fetch.post('/haierp1/packageLevel/query', { data: payload }).catch(e => e);
-const deletePackageLevel = ({ payload }) => fetch.post('/haierp1/packageLevel/delete', { data: payload }).catch(e => e);
-const updatePackageLevel = ({ payload }) => fetch.post('/haierp1/packageLevel/update', { data: payload }).catch(e => e);
-const addPackageLevel = ({ payload }) => fetch.post('/haierp1/packageLevel/add', { data: payload }).catch(e => e);
+const queryPackageScaleList = ({ payload }) => fetch.post('/packageScale/queryPackageScaleList', { data: payload }).catch(e => e);
+const queryPackageScale = ({ payload }) => fetch.post('/packageScale/query', { data: payload }).catch(e => e);
+const deletePackageScale = ({ payload }) => fetch.post('/packageScale/delete', { data: payload }).catch(e => e);
+const updatePackageScale = ({ payload }) => fetch.post('/packageScale/update', { data: payload }).catch(e => e);
+const addPackageScale = ({ payload }) => fetch.post('/packageScale/add', { data: payload }).catch(e => e);
+const queryPackageLevelList = ({ payload }) => fetch.post('/packageLevel/queryPackageLevelList', { data: payload }).catch(e => e);
+const queryPackageLevel = ({ payload }) => fetch.post('/packageLevel/query', { data: payload }).catch(e => e);
+const deletePackageLevel = ({ payload }) => fetch.post('/packageLevel/delete', { data: payload }).catch(e => e);
+const updatePackageLevel = ({ payload }) => fetch.post('/packageLevel/update', { data: payload }).catch(e => e);
+const addPackageLevel = ({ payload }) => fetch.post('/packageLevel/add', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'pack',

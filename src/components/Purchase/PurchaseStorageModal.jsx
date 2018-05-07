@@ -229,7 +229,7 @@ class PurchaseModal extends Component {
     const input = dom.refs.input;
     const value = input.value;
     if (value) {
-      fetch.post('/haierp1/itemSku/queryBySkuCodeOrUpc', { data: { code: value } }).then((res) => {
+      fetch.post('/itemSku/queryBySkuCodeOrUpc', { data: { code: value } }).then((res) => {
         if (res.data && res.data.length > 0) {
           res.data[0].skuId = generateRandomSkuId(res.data[0].id);
           res.data[0].id = null;

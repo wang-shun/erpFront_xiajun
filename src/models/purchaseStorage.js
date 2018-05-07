@@ -2,17 +2,17 @@ import { message } from 'antd';
 import fetch from '../utils/request';
 
 // 采购入库相关接口
-const queryPurchaseStorageList = ({ payload }) => fetch.post('/haierp1/purchaseStorage/queryPurStorages', { data: payload }).catch(e => e);
-const queryBuyerTaskList = ({ payload }) => fetch.post('/haierp1/purchase/queryBuyerTaskList', { data: payload }).catch(e => e);
-const addStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/add', { data: payload }).catch(e => e);
-const updateStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/update', { data: payload }).catch(e => e);
-const confirmStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/confirm', { data: payload }).catch(e => e);
-const deleteStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/delete', { data: payload }).catch(e => e);
-const queryPurchaseStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/query', { data: payload }).catch(e => e);
-const multiConfirmStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/multiConfirm', { data: payload }).catch(e => e);
+const queryPurchaseStorageList = ({ payload }) => fetch.post('/purchaseStorage/queryPurStorages', { data: payload }).catch(e => e);
+const queryBuyerTaskList = ({ payload }) => fetch.post('/purchase/queryBuyerTaskList', { data: payload }).catch(e => e);
+const addStorage = ({ payload }) => fetch.post('/purchaseStorage/add', { data: payload }).catch(e => e);
+const updateStorage = ({ payload }) => fetch.post('/purchaseStorage/update', { data: payload }).catch(e => e);
+const confirmStorage = ({ payload }) => fetch.post('/purchaseStorage/confirm', { data: payload }).catch(e => e);
+const deleteStorage = ({ payload }) => fetch.post('/purchaseStorage/delete', { data: payload }).catch(e => e);
+const queryPurchaseStorage = ({ payload }) => fetch.post('/purchaseStorage/query', { data: payload }).catch(e => e);
+const multiConfirmStorage = ({ payload }) => fetch.post('/purchaseStorage/multiConfirm', { data: payload }).catch(e => e);
 
-const mergePurchaseStorage = ({ payload }) => fetch.post('/haierp1/purchaseStorage/mergePurchaseStorage', { data: payload }).catch(e => e); // 小程序合并入库
-const queryBuyers = ({ payload }) => fetch.post('/haierp1/purchase/queryBuyers', { data: payload }).catch(e => e);
+const mergePurchaseStorage = ({ payload }) => fetch.post('/purchaseStorage/mergePurchaseStorage', { data: payload }).catch(e => e); // 小程序合并入库
+const queryBuyers = ({ payload }) => fetch.post('/purchase/queryBuyers', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'purchaseStorage',
@@ -117,7 +117,7 @@ export default {
       }
     },
     exportDetail({ payload }) {
-      window.open(`http://${location.host}/haierp1/purchaseStorage/purchaseExport?id=${payload.id}`);
+      window.open(`http://${location.host}/purchaseStorage/purchaseExport?id=${payload.id}`);
     },
   },
   reducers: {

@@ -1,5 +1,5 @@
 /* eslint-disable object-property-newline */
-export const API_URL = 'http://localhost/haierp1/haiLogin';
+export const API_URL = 'http://localhost/haiLogin';
 
 // 后端权限码映射
 export const backendCfg = {

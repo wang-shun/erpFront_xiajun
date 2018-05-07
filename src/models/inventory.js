@@ -2,37 +2,37 @@ import { message } from 'antd';
 import qs from 'querystring';
 import fetch from '../utils/request';
 
-const queryInventoryList = ({ payload }) => fetch.post('/haierp1/inventory/area/queryList', { data: payload }).catch(e => e);
-const queryInventoryRecordList = ({ payload }) => fetch.post('/haierp1/inventory/record/queryList', { data: payload }).catch(e => e);
+const queryInventoryList = ({ payload }) => fetch.post('/inventory/area/queryList', { data: payload }).catch(e => e);
+const queryInventoryRecordList = ({ payload }) => fetch.post('/inventory/record/queryList', { data: payload }).catch(e => e);
 // 在途入仓
-const transTo = ({ payload }) => fetch.post('/haierp1/inventory/area/transTo', { data: payload }).catch(e => e);
+const transTo = ({ payload }) => fetch.post('/inventory/area/transTo', { data: payload }).catch(e => e);
 // 库存盘进
-const checkIn = ({ payload }) => fetch.post('/haierp1/inventory/inventoryCheckIn', { data: payload }).catch(e => e);
+const checkIn = ({ payload }) => fetch.post('/inventory/inventoryCheckIn', { data: payload }).catch(e => e);
 // 库存盘出
-const checkOut = ({ payload }) => fetch.post('/haierp1/inventory/inventoryCheckOut', { data: payload }).catch(e => e);
+const checkOut = ({ payload }) => fetch.post('/inventory/inventoryCheckOut', { data: payload }).catch(e => e);
 // 库存盘出到备货仓
-const checkOutToStock = ({ payload }) => fetch.post('/haierp1/inventory/inventoryCheckOuttoStock', { data: payload }).catch(e => e);
+const checkOutToStock = ({ payload }) => fetch.post('/inventory/inventoryCheckOuttoStock', { data: payload }).catch(e => e);
 // 仓库管理
-const queryWareList = ({ payload }) => fetch.get('/haierp1/warehouse/queryWarehouses', { data: payload }).catch(e => e);
-const addWare = ({ payload }) => fetch.get('/haierp1/warehouse/add', { data: payload }).catch(e => e);
-const updateWare = ({ payload }) => fetch.get('/haierp1/warehouse/update', { data: payload }).catch(e => e);
-const queryWare = ({ payload }) => fetch.get('/haierp1/warehouse/query', { data: payload }).catch(e => e);
+const queryWareList = ({ payload }) => fetch.get('/warehouse/queryWarehouses', { data: payload }).catch(e => e);
+const addWare = ({ payload }) => fetch.get('/warehouse/add', { data: payload }).catch(e => e);
+const updateWare = ({ payload }) => fetch.get('/warehouse/update', { data: payload }).catch(e => e);
+const queryWare = ({ payload }) => fetch.get('/warehouse/query', { data: payload }).catch(e => e);
 
 // 出入库记录
-const queryInoutList = ({ payload }) => fetch.post('/haierp1/inventory/queryInventoryInout', { data: payload }).catch(e => e);
+const queryInoutList = ({ payload }) => fetch.post('/inventory/queryInventoryInout', { data: payload }).catch(e => e);
 // 换货架号
-const changePositionNo = ({ payload }) => fetch.post('/haierp1/inventory/changePositionNo', { data: payload }).catch(e => e);
+const changePositionNo = ({ payload }) => fetch.post('/inventory/changePositionNo', { data: payload }).catch(e => e);
 // 出库管理
-const queryOutList = ({ payload }) => fetch.post('/haierp1/inventory/inventoryOutQueryList', { data: payload }).catch(e => e);
-const addOut = ({ payload }) => fetch.post('/haierp1/inventory/inventoryOutAdd', { data: payload }).catch(e => e);
-const updateOut = ({ payload }) => fetch.post('/haierp1/inventory/inventoryOutUpdate', { data: payload }).catch(e => e);
-const queryOut = ({ payload }) => fetch.post('/haierp1/inventory/inventoryOutQuery', { data: payload }).catch(e => e);
-const confirmOut = ({ payload }) => fetch.post('/haierp1/inventory/inventoryOutConfirm', { data: payload }).catch(e => e);
-const deleteOut = ({ payload }) => fetch.post('/haierp1/inventory/inventoryOutDelete', { data: payload }).catch(e => e);
+const queryOutList = ({ payload }) => fetch.post('/inventory/inventoryOutQueryList', { data: payload }).catch(e => e);
+const addOut = ({ payload }) => fetch.post('/inventory/inventoryOutAdd', { data: payload }).catch(e => e);
+const updateOut = ({ payload }) => fetch.post('/inventory/inventoryOutUpdate', { data: payload }).catch(e => e);
+const queryOut = ({ payload }) => fetch.post('/inventory/inventoryOutQuery', { data: payload }).catch(e => e);
+const confirmOut = ({ payload }) => fetch.post('/inventory/inventoryOutConfirm', { data: payload }).catch(e => e);
+const deleteOut = ({ payload }) => fetch.post('/inventory/inventoryOutDelete', { data: payload }).catch(e => e);
 // 备货仓管理
-const queryStockWarehouse = ({ payload }) => fetch.get('/haierp1/inventory/stockWarehouse', { data: payload }).catch(e => e);
+const queryStockWarehouse = ({ payload }) => fetch.get('/inventory/stockWarehouse', { data: payload }).catch(e => e);
 // 备货仓盘出到库存
-const checkStockIn = ({ payload }) => fetch.post('/haierp1/inventory/inventoryStockCheckIn', { data: payload }).catch(e => e);
+const checkStockIn = ({ payload }) => fetch.post('/inventory/inventoryStockCheckIn', { data: payload }).catch(e => e);
 export default {
   namespace: 'inventory',
   state: {
@@ -131,7 +131,7 @@ export default {
     },
     exportInv({ payload }) {
       const param = qs.stringify(payload);
-      window.open(`http://${location.host}/haierp1/inventory/inventoryAreaExport?${param}`);
+      window.open(`http://${location.host}/inventory/inventoryAreaExport?${param}`);
     },
     * transTo({ payload, cb }, { call }) {
       const data = yield call(transTo, { payload });

@@ -439,7 +439,7 @@ class ProductTable extends Component {
       }
 
       function createTaskOrder() {
-        fetch.get('/haierp1/purchase/createTaskDailyOrder').then((res) => {
+        fetch.get('/purchase/createTaskDailyOrder').then((res) => {
           if (res.success) message.success('计算成功');
         });
       }

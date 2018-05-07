@@ -190,7 +190,7 @@ class PurchaseModal extends Component {
       },
     };
     const uploadProps = {
-      action: '/haierp1/uploadFile/picUpload',
+      action: '/uploadFile/picUpload',
       listType: 'picture-card',
       multiple: true,
       data(file) {

@@ -1,34 +1,34 @@
 import { message } from 'antd';
 import fetch from '../utils/request';
 
-const queryItemList = ({ payload }) => fetch.post('/haierp1/item/queryItemList', { data: payload }).catch(e => e);
-const queryProduct = ({ payload }) => fetch.post('/haierp1/item/query', { data: payload }).catch(e => e);
-const updateProducts = ({ payload }) => fetch.post('/haierp1/item/update', { data: payload }).catch(e => e);
-const addProducts = ({ payload }) => fetch.post('/haierp1/item/add', { data: payload }).catch(e => e);
-const queryCatesTree = () => fetch.post('/haierp1/category/tree').catch(e => e);
-const queryAllCountries = () => fetch.post('/haierp1/country/queryAllCountries').catch(e => e);
-const addCountry = ({ payload }) => fetch.post('/haierp1/country/add', { data: payload }).catch(e => e);
+const queryItemList = ({ payload }) => fetch.post('/item/queryItemList', { data: payload }).catch(e => e);
+const queryProduct = ({ payload }) => fetch.post('/item/query', { data: payload }).catch(e => e);
+const updateProducts = ({ payload }) => fetch.post('/item/update', { data: payload }).catch(e => e);
+const addProducts = ({ payload }) => fetch.post('/item/add', { data: payload }).catch(e => e);
+const queryCatesTree = () => fetch.post('/category/tree').catch(e => e);
+const queryAllCountries = () => fetch.post('/country/queryAllCountries').catch(e => e);
+const addCountry = ({ payload }) => fetch.post('/country/add', { data: payload }).catch(e => e);
 // 批量同步
-const batchSynItemYouzan = ({ payload }) => fetch.post('/haierp1/youzanSyn/batchSynItemYouzan', { data: payload }).catch(e => e);
+const batchSynItemYouzan = ({ payload }) => fetch.post('/youzanSyn/batchSynItemYouzan', { data: payload }).catch(e => e);
 // 批量上架
-const batchListingYouzan = ({ payload }) => fetch.post('/haierp1/youzanSyn/batchListingYouzan', { data: payload }).catch(e => e);
+const batchListingYouzan = ({ payload }) => fetch.post('/youzanSyn/batchListingYouzan', { data: payload }).catch(e => e);
 // 批量下架
-const batchDelistingYouzan = ({ payload }) => fetch.post('/haierp1/youzanSyn/batchDelistingYouzan', { data: payload }).catch(e => e);
+const batchDelistingYouzan = ({ payload }) => fetch.post('/youzanSyn/batchDelistingYouzan', { data: payload }).catch(e => e);
 // 品牌
-const queryAllBrand = () => fetch.post('/haierp1/item/brand/queryAllBrand').catch(e => e);
-const queryBrands = ({ payload }) => fetch.post('/haierp1/item/brand/queryBrands', { data: payload }).catch(e => e);
-const addBrand = ({ payload }) => fetch.post('/haierp1/item/brand/add', { data: payload }).catch(e => e);
-const updateBrand = ({ payload }) => fetch.post('/haierp1/item/brand/update', { data: payload }).catch(e => e);
-const queryBrand = ({ payload }) => fetch.post('/haierp1/item/brand/query', { data: payload }).catch(e => e);
-const deleteBrand = ({ payload }) => fetch.post('/haierp1/item/brand/delete', { data: payload }).catch(e => e);
-const updateVirtualInvByItemId = ({ payload }) => fetch.post('/haierp1/item/updateVirtualInvByItemId', { data: payload }).catch(e => e);
-const getDimensionCodeUtil = ({ payload }) => fetch.post('/haierp1/item/getDimensionCodeUtil', { data: payload }).catch(e => e);
+const queryAllBrand = () => fetch.post('/item/brand/queryAllBrand').catch(e => e);
+const queryBrands = ({ payload }) => fetch.post('/item/brand/queryBrands', { data: payload }).catch(e => e);
+const addBrand = ({ payload }) => fetch.post('/item/brand/add', { data: payload }).catch(e => e);
+const updateBrand = ({ payload }) => fetch.post('/item/brand/update', { data: payload }).catch(e => e);
+const queryBrand = ({ payload }) => fetch.post('/item/brand/query', { data: payload }).catch(e => e);
+const deleteBrand = ({ payload }) => fetch.post('/item/brand/delete', { data: payload }).catch(e => e);
+const updateVirtualInvByItemId = ({ payload }) => fetch.post('/item/updateVirtualInvByItemId', { data: payload }).catch(e => e);
+const getDimensionCodeUtil = ({ payload }) => fetch.post('/item/getDimensionCodeUtil', { data: payload }).catch(e => e);
 // 采购商品
-const queryFindProductList = ({ payload }) => fetch.post('/haierp1/item/finditem/queryFindItemList', { data: payload }).catch(e => e);
-const queryFindProduct = ({ payload }) => fetch.post('/haierp1/item/finditem/passOrRefuse', { data: payload }).catch(e => e);
+const queryFindProductList = ({ payload }) => fetch.post('/item/finditem/queryFindItemList', { data: payload }).catch(e => e);
+const queryFindProduct = ({ payload }) => fetch.post('/item/finditem/passOrRefuse', { data: payload }).catch(e => e);
 
 // 买手
-const queryAllItaliaBuyer = () => fetch.post('/haierp1/item/queryAllItaliaBuyer').catch(e => e);
+const queryAllItaliaBuyer = () => fetch.post('/item/queryAllItaliaBuyer').catch(e => e);
 export default {
   namespace: 'products',
   state: {

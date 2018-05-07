@@ -2,63 +2,63 @@ import { message } from 'antd';
 import qs from 'querystring';
 import fetch from '../utils/request';
 
-const addOrder = ({ payload }) => fetch.post('/haierp1/outerOrder/add', { data: payload }).catch(e => e);
-const updateOrder = ({ payload }) => fetch.post('/haierp1/outerOrder/update', { data: payload }).catch(e => e);
-const deleteOrder = ({ payload }) => fetch.post('/haierp1/outerOrder/delete', { data: payload }).catch(e => e);
-const queryOrderList = ({ payload }) => fetch.post('/haierp1/outerOrder/queryOuterOrderList', { data: payload }).catch(e => e);
-const queryOrder = ({ payload }) => fetch.post('/haierp1/outerOrder/query', { data: payload }).catch(e => e);
-const queryOrderDetail = ({ payload }) => fetch.post('/haierp1/outerOrder/erpStockup', { data: payload }).catch(e => e);
-const closeOrder = ({ payload }) => fetch.post('/haierp1/outerOrder/close', { data: payload }).catch(e => e);
-const outerOrderReview = ({ payload }) => fetch.post('/haierp1/outerOrder/outerOrderReview', { data: payload }).catch(e => e);
+const addOrder = ({ payload }) => fetch.post('/outerOrder/add', { data: payload }).catch(e => e);
+const updateOrder = ({ payload }) => fetch.post('/outerOrder/update', { data: payload }).catch(e => e);
+const deleteOrder = ({ payload }) => fetch.post('/outerOrder/delete', { data: payload }).catch(e => e);
+const queryOrderList = ({ payload }) => fetch.post('/outerOrder/queryOuterOrderList', { data: payload }).catch(e => e);
+const queryOrder = ({ payload }) => fetch.post('/outerOrder/query', { data: payload }).catch(e => e);
+const queryOrderDetail = ({ payload }) => fetch.post('/outerOrder/erpStockup', { data: payload }).catch(e => e);
+const closeOrder = ({ payload }) => fetch.post('/outerOrder/close', { data: payload }).catch(e => e);
+const outerOrderReview = ({ payload }) => fetch.post('/outerOrder/outerOrderReview', { data: payload }).catch(e => e);
 // erp
-const queryErpOrderList = ({ payload }) => fetch.post('/haierp1/erpOrder/query', { data: payload }).catch(e => e);
+const queryErpOrderList = ({ payload }) => fetch.post('/erpOrder/query', { data: payload }).catch(e => e);
 // erp订单查询
-const queryErpOrder = ({ payload }) => fetch.post('/haierp1/erpOrder/queryById', { data: payload }).catch(e => e);
+const queryErpOrder = ({ payload }) => fetch.post('/erpOrder/queryById', { data: payload }).catch(e => e);
 // erp订单修改
-const updateErpOrder = ({ payload }) => fetch.post('/haierp1/erpOrder/update', { data: payload }).catch(e => e);
+const updateErpOrder = ({ payload }) => fetch.post('/erpOrder/update', { data: payload }).catch(e => e);
 // 订单关闭
-const closeErpOrder = ({ payload }) => fetch.post('/haierp1/erpOrder/close', { data: payload }).catch(e => e);
+const closeErpOrder = ({ payload }) => fetch.post('/erpOrder/close', { data: payload }).catch(e => e);
 // 订单拆分
-const splitOrder = ({ payload }) => fetch.post('/haierp1/erpOrder/splitErpOrder', { data: payload }).catch(e => e);
+const splitOrder = ({ payload }) => fetch.post('/erpOrder/splitErpOrder', { data: payload }).catch(e => e);
 // 重分配库存
-const replayAssign = ({ payload }) => fetch.post('/haierp1/erpOrder/replayAssign', { data: payload }).catch(e => e);
+const replayAssign = ({ payload }) => fetch.post('/erpOrder/replayAssign', { data: payload }).catch(e => e);
 // 检查一个人最近7天发的包裹数
-const checkManyTimesDelivery = ({ payload }) => fetch.post('/haierp1/shippingOrder/checkManyTimesDelivery', { data: payload }).catch(e => e);
+const checkManyTimesDelivery = ({ payload }) => fetch.post('/shippingOrder/checkManyTimesDelivery', { data: payload }).catch(e => e);
 // 合单发货
-const mergeDelivery = ({ payload }) => fetch.post('/haierp1/shippingOrder/multiDelivery', { data: payload }).catch(e => e);
+const mergeDelivery = ({ payload }) => fetch.post('/shippingOrder/multiDelivery', { data: payload }).catch(e => e);
 // 批量发货
-const batchDelivery = ({ payload }) => fetch.post('/haierp1/shippingOrder/batchDelivery', { data: payload }).catch(e => e);
+const batchDelivery = ({ payload }) => fetch.post('/shippingOrder/batchDelivery', { data: payload }).catch(e => e);
 // 批量发货表单
-const batchDeliveryForm = ({ payload }) => fetch.post('/haierp1/shippingOrder/batchDeliveryForm', { data: payload }).catch(e => e);
+const batchDeliveryForm = ({ payload }) => fetch.post('/shippingOrder/batchDeliveryForm', { data: payload }).catch(e => e);
 // 发货单查询
-const queryShippingOrderList = ({ payload }) => fetch.post('/haierp1/shippingOrder/query', { data: payload }).catch(e => e);
+const queryShippingOrderList = ({ payload }) => fetch.post('/shippingOrder/query', { data: payload }).catch(e => e);
 // 预出库
-const prepareShipping = ({ payload }) => fetch.post('/haierp1/shippingOrder/prepareShipping', { data: payload }).catch(e => e);
+const prepareShipping = ({ payload }) => fetch.post('/shippingOrder/prepareShipping', { data: payload }).catch(e => e);
 // 发货单修改
-const updateShippingOrder = ({ payload }) => fetch.post('/haierp1/shippingOrder/update', { data: payload }).catch(e => e);
+const updateShippingOrder = ({ payload }) => fetch.post('/shippingOrder/update', { data: payload }).catch(e => e);
 // 发货单详情表单查询
-const multiDeliveryForm = ({ payload }) => fetch.post('/haierp1/shippingOrder/multiDeliveryForm', { data: payload }).catch(e => e);
-const queryShippingOrderDetail = ({ payload }) => fetch.post('/haierp1/shippingOrder/queryShippingOrderDetail', { data: payload }).catch(e => e);
-const queryShippingTrack = ({ payload }) => fetch.post('/haierp1/shippingOrder/getShippingTrackDetail', { data: payload }).catch(e => e);
+const multiDeliveryForm = ({ payload }) => fetch.post('/shippingOrder/multiDeliveryForm', { data: payload }).catch(e => e);
+const queryShippingOrderDetail = ({ payload }) => fetch.post('/shippingOrder/queryShippingOrderDetail', { data: payload }).catch(e => e);
+const queryShippingTrack = ({ payload }) => fetch.post('/shippingOrder/getShippingTrackDetail', { data: payload }).catch(e => e);
 // 查询物流公司
-const queryDeliveryCompanyList = ({ payload }) => fetch.post('/haierp1/shippingOrder/queryLogisticCompany', { data: payload }).catch(e => e);
+const queryDeliveryCompanyList = ({ payload }) => fetch.post('/shippingOrder/queryLogisticCompany', { data: payload }).catch(e => e);
 // 查询代理商
-const queryAgentManList = ({ payload }) => fetch.post('/haierp1/shippingOrder/queryAgentMan', { data: payload }).catch(e => e);
+const queryAgentManList = ({ payload }) => fetch.post('/shippingOrder/queryAgentMan', { data: payload }).catch(e => e);
 // 分配库存
-const lockErpOrder = ({ payload }) => fetch.post('/haierp1/erpOrder/lockErpOrder', { data: payload }).catch(e => e);
+const lockErpOrder = ({ payload }) => fetch.post('/erpOrder/lockErpOrder', { data: payload }).catch(e => e);
 // 释放库存
-const releaseInventory = ({ payload }) => fetch.post('/haierp1/erpOrder/releaseInventory', { data: payload }).catch(e => e);
+const releaseInventory = ({ payload }) => fetch.post('/erpOrder/releaseInventory', { data: payload }).catch(e => e);
 // 退单管理
-const queryReturnOrderById = ({ payload }) => fetch.post('/haierp1/erpReturnOrder/queryById', { data: payload }).catch(e => e);
-const updateReturnOrder = ({ payload }) => fetch.post('/haierp1/erpReturnOrder/update', { data: payload }).catch(e => e);
-const addReturnOrder = ({ payload }) => fetch.post('/haierp1/erpReturnOrder/add', { data: payload }).catch(e => e);
-const queryReturnOrderList = ({ payload }) => fetch.post('/haierp1/erpReturnOrder/query', { data: payload }).catch(e => e);
+const queryReturnOrderById = ({ payload }) => fetch.post('/erpReturnOrder/queryById', { data: payload }).catch(e => e);
+const updateReturnOrder = ({ payload }) => fetch.post('/erpReturnOrder/update', { data: payload }).catch(e => e);
+const addReturnOrder = ({ payload }) => fetch.post('/erpReturnOrder/add', { data: payload }).catch(e => e);
+const queryReturnOrderList = ({ payload }) => fetch.post('/erpReturnOrder/query', { data: payload }).catch(e => e);
 // 销售渠道管理
-const queryChannelList = () => fetch.post('/haierp1/channel/querylist').catch(e => e);
-const queryChannel = ({ payload }) => fetch.post('/haierp1/channel/query', { data: payload }).catch(e => e);
-const deleteChannel = ({ payload }) => fetch.post('/haierp1/channel/delete', { data: payload }).catch(e => e);
-const addChannel = ({ payload }) => fetch.post('/haierp1/channel/add', { data: payload }).catch(e => e);
-const updateChannel = ({ payload }) => fetch.post('/haierp1/channel/update', { data: payload }).catch(e => e);
+const queryChannelList = () => fetch.post('/channel/querylist').catch(e => e);
+const queryChannel = ({ payload }) => fetch.post('/channel/query', { data: payload }).catch(e => e);
+const deleteChannel = ({ payload }) => fetch.post('/channel/delete', { data: payload }).catch(e => e);
+const addChannel = ({ payload }) => fetch.post('/channel/add', { data: payload }).catch(e => e);
+const updateChannel = ({ payload }) => fetch.post('/channel/update', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'order',
@@ -447,28 +447,28 @@ export default {
       }
     },
     exportPdf({ payload, success }) {
-      window.open(`http://${location.host}/haierp1/shippingOrder/shippingOrderExportPdf?shippingOrderIds=${payload}`);
+      window.open(`http://${location.host}/shippingOrder/shippingOrderExportPdf?shippingOrderIds=${payload}`);
       if (success) {
         setTimeout(() => { success(); }, 1000);
       }
     },
     exportOrderDetail({ payload }) {
-      window.open(`http://${location.host}/haierp1/shippingOrder/shippingOrderExportExcel?startOrderTime=${payload.startOrderTime}&endOrderTime=${payload.endOrderTime}&logisticCompany=${payload.logisticCompany}`);
+      window.open(`http://${location.host}/shippingOrder/shippingOrderExportExcel?startOrderTime=${payload.startOrderTime}&endOrderTime=${payload.endOrderTime}&logisticCompany=${payload.logisticCompany}`);
     },
     exportOrderDetailPackage({ payload }) {
-      window.open(`http://${location.host}/haierp1/shippingOrder/shippingOrderPackageExportExcel?startOrderTime=${payload.startOrderTime}&endOrderTime=${payload.endOrderTime}&logisticCompany=${payload.logisticCompany}`);
+      window.open(`http://${location.host}/shippingOrder/shippingOrderPackageExportExcel?startOrderTime=${payload.startOrderTime}&endOrderTime=${payload.endOrderTime}&logisticCompany=${payload.logisticCompany}`);
     },
     exportMainOrder({ payload }) {
       const param = qs.stringify(payload);
-      window.open(`http://${location.host}/haierp1/outerOrder/OuterOrderExportExcel?${param}`);
+      window.open(`http://${location.host}/outerOrder/OuterOrderExportExcel?${param}`);
     },
     exportErpOrder({ payload }) {
       const param = qs.stringify(payload);
-      window.open(`http://${location.host}/haierp1/erpOrder/erpOrderExport?${param}`);
+      window.open(`http://${location.host}/erpOrder/erpOrderExport?${param}`);
     },
     exportReturnOrder({ payload }) {
       const param = qs.stringify(payload);
-      window.open(`http://${location.host}/haierp1/erpReturnOrder/erpReturnOrderExport?${param}`);
+      window.open(`http://${location.host}/erpReturnOrder/erpReturnOrderExport?${param}`);
     },
     // 销售渠道
     * queryChannelList(_, { call, put }) {

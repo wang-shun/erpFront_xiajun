@@ -1,11 +1,11 @@
 import fetch from '../utils/request';
 
-const queryJournalList = ({ payload }) => fetch.post('/haierp1/taskPurchase/queryTaskPurchaseList', { data: payload }).catch(e => e);
-const comfirmJournal = ({ payload }) => fetch.post('/haierp1/taskPurchase/confirm', { data: payload }).catch(e => e);
-const queryJournal = ({ payload }) => fetch.post('/haierp1/taskPurchase/query', { data: payload }).catch(e => e);
-const createReceipt = ({ payload }) => fetch.post('/haierp1/taskPurchase/createReceipt', { data: payload }).catch(e => e);
-const queryReceiptList = ({ payload }) => fetch.post('/haierp1/receipt/queryReceiptList', { data: payload }).catch(e => e);
-const confirmPreStock = ({ payload }) => fetch.post('/haierp1/receipt/confirm', { data: payload }).catch(e => e);
+const queryJournalList = ({ payload }) => fetch.post('/taskPurchase/queryTaskPurchaseList', { data: payload }).catch(e => e);
+const comfirmJournal = ({ payload }) => fetch.post('/taskPurchase/confirm', { data: payload }).catch(e => e);
+const queryJournal = ({ payload }) => fetch.post('/taskPurchase/query', { data: payload }).catch(e => e);
+const createReceipt = ({ payload }) => fetch.post('/taskPurchase/createReceipt', { data: payload }).catch(e => e);
+const queryReceiptList = ({ payload }) => fetch.post('/receipt/queryReceiptList', { data: payload }).catch(e => e);
+const confirmPreStock = ({ payload }) => fetch.post('/receipt/confirm', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'check',

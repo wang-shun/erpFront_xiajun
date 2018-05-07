@@ -3,9 +3,9 @@ import { routerCfg, originalNavigation } from '../constants';
 // import { backendCfg, routerCfg, setNavigation, originalNavigation } from '../constants';
 import fetch from '../utils/request';
 
-const login = ({ payload }) => fetch.post('/haierp1/haiLogin/login', { data: payload }).catch(e => e);
-const logout = ({ payload }) => fetch.post('/haierp1/logout', { data: payload }).catch(e => e);
-// const queryPermissions = () => fetch.post('/haierp1/user/resCodes').catch(e => e);
+const login = ({ payload }) => fetch.post('/haiLogin/login', { data: payload }).catch(e => e);
+const logout = ({ payload }) => fetch.post('/logout', { data: payload }).catch(e => e);
+// const queryPermissions = () => fetch.post('/user/resCodes').catch(e => e);
 
 export default {
   namespace: 'session',

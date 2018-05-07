@@ -400,7 +400,7 @@ class SkuTable extends Component {
     if (!parent.clearSkuValue) parent.clearSkuValue = this.clearValue.bind(this);
     if (!parent.getSkuValue) parent.getSkuValue = this.getValue.bind(this);
     const uploadProps = {
-      action: '/haierp1/uploadFile/picUpload',
+      action: '/uploadFile/picUpload',
       listType: 'picture-card',
       data(file) {
         return {
@@ -861,7 +861,7 @@ class SkuTable extends Component {
       bordered: false,
     };
     const batchUploadProps = {
-      action: '/haierp1/uploadFile/picUpload',
+      action: '/uploadFile/picUpload',
       fileList: batchFileList,
       listType: 'picture-card',
       data(file) { return { pic: file.name }; },

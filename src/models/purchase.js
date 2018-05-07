@@ -1,26 +1,26 @@
 import { message } from 'antd';
 import fetch from '../utils/request';
 
-const addPurchase = ({ payload }) => fetch.post('/haierp1/purchase/add', { data: payload }).catch(e => e);
-const updatePurchase = ({ payload }) => fetch.post('/haierp1/purchase/update', { data: payload }).catch(e => e);
-const queryPurchaseList = ({ payload }) => fetch.post('/haierp1/purchase/queryTaskDailyList', { data: payload }).catch(e => e);
-const queryPurchase = ({ payload }) => fetch.post('/haierp1/purchase/query', { data: payload }).catch(e => e);
-const queryBuyers = ({ payload }) => fetch.post('/haierp1/purchase/queryBuyers', { data: payload }).catch(e => e);
-const deletePurchase = ({ payload }) => fetch.post('/haierp1/purchase/delete', { data: payload }).catch(e => e);
+const addPurchase = ({ payload }) => fetch.post('/purchase/add', { data: payload }).catch(e => e);
+const updatePurchase = ({ payload }) => fetch.post('/purchase/update', { data: payload }).catch(e => e);
+const queryPurchaseList = ({ payload }) => fetch.post('/purchase/queryTaskDailyList', { data: payload }).catch(e => e);
+const queryPurchase = ({ payload }) => fetch.post('/purchase/query', { data: payload }).catch(e => e);
+const queryBuyers = ({ payload }) => fetch.post('/purchase/queryBuyers', { data: payload }).catch(e => e);
+const deletePurchase = ({ payload }) => fetch.post('/purchase/delete', { data: payload }).catch(e => e);
 // 取消采购
-const closeTaskDaily = ({ payload }) => fetch.post('/haierp1/purchase/closeTaskDaily', { data: payload }).catch(e => e);
+const closeTaskDaily = ({ payload }) => fetch.post('/purchase/closeTaskDaily', { data: payload }).catch(e => e);
 // 完成采购
-const finishTaskDaily = ({ payload }) => fetch.post('/haierp1/purchase/finishTaskDaily', { data: payload }).catch(e => e);
+const finishTaskDaily = ({ payload }) => fetch.post('/purchase/finishTaskDaily', { data: payload }).catch(e => e);
 // 根据当前订单生成采购任务
-const createByOrder = () => fetch.get('/haierp1/purchase/autoAddByOrder').catch(e => e);
+const createByOrder = () => fetch.get('/purchase/autoAddByOrder').catch(e => e);
 // 采购小票
-const purchaseReceiptList = ({ payload }) => fetch.post('/haierp1/receipt/queryReceipt', { data: payload }).catch(e => e);
+const purchaseReceiptList = ({ payload }) => fetch.post('/receipt/queryReceipt', { data: payload }).catch(e => e);
 // 采购小票明细
-const purchaseReceiptTaskList = ({ payload }) => fetch.post('/haierp1/receipt/queryTaskReceipt', { data: payload }).catch(e => e);
+const purchaseReceiptTaskList = ({ payload }) => fetch.post('/receipt/queryTaskReceipt', { data: payload }).catch(e => e);
 // 采购未完成时间
-const purchaseNoCompleteTimeList = ({ payload }) => fetch.post('/haierp1/purchase/nocompleteTaskDailyOrderTime', { data: payload }).catch(e => e);
+const purchaseNoCompleteTimeList = ({ payload }) => fetch.post('/purchase/nocompleteTaskDailyOrderTime', { data: payload }).catch(e => e);
 // 采购未完成详情
-const purchaseNoCompleteDateil = ({ payload }) => fetch.post('/haierp1/purchase/nocompleteTaskDaily', { data: payload }).catch(e => e);
+const purchaseNoCompleteDateil = ({ payload }) => fetch.post('/purchase/nocompleteTaskDaily', { data: payload }).catch(e => e);
 export default {
   namespace: 'purchase',
   state: {
@@ -137,11 +137,11 @@ export default {
       }
     },
     * exportPurchase({ payload }, { put }) {
-      window.open(`http://${location.host}/haierp1/purchase/taskDailyExport?id=${payload.id}`);
+      window.open(`http://${location.host}/purchase/taskDailyExport?id=${payload.id}`);
       yield put({ type: 'queryPurchaseList', payload: {} });
     },
     exportNoCompleteDetail({ payload }) {
-      window.open(`http://${location.host}/haierp1/purchase/noCompleteExport?currentlyDate=${payload.currentlyDate}`);
+      window.open(`http://${location.host}/purchase/noCompleteExport?currentlyDate=${payload.currentlyDate}`);
     },
     * finishTaskDaily({ payload, cb }, { call }) {
       const data = yield call(finishTaskDaily, { payload });
