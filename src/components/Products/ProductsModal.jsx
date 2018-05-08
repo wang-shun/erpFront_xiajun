@@ -440,7 +440,7 @@ class ProductsModal extends Component {
                       rules: [{ required: true, message: '请选择国家' }],
                     })(
                       <Select placeholder="请选择国家" allowClear onChange={this.handleSelectCountry.bind(this)}>
-                        {countries.map(country => <Option key={country.name} value={country.name}>{country.name}</Option>)}
+                        {countries.map(country => <Option key={country.name} value={country.id}>{country.name}</Option>)}
                         <Option key="_other" value="9">其他</Option>
                       </Select>,
                     )}
