@@ -46,7 +46,7 @@ function Bread({ location }) {
         {/* {pathSet[item].icon
           ? <Icon type={pathSet[item].icon} />
           : ''} */}
-        <span>{pathSet[item].name}</span>
+        <span>{pathSet[item] && pathSet[item].name}</span>
       </Breadcrumb.Item>
     );
   });

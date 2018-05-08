@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import styles from './style.less';
 import Header from '../Header';
 import Sidebar from '../Sidebar';
-import Breadcrumb from '../Breadcrumb';
 // import HistoryTab from '../HistoryTab';
 import { routerCfg } from '../../constants';
 
@@ -38,7 +37,6 @@ export default class MainLayout extends Component {
         {!showLogin && <Sidebar location={location} close={sidebarClose} onOpenChange={this.handleSidebarChange.bind(this)} />}
         <div className={wrapperClass}>
           {/* {!showLogin && <HistoryTab location={location} />} */}
-          {!showLogin && <Breadcrumb location={location} />}
           <div className={styles.content}>
             {children}
           </div>

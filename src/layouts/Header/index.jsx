@@ -4,6 +4,7 @@ import { Icon } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { routerCfg } from '../../constants';
+import Breadcrumb from '../Breadcrumb';
 // import { routerCfg, getNavigation } from '../../constants';
 import userImg from '../../assets/images/username.png';
 import styles from './style.less';
@@ -13,7 +14,7 @@ class Header extends React.Component {
     this.props.dispatch({ type: 'session/logout' });
   }
   render() {
-    const { session } = this.props;
+    const { session, location } = this.props;
     // const { pathname } = this.props.location;
     return (
       <header className={styles.header}>
@@ -43,6 +44,8 @@ class Header extends React.Component {
           {/* <span className={styles.mr10}><Icon type="lock" /> <Link to="/lock">修改密码</Link></span> */}
           <span style={{ marginLeft: 20 }}><Icon type="logout" /> <span onClick={this.logout.bind(this)}><Link to={`/${routerCfg.LOGIN}`}>安全退出</Link></span></span>
         </span>
+
+        <Breadcrumb location={location} />
       </header>
     );
   }
