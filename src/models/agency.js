@@ -83,7 +83,7 @@ export default {
     * addAgency({ payload }, { call }) {
       const data = yield call(addAgency, { payload });
       if (data.success) {
-        message.success('新增销售类别成功');
+        message.success('新增销售成功');
       }
     },
     * deleteAgency({ payload, cb }, { call }) {

@@ -197,7 +197,7 @@ class ProductsModal extends Component {
   }
 
   handleSelectCountry(country) {
-    if (country === '9') {
+    if (country === 'other') {
       this.setState({
         countryNameExit: true,
       });
@@ -211,7 +211,12 @@ class ProductsModal extends Component {
       dispatch({
         type: 'products/addCountry',
         payload: {
-          name: country,
+          payload: {
+            name: country,
+          },
+          success(res) {
+            form.setFieldValue('newCountry', res.id);
+          },
         },
       });
     }
@@ -400,7 +405,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('currency', {
-                      initialValue: toString(productData.currency, 'SELECT'),
+                      initialValue: toString(productData.currency || 1, 'SELECT'),
                       rules: [{ required: true, message: '请选择币种' }],
                     })(
                       <Select placeholder="请选择币种" allowClear>
@@ -441,7 +446,7 @@ class ProductsModal extends Component {
                     })(
                       <Select placeholder="请选择国家" allowClear onChange={this.handleSelectCountry.bind(this)}>
                         {countries.map(country => <Option key={country.id} value={country.id}>{country.name}</Option>)}
-                        <Option key="_other" value="9">其他</Option>
+                        <Option key="_other" value="other">其他</Option>
                       </Select>,
                     )}
                   </FormItem>

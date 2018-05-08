@@ -101,7 +101,18 @@ class SaleChannel extends Component {
           }
         },
       },
-      { title: '折扣率', dataIndex: 'discount', key: 'discount', width: '16%' },
+      { title: '折扣率', dataIndex: 'discount', key: 'discount', width: '16%',
+        render: (t, r) => {
+          if (r.type === '1') return t + '%';
+          if (r.saleLevel === '1') return '一级: ' + r.discount1 + '%';
+          if (r.saleLevel === '2') {
+            return <div><div>一级: {r.discount1}%</div><div>二级: {r.discount2}%</div></div>;
+          }
+          if (r.saleLevel === '3') {
+            return <div><div>一级: {r.discount1}%</div><div>二级: {r.discount2}%</div><div>三级: {r.discount3}%</div></div>;
+          }
+        }  
+      },
       { title: '备注', dataIndex: 'remark', key: 'remark', width: '16%' },
       { title: '对接人',
         dataIndex: 'contactName',

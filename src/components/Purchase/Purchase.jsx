@@ -176,9 +176,9 @@ class Purchase extends Component {
         width: 60,
         render(t) {
           switch (t) {
-            case 0: return <font color="">采购中</font>;
-            case 1: return <font color="blue">采购结束</font>;
-            case 2: return <font color="red">待采购</font>;
+            case 0: return <font color="">待采购</font>;
+            case 1: return <font color="blue">采购完成</font>;
+            case 2: return <font color="red">采购中</font>;
             case -1: return <font color="red">采购取消</font>;
             default: return '-';
           }

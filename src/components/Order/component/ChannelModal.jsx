@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Modal, Row, Col, Select } from 'antd';
+import { Form, Input, Modal, Row, Col, Select, message } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -17,19 +17,40 @@ class ChannelModal extends Component {
     const { form, dispatch, data } = this.props;
     form.validateFields((err, values) => {
       if (err) return;
-      if (values.level1) {
-        values.discount = values.level1;
-        delete values.level1;
+      if (values.level1 && values.level1 > 100) {
+        message.error('一级分销折扣应小于100');
+        return;
       }
-      if (values.level2) {
-        values.discount = `${values.discount}|${values.level2}`;
-        delete values.level2;
+      if (values.level2 && values.level2 > 100) {
+        message.error('二级分销折扣应小于100');
+        return;
       }
-      if (values.level3) {
-        values.discount = `${values.discount}|${values.level2}|${values.level3}`;
-        delete values.level2;
-        delete values.level3;
+      if (values.level3 && values.level3 > 100) {
+        message.error('三级分销折扣应小于100');
+        return;
       }
+
+      if (values.channelType === '1') {
+        if (values.level1) {
+          values.discount = values.level1;
+        }
+      } else {
+        if (values.level1) {
+          values.discount1 = values.level1;
+        }
+        if (values.level2) {
+          values.discount2 = values.level2;
+          // values.discount = `${values.level1}|${values.level2}`;
+        }
+        if (values.level3) {
+          values.discount3 = values.level3;        
+          // values.discount = `${values.level1}|${values.level2}|${values.level3}`;
+        }
+      }
+      
+      delete values.level1;
+      delete values.level2;
+      delete values.level3;
       console.log(values);
       if (data.id) {
         values.id = data.id;
@@ -137,7 +158,7 @@ class ChannelModal extends Component {
                     initialValue: data.discount,
                     rules: [{ required: true, message: '请输入' }],
                   })(
-                    <Input placeholder="请输入折扣率" suffix="折" />,
+                    <Input placeholder="请输入折扣率" suffix="%" />,
                   )}
                 </FormItem>
               </Col>
@@ -152,7 +173,7 @@ class ChannelModal extends Component {
                     initialValue: data.level1,
                     rules: [{ required: true, message: '请输入' }],
                   })(
-                    <Input placeholder="请输入折扣率" addonBefore="一级" suffix="折" />,
+                    <Input placeholder="请输入折扣率" addonBefore="一级" suffix="%" />,
                   )}
                 </FormItem>
               </Col>
@@ -161,7 +182,7 @@ class ChannelModal extends Component {
                   {getFieldDecorator('level2', {
                     initialValue: data.level2,
                   })(
-                    <Input placeholder="请输入折扣率" addonBefore="二级" suffix="折" />)}
+                    <Input placeholder="请输入折扣率" addonBefore="二级" suffix="%" />)}
                 </FormItem>
               </Col>}
               {channelLevelCount > 2 && <Col span={6}>
@@ -169,7 +190,7 @@ class ChannelModal extends Component {
                   {getFieldDecorator('level3', {
                     initialValue: data.level3,
                   })(
-                    <Input placeholder="请输入折扣率" addonBefore="三级" suffix="折" />)}
+                    <Input placeholder="请输入折扣率" addonBefore="三级" suffix="%" />)}
                 </FormItem>
               </Col>}
             </Row>}

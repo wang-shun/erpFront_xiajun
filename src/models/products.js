@@ -173,7 +173,7 @@ export default {
         });
       }
     },
-    * addCountry(payload, { call, put }) {
+    * addCountry({ payload, success }, { call, put }) {
       const data = yield call(addCountry, payload);
       console.log(data);
       if (data.success) {
@@ -181,6 +181,7 @@ export default {
         yield put({
           type: 'queryAllCountries',
         });
+        // success(data);
       }
     },
     // 采购商品管理
