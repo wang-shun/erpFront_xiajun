@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Modal, Button, message, Input, Upload, Row, Col, Select, DatePicker, Form, Icon, TreeSelect, Tabs, InputNumber, Radio } from 'antd';
+import { Modal, Button, message, Input, Upload, Row, Col, Select, DatePicker, Form, Icon, TreeSelect, Tabs, InputNumber, Radio, Cascader } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
@@ -73,9 +73,10 @@ class ProductsModal extends Component {
     const p = this;
     const { form, dispatch, modalValues } = this.props;
     form.validateFieldsAndScroll((err, fieldsValue) => {
-      // if (err) {
-      //   return;
-      // }
+      console.log(fieldsValue);
+      if (err) {
+        return;
+      }
       if (fieldsValue.defaultBuyer) fieldsValue.buyerName = fieldsValue.defaultBuyer;
       delete fieldsValue.defaultBuyer;
       // 检验sku是否填写
@@ -86,6 +87,8 @@ class ProductsModal extends Component {
           endDate: fieldsValue.endDate && fieldsValue.endDate.format('YYYY-MM-DD HH:mm:ss'),
           bookingDate: fieldsValue.bookingDate && fieldsValue.bookingDate.format('YYYY-MM-DD HH:mm:ss'),
           skuList: JSON.stringify(skuList),
+          saleOnChannels: fieldsValue.saleOnChannels ? JSON.stringify(fieldsValue.saleOnChannels.map(el => parseInt(el))) : '[]',
+          categoryId: fieldsValue.categoryId[fieldsValue.categoryId.length - 1],
         };
 
         // 处理图片
@@ -224,7 +227,7 @@ class ProductsModal extends Component {
 
   render() {
     const p = this;
-    const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [], countries = [] } = this.props;
+    const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [], countries = [], channels = [] } = this.props;
     const { previewVisible, previewImage, activeTab, countryNameExit } = this.state;
     const { getFieldDecorator } = form;
     // 图片字符串解析
@@ -245,7 +248,7 @@ class ProductsModal extends Component {
     }
     const modalProps = {
       visible,
-      width: 1400,
+      width: 1450,
       wrapClassName: 'modalStyle',
       title: productData.itemCode ? '修改' : '添加',
       maskClosable: false,
@@ -321,10 +324,36 @@ class ProductsModal extends Component {
                       initialValue: toString(productData.categoryId, 'SELECT'),
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(
-                      <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
+                      <Cascader options={tree} placeholder="请选择所属类目" />
+                      // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
                     )}
                   </FormItem>
                 </Col>
+            
+                <Col span={7}>
+                  <FormItem
+                    label="男女款"
+                    {...formItemLayout}
+                  >
+                    {getFieldDecorator('sexStyle', {
+                      initialValue: productData.sexStyle || undefined,
+                    })(
+                      <Select placeholder="请选择" allowClear>
+                        <Option key="男款">男款</Option>
+                        <Option key="女款">女款</Option>
+                        <Option key="大童男款">大童男款</Option>
+                        <Option key="大童女款">大童女款</Option>
+                        <Option key="小童男款">小童男款</Option>
+                        <Option key="小童女款">小童女款</Option>
+                        <Option key="大童款">大童款</Option>
+                        <Option key="小童款">小童款</Option>
+                        <Option key="婴儿款">婴儿款</Option>
+                      </Select>,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row>
                 <Col span={7}>
                   <FormItem
                     label="品牌"
@@ -346,30 +375,6 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={7}>
-                  <FormItem
-                    label="男女款"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('sexStyle', {
-                      initialValue: productData.sexStyle,
-                    })(
-                      <Select placeholder="请选择" allowClear>
-                        <Option key="男款">男款</Option>
-                        <Option key="女款">女款</Option>
-                        <Option key="大童男款">大童男款</Option>
-                        <Option key="大童女款">大童女款</Option>
-                        <Option key="小童男款">小童男款</Option>
-                        <Option key="小童女款">小童女款</Option>
-                        <Option key="大童款">大童款</Option>
-                        <Option key="小童款">小童款</Option>
-                        <Option key="婴儿款">婴儿款</Option>
-                      </Select>,
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row>
                 <Col span={7}>
                   <FormItem
                     label="英文名称"
@@ -405,7 +410,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('currency', {
-                      initialValue: toString(productData.currency || 1, 'SELECT'),
+                      initialValue: toString(productData.currency || "1", 'SELECT'),
                       rules: [{ required: true, message: '请选择币种' }],
                     })(
                       <Select placeholder="请选择币种" allowClear>
@@ -437,7 +442,7 @@ class ProductsModal extends Component {
               <Row>
                 <Col span={7}>
                   <FormItem
-                    label="国家"
+                    label="采购地"
                     {...formItemLayout}
                   >
                     {getFieldDecorator('country', {
@@ -509,6 +514,23 @@ class ProductsModal extends Component {
               <Row>
                 <Col span={7}>
                   <FormItem
+                    label="发货方式"
+                    {...formItemLayout}
+                    required="true"
+                  >
+                    {getFieldDecorator('deliveryMode', {
+                      initialValue: toString(productData.deliveryMode || 0),
+                    })(
+                      <RadioGroup>
+                        <Radio value="1">海外直邮</Radio>
+                        <Radio value="2">海外拼邮</Radio>
+                        <Radio value="3">国内直发</Radio>
+                      </RadioGroup>,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={7}>
+                  <FormItem
                     label="预售时间"
                     {...formItemLayout}
                   >
@@ -524,10 +546,31 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>
+                
+                <Col span={7}>
+                  <FormItem
+                    label="第三方销售平台"
+                    {...formItemLayout}
+                  >
+                    {getFieldDecorator('saleOnChannels', {
+                      initialValue: toString(productData.saleOnChannels, 'SELECT'),
+                      rules: [{ required: false, message: '请选择第三方销售' }],
+                    })(
+                      <Select placeholder="请选择第三方销售" mode="multiple" allowClear>
+                        {channels.map((el, index) => (
+                            <Option key={index} value={el.type.toString()}>{el.name}</Option>
+                          ))}
+                      </Select>,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row>
                 <Col span={7}>
                   <FormItem
                     label="小程序可售"
                     {...formItemLayout}
+                    required="true"                    
                   >
                     {getFieldDecorator('wxisSale', {
                       initialValue: toString(productData.wxisSale !== 0 ? 1 : 0), // 神解决
@@ -539,24 +582,9 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-                <Col span={7}>
-                  <FormItem
-                    label="第三方销售平台"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('thirdSale', {
-                      initialValue: toString(productData.thirdSale, 'SELECT'),
-                      rules: [{ required: false, message: '请选择第三方销售' }],
-                    })(
-                      <Select placeholder="请选择第三方销售" allowClear>
-                        <Option value="1">海狐</Option>
-                      </Select>,
-                    )}
-                  </FormItem>
-                </Col>
               </Row>
               <Row>
-                <Col span={7}>
+                {/* <Col span={7}>
                   <FormItem
                     label="运费"
                     {...formItemLayout}
@@ -567,24 +595,9 @@ class ProductsModal extends Component {
                       <InputNumber min={0} step={0.01} placeholder="请输入运费" />,
                     )}
                   </FormItem>
-                </Col>
-                <Col span={7}>
-                  <FormItem
-                    label="发货方式"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('deliveryMode', {
-                      initialValue: toString(productData.deliveryMode || 0),
-                    })(
-                      <RadioGroup>
-                        <Radio value="1">海外直邮</Radio>
-                        <Radio value="2">海外拼邮</Radio>
-                        <Radio value="3">国内直发</Radio>
-                      </RadioGroup>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={7}>
+                </Col> */}
+                
+                {/* <Col span={7}>
                   <FormItem
                     label="商品代码"
                     {...formItemLayout}
@@ -596,21 +609,7 @@ class ProductsModal extends Component {
                       <Input disabled placeholder="请输入商品代码" />,
                     )}
                   </FormItem>
-                </Col>
-                <Col span={14}>
-                  <FormItem
-                    label="备注"
-                    labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 12 }}
-                  >
-                    {getFieldDecorator('remark', {
-                      initialValue: toString(productData.remark),
-                      rules: [{ message: '请输入备注' }],
-                    })(
-                      <Input type="textarea" placeholder="请输入备注" />,
-                    )}
-                  </FormItem>
-                </Col>
+                </Col> */}
                 <Col span={7}>
                   <FormItem
                     label="选择商品归属买手"
@@ -625,6 +624,20 @@ class ProductsModal extends Component {
                           return <Option key={el.id} value={el.id.toString()} >{el.nickName}</Option>;
                         })}
                       </Select>,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={14}>
+                  <FormItem
+                    label="备注"
+                    labelCol={{ span: 4 }}
+                    wrapperCol={{ span: 12 }}
+                  >
+                    {getFieldDecorator('remark', {
+                      initialValue: toString(productData.remark),
+                      rules: [{ message: '请输入备注' }],
+                    })(
+                      <Input type="textarea" placeholder="请输入备注" />,
                     )}
                   </FormItem>
                 </Col>
@@ -689,7 +702,7 @@ class ProductsModal extends Component {
               </Row>
             </Form>
           </TabPane>
-          <TabPane tab="图文信息" key="2">
+          <TabPane tab="商品详情" key="2">
             <div id="editor-area" />
           </TabPane>
         </Tabs>
@@ -700,10 +713,12 @@ class ProductsModal extends Component {
 
 function mapStateToProps(state) {
   const { packageScales, scaleTypes } = state.sku;
+  const { channels } = state.products;
   // const { allBrands } = state.products;
   return {
     packageScales,
     scaleTypes,
+    channels,
   };
 }
 

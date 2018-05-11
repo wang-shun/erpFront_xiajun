@@ -47,7 +47,7 @@ class SkuTable extends Component {
     const { form } = this.props;
     const skuList = [];
     form.validateFieldsAndScroll((err, fieldsSku) => {
-      // if (err) return;
+      if (err) return;
       let count = 1;
       const keys = Object.keys(fieldsSku);
       while (Object.prototype.hasOwnProperty.call(fieldsSku, `r_${count}_virtualInv`)) {
@@ -390,6 +390,17 @@ class SkuTable extends Component {
   handleCancel() {
     this.setState({ previewVisible: false });
   }
+  copyItem(item) {
+    const list = this.props.form.getFieldsValue();
+    const itemKey = `r_${item.key}_`;
+    const obj = {};
+    Object.keys(list).forEach((key) => {
+      if (key.indexOf(itemKey) > -1) {
+        obj[key.replace(itemKey, '')] = list[key];
+      }
+    })
+    this.addItem(obj);
+  }
   render() {
     const p = this;
     const rolerFlage = p.props.parent.props.loginRoler;
@@ -437,7 +448,7 @@ class SkuTable extends Component {
           title: 'SKU代码',
           dataIndex: 'skuCode',
           key: 'skuCode',
-          width: '10%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
@@ -482,7 +493,7 @@ class SkuTable extends Component {
           title: '颜色',
           dataIndex: 'color',
           key: 'color',
-          width: '8%',
+          width: '6%',
           render(t, r) {
             return (
               <FormItem>
@@ -604,11 +615,14 @@ class SkuTable extends Component {
         {
           title: '操作',
           key: 'operator',
+          width: 80,
           render(text, record) {
             return (
+              <div>
               <Popconfirm title="确定删除?" onConfirm={p.delItem.bind(p, record.key)}>
                 <a href="javascript:void(0)">删除</a>
-              </Popconfirm>
+              </Popconfirm><br /><a href="javascript:void(0)" onClick={p.copyItem.bind(p, record)}>复制</a>
+              </div>
             );
           },
         },
@@ -667,7 +681,7 @@ class SkuTable extends Component {
           title: '颜色',
           dataIndex: 'color',
           key: 'color',
-          width: '7%',
+          width: '6%',
           render(t, r) {
             return (
               <FormItem>
@@ -838,7 +852,7 @@ class SkuTable extends Component {
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_packageLevelId`, {
                   initialValue: t && typeof t === 'string' ? t.match(/\[/g) ? JSON.parse(t) : t.split(',') : '',
-                  rules: [{ required: true, message: '该项必选' }],
+                  rules: [{ required: false }],
                 })(
                   <Cascader options={packageScales} placeholder="请选择" />)}
               </FormItem>
@@ -848,11 +862,14 @@ class SkuTable extends Component {
         {
           title: '操作',
           key: 'operator',
+          width: 80,
           render(text, record) {
             return (
+              <div>
               <Popconfirm title="确定删除?" onConfirm={p.delItem.bind(p, record.key)}>
                 <a href="javascript:void(0)">删除</a>
-              </Popconfirm>
+              </Popconfirm><br /><a href="javascript:void(0)" onClick={p.copyItem.bind(p, record)}>复制</a>
+              </div>
             );
           },
         },
@@ -965,7 +982,7 @@ class SkuTable extends Component {
       return (
         <Row>
           <Col className={styles.productModalBtn}>
-            <Popover
+            {/* <Popover
               content={BatchSkuAddTure}
               title="选择类型"
               trigger="click"
@@ -977,7 +994,7 @@ class SkuTable extends Component {
                 onMouseOver={this.handleMouseOverBatchSku.bind(this, 200)}
                 onClick={this.handleBatchSkuAddVisible.bind(this, true)}
               >新增批量SKU</Button>
-            </Popover>
+            </Popover> */}
             {mouseOverVisible && <Popover
               visible={mouseOverVisible}
               title="选择类型"
@@ -1004,7 +1021,7 @@ class SkuTable extends Component {
       return (
         <Row>
           <Col className={styles.productModalBtn}>
-            <Popover
+            {/* <Popover
               content={BatchSkuAdd}
               title="选择类型"
               trigger="click"
@@ -1012,7 +1029,7 @@ class SkuTable extends Component {
               style={{ width: 200 }}
             >
               <Button type="ghost" onMouseOver={this.handleMouseOverBatchSku.bind(this, 2000)} onClick={this.handleBatchSkuAddVisible.bind(this, true)}>新增批量SKU</Button>
-            </Popover>
+            </Popover> */}
             {mouseOverVisible && <Popover
               visible={mouseOverVisible}
               title="选择类型"

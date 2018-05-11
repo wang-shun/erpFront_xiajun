@@ -8,6 +8,8 @@ const addProducts = ({ payload }) => fetch.post('/item/add', { data: payload }).
 const queryCatesTree = () => fetch.post('/category/tree').catch(e => e);
 const queryAllCountries = () => fetch.post('/country/queryAllCountries').catch(e => e);
 const addCountry = ({ payload }) => fetch.post('/country/add', { data: payload }).catch(e => e);
+const queryAllChannels = () => fetch.post('/channelAccount/querylist').catch(e => e);
+
 // 批量同步
 const batchSynItemYouzan = ({ payload }) => fetch.post('/youzanSyn/batchSynItemYouzan', { data: payload }).catch(e => e);
 // 批量上架
@@ -49,6 +51,7 @@ export default {
     loginRoler: false, // 默认普通人员
     allBuyers: [],
     countries: [],
+    channels: [],
   },
   reducers: {
     saveCatesTree(state, { payload }) {
@@ -184,6 +187,18 @@ export default {
         // success(data);
       }
     },
+    * queryAllChannels(_, { call, put }) {
+      const data = yield call(queryAllChannels);
+      if (data.success) {
+        const channels = data.data;
+        yield put({
+          type: 'updateState',
+          payload: {
+            channels,
+          },
+        });
+      }
+    },
     // 采购商品管理
     * queryFindProductList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ products }) => products.currentPageone);
@@ -308,6 +323,7 @@ export default {
             dispatch({ type: 'queryCatesTree', payload: query });
             dispatch({ type: 'queryAllItaliaBuyer', payload: query });
             dispatch({ type: 'queryAllCountries', payload: query });
+            dispatch({ type: 'queryAllChannels', payload: query });            
           }, 0);
         }
         if ((pathname === '/products/productsList' && !window.existCacheState('/products/productsList')) || (pathname === '/products/skuList' && !window.existCacheState('/products/skuList'))) {
