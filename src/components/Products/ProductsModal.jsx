@@ -87,7 +87,7 @@ class ProductsModal extends Component {
           endDate: fieldsValue.endDate && fieldsValue.endDate.format('YYYY-MM-DD HH:mm:ss'),
           bookingDate: fieldsValue.bookingDate && fieldsValue.bookingDate.format('YYYY-MM-DD HH:mm:ss'),
           skuList: JSON.stringify(skuList),
-          saleOnChannels: fieldsValue.saleOnChannels ? JSON.stringify(fieldsValue.saleOnChannels.map(el => parseInt(el))) : '[]',
+          saleOnChannels: fieldsValue.saleOnChannels,
           categoryId: fieldsValue.categoryId[fieldsValue.categoryId.length - 1],
         };
 
