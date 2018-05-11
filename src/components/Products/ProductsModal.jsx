@@ -519,7 +519,7 @@ class ProductsModal extends Component {
                     required="true"
                   >
                     {getFieldDecorator('deliveryMode', {
-                      initialValue: toString(productData.deliveryMode || 0),
+                      initialValue: toString(productData.deliveryMode || undefined),
                     })(
                       <RadioGroup>
                         <Radio value="1">海外直邮</Radio>
