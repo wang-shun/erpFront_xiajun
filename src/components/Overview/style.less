@@ -1,0 +1,115 @@
+@primary: rgba(0, 0, 0, .1);
+
+.overview {
+  background-color: #eee;
+  .mb20 {
+    margin-bottom: 20px;
+  }
+  .fr {
+    float: right;
+    width: 25%;
+  }
+  ul {
+    border: 1px solid @primary;
+    border-radius: 4px;
+    display: flex;
+    padding: 12px;
+    li {
+      padding: 12px;
+      flex-grow: 1;
+      flex-shrink: 1;
+      display: flex;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      border-right: 1px dotted @primary;
+      &:last-child {
+        border: none;
+      }
+      .count {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 12px;
+      }
+      .title {
+        color: #999;
+      }
+    }
+  }
+  .head {
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  .order {
+
+  }
+  .exception {
+    padding: 12px 6px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    & > span {
+      display: inline-block;
+      width: 10%;
+    }
+    .error {
+      border-right: 1px dotted @primary;
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        margin-right: 12px;
+        background-color: #ff3f48;
+        border-radius: 50%;
+      }
+    }
+    .success {
+      border-right: 1px dotted @primary;
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background-color: #4ed3dc;
+        border-radius: 50%;
+      }
+    }
+  }
+  .schedule {
+    background-color: #fff;
+    .item {
+      padding: 12px;
+      border-bottom: 1px solid #e6e6e6;
+      &:last-child {
+        border: none;
+      }
+      .title {
+        height: 24px;
+        line-height: 24px;
+        color: #000;
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          margin-right: 12px;
+          background-color: #ff3f48;
+          border-radius: 50%;
+        }
+      }
+      .content-title {
+        margin-bottom: 12px;
+        color: #000;
+      }
+      .content {
+        color: #999;
+        margin: 12px 0;
+      }
+      .time {
+        color: #999;
+      }
+    }
+  }
+}

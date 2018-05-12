@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Modal, Button, message, Input, Upload, Row, Col, Select, DatePicker, Form, Icon, TreeSelect, Tabs, InputNumber, Radio, Cascader } from 'antd';
+import { Modal, Button, message, Input, Upload, Row, Col, Select, DatePicker, Form, Icon, Tabs, Radio, Cascader } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
@@ -324,12 +324,12 @@ class ProductsModal extends Component {
                       initialValue: toString(productData.categoryId, 'SELECT'),
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(
-                      <Cascader options={tree} placeholder="请选择所属类目" />
-                      // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
+                      <Cascader options={tree} placeholder="请选择所属类目" />,
+                      // placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
                     )}
                   </FormItem>
                 </Col>
-            
+
                 <Col span={7}>
                   <FormItem
                     label="男女款"
@@ -410,7 +410,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('currency', {
-                      initialValue: toString(productData.currency || "1", 'SELECT'),
+                      initialValue: toString(productData.currency || '1', 'SELECT'),
                       rules: [{ required: true, message: '请选择币种' }],
                     })(
                       <Select placeholder="请选择币种" allowClear>
@@ -546,7 +546,7 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-                
+
                 <Col span={7}>
                   <FormItem
                     label="第三方销售平台"
@@ -558,7 +558,7 @@ class ProductsModal extends Component {
                     })(
                       <Select placeholder="请选择第三方销售" mode="multiple" allowClear>
                         {channels.map((el, index) => (
-                            <Option key={index} value={el.type.toString()}>{el.name}</Option>
+                          <Option key={index} value={el.type.toString()}>{el.name}</Option>
                           ))}
                       </Select>,
                     )}
@@ -570,7 +570,7 @@ class ProductsModal extends Component {
                   <FormItem
                     label="小程序可售"
                     {...formItemLayout}
-                    required="true"                    
+                    required="true"
                   >
                     {getFieldDecorator('wxisSale', {
                       initialValue: toString(productData.wxisSale !== 0 ? 1 : 0), // 神解决
@@ -596,7 +596,7 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col> */}
-                
+
                 {/* <Col span={7}>
                   <FormItem
                     label="商品代码"

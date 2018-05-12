@@ -692,7 +692,7 @@ class SkuTable extends Component {
           },
         },
         {
-          title: '销售价格',
+          title: '销售价格(￥)',
           dataIndex: 'salePrice',
           key: 'salePrice',
           width: '7%',

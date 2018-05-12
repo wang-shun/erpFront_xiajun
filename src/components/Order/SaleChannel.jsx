@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Icon, Tooltip } from 'antd';
+import { Table, Button, Row, Col, Form, Icon, Tooltip } from 'antd';
 
 // const FormItem = Form.Item;
 // const Option = Select.Option;
@@ -77,7 +77,7 @@ class SaleChannel extends Component {
 
   render() {
     const p = this;
-    const { form, channels, channelValues = {} } = p.props;
+    const { channels, channelValues = {} } = p.props;
     console.log(channels);
     // const { getFieldDecorator, resetFields } = form;
     const { visible, title } = p.state;
