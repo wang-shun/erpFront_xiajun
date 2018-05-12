@@ -7,6 +7,33 @@ const login = ({ payload }) => fetch.post('/haiLogin/login', { data: payload }).
 const logout = ({ payload }) => fetch.post('/logout', { data: payload }).catch(e => e);
 // const queryPermissions = () => fetch.post('/user/resCodes').catch(e => e);
 
+// 首页数据
+const queryIndexData = ({ payload, url }) => fetch.post(url, { data: payload }).catch(e => e);
+const querySiteMsg = ({ payload }) => fetch.post('/sitemsg/queryUserSiteMsg', { data: payload }).catch(e => e);
+const readMsg = ({ payload }) => fetch.post('/sitemsg/readMsg', { data: payload }).catch(e => e);
+
+const indexDataArr = [
+  '/home/todayOrderNum',
+  '/home/todayUnAlloOrderNum',
+  '/home/unPurItemNum',
+  '/home/todayInItemNum',
+  '/home/purExcOrderNum',
+  '/home/invExcOrderNum',
+  '/home/todayPurOrderNum',
+  '/home/todayPurItemNum',
+  '/home/balancedItemNum',
+  '/home/purchasingOrderNum',
+  '/home/waitAlloOrderNum',
+  '/home/inItemNum',
+  '/home/purchaseProblem',
+  '/home/onWayOrder',
+  '/home/weekSales',
+  '/home/monthSales',
+  '/home/weekNewItem',
+  '/home/monthNewItem',
+  '/home/todaySendOrder',
+];
+
 export default {
   namespace: 'session',
   state: {
@@ -19,6 +46,17 @@ export default {
     },
   },
   effects: {
+    * queryIndexData(payload, { call }) {
+      for (let i = 0; i < indexDataArr.length; i++) {
+        yield call(queryIndexData, { url: indexDataArr[i], payload: {} });
+      }
+    },
+    * querySiteMsg(payload, { call }) {
+      yield call(querySiteMsg, payload);
+    },
+    * readMsg(payload, { call }) {
+      yield call(readMsg, payload);
+    },
     * logout(payload, { call }) {
       yield call(logout, payload);
     },

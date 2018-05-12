@@ -86,7 +86,7 @@ class ProductsModal extends Component {
           startDate: fieldsValue.startDate && fieldsValue.startDate.format('YYYY-MM-DD HH:mm:ss'),
           endDate: fieldsValue.endDate && fieldsValue.endDate.format('YYYY-MM-DD HH:mm:ss'),
           bookingDate: fieldsValue.bookingDate && fieldsValue.bookingDate.format('YYYY-MM-DD HH:mm:ss'),
-          skuList: JSON.stringify(skuList),
+          skuList,
           saleOnChannels: fieldsValue.saleOnChannels,
           categoryId: fieldsValue.categoryId[fieldsValue.categoryId.length - 1],
         };
@@ -103,12 +103,22 @@ class ProductsModal extends Component {
             });
           });
           values.mainPic = JSON.stringify({ picList: uploadMainPic, mainPicNum });
+
+          values.skuList.forEach(el => {
+            if (el.skuPic && JSON.parse(el.skuPic).picList && JSON.parse(el.skuPic).picList.length === 0) {
+              el.skuPic = JSON.stringify({ picList: [uploadMainPic[mainPicNum - 1]] });
+            }
+          });
         }
+
+        values.skuList = JSON.stringify(values.skuList);
 
         // 处理图文详情
         const detailInfo = editor && editor.$txt && editor.$txt.html();
         const lastDetailInfo = modalValues && modalValues.data && modalValues.data.detail;
         values.detail = detailInfo ? encodeURIComponent(detailInfo) : lastDetailInfo ? encodeURIComponent(lastDetailInfo) : '';
+
+        console.log(values);
         if (modalValues && modalValues.data) {
           dispatch({
             type: 'products/updateProducts',
@@ -248,7 +258,7 @@ class ProductsModal extends Component {
     }
     const modalProps = {
       visible,
-      width: 1450,
+      width: 1350,
       wrapClassName: 'modalStyle',
       title: productData.itemCode ? '修改' : '添加',
       maskClosable: false,
@@ -658,7 +668,7 @@ class ProductsModal extends Component {
                         }
                         const { fileList } = e;
                         if (fileList[0] && ['image/jpeg', 'image/bmp', 'image/gif', 'image/png'].indexOf(fileList[0].type) === -1) {
-                          return [];
+                          fileList.shift();
                         }
                         return fileList;
                       },

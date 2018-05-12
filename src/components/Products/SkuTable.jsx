@@ -453,7 +453,7 @@ class SkuTable extends Component {
           title: 'SKU代码',
           dataIndex: 'skuCode',
           key: 'skuCode',
-          width: '8%',
+          width: '5%',
           render(t, r) {
             return (
               <FormItem>
@@ -589,7 +589,7 @@ class SkuTable extends Component {
                     }
                     const { fileList } = e;
                     if (fileList[0] && ['image/jpeg', 'image/bmp', 'image/gif', 'image/png'].indexOf(fileList[0].type) === -1) {
-                      return [];
+                      fileList.shift();
                     }
                     return fileList;
                   },
@@ -644,7 +644,7 @@ class SkuTable extends Component {
           title: 'SKU代码',
           dataIndex: 'skuCode',
           key: 'skuCode',
-          width: '8%',
+          width: '5%',
           render(t, r) {
             return (
               <FormItem>
@@ -839,7 +839,7 @@ class SkuTable extends Component {
                     }
                     const { fileList } = e;
                     if (fileList[0] && ['image/jpeg', 'image/bmp', 'image/gif', 'image/png'].indexOf(fileList[0].type) === -1) {
-                      return [];
+                      fileList.shift();
                     }
                     return fileList;
                   },
