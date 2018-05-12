@@ -115,13 +115,13 @@ class ErpOrderModal extends Component {
             </Col>
             <Col span={7}>
               <FormItem
-                label="颜色"
+                label="规格1"
                 {...formItemLayout}
               >
                 {getFieldDecorator('color', {
                   initialValue: erpOrderData.color,
                 })(
-                  <Input disabled placeholder="请输入颜色" />,
+                  <Input disabled placeholder="请输入规格1" />,
                 )}
               </FormItem>
             </Col>

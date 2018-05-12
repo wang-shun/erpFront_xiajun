@@ -120,7 +120,7 @@ export const routerCfg = {
   REPORT_SALE_REFUND: 'reportSaleRefund',
   REPORT_FREIGHT_BY_DAY: 'reportFreightByDay',
   REPORT_PURCHASE_BY_SKU: 'reportPurchaseBySku', // 采购入库sku
-  REPORT_SALE_BYSCALE: 'reportSaleByScale', // 服装尺寸占销售报表
+  REPORT_SALE_BYSCALE: 'reportSaleByScale', // 服装规格2占销售报表
   REPORT_NOSTOCKREPORT: 'reportNoStockReport', // 未备货报表
   REPORT_PXPACKAGEREPORT: 'reportPxPackageReport', // 包裹未发出报表
   REPORT_AVGREPORT: 'reportAvgReport', // 包裹时效
@@ -204,7 +204,7 @@ export const originalNavigation = [
       { key: routerCfg.REPORT_SALE_REFUND, name: '退单报表' },
       { key: routerCfg.REPORT_FREIGHT_BY_DAY, name: '物流费报表' },
       { key: routerCfg.REPORT_PURCHASE_BY_SKU, name: '采购入库sku' },
-      { key: routerCfg.REPORT_SALE_BYSCALE, name: '服装尺寸占销售比报表' },
+      { key: routerCfg.REPORT_SALE_BYSCALE, name: '服装规格2占销售比报表' },
       { key: routerCfg.REPORT_NOSTOCKREPORT, name: '未备货商品记录报表' },
       { key: routerCfg.REPORT_PXPACKAGEREPORT, name: '物流公司异常包裹报表' },
       { key: routerCfg.REPORT_AVGREPORT, name: '物流公司时效报表' },
@@ -219,5 +219,5 @@ export const originalNavigation = [
 
 let navigation = [];
 
-export function getNavigation() { return navigation; }
+export function getNavigation() { return originalNavigation; }
 export function setNavigation(data) { navigation = data; }

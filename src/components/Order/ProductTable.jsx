@@ -233,7 +233,7 @@ class ProductTable extends Component {
         { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: '14%' },
         { title: '品牌', dataIndex: 'brand', key: 'brand', width: '8%' },
         { title: '所属分类', dataIndex: 'categoryName', key: 'categoryName', width: '8%', render(text) { return text || '-'; } },
-        { title: '尺寸', dataIndex: 'scale', key: 'scale', width: '6%', render(text) { return text || '-'; } },
+        { title: '规格2', dataIndex: 'scale', key: 'scale', width: '6%', render(text) { return text || '-'; } },
         { title: '价格', dataIndex: 'salePrice', key: 'salePrice', width: '6%', render(text) { return text || '-'; } },
         { title: '图片',
           dataIndex: 'skuPic',
@@ -255,7 +255,7 @@ class ProductTable extends Component {
             }
           },
         },
-        { title: '颜色', dataIndex: 'color', key: 'color', width: '8%', render(text) { return text || '-'; } },
+        { title: '规格1', dataIndex: 'color', key: 'color', width: '8%', render(text) { return text || '-'; } },
         { title: '虚拟库存', dataIndex: 'virtualInv', key: 'virtualInv', width: '8%', render(text) { return text || '-'; } },
         { title: '重量(磅)', dataIndex: 'weight', key: 'weight', width: '8%', render(text) { return text || '-'; } },
         { title: '操作', dataIndex: 'oper', key: 'oper', width: '8%', render(t, r) { return <a onClick={() => { updateValue(r.skuCode); }}>选择</a>; } },
@@ -292,12 +292,12 @@ class ProductTable extends Component {
             </Col>
             <Col span="6">
               <FormItem
-                label="颜色"
+                label="规格1"
                 {...formItemLayout}
               >
                 <Input
                   size="default"
-                  placeholder="请输入颜色"
+                  placeholder="请输入规格1"
                   ref={(c) => { color = c; }}
                   defaultValue={skuQuery.color}
                 />
@@ -376,14 +376,14 @@ class ProductTable extends Component {
           },
         },
         {
-          title: '颜色',
+          title: '规格1',
           dataIndex: 'color',
           key: 'color',
           width: '10%',
           render(text) { return text || '-'; },
         },
         {
-          title: '尺寸',
+          title: '规格2',
           dataIndex: 'scale',
           key: 'scale',
           width: '10%',

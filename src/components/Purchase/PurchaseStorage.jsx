@@ -240,7 +240,7 @@ class PurchaseStorage extends Component {
           return '-';
         },
       },
-      { title: '颜色', dataIndex: 'color', key: 'color', width: 60 },
+      { title: '规格1', dataIndex: 'color', key: 'color', width: 60 },
       { title: '规格', dataIndex: 'scale', key: 'scale', width: 60 },
       { title: '计划采购数', dataIndex: 'taskDailyCount', key: 'taskDailyCount', width: 60 },
       { title: '入库数', dataIndex: 'quantity', key: 'quantity', width: 70, render(t) { return t || 0; } },

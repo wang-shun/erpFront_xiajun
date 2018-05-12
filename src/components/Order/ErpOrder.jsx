@@ -378,7 +378,7 @@ class ErpOrder extends Component {
       { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 110, render(text) { return text || '-'; } },
       { title: '物流公司', dataIndex: 'logisticCompany', key: 'logisticCompany', width: 50, render(text) { return text || '-'; } },
       { title: '物流单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 100, render(text) { return <font color="purple">{text}</font> || '-'; } },
-      { title: '颜色', dataIndex: 'color', key: 'color', width: 70, render(text) { return text || '-'; } },
+      { title: '规格1', dataIndex: 'color', key: 'color', width: 70, render(text) { return text || '-'; } },
       { title: '尺码', dataIndex: 'scale', key: 'scale', width: 50, render(text) { return text || '-'; } },
       { title: '图片',
         dataIndex: 'skuPic',

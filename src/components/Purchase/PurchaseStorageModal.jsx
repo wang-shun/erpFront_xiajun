@@ -337,7 +337,7 @@ class PurchaseModal extends Component {
           );
         },
       },
-      { title: '颜色', dataIndex: 'color', key: 'color', width: 40 },
+      { title: '规格1', dataIndex: 'color', key: 'color', width: 40 },
       { title: '规格', dataIndex: 'scale', key: 'scale', width: 44 },
       { title: '计划采购数', dataIndex: 'taskDailyCount', key: 'taskDailyCount', width: 60 },
       { title: '已入库数', dataIndex: 'inCount', key: 'inCount', width: 70, render(t) { return t || 0; } },
@@ -390,7 +390,7 @@ class PurchaseModal extends Component {
           );
         },
       },
-      { title: '颜色', dataIndex: 'color', key: 'color', width: 50 },
+      { title: '规格1', dataIndex: 'color', key: 'color', width: 50 },
       { title: '规格', dataIndex: 'scale', key: 'scale', width: 50 },
       { title: '已入库数', dataIndex: 'inCount', key: 'inCount', width: 60, render(t) { return t || 0; } },
       { title: '计划采购数', dataIndex: 'count', key: 'count', width: 60, render(t, r) { return t || r.taskDailyCount; } },

@@ -155,7 +155,7 @@ class DeliveryModal extends Component {
           }
         },
       },
-      { title: '颜色', dataIndex: 'color', key: 'color', width: 100 },
+      { title: '规格1', dataIndex: 'color', key: 'color', width: 100 },
       { title: '尺码', dataIndex: 'scale', key: 'scale', width: 100 },
       { title: '单品单价', dataIndex: 'salePrice', key: 'salePrice', width: 100 },
       { title: '重量(磅)', dataIndex: 'weight', key: 'weight', width: 100 },

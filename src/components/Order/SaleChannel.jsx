@@ -71,14 +71,13 @@ class SaleChannel extends Component {
       type: 'order/deleteChannel',
       payload: {
         id,
-      },
+      }
     });
   }
 
   render() {
     const p = this;
     const { form, channels, channelValues = {} } = p.props;
-    console.log(channels);
     // const { getFieldDecorator, resetFields } = form;
     const { visible, title } = p.state;
     // const formItemLayout = {
@@ -119,7 +118,6 @@ class SaleChannel extends Component {
         key: 'contactName',
         width: '16%',
         render: (t, r) => {
-          console.log(t, r);
           return (
             <div>
               <span>{t}</span>
@@ -141,8 +139,8 @@ class SaleChannel extends Component {
             <div>
               <a onClick={p.updateModal.bind(p, record.id)}>修改</a>
               <span> | </span>
-              <a onClick={p.updateModal.bind(p, record.id)}>查看历史结算</a>
-              <span> | </span>
+              {/* <a onClick={p.updateModal.bind(p, record.id)}>查看历史结算</a>
+              <span> | </span> */}
               <a onClick={p.handleDeleteChannel.bind(p, record.id)}>删除</a>
             </div>);
         },
@@ -310,9 +308,10 @@ class SaleChannel extends Component {
 }
 
 function mapStateToProps({ order }) {
-  const { channels } = order;
+  const { channels, channelValues } = order;
   return {
     channels,
+    channelValues,
   };
 }
 

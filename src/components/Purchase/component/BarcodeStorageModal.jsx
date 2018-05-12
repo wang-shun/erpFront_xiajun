@@ -280,7 +280,7 @@ class BarcodeModal extends Component {
           );
         },
       },
-      { title: '颜色', dataIndex: 'color', key: 'color', width: 60 },
+      { title: '规格1', dataIndex: 'color', key: 'color', width: 60 },
       { title: '规格', dataIndex: 'scale', key: 'scale', width: 60 },
       { title: '已入库数', dataIndex: 'inCount', key: 'inCount', width: 80, render(t) { return t || 0; } },
       { title: '计划采购数', dataIndex: 'count', key: 'count', width: 80, render(t, r) { return t || r.taskDailyCount; } },

@@ -324,7 +324,7 @@ class ProductsModal extends Component {
                       initialValue: toString(productData.categoryId, 'SELECT'),
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(
-                      <Cascader options={tree} placeholder="请选择所属类目" />
+                      <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover" />
                       // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
                     )}
                   </FormItem>
@@ -519,7 +519,7 @@ class ProductsModal extends Component {
                     required="true"
                   >
                     {getFieldDecorator('deliveryMode', {
-                      initialValue: toString(productData.deliveryMode || undefined),
+                      initialValue: toString(productData.deliveryMode || '1'),
                     })(
                       <RadioGroup>
                         <Radio value="1">海外直邮</Radio>
@@ -548,21 +548,21 @@ class ProductsModal extends Component {
                 </Col>
                 
                 <Col span={7}>
-                  <FormItem
+                  {<FormItem
                     label="第三方销售平台"
                     {...formItemLayout}
                   >
                     {getFieldDecorator('saleOnChannels', {
-                      initialValue: toString(productData.saleOnChannels, 'SELECT'),
+                      initialValue: productData.saleOnChannels || [],
                       rules: [{ required: false, message: '请选择第三方销售' }],
                     })(
                       <Select placeholder="请选择第三方销售" mode="multiple" allowClear>
                         {channels.map((el, index) => (
-                            <Option key={index} value={el.type.toString()}>{el.name}</Option>
+                            <Option key={index} value={el.type}>{el.name}</Option>
                           ))}
                       </Select>,
                     )}
-                  </FormItem>
+                  </FormItem>}
                 </Col>
               </Row>
               <Row>
@@ -657,6 +657,9 @@ class ProductsModal extends Component {
                           return e;
                         }
                         const { fileList } = e;
+                        if (fileList[0] && ['image/jpeg', 'image/bmp', 'image/gif', 'image/png'].indexOf(fileList[0].type) === -1) {
+                          return [];
+                        }
                         return fileList;
                       },
                       rules: [{ validator: this.checkImg.bind(this) }],

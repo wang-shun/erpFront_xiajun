@@ -113,7 +113,7 @@ class UncompletePurchaseStorage extends Component {
           return '-';
         },
       },
-      { title: '颜色', dataIndex: 'color', key: 'color', width: 60 },
+      { title: '规格1', dataIndex: 'color', key: 'color', width: 60 },
       { title: '规格', dataIndex: 'scale', key: 'scale', width: 60 },
       { title: '未完成采购数量', dataIndex: 'purchaseNeed', key: 'purchaseNeed', width: 60 },
     ];
