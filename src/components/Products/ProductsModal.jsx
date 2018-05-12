@@ -86,7 +86,7 @@ class ProductsModal extends Component {
           startDate: fieldsValue.startDate && fieldsValue.startDate.format('YYYY-MM-DD HH:mm:ss'),
           endDate: fieldsValue.endDate && fieldsValue.endDate.format('YYYY-MM-DD HH:mm:ss'),
           bookingDate: fieldsValue.bookingDate && fieldsValue.bookingDate.format('YYYY-MM-DD HH:mm:ss'),
-          skuList: JSON.stringify(skuList),
+          skuList,
           saleOnChannels: fieldsValue.saleOnChannels,
           categoryId: fieldsValue.categoryId[fieldsValue.categoryId.length - 1],
         };
@@ -103,12 +103,22 @@ class ProductsModal extends Component {
             });
           });
           values.mainPic = JSON.stringify({ picList: uploadMainPic, mainPicNum });
+
+          values.skuList.forEach((el) => {
+            if (el.skuPic && JSON.parse(el.skuPic).picList && JSON.parse(el.skuPic).picList.length === 0) {
+              el.skuPic = JSON.stringify({ picList: [uploadMainPic[mainPicNum - 1]] });
+            }
+          });
         }
+
+        values.skuList = JSON.stringify(values.skuList);
 
         // 处理图文详情
         const detailInfo = editor && editor.$txt && editor.$txt.html();
         const lastDetailInfo = modalValues && modalValues.data && modalValues.data.detail;
         values.detail = detailInfo ? encodeURIComponent(detailInfo) : lastDetailInfo ? encodeURIComponent(lastDetailInfo) : '';
+
+        console.log(values);
         if (modalValues && modalValues.data) {
           dispatch({
             type: 'products/updateProducts',
@@ -248,7 +258,7 @@ class ProductsModal extends Component {
     }
     const modalProps = {
       visible,
-      width: 1450,
+      width: 1350,
       wrapClassName: 'modalStyle',
       title: productData.itemCode ? '修改' : '添加',
       maskClosable: false,
@@ -324,8 +334,8 @@ class ProductsModal extends Component {
                       initialValue: toString(productData.categoryId, 'SELECT'),
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(
-                      <Cascader options={tree} placeholder="请选择所属类目" />,
-                      // placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
+                      <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover" />,
+                      // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
                     )}
                   </FormItem>
                 </Col>
@@ -519,7 +529,7 @@ class ProductsModal extends Component {
                     required="true"
                   >
                     {getFieldDecorator('deliveryMode', {
-                      initialValue: toString(productData.deliveryMode || undefined),
+                      initialValue: toString(productData.deliveryMode || '1'),
                     })(
                       <RadioGroup>
                         <Radio value="1">海外直邮</Radio>
@@ -548,21 +558,21 @@ class ProductsModal extends Component {
                 </Col>
 
                 <Col span={7}>
-                  <FormItem
+                  {<FormItem
                     label="第三方销售平台"
                     {...formItemLayout}
                   >
                     {getFieldDecorator('saleOnChannels', {
-                      initialValue: toString(productData.saleOnChannels, 'SELECT'),
+                      initialValue: productData.saleOnChannels || [],
                       rules: [{ required: false, message: '请选择第三方销售' }],
                     })(
                       <Select placeholder="请选择第三方销售" mode="multiple" allowClear>
                         {channels.map((el, index) => (
-                          <Option key={index} value={el.type.toString()}>{el.name}</Option>
+                          <Option key={index} value={el.type}>{el.name}</Option>
                           ))}
                       </Select>,
                     )}
-                  </FormItem>
+                  </FormItem>}
                 </Col>
               </Row>
               <Row>
@@ -657,6 +667,9 @@ class ProductsModal extends Component {
                           return e;
                         }
                         const { fileList } = e;
+                        if (fileList[0] && ['image/jpeg', 'image/bmp', 'image/gif', 'image/png'].indexOf(fileList[0].type) === -1) {
+                          fileList.shift();
+                        }
                         return fileList;
                       },
                       rules: [{ validator: this.checkImg.bind(this) }],

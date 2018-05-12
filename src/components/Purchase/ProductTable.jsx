@@ -511,8 +511,8 @@ class ProductTable extends Component {
             }
           },
         },
-        { title: '颜色', dataIndex: 'color', key: 'color', width: 60, render(text) { return text || '-'; } },
-        { title: '尺寸', dataIndex: 'scale', key: 'scale', width: 60, render(text) { return text || '-'; } },
+        { title: '规格1', dataIndex: 'color', key: 'color', width: 60, render(text) { return text || '-'; } },
+        { title: '规格2', dataIndex: 'scale', key: 'scale', width: 60, render(text) { return text || '-'; } },
         // { title: '价格', dataIndex: 'salePrice', key: 'salePrice', width: '6%', render(text) { return text || '-'; } },
         { title: '订单所需库存', dataIndex: 'saleNeed', key: 'saleNeed', width: 60, render(text) { return text || '-'; } },
         { title: '当前采购数量', dataIndex: 'purchaseNeed', key: 'purchaseNeed', width: 60, render(text) { return text || '-'; } },
@@ -754,7 +754,7 @@ class ProductTable extends Component {
             );
           },
         },
-        { title: <font color="#00f">颜色</font>,
+        { title: <font color="#00f">规格1</font>,
           dataIndex: 'color',
           key: 'color',
           width: '8.5%',
@@ -770,7 +770,7 @@ class ProductTable extends Component {
               </FormItem>);
           },
         },
-        { title: <font color="#00f">尺寸</font>,
+        { title: <font color="#00f">规格2</font>,
           dataIndex: 'scaleInt',
           key: 'scaleInt',
           width: '8.5%',

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import HeaderView from './components/HeaderView';
 import ExceptionTips from './components/ExceptionTips';
 import DataView from './components/DataView';
@@ -9,11 +10,15 @@ import Title from './components/Title';
 
 import styles from './style.less';
 
-
 class Overview extends Component {
   constructor() {
     super();
     this.state = {};
+  }
+  componentDidMount() {
+    // this.props.dispatch({ type: 'session/queryIndexData' });
+    this.props.dispatch({ type: 'session/querySiteMsg' });
+    this.props.dispatch({ type: 'session/readMsg', payload: { id: 15 } });
   }
   render() {
     return (
@@ -79,4 +84,11 @@ class Overview extends Component {
   }
 }
 
-export default Overview;
+function mapStateToProps(state) {
+  return {
+    ...state,
+  };
+}
+
+export default connect(mapStateToProps)(Overview);
+

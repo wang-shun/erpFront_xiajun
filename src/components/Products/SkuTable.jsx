@@ -114,7 +114,9 @@ class SkuTable extends Component {
       costPrice: typeof obj.costPrice === 'string' ? obj.costPrice : '',
       discount: typeof obj.discount === 'string' ? obj.discount : '',
       purchasePrice: typeof obj.purchasePrice === 'string' ? obj.purchasePrice : '',
-
+      upc: obj.upc || '',
+      inventory: obj.inventory || '',
+      thirdSkuCode: obj.thirdSkuCode || '',
     };
     skuData.push(newItem);
     this.setState({ skuData });
@@ -270,7 +272,7 @@ class SkuTable extends Component {
         const tempDiscount = typeof discount === 'string' ? discount : '';
         const tempPurchasePrice = typeof purchasePrice === 'string' ? purchasePrice : '';
         skuData.forEach((el) => {
-          // 颜色没填，或者填的颜色已在现有sku中存在了，就认定是修改
+          // 规格1没填，或者填的规格1已在现有sku中存在了，就认定是修改
           if ((temColor !== '' && temColor === el.color) || temColor === '') {
             if (tempSalePrice) el.salePrice = tempSalePrice;
             if (tempCostPrice) el.costPrice = tempCostPrice;
@@ -335,7 +337,7 @@ class SkuTable extends Component {
         const pic = this.dealSkuPic(batchFileList);
         const tempSkuPic = JSON.stringify(pic);
         skuData.forEach((el) => {
-          // 颜色没填，或者填的颜色已在现有sku中存在了，就认定是修改
+          // 规格1没填，或者填的规格1已在现有sku中存在了，就认定是修改
           if ((temColor !== '' && temColor === el.color) || temColor === '') {
             if (tempSalePrice) el.salePrice = tempSalePrice;
             if (tempVirtualInv) el.virtualInv = tempVirtualInv;
@@ -395,10 +397,13 @@ class SkuTable extends Component {
     const itemKey = `r_${item.key}_`;
     const obj = {};
     Object.keys(list).forEach((key) => {
+      const _key = key.replace(itemKey, '');
+      const notConvertItem = ['packageLevelId', 'inventory', 'thirdSkuCode', 'upc'];
       if (key.indexOf(itemKey) > -1) {
-        obj[key.replace(itemKey, '')] = list[key];
+        obj[key.replace(itemKey, '')] = list[key] ? notConvertItem.indexOf(_key) > -1 ? list[key] : list[key].toString() : undefined;
       }
     })
+    console.log(this.state.batchFileList);
     this.addItem(obj);
   }
   render() {
@@ -448,7 +453,7 @@ class SkuTable extends Component {
           title: 'SKU代码',
           dataIndex: 'skuCode',
           key: 'skuCode',
-          width: '8%',
+          width: '5%',
           render(t, r) {
             return (
               <FormItem>
@@ -474,7 +479,21 @@ class SkuTable extends Component {
           },
         },
         {
-          title: '尺寸',
+          title: '规格1',
+          dataIndex: 'color',
+          key: 'color',
+          width: '6%',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
+                  <Input placeholder="请填写" />)}
+              </FormItem>
+            );
+          },
+        },
+        {
+          title: '规格2',
           dataIndex: 'scale',
           key: 'scale',
           width: '7%',
@@ -485,20 +504,6 @@ class SkuTable extends Component {
                   <Input placeholder="请填写" />)}
                 {getFieldDecorator(`r_${r.key}_id`, { initialValue: r.id || null })(
                   <Input style={{ display: 'none' }} />)}
-              </FormItem>
-            );
-          },
-        },
-        {
-          title: '颜色',
-          dataIndex: 'color',
-          key: 'color',
-          width: '6%',
-          render(t, r) {
-            return (
-              <FormItem>
-                {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" />)}
               </FormItem>
             );
           },
@@ -583,6 +588,9 @@ class SkuTable extends Component {
                       return e;
                     }
                     const { fileList } = e;
+                    if (fileList[0] && ['image/jpeg', 'image/bmp', 'image/gif', 'image/png'].indexOf(fileList[0].type) === -1) {
+                      fileList.shift();
+                    }
                     return fileList;
                   },
                   rules: [{ validator: p.checkImg.bind(p) }],
@@ -636,7 +644,7 @@ class SkuTable extends Component {
           title: 'SKU代码',
           dataIndex: 'skuCode',
           key: 'skuCode',
-          width: '8%',
+          width: '5%',
           render(t, r) {
             return (
               <FormItem>
@@ -662,7 +670,21 @@ class SkuTable extends Component {
           },
         },
         {
-          title: '尺寸',
+          title: '规格1',
+          dataIndex: 'color',
+          key: 'color',
+          width: '6%',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
+                  <Input placeholder="请填写" />)}
+              </FormItem>
+            );
+          },
+        },
+        {
+          title: '规格2',
           dataIndex: 'scale',
           key: 'scale',
           width: '7%',
@@ -673,20 +695,6 @@ class SkuTable extends Component {
                   <Input placeholder="请填写" />)}
                 {getFieldDecorator(`r_${r.key}_id`, { initialValue: r.id || null })(
                   <Input style={{ display: 'none' }} />)}
-              </FormItem>
-            );
-          },
-        },
-        {
-          title: '颜色',
-          dataIndex: 'color',
-          key: 'color',
-          width: '6%',
-          render(t, r) {
-            return (
-              <FormItem>
-                {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" />)}
               </FormItem>
             );
           },
@@ -830,6 +838,9 @@ class SkuTable extends Component {
                       return e;
                     }
                     const { fileList } = e;
+                    if (fileList[0] && ['image/jpeg', 'image/bmp', 'image/gif', 'image/png'].indexOf(fileList[0].type) === -1) {
+                      fileList.shift();
+                    }
                     return fileList;
                   },
                   rules: [{ validator: p.checkImg.bind(p) }],
@@ -923,7 +934,7 @@ class SkuTable extends Component {
         <Select placeholder="请选择类型" defaultValue={batchSkuSort || undefined} style={{ width: 200, marginTop: 10 }} onChange={this.changeBatchSkuType.bind(this)}>
           {scaleTypes.map(el => <Option key={el.id} value={el.id}>{el.type}</Option>)}
         </Select>
-        <div><Input placeholder="请输入颜色" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.color = c; }} /></div>
+        <div><Input placeholder="请输入规格1" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.color = c; }} /></div>
         <div><Input placeholder="请输入售价" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.salePrice = c; }} /></div>
         <div><Input placeholder="请输入虚拟库存" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.virtualInv = c; }} /></div>
         <div><Input placeholder="请输入重量(磅)" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.weight = c; }} /></div>
@@ -947,7 +958,7 @@ class SkuTable extends Component {
         <Select placeholder="请选择类型" defaultValue={batchSkuSort || undefined} showClear style={{ width: 200, marginTop: 10 }} onChange={this.changeBatchSkuType.bind(this)}>
           {scaleTypes.map(el => <Option key={el.id} value={el.id}>{el.type}</Option>)}
         </Select>
-        <div><Input placeholder="请输入颜色" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.color = c; }} /></div>
+        <div><Input placeholder="请输入规格1" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.color = c; }} /></div>
         <div><Input placeholder="请输入售价" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.salePrice = c; }} /></div>
         <div><Input placeholder="请输入原价" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.costPrice = c; }} /></div>
         <div><Input placeholder="请输入折扣率" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.discount = c; }} /></div>

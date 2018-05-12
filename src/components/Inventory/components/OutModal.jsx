@@ -339,8 +339,8 @@ class OutModal extends Component {
       { title: '仓库名称', key: 'warehouseName', dataIndex: 'warehouseName', width: 100 },
       { title: '货架号', key: 'positionNo', dataIndex: 'positionNo', width: 60 },
       { title: 'UPC', key: 'upc', dataIndex: 'upc', width: 100 },
-      { title: '颜色', key: 'color', dataIndex: 'color', width: 80 },
-      { title: '尺寸', key: 'scale', dataIndex: 'scale', width: 80 },
+      { title: '规格1', key: 'color', dataIndex: 'color', width: 80 },
+      { title: '规格2', key: 'scale', dataIndex: 'scale', width: 80 },
       { title: '可售库存', key: 'totalAvailableInv', dataIndex: 'totalAvailableInv', width: 80 },
       { title: '现货库存', key: 'inventory', dataIndex: 'inventory', width: 80 },
       { title: '现货占用', key: 'lockedInv', dataIndex: 'lockedInv', width: 80 },
@@ -502,7 +502,7 @@ class OutModal extends Component {
         { title: '商品名称', key: 'itemName', dataIndex: 'itemName', width: 150 },
         { title: 'UPC', key: 'upc', dataIndex: 'upc', width: 100 },
         /* title: '尺码', key: 'scale', dataIndex: 'scale', width: 80 },
-        { title: '颜色', key: 'color', dataIndex: 'color', width: 80 },*/
+        { title: '规格1', key: 'color', dataIndex: 'color', width: 80 },*/
         { title: '货架号', key: 'positionNo', dataIndex: 'positionNo', width: 80 },
         { title: '商品图片',
           key: 'skuPic',

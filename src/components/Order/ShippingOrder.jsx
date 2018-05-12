@@ -308,7 +308,7 @@ class ShippingOrder extends Component {
           }
         },
       },
-      { title: '颜色', dataIndex: 'color', key: 'color', width: 100 },
+      { title: '规格1', dataIndex: 'color', key: 'color', width: 100 },
       { title: '尺码', dataIndex: 'scale', key: 'scale', width: 100 },
       { title: '购买数量', dataIndex: 'quantity', key: 'quantity', width: 100 },
       { title: '发货仓库', dataIndex: 'warehouseName', key: 'warehouseName', width: 100 },

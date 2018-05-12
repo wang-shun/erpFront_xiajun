@@ -78,7 +78,6 @@ class SaleChannel extends Component {
   render() {
     const p = this;
     const { channels, channelValues = {} } = p.props;
-    console.log(channels);
     // const { getFieldDecorator, resetFields } = form;
     const { visible, title } = p.state;
     // const formItemLayout = {
@@ -101,17 +100,20 @@ class SaleChannel extends Component {
           }
         },
       },
-      { title: '折扣率', dataIndex: 'discount', key: 'discount', width: '16%',
+      { title: '折扣率',
+        dataIndex: 'discount',
+        key: 'discount',
+        width: '16%',
         render: (t, r) => {
-          if (r.type === '1') return t + '%';
-          if (r.saleLevel === '1') return '一级: ' + r.discount1 + '%';
+          if (r.type === '1') return `${t}%`;
+          if (r.saleLevel === '1') return `一级: ${r.discount1}%`;
           if (r.saleLevel === '2') {
             return <div><div>一级: {r.discount1}%</div><div>二级: {r.discount2}%</div></div>;
           }
           if (r.saleLevel === '3') {
             return <div><div>一级: {r.discount1}%</div><div>二级: {r.discount2}%</div><div>三级: {r.discount3}%</div></div>;
           }
-        }  
+        },
       },
       { title: '备注', dataIndex: 'remark', key: 'remark', width: '16%' },
       { title: '对接人',
@@ -119,7 +121,6 @@ class SaleChannel extends Component {
         key: 'contactName',
         width: '16%',
         render: (t, r) => {
-          console.log(t, r);
           return (
             <div>
               <span>{t}</span>
@@ -141,8 +142,8 @@ class SaleChannel extends Component {
             <div>
               <a onClick={p.updateModal.bind(p, record.id)}>修改</a>
               <span> | </span>
-              <a onClick={p.updateModal.bind(p, record.id)}>查看历史结算</a>
-              <span> | </span>
+              {/* <a onClick={p.updateModal.bind(p, record.id)}>查看历史结算</a>
+              <span> | </span> */}
               <a onClick={p.handleDeleteChannel.bind(p, record.id)}>删除</a>
             </div>);
         },
@@ -310,9 +311,10 @@ class SaleChannel extends Component {
 }
 
 function mapStateToProps({ order }) {
-  const { channels } = order;
+  const { channels, channelValues } = order;
   return {
     channels,
+    channelValues,
   };
 }
 

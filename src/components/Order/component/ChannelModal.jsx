@@ -7,10 +7,18 @@ const Option = Select.Option;
 class ChannelModal extends Component {
   constructor(props) {
     super(props);
+    this.isEditInited = false;
     this.state = {
       channelType: '2', // 类型，平台1，分销2
       channelLevelCount: 1, // 折扣率级别
     };
+  }
+  componentWillReceiveProps(next) {
+    if (next.data.saleLevel && !this.isEditInited) {
+      this.isEditInited = true;
+      this.setState({ channelLevelCount: next.data.saleLevel - 0 });
+      this.props.form.setFieldsValue({ saleLevel: next.data.saleLevel });
+    }
   }
   handleSubmit() {
     const p = this;
@@ -43,11 +51,11 @@ class ChannelModal extends Component {
           // values.discount = `${values.level1}|${values.level2}`;
         }
         if (values.level3) {
-          values.discount3 = values.level3;        
+          values.discount3 = values.level3;
           // values.discount = `${values.level1}|${values.level2}|${values.level3}`;
         }
       }
-      
+
       delete values.level1;
       delete values.level2;
       delete values.level3;
@@ -88,6 +96,7 @@ class ChannelModal extends Component {
       labelCol: { span: 9 },
       wrapperCol: { span: 15 },
     };
+
     return (
       <div>
         <Modal
@@ -170,7 +179,7 @@ class ChannelModal extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('level1', {
-                    initialValue: data.level1,
+                    initialValue: data.discount1,
                     rules: [{ required: true, message: '请输入' }],
                   })(
                     <Input placeholder="请输入折扣率" addonBefore="一级" suffix="%" />,
@@ -180,7 +189,7 @@ class ChannelModal extends Component {
               {channelLevelCount > 1 && <Col span={6} style={{ margin: '0 20px' }}>
                 <FormItem>
                   {getFieldDecorator('level2', {
-                    initialValue: data.level2,
+                    initialValue: data.discount2,
                   })(
                     <Input placeholder="请输入折扣率" addonBefore="二级" suffix="%" />)}
                 </FormItem>
@@ -188,7 +197,7 @@ class ChannelModal extends Component {
               {channelLevelCount > 2 && <Col span={6}>
                 <FormItem>
                   {getFieldDecorator('level3', {
-                    initialValue: data.level3,
+                    initialValue: data.discount3,
                   })(
                     <Input placeholder="请输入折扣率" addonBefore="三级" suffix="%" />)}
                 </FormItem>

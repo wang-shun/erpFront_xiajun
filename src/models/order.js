@@ -486,7 +486,6 @@ export default {
       const data = yield call(deleteChannel, { payload });
       if (data.success) {
         message.success('删除成功');
-        cb();
         yield put({
           type: 'queryChannelList',
         });

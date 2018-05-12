@@ -226,13 +226,13 @@ class SkuModal extends Component {
             </Col>
             <Col span={7}>
               <FormItem
-                label="尺寸"
+                label="规格2"
                 {...formItemLayout}
               >
                 {getFieldDecorator('scale', {
                   initialValue: toString(skuModalData.scale),
                 })(
-                  <Input disabled placeholder="请输入尺寸" />,
+                  <Input disabled placeholder="请输入规格2" />,
                 )}
               </FormItem>
             </Col>
@@ -292,13 +292,13 @@ class SkuModal extends Component {
             </Col>
             <Col span={7}>
               <FormItem
-                label="颜色"
+                label="规格1"
                 {...formItemLayout}
               >
                 {getFieldDecorator('color', {
                   initialValue: toString(skuModalData.color),
                 })(
-                  <Input disabled placeholder="请输入颜色" />,
+                  <Input disabled placeholder="请输入规格1" />,
                 )}
               </FormItem>
             </Col>
