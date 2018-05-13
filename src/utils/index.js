@@ -57,7 +57,7 @@ export default () => {
     }
   }
 
-  function existState(pathname) {
+  function existState() {
     return false;
     // return !!pageStorage.getItem(`airuhua_${pathname}`);
   }

@@ -60,6 +60,8 @@ export const backendCfg = {
 export const routerCfg = {
   // 登录
   LOGIN: 'login',
+  // 信息
+  MESSAGE: 'message',
   // 总览
   OVERVIEW: 'overview',
   // 权限管理
