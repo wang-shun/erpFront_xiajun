@@ -316,6 +316,26 @@ class ProductsModal extends Component {
     };
     const fileListSource = this.state.picList || picList;
 
+    let selectedCategoryId = [];
+
+    if (productData.categoryId) {
+      tree.forEach((el) => {
+        if (el.children) {
+          el.children.forEach((el2) => {
+            if (el2.children) {
+              el2.children.forEach((el3) => {
+                if (el3.id.toString() === productData.categoryId.toString()) {
+                  selectedCategoryId = [el.id.toString(), el2.id.toString(), el3.id.toString()];
+                }
+              });
+            }
+          })
+        }
+      })
+    }
+
+    console.log(productData.categoryId, selectedCategoryId);
+
     return (
       <Modal
         {...modalProps}
@@ -331,7 +351,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('categoryId', {
-                      initialValue: toString(productData.categoryId, 'SELECT'),
+                      initialValue: selectedCategoryId,
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(
                       <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover" />,
@@ -456,7 +476,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('country', {
-                      initialValue: toString(productData.country, 'SELECT'),
+                      initialValue: productData.country, // toString(, 'SELECT'),
                       rules: [{ required: true, message: '请选择国家' }],
                     })(
                       <Select placeholder="请选择国家" allowClear onChange={this.handleSelectCountry.bind(this)}>
