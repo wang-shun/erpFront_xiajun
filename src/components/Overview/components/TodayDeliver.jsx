@@ -47,9 +47,9 @@ export default class HeaderView extends Component {
     return (
       <div className={styles.head}>
         <Title title="今日发货订单表" href="/order" />
-        <Table
+        {/* <Table
           columns={this.renderColumn()}
-        />
+        /> */}
       </div>
     );
   }

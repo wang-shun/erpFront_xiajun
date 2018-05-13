@@ -39,16 +39,30 @@ export default {
   state: {
     username: localStorage.getItem('HAIERP_LAST_USERNAME'),
     dataSource: [],
+    overviewInfo: {},
   },
   reducers: {
     updateUsername(state, { payload }) {
       return { ...state, username: payload };
     },
+    updateOverviewInfo(state, { payload }) {
+      return {
+        ...state,
+        overviewInfo: { ...state.overviewInfo, ...payload },
+      };
+    },
   },
   effects: {
-    * queryIndexData(payload, { call }) {
+    * queryIndexData(payload, { call, put }) {
       for (let i = 0; i < indexDataArr.length; i++) {
-        yield call(queryIndexData, { url: indexDataArr[i], payload: {} });
+        const data = yield call(queryIndexData, { url: indexDataArr[i], payload: {} });
+        const pa = {
+          [indexDataArr[i].split('/')[2]]: data.data,
+        };
+        yield put({
+          type: 'updateOverviewInfo',
+          payload: pa,
+        });
       }
     },
     * querySiteMsg(payload, { call }) {

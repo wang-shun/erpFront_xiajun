@@ -16,18 +16,20 @@ class Overview extends Component {
     this.state = {};
   }
   componentDidMount() {
-    // this.props.dispatch({ type: 'session/queryIndexData' });
+    this.props.dispatch({ type: 'session/queryIndexData' });
     this.props.dispatch({ type: 'session/querySiteMsg' });
     this.props.dispatch({ type: 'session/readMsg', payload: { id: 15 } });
   }
   render() {
+    const { overviewInfo } = this.props;
+    console.log(overviewInfo);
     return (
       <div className={styles.overview}>
-        <HeaderView />
-        <ExceptionTips />
+        <HeaderView info={overviewInfo} />
+        {/* <ExceptionTips info={overviewInfo} /> */}
         <div>
           <div style={{ width: '70%', minHeight: 700, float: 'left', marginRight: '5%' }}>
-            <DataView />
+            <DataView info={overviewInfo} />
           </div>
           <div className={styles.fr}>
             <div className={styles.mb20}>
@@ -68,15 +70,15 @@ class Overview extends Component {
                 </ul>
               </div>
             </div>
-            <TodayOrder />
+            <TodayOrder info={overviewInfo} />
           </div>
         </div>
         <div>
           <div style={{ width: '70%', float: 'left', marginRight: '5%' }}>
-            <TodayDeliver />
+            <TodayDeliver info={overviewInfo} />
           </div>
           <div style={{ width: '25%', float: 'right' }}>
-            <Schedule />
+            <Schedule info={overviewInfo} />
           </div>
         </div>
       </div>
@@ -84,9 +86,9 @@ class Overview extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps({ session }) {
   return {
-    ...state,
+    overviewInfo: session.overviewInfo,
   };
 }
 

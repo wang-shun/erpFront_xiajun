@@ -17,6 +17,8 @@ class Header extends React.Component {
     const { session, location } = this.props;
     // const { pathname } = this.props.location;
     return (
+      <div>
+        <div style={{ height: 50 }}></div>
       <header className={styles.header}>
         <span className={styles.logo} />
         {/* <Menu
@@ -47,6 +49,7 @@ class Header extends React.Component {
 
         <Breadcrumb location={location} />
       </header>
+      </div>
     );
   }
 }
