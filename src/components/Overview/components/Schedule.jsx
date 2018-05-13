@@ -12,13 +12,12 @@ export default class HeaderView extends Component {
           <div className={styles.item}>
             <div className={styles.title} >【发现新品审核】</div>
             <div className={styles['content-title']}>买手belig，提交最新发现商品</div>
-            <div className={styles.content}>女款西服，采购有效时间为48小时，请尽快审核。<a>点击查看发现详情</a></div>
+            <div className={styles.content}>女款西服，采购有效时间为48小时，请尽快审核。</div>
             <div className={styles.time}>2018/04/29 12:33:00</div>
           </div>
           <div className={styles.item}>
             <div className={styles.title} >【采购任务单待分配】</div>
             <div className={styles['content-title']}>订单号：BS103938493，待分配</div>
-            <div className={styles.content}><a>请前往分配任务</a></div>
             <div className={styles.time}>2018/04/29 12:33:00</div>
           </div>
           <div className={styles.item}>

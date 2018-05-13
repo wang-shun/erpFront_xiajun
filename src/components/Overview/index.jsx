@@ -21,14 +21,14 @@ class Overview extends Component {
     this.props.dispatch({ type: 'session/readMsg', payload: { id: 15 } });
   }
   render() {
-    const { overviewInfo } = this.props;
-    console.log(overviewInfo);
+    const { overviewInfo, msgList } = this.props;
+    console.log(msgList);
     return (
       <div className={styles.overview}>
         <HeaderView info={overviewInfo} />
         {/* <ExceptionTips info={overviewInfo} /> */}
         <div>
-          <div style={{ width: '70%', minHeight: 700, float: 'left', marginRight: '5%' }}>
+          <div style={{ width: '70%', float: 'left', marginRight: '5%' }}>
             <DataView info={overviewInfo} />
           </div>
           <div className={styles.fr}>
@@ -38,13 +38,13 @@ class Overview extends Component {
                 <ul>
                   <li>
                     <a>
-                      <div className={styles.count}>75</div>
+                      <div className={styles.count}>{overviewInfo.todayPurOrderNum || 0}</div>
                       <div className={styles.title}>今日采购订单数</div>
                     </a>
                   </li>
                   <li>
                     <a>
-                      <div className={styles.count}>65</div>
+                      <div className={styles.count}>{overviewInfo.todayPurItemNum || 0}</div>
                       <div className={styles.title}>今日已采购商品数</div>
                     </a>
                   </li>
@@ -57,25 +57,25 @@ class Overview extends Component {
                 <ul>
                   <li>
                     <a>
-                      <div className={styles.count}>25</div>
+                      <div className={styles.count}>{overviewInfo.balancedItemNum || 0}</div>
                       <div className={styles.title}>入预报商品</div>
                     </a>
                   </li>
                   <li>
                     <a>
-                      <div className={styles.count}>65</div>
+                      <div className={styles.count}>{overviewInfo.inItemNum || 0}</div>
                       <div className={styles.title}>已入库商品</div>
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
-            <TodayOrder info={overviewInfo} />
+            {/* <TodayOrder info={overviewInfo} /> */}
           </div>
         </div>
         <div>
           <div style={{ width: '70%', float: 'left', marginRight: '5%' }}>
-            <TodayDeliver info={overviewInfo} />
+            <TodayDeliver data={overviewInfo.todaySendOrder} />
           </div>
           <div style={{ width: '25%', float: 'right' }}>
             <Schedule info={overviewInfo} />
@@ -89,6 +89,7 @@ class Overview extends Component {
 function mapStateToProps({ session }) {
   return {
     overviewInfo: session.overviewInfo,
+    msgList: session.msgList
   };
 }
 

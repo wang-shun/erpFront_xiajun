@@ -41,10 +41,10 @@ class Header extends React.Component {
         </Menu> */}
         <span className={styles.user}>
           <span className={styles.message}>
-            <Badge dot >
+            {/* <Badge dot > */}
               <Icon type="message" style={{ color: '#c39223', marginRight: 5 }} />
               <a onClick={() => hashHistory.push('/message')} className={styles.text}>消息</a>
-            </Badge>
+            {/* </Badge> */}
           </span>
           <span className={styles.img}><img src={userImg} role="presentation" /></span>
           <span className={styles.name}>{session.username}</span>

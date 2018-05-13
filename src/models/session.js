@@ -40,6 +40,7 @@ export default {
     username: localStorage.getItem('HAIERP_LAST_USERNAME'),
     dataSource: [],
     overviewInfo: {},
+    msgList: [],
   },
   reducers: {
     updateUsername(state, { payload }) {
@@ -50,6 +51,9 @@ export default {
         ...state,
         overviewInfo: { ...state.overviewInfo, ...payload },
       };
+    },
+    commonUpdate(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
   effects: {
@@ -65,8 +69,14 @@ export default {
         });
       }
     },
-    * querySiteMsg(payload, { call }) {
-      yield call(querySiteMsg, payload);
+    * querySiteMsg(payload, { call, put }) {
+      const data = yield call(querySiteMsg, payload);
+      yield put({
+        type: 'updateOverviewInfo',
+        payload: {
+          msgList: data.data
+        },
+      });
     },
     * readMsg(payload, { call }) {
       yield call(readMsg, payload);
