@@ -4,6 +4,7 @@ import { routerCfg } from './constants';
 
 // 视图组件
 import MainLayout from './layouts/Main';
+import Message from './components/Message';
 import Login from './components/Login';
 import Overview from './components/Overview';
 import Products from './components/Products/Products';
@@ -76,6 +77,7 @@ function RouterConfig({ history }) {
       >
         <IndexRoute component={Login} />
         <Route path={`/${routerCfg.LOGIN}`} component={Login} />
+        <Route path={`/${routerCfg.MESSAGE}`} component={Message} />
         <Route path={`/${routerCfg.OVERVIEW}`} component={Overview} />
         <Route path={`/${routerCfg.PERMISSION}/${routerCfg.RESOURCE}`} component={Resource} />
         <Route path={`/${routerCfg.PERMISSION}/${routerCfg.ROLE}`} component={Role} />

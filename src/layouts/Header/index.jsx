@@ -1,8 +1,8 @@
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon, Badge } from 'antd';
 // import { Menu, Icon } from 'antd';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
+import { Link, hashHistory } from 'dva/router';
 import { routerCfg } from '../../constants';
 import Breadcrumb from '../Breadcrumb';
 // import { routerCfg, getNavigation } from '../../constants';
@@ -38,7 +38,12 @@ class Header extends React.Component {
           })}
         </Menu> */}
         <span className={styles.user}>
-          <span className={styles.message}><Icon type="message" style={{ color: '#c39223', marginRight: 5 }} /> <span className={styles.text}>消息</span></span>
+          <span className={styles.message}>
+            <Badge dot >
+              <Icon type="message" style={{ color: '#c39223', marginRight: 5 }} />
+              <a onClick={() => hashHistory.push('/message')} className={styles.text}>消息</a>
+            </Badge>
+          </span>
           <span className={styles.img}><img src={userImg} role="presentation" /></span>
           <span className={styles.name}>{session.username}</span>
           {/* <span className={styles.mr10}><Icon type="lock" /> <Link to="/lock">修改密码</Link></span> */}
