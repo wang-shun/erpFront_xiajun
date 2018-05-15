@@ -338,7 +338,7 @@ class ErpOrder extends Component {
       },
       { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 80 },
       { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 120 },
-      { title: '身份证', dataIndex: 'ifidCard', key: 'ifidCard', width: 50,render(text, record) {if(!record.idCard) return ('无');return ('有');}},
+      // { title: '身份证', dataIndex: 'ifidCard', key: 'ifidCard', width: 50,render(text, record) {if(!record.idCard) return ('无');return ('有');}},
       { title: '身份证号码', dataIndex: 'idCard', key: 'idCard', width: 80,render(text) { return text || '-'; }},
       { title: '订单状态',
         dataIndex: 'status',
@@ -389,8 +389,8 @@ class ErpOrder extends Component {
           const picList = JSON.parse(text).picList;
           const t = picList.length ? JSON.parse(text).picList[0].url : '';
           return (
-            t ? <Popover title={null} content={<img role="presentation" src={t} style={{ width: 400 }} />}>
-              <img role="presentation" src={t} width={60} height={60} />
+            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
             </Popover> : '-'
           );
         },
@@ -409,7 +409,7 @@ class ErpOrder extends Component {
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
-        width: 110,
+        width: 80,
         fixed: 'right',
         render(t, r) {
         	  if(p.props.loginRoler) return('-');
@@ -417,19 +417,19 @@ class ErpOrder extends Component {
             <div>
               {r.status === 0 && r.quantity > 1 && <SplitOrder dispatch={dispatch} record={r} handleSubmit={p.handleSubmit.bind(p)} />}
               {r.stockStatus !== 0 && r.stockStatus !== 9 && <RecordList dispatch={dispatch} record={r} />}
-              {r.status === 0 && <a href="javascript:void(0)" onClick={p.showModal.bind(p, r.id)} >修改</a>}
+              {r.status === 0 && <div><a href="javascript:void(0)" onClick={p.showModal.bind(p, r.id)} >修改</a></div>}
               {r.status === 0 && [0, 1, 2, 9].indexOf(r.stockStatus) > -1 &&
               <Popconfirm title="确定分配库存吗？" onConfirm={p.handleInventory.bind(p, 'lock', r.id)}>
-                <a href="javascript:void(0)" style={{ marginLeft: 10 }} >分配库存</a>
+                <div><a href="javascript:void(0)" >分配库存</a></div>
               </Popconfirm>}
               {r.status === 0 && [0, 9].indexOf(r.stockStatus) === -1 &&
               <Popconfirm title="确定释放库存吗？" onConfirm={p.handleInventory.bind(p, 'release', r.id)}>
-                <a href="javascript:void(0)" style={{ marginLeft: 10 }} >释放库存</a>
+                <div><a href="javascript:void(0)" >释放库存</a></div>
               </Popconfirm>}
               {r.erpReturnOrderId ?
-                <a href="javascript:void(0)" style={{ marginLeft: 10 }} onClick={p.showReturnOrderModal.bind(p, 'update', r)}>修改退单</a> :
-                <a href="javascript:void(0)" style={{ marginLeft: 10 }} onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a>}
-              {r.status !== 0 && <span style={{ color: '#ccc', marginLeft: 10 }}>暂无</span>}
+                <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'update', r)}>修改退单</a></div> :
+                <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
+              {r.status !== 0 && <div><span style={{ color: '#ccc' }}>暂无</span></div>}
             </div>);
         },
       },

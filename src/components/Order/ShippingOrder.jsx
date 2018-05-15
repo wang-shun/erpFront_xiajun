@@ -210,7 +210,7 @@ class ShippingOrder extends Component {
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
-        width: 80,
+        width: 60,
         render(text, r) {
         	  if(p.props.loginRoler) {
         	  	return (
@@ -221,7 +221,9 @@ class ShippingOrder extends Component {
         	  	return (
 	            <div>
 	              <a href="javascript:void(0)" onClick={p.queryShippingOrderDetail.bind(p, r)} style={{ marginRight: 10 }}>查看</a>
+                <br />
 	              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, r)} style={{ marginRight: 10 }}>修改</a>
+                <br />
 	              <a href="javascript:void(0)" onClick={p.queryShippingTrack.bind(p, r)} style={{ marginRight: 10 }}>轨迹</a>
 	            </div>);
         	  }
@@ -287,8 +289,8 @@ class ShippingOrder extends Component {
             if (picList.length) {
               const imgUrl = picList[0].url;
               return (
-                <Popover title={null} content={<img role="presentation" src={imgUrl} style={{ width: 400 }} />}>
-                  <img role="presentation" src={imgUrl} width={60} height={60} />
+                <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(imgUrl)} style={{ width: 400 }} />}>
+                  <img role="presentation" src={imgHandlerThumb(imgUrl)} width={60} height={60} />
                 </Popover>
               );
             }

@@ -12,13 +12,12 @@ class Message extends Component {
   render() {
     const { messageList } = this.props;
     console.log(messageList);
-    return (
-      <Card>
-        <Table
-          columns={this.columns}
-        />
-      </Card>
-    );
+
+    const list = messageList.map((el) => (<Card title={el.siteMsg.title}>
+      <p>{el.siteMsg.title}</p>
+    </Card>));
+ 
+    return <div>{list}</div>;
   }
 }
 

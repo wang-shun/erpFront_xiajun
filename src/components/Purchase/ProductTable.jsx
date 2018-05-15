@@ -861,8 +861,8 @@ class ProductTable extends Component {
               if (picList.length) {
                 const imgUrl = picList[0].url;
                 return (
-                  <Popover title={null} content={<img role="presentation" src={imgUrl} style={{ width: 400 }} />}>
-                    <img role="presentation" src={imgUrl} width={60} height={60} />
+                  <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(imgUrl)} style={{ width: 400 }} />}>
+                    <img role="presentation" src={imgHandlerThumb(imgUrl)} width={60} height={60} />
                   </Popover>
                 );
               }

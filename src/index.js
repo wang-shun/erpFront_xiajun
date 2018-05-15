@@ -39,6 +39,16 @@ if (permissionCache) {
   setNavigation(JSON.parse(permissionCache));
 }
 
+// 图片处理方法
+window.imgHandlerThumb = function (url) {
+  return url.split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100';
+
+}
+
+window.imgHandlerThumbBig = function (url) {
+  return url.split('?')[0] + '?x-oss-process=image/resize,m_fill,h_400,w_400';
+}
+
 // 1. Initialize
 const app = dva({
   history: hashHistory,

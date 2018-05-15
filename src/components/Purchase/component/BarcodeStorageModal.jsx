@@ -274,8 +274,8 @@ class BarcodeModal extends Component {
           const picList = JSON.parse(text).picList;
           const t = picList.length ? JSON.parse(text).picList[0].url : '';
           return (
-            t ? <Popover title={null} content={<img role="presentation" src={t} style={{ width: 400 }} />}>
-              <img role="presentation" src={t} width={60} height={60} />
+            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
             </Popover> : '-'
           );
         },

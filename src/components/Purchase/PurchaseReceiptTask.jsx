@@ -73,17 +73,17 @@ class Purchase extends Component {
           if (!text) return '-';
           const t = text;
           return (
-            t ? <Popover title={null} content={<img role="presentation" src={t} style={{ width: 400 }} />}>
-              <img role="presentation" src={t} width={60} height={60} />
+            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
             </Popover> : '-'
           );
         },
       },
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 150 },
-      { title: '商品upc', dataIndex: 'upc', key: 'upc', width: 150 },
+      { title: '商品upc', dataIndex: 'upc', key: 'upc', width: 100 },
       { title: '商品原价', dataIndex: 'costPrice', key: 'costPrice', width: 100 },
-      { title: '折扣率', dataIndex: 'discount', key: 'discount', width: 100 },
-      { title: '折后价', dataIndex: 'purchasePrice', key: 'purchasePrice', width: 100 },
+      { title: '折扣率', dataIndex: 'discount', key: 'discount', width: 70 },
+      { title: '折后价', dataIndex: 'purchasePrice', key: 'purchasePrice', width: 70 },
       { title: '真实采购价', dataIndex: 'price', key: 'price', width: 100 },
       { title: '线下数量', dataIndex: 'quantity', key: 'quantity', width: 100 },
       { title: '在途数量', dataIndex: 'transQuantity', key: 'transQuantity', width: 100 },

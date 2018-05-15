@@ -44,7 +44,7 @@ export default class ChangePosition extends Component {
         visible={this.state.visible}
         onVisibleChange={this.toggleVisible.bind(this)}
       >
-        <a style={{ marginLeft: 10 }} href="javascript:void(0)">修改货架号</a>
+        <a href="javascript:void(0)">修改货架号</a>
       </Popover>
     );
   }

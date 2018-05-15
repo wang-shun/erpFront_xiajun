@@ -134,12 +134,12 @@ class Sku extends Component {
     };
     const columns = [
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
-      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 200 },
+      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 150 },
       { title: '商品代码', dataIndex: 'itemCode', key: 'itemCode', width: 100 },
       { title: 'UPC码',
         dataIndex: 'upc',
         key: 'upc',
-        width: 100,
+        width: 60,
         render(text) {
           return text || '-';
         },
@@ -148,25 +148,25 @@ class Sku extends Component {
         title: 'sku图片',
         dataIndex: 'skuPic',
         key: 'skuPic',
-        width: 100,
-        render(text) {
+        width: 78,
+        render(text, r) {
           if (!text) return '-';
           const picList = JSON.parse(text).picList;
-          const t = picList.length ? picList[0].url : '';
+          const t = picList.length ? picList[0] ? picList[0].url : '' : '';
           return (
-            t ? <Popover title={null} content={<img role="presentation" src={t} style={{ width: 400 }} />}>
-              <img role="presentation" src={t} width={60} height={60} />
+            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
             </Popover> : '-'
           );
         },
       },
       { title: '所属分类', dataIndex: 'categoryName', key: 'categoryName', width: 80, render(text) { return text || '-'; } },
-      { title: '规格2', dataIndex: 'scale', key: 'scale', width: 50, render(text) { return text || '-'; } },
+      { title: '规格2', dataIndex: 'scale', key: 'scale', width: 60, render(text) { return text || '-'; } },
       { title: '规格1', dataIndex: 'color', key: 'color', width: 60, render(text) { return text || '-'; } },
-      { title: '销售价格(元)', dataIndex: 'salePrice', key: 'salePrice', width: 100, render(text) { return text || '-'; } },
+      { title: '销售价(元)', dataIndex: 'salePrice', key: 'salePrice', width: 70, render(text) { return text || '-'; } },
       { title: '库存',
         key: 'inve',
-        width: 140,
+        width: 120,
         render(t, r) {
           return (
             <div>
@@ -181,7 +181,7 @@ class Sku extends Component {
           );
         },
       },
-      { title: '重量(磅)', dataIndex: 'weight', key: 'weight', width: 80, render(text) { return text || '-'; } },
+      { title: '重量(磅)', dataIndex: 'weight', key: 'weight', width: 50, render(text) { return text || '-'; } },
       { title: '运费', dataIndex: 'freightStr', key: 'freightStr', width: 60, render(text) { return text || '-'; } },
       { title: '修改时间', dataIndex: 'gmtModify', key: 'gmtModify', width: 100, render(text) { return text || '-'; } },
       { title: '操作',
@@ -306,8 +306,9 @@ class Sku extends Component {
               bordered
               rowKey={record => record.id}
               pagination={paginationProps}
-              scroll={{ y: 540, x: 1300 }}
             />
+
+              {/* scroll={{ y: 540, x: 1000 }} */}
           </Col>
         </Row>
         <SkuModal

@@ -125,8 +125,8 @@ class ReturnOrder extends Component {
           const picList = JSON.parse(text).picList;
           const t = picList.length ? picList[0].url : '';
           return (
-            t ? <Popover title={null} content={<img role="presentation" src={t} style={{ width: 400 }} />}>
-              <img role="presentation" src={t} width={60} height={60} />
+            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
             </Popover> : '-'
           );
         },
@@ -141,8 +141,8 @@ class ReturnOrder extends Component {
         render(text) {
           if (!text) return '-';
           return (
-            <Popover title={null} content={<img role="presentation" src={text} style={{ width: 400 }} />}>
-              <img role="presentation" src={text} width={60} height={60} />
+            <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(text)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(text)} width={60} height={60} />
             </Popover>
           );
         },

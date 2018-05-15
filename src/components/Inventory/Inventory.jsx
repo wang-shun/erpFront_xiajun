@@ -101,8 +101,8 @@ class Inventory extends Component {
           const picList = JSON.parse(text).picList;
           const t = picList.length ? picList[0].url : '';
           return (
-            t ? <Popover title={null} content={<img role="presentation" src={t} style={{ width: 400 }} />}>
-              <img role="presentation" src={t} width={60} height={60} />
+            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
             </Popover> : '-'
           );
         },
@@ -122,20 +122,24 @@ class Inventory extends Component {
       { title: '货架号', key: 'positionNo', dataIndex: 'positionNo', width: 60 },
       { title: '操作',
         key: 'oper',
-        width: 130,
-        fixed: 'right',
+        width: 140,
+        // fixed: 'right',
         render(text, record) {
           if (p.props.loginRoler) return ('-');
           return (
             <div>
               <TransTo dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
-              <span> | </span>
+              <br />
+              {/* <span> | </span> */}
               <CheckIn dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
-              <span> | </span>
+              <br />
+              {/* <span> | </span> */}
               <CheckOut dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
-              <span> | </span>
+              <br />
+              {/* <span> | </span> */}
               <ChangePosition dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
-              <span> | </span>
+              <br />
+              {/* <span> | </span> */}
               <CheckOutStock dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
             </div>
           );
@@ -236,7 +240,7 @@ class Inventory extends Component {
               pagination={paginationProps}
               rowKey={record => record.id}
               onChange={this.handleTableChange.bind(this)}
-              scroll={{ y: 500, x: 1500 }}
+              // scroll={{ y: 500, x: 1500 }}
             />
           </Col>
         </Row>

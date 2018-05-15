@@ -193,13 +193,13 @@ class Order extends Component {
       { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 150 },
       { title: '外部订单号', dataIndex: 'targetNo', key: 'targetNo', width: 120, render(text) { return text || '-'; } },
       { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80, render(text) { return text || '-'; } },
-      { title: '商户订单号',dataIndex: 'wxPayTradeNo', key: 'wxPayTradeNo', width: 100, render(text) { return text || '-'; } },
+      { title: '商户订单号',dataIndex: 'wxPayTradeNo', key: 'wxPayTradeNo', width: 110, render(text) { return text || '-'; } },
       { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 150, render(text) { return text ? text : '-'; } },
-      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 150, render(text) { return text || '-'; } },
+      // { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 150, render(text) { return text || '-'; } },
       { title: '订单状态',
         dataIndex: 'status',
         key: 'status',
-        width: 80,
+        width: 90,
         render(text) {
           switch (text) {
             case 0: return <font color="saddlebrown">新建</font>;
@@ -221,18 +221,20 @@ class Order extends Component {
         },
       },
       { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 100 },
-      { title: '备注', dataIndex: 'remark', key: 'remark', width: 200, render(text) { return text || '-'; } },
+      { title: '备注', dataIndex: 'remark', key: 'remark', width: 150, render(text) { return text || '-'; } },
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
-        width: 150,
-        fixed: 'right',
+        width: 100,
+        // fixed: 'right',
         render(text, record) {
         	  if(p.props.loginRoler) return('-');
           return (
             <div>
               {record.status !== -1 && <a href="javascript:void(0)" onClick={p.handleProDetail.bind(p, record)}>订单明细</a>}
-              <a href="javascript:void(0)" style={{ margin: '0 10px' }} onClick={p.updateModal.bind(p, record.id)}>修改</a>
+              <br />
+              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a>
+              <br />
               <Popconfirm title="确定删除此订单？" onConfirm={p.handleDelete.bind(p, record.id)}>
                 <a href="javascript:void(0)" style={{ marginRight: 10 }}>删除</a>
               </Popconfirm>
@@ -278,8 +280,8 @@ class Order extends Component {
         render(text) {
           const t = text ? JSON.parse(text).picList[0].url : '';
           return (
-            t ? <Popover title={null} content={<img role="presentation" src={t} style={{ width: 400 }} />}>
-              <img role="presentation" src={t} width={60} height={60} />
+            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
             </Popover> : '-'
           );
         },
@@ -484,7 +486,7 @@ class Order extends Component {
               rowKey={record => record.id}
               pagination={listPaginationProps}
               rowSelection={rowSelection}
-              scroll={{ x: 1560, y: 500 }}
+              // scroll={{ x: 1560, y: 500 }}
             />
           </Col>
         </Row>
