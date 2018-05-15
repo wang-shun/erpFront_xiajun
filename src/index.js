@@ -41,11 +41,12 @@ if (permissionCache) {
 
 // 图片处理方法
 window.imgHandlerThumb = function (url) {
-  return url.split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100';
+  return url.split('?')[0] + '?x-oss-process=image/resize,m_fill,h_200,w_200';
 
 }
 
 window.imgHandlerThumbBig = function (url) {
+  // return url;
   return url.split('?')[0] + '?x-oss-process=image/resize,m_fill,h_400,w_400';
 }
 
