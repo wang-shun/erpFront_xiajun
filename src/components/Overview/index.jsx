@@ -18,11 +18,11 @@ class Overview extends Component {
   componentDidMount() {
     this.props.dispatch({ type: 'session/queryIndexData' });
     this.props.dispatch({ type: 'session/querySiteMsg' });
-    this.props.dispatch({ type: 'session/readMsg', payload: { id: 15 } });
+    // this.props.dispatch({ type: 'session/readMsg', payload: { id: 15 } });
   }
   render() {
-    const { overviewInfo, msgList } = this.props;
-    console.log(msgList);
+    const { overviewInfo } = this.props;
+    const { msgList = [] } = overviewInfo;
     return (
       <div className={styles.overview}>
         <HeaderView info={overviewInfo} />
@@ -78,7 +78,7 @@ class Overview extends Component {
             <TodayDeliver data={overviewInfo.todaySendOrder} />
           </div>
           <div style={{ width: '25%', float: 'right' }}>
-            <Schedule info={overviewInfo} />
+            <Schedule info={overviewInfo} msgList={msgList} />
           </div>
         </div>
       </div>

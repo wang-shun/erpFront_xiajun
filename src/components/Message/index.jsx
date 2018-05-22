@@ -13,11 +13,12 @@ class Message extends Component {
     const { messageList } = this.props;
     console.log(messageList);
 
-    const list = messageList.map((el) => (<Card title={el.siteMsg.title}>
-      <p>{el.siteMsg.title}</p>
+    const list = messageList.map((el) => (<Card title={el.siteMsg.title} style={{ marginBottom: 20 }}>
+      <p>{el.siteMsg.content}</p>
+      <p style={{marginTop: 10, color: '#ccc'}}>{el.siteMsg.gmtCreate}</p>
     </Card>));
  
-    return <div>{list}</div>;
+    return <div>{list.length > 0 ? list : '暂无消息'}</div>;
   }
 }
 

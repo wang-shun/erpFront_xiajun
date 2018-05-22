@@ -647,7 +647,7 @@ class ProductsModal extends Component {
                   >
                     {getFieldDecorator('owners', {
                       initialValue: _roleIds,
-                      rules: [{ required: true, message: '请选择买手' }],
+                      rules: [{ required: false, message: '请选择买手' }],
                     })(
                       <Select placeholder="请选择买手" mode="multiple" allowClear>
                         {allBuyers.map((el) => {

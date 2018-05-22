@@ -14,7 +14,7 @@ export default class HeaderView extends Component {
   }
   render() {
     const { info = {} } = this.props;
-    console.log(info);
+    // console.log(info);
     const orderList = [{
       count: info.todayOrderNum || 0,
       title: '今日订单数',
