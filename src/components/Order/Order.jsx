@@ -190,16 +190,16 @@ class Order extends Component {
       wrapperCol: { span: 14 },
     };
     const columnsList = [
-      { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 150 },
-      { title: '外部订单号', dataIndex: 'targetNo', key: 'targetNo', width: 120, render(text) { return text || '-'; } },
-      { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80, render(text) { return text || '-'; } },
-      { title: '商户订单号',dataIndex: 'wxPayTradeNo', key: 'wxPayTradeNo', width: 110, render(text) { return text || '-'; } },
-      { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 150, render(text) { return text ? text : '-'; } },
+      { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 150 / 13.92 + '%' },
+      { title: '外部订单号', dataIndex: 'targetNo', key: 'targetNo', width: 120 / 13.92 + '%', render(text) { return text || '-'; } },
+      { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80 / 13.92 + '%', render(text) { return text || '-'; } },
+      { title: '商户订单号',dataIndex: 'wxPayTradeNo', key: 'wxPayTradeNo', width: 110 / 13.92 + '%', render(text) { return text || '-'; } },
+      { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 150 / 13.92 + '%', render(text) { return text ? text : '-'; } },
       // { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 150, render(text) { return text || '-'; } },
       { title: '订单状态',
         dataIndex: 'status',
         key: 'status',
-        width: 90,
+        width: 90 / 13.92 + '%',
         render(text) {
           switch (text) {
             case 0: return <font color="saddlebrown">新建</font>;
@@ -211,17 +211,17 @@ class Order extends Component {
           }
         },
       },
-      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 80 },
+      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 80 / 13.92 + '%' },
       { title: '收件人地址',
         dataIndex: 'address',
         key: 'address',
-        width: 200,
+        width: 200 / 13.92 + '%',
         render(t, r) {
           return <span>{`${r.receiverState} ${r.receiverCity} ${r.receiverDistrict} ${r.addressDetail}`}</span>;
         },
       },
-      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 100 },
-      { title: '备注', dataIndex: 'remark', key: 'remark', width: 150, render(text) { return text || '-'; } },
+      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 100 / 13.92 + '%' },
+      { title: '备注', dataIndex: 'remark', key: 'remark', width: 150 / 13.92 + '%', render(text) { return text || '-'; } },
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',

@@ -182,18 +182,18 @@ class ShippingOrder extends Component {
       wrapperCol: { span: 14 },
     };
     const columns = [
-      { title: '发货单号', dataIndex: 'shippingNo', key: 'shippingNo', width: 100, render(text) { return text || '-'; } },
-      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 120, render(text) { return text || '-'; } },
-      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 80, render(text) { return text || '-'; } },
-      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 85, render(text) { return text || '-'; } },
-      { title: '物流订单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 80, render(text) { return <font color="purple">{text}</font> || '-'; } },
-      { title: '物流公司名称', dataIndex: 'logisticCompany', width: 100, key: 'logisticCompany', render(text) { return text || '-'; } },
-      { title: '商品净重(磅)', dataIndex: 'skuWeight', width: 70, key: 'skuWeight', render(text) { return text || '-'; } },
-      { title: '预估物流费用', dataIndex: 'freight', width: 80, key: 'freight', render(text) { return text || '-'; } },
+      { title: '发货单号', dataIndex: 'shippingNo', key: 'shippingNo', width: 100 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 120 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 80 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 85 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '物流订单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 80 / 12.27 + '%', render(text) { return <font color="purple">{text}</font> || '-'; } },
+      { title: '物流公司名称', dataIndex: 'logisticCompany', width: 100 / 12.27 + '%', key: 'logisticCompany', render(text) { return text || '-'; } },
+      { title: '商品净重(磅)', dataIndex: 'skuWeight', width: 70 / 12.27 + '%', key: 'skuWeight', render(text) { return text || '-'; } },
+      { title: '预估物流费用', dataIndex: 'freight', width: 80 / 12.27 + '%', key: 'freight', render(text) { return text || '-'; } },
       { title: '物流状态',
         dataIndex: 'status',
         key: 'status',
-        width: 80,
+        width: 80 / 12.27 + '%',
         render(text) {
           switch (text) {
             case 0: return '已预报';
@@ -203,10 +203,10 @@ class ShippingOrder extends Component {
           }
         },
       },
-      { title: '包裹状态', dataIndex: 'tplPkgStatus', key: 'tplPkgStatus', width: 80, render(text) { return text || '-'; } },
-      { title: '创建者', dataIndex: 'userCreate', key: 'userCreate', width: 80, render(t) { return <font color="blue">{t}</font>; } },
-      { title: '打印者', dataIndex: 'userPrinter', key: 'userPrinter', width: 80, render(t) { return <font color="red">{t}</font>; } },
-      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 70, render(text) { return text || '-'; } },
+      { title: '包裹状态', dataIndex: 'tplPkgStatus', key: 'tplPkgStatus', width: 80 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '创建者', dataIndex: 'userCreate', key: 'userCreate', width: 80 / 12.27 + '%', render(t) { return <font color="blue">{t}</font>; } },
+      { title: '打印者', dataIndex: 'userPrinter', key: 'userPrinter', width: 80 / 12.27 + '%', render(t) { return <font color="red">{t}</font>; } },
+      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 70 / 12.27 + '%', render(text) { return text || '-'; } },
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
