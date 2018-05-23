@@ -186,7 +186,7 @@ class Products extends Component {
         render(text) {
           if (!text) return '-';
           const picList = JSON.parse(text).picList;
-          const t = picList.length ? picList[0].url : '';
+          const t = (picList.length && picList[0]) ? picList[0].url : '';
           return (
             t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
               <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
