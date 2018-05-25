@@ -36,6 +36,7 @@
     "querystring": "^0.2.0",
     "redbox-react": "^1.6.0",
     "roadhog": "^0.5.3",
-    "type-of": "^2.0.1"
+    "type-of": "^2.0.1",
+    "copy-to-clipboard": "^3.0.5"
   }
 }
