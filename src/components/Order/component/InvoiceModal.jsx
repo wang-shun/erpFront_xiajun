@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Modal, Row, Col, Cascader, Select ,Button, message} from 'antd';
+import { Form, Input, Modal, Row, Col, Cascader, Select ,Icon, message,} from 'antd';
 
 import divisions from '../../../utils/divisions.json';
 import check from '../../../utils/checkLib';
@@ -130,7 +130,7 @@ class InvoiceModal extends Component {
                   )}
                 </FormItem>
               </Col>
-              <Col span={10}>
+              <Col span={12}>
                 <FormItem
                   label=""
                   {...{
@@ -144,9 +144,7 @@ class InvoiceModal extends Component {
                   })(
                     <Input placeholder="请输入详细地址" />)}
                 </FormItem>
-              </Col>
-              <Col span={1}>
-                <Button type="primary" size="small" style={{marginTop:'5px',}} onClick={p.copyAddress.bind(p, initialAddress + "," + data.addressDetail)}>复制</Button>
+                <Icon type="copy" style={{ fontSize: 18, color: '#08c',position:'absolute',right:10,top:8 }} onClick={p.copyAddress.bind(p, initialAddress + "," + data.addressDetail)}/>
               </Col>
             </Row>
             <Row>

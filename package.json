@@ -15,7 +15,8 @@
     "moment": "^2.22.1",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
-    "type-of": "^2.0.1"
+    "type-of": "^2.0.1",
+    "copy-to-clipboard": "^3.0.5"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
