@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Input, Modal, Row, Col, Cascader, Select } from 'antd';
+import { Form, Input, Modal, Row, Col, Cascader, Select ,Button, message} from 'antd';
 
 import divisions from '../../../utils/divisions.json';
 import check from '../../../utils/checkLib';
+import copy from 'copy-to-clipboard';
+import styles from '../style.less';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -41,6 +43,10 @@ class InvoiceModal extends Component {
     else if (check.idcard(value)) cb();
     else cb(new Error('请填写正确的身份证号'));
   }
+  copyAddress(address) {
+    copy(address);
+    message.success("复制成功")
+  }
   render() {
     const p = this;
     const { visible, deliveryCompanyList, form, data } = this.props;
@@ -55,6 +61,8 @@ class InvoiceModal extends Component {
     initialAddress.push(data.receiverCity);
     initialAddress.push(data.receiverDistrict);
 
+    console.log(initialAddress);
+
     return (
       <div>
         <Modal
@@ -66,10 +74,13 @@ class InvoiceModal extends Component {
         >
           <Form>
             <Row>
-              <Col span={12}>
+              <Col span={8}>
                 <FormItem
                   label="收件人"
-                  {...formItemLayout}
+                  {...{
+                    labelCol: { span: 9 },
+                    wrapperCol: { span: 13 },
+                  }}
                 >
                   {getFieldDecorator('receiver', {
                     initialValue: data.receiver,
@@ -78,9 +89,37 @@ class InvoiceModal extends Component {
                     <Input placeholder="请输入收件人" />)}
                 </FormItem>
               </Col>
+              <Col span={9}>
+                <FormItem
+                  label="联系电话"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('telephone', {
+                    initialValue: data.telephone,
+                    rules: [{ required: true, validator: this.checkPhone.bind(this) }],
+                  })(
+                    <Input placeholder="请输入联系电话" />)}
+                </FormItem>
+              </Col>
+              <Col span={6}>
+                <FormItem
+                  label="邮编"
+                  {...{
+                    labelCol: { span: 9 },
+                    wrapperCol: { span: 15 },
+                  }}
+                >
+                  {getFieldDecorator('postcode', {
+                    initialValue: data.postcode,
+                  })(
+                    <Input placeholder="请输入邮编" />)}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
               <Col span={12}>
                 <FormItem
-                  label="收件人地址"
+                  label="收件地址"
                   {...formItemLayout}
                 >
                   {getFieldDecorator('address', {
@@ -91,24 +130,13 @@ class InvoiceModal extends Component {
                   )}
                 </FormItem>
               </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
+              <Col span={10}>
                 <FormItem
-                  label="联系电话"
-                  {...formItemLayout}
-                >
-                  {getFieldDecorator('telephone', {
-                    initialValue: data.telephone,
-                    rules: [{ validator: this.checkPhone.bind(this) }],
-                  })(
-                    <Input placeholder="请输入联系电话" />)}
-                </FormItem>
-              </Col>
-              <Col span={12}>
-                <FormItem
-                  label="详细地址"
-                  {...formItemLayout}
+                  label=""
+                  {...{
+                    labelCol: { span: 1 },
+                    wrapperCol: { span: 22 },
+                  }}
                 >
                   {getFieldDecorator('addressDetail', {
                     initialValue: data.addressDetail,
@@ -117,20 +145,11 @@ class InvoiceModal extends Component {
                     <Input placeholder="请输入详细地址" />)}
                 </FormItem>
               </Col>
+              <Col span={1}>
+                <Button type="primary" size="small" style={{marginTop:'5px',}} onClick={p.copyAddress.bind(p, initialAddress + "," + data.addressDetail)}>复制</Button>
+              </Col>
             </Row>
             <Row>
-              <Col span={12}>
-                <FormItem
-                  label="物流运单号"
-                  {...formItemLayout}
-                >
-                  {getFieldDecorator('logisticNo', {
-                    initialValue: data.logisticNo,
-                  })(
-                    <Input placeholder="请输入物流运单号" />,
-                  )}
-                </FormItem>
-              </Col>
               <Col span={12}>
                 <FormItem
                   label="物流公司名称"
@@ -144,24 +163,6 @@ class InvoiceModal extends Component {
                       {deliveryCompanyList.map(v => (
                         <Option value={v.name} key={v.name}>{v.name}</Option>
                       ))}
-                    </Select>,
-                  )}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <FormItem
-                  label="物流状态"
-                  {...formItemLayout}
-                >
-                  {getFieldDecorator('status', {
-                    initialValue: data.status ? data.status.toString() : '0',
-                  })(
-                    <Select placeholder="请选择物流状态" allowClear>
-                      <Option value="0" key="0">已预报</Option>
-                      <Option value="1" key="1">快递已发货</Option>
-                      <Option value="2" key="2">客户已收货</Option>
                     </Select>,
                   )}
                 </FormItem>
@@ -193,6 +194,36 @@ class InvoiceModal extends Component {
             <Row>
               <Col span={12}>
                 <FormItem
+                  label="物流运单号"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('logisticNo', {
+                    initialValue: data.logisticNo,
+                  })(
+                    <Input placeholder="请输入物流运单号" />,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                  label="物流状态"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('status', {
+                    initialValue: data.status ? data.status.toString() : '0',
+                  })(
+                    <Select placeholder="请选择物流状态" allowClear>
+                      <Option value="0" key="0">已预报</Option>
+                      <Option value="1" key="1">快递已发货</Option>
+                      <Option value="2" key="2">客户已收货</Option>
+                    </Select>,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <FormItem
                   label="运费"
                   {...formItemLayout}
                 >
@@ -202,19 +233,6 @@ class InvoiceModal extends Component {
                     <Input placeholder="请输入运费" />)}
                 </FormItem>
               </Col>
-              <Col span={12}>
-                <FormItem
-                  label="邮编"
-                  {...formItemLayout}
-                >
-                  {getFieldDecorator('postcode', {
-                    initialValue: data.postcode,
-                  })(
-                    <Input placeholder="请输入邮编" />)}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
               <Col span={12}>
                 <FormItem
                   label="身份证号"
@@ -227,15 +245,63 @@ class InvoiceModal extends Component {
                     <Input placeholder="请输入身份证号" />)}
                 </FormItem>
               </Col>
-              <Col span={12}>
+            </Row>
+            <Row>
+              <Col>
                 <FormItem
                   label="备注"
-                  {...formItemLayout}
+                  {...{
+                    labelCol: { span: 3 },
+                    wrapperCol: { span: 20 },
+                  }}
                 >
                   {getFieldDecorator('remark', {
                     initialValue: data.remark,
                   })(
                     <Input placeholder="请输入备注" />)}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row className={styles.divider} style={{marginBottom:"20px",}}></Row>
+            <Row>
+              <Col span={12}>
+                <FormItem
+                  label="发件人"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('sender', {
+                    initialValue: data.sender,
+                  })(
+                    <Input placeholder="请输入发件人" />,
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                  label="电话号码"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('senderPhone', {
+                    initialValue: data.senderPhone,
+                  })(
+                    <Input placeholder="请输入发件人电话号码" />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FormItem
+                  label="寄件地址"
+                  {...{
+                    labelCol: { span: 3 },
+                    wrapperCol: { span: 20 },
+                  }}
+                >
+                  {getFieldDecorator('senderAddress', {
+                    initialValue: data.senderAddress,
+                  })(
+                    <Input placeholder="请输入寄件地址" />)}
                 </FormItem>
               </Col>
             </Row>

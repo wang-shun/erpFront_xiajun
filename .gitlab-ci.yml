@@ -1,0 +1,25 @@
+stages:
+    - test
+    - deploy
+    
+test:
+    stage: test
+    script:
+    - echo "start building erp-js on server133 ..."
+    - cd /home/www
+    - ./build_erp-js debug
+    
+    only:
+    - test
+    tags:
+    - wangqin_debug_tag
+    
+deploy:
+    stage: deploy
+    script:
+    - echo "start building erp-js on server180 ..."
+    
+    only:
+    - deploy
+    tags:
+    - wangqin_release_tag

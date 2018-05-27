@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Form, Table, Row, Col, Input, Select, Button, Modal, Popover, DatePicker, message } from 'antd';
 
+
+import styles from './style.less';
 import InvoiceModal from './component/InvoiceModal';
 
 const { RangePicker } = DatePicker;
@@ -73,6 +75,7 @@ class ShippingOrder extends Component {
       payload: { shippingOrderId: r.id },
       cb(data) {
         p.setState({
+          data:r,
           shippingDetail: data,
           showDetail: true,
         });
@@ -103,7 +106,7 @@ class ShippingOrder extends Component {
       if (values.logisticCompany) {
       	logisticCompany=values.logisticCompany;
       }
-      if (values.orderTime && values.orderTime[0] && values.orderTime[1]) {     	
+      if (values.orderTime && values.orderTime[0] && values.orderTime[1]) {
         startOrderTime = new Date(values.orderTime[0]).format('yyyy-MM-dd');
         endOrderTime = new Date(values.orderTime[1]).format('yyyy-MM-dd');
         p.props.dispatch({
@@ -447,8 +450,8 @@ class ShippingOrder extends Component {
             </Col>
           </Row>
         </Form>
-        {p.props.loginRoler ? 
-        		<Row>　</Row> : 
+        {p.props.loginRoler ?
+        		<Row>　</Row> :
         		<Row className="operBtn">
 	          <Col>
 	            <Button type="primary" style={{ float: 'left' }} disabled={isNotSelected} size="large" onClick={this.exportPdf.bind(this)}>导出发货标签</Button>
@@ -467,6 +470,42 @@ class ShippingOrder extends Component {
           width="900"
           onCancel={() => this.setState({ showDetail: false })}
         >
+          <Row>
+            <Col style={{fontWeight:'bold'}} span="8">
+              物流方式：{data.logisticCompany}
+            </Col>
+            <Col span="8">
+              发货时间：{data.gmtCreate}
+            </Col>
+            <Col span="8">
+              销售时间:缺少数据
+            </Col>
+          </Row>
+          <Row className={styles.title}>发货信息</Row>
+          <Row>
+            <Col span="8" style={{fontWeight:'bold'}}>
+              收件人信息
+            </Col>
+            <Col span="8">
+              {data.receiver}<br/>{data.telephone}
+            </Col>
+            <Col span="8">
+              {data.receiverState} {data.receiverCity} {data.receiverDistrict}<br/>{data.addressDetail}
+            </Col>
+          </Row>
+          <Row className={styles.divider}></Row>
+          <Row>
+            <Col span="8" style={{fontWeight:'bold'}}>
+              发件人信息
+            </Col>
+            <Col span="8">
+              缺少数据<br/>缺少数据
+            </Col>
+            <Col span="8">
+              缺少数据
+            </Col>
+          </Row>
+          <div  className={styles.title}>商品信息</div>
           <Table columns={detailColumns} dataSource={shippingDetail} rowKey={r => r.id} bordered />
         </Modal>
         <Modal
