@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Form, Table, Row, Col, Input, Select, Button, Modal, Popover, DatePicker, message } from 'antd';
 
+
+import styles from './style.less';
 import InvoiceModal from './component/InvoiceModal';
 
 const { RangePicker } = DatePicker;
@@ -73,6 +75,7 @@ class ShippingOrder extends Component {
       payload: { shippingOrderId: r.id },
       cb(data) {
         p.setState({
+          data:r,
           shippingDetail: data,
           showDetail: true,
         });
@@ -103,7 +106,7 @@ class ShippingOrder extends Component {
       if (values.logisticCompany) {
       	logisticCompany=values.logisticCompany;
       }
-      if (values.orderTime && values.orderTime[0] && values.orderTime[1]) {     	
+      if (values.orderTime && values.orderTime[0] && values.orderTime[1]) {
         startOrderTime = new Date(values.orderTime[0]).format('yyyy-MM-dd');
         endOrderTime = new Date(values.orderTime[1]).format('yyyy-MM-dd');
         p.props.dispatch({
@@ -182,18 +185,18 @@ class ShippingOrder extends Component {
       wrapperCol: { span: 14 },
     };
     const columns = [
-      { title: '发货单号', dataIndex: 'shippingNo', key: 'shippingNo', width: 100, render(text) { return text || '-'; } },
-      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 120, render(text) { return text || '-'; } },
-      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 80, render(text) { return text || '-'; } },
-      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 85, render(text) { return text || '-'; } },
-      { title: '物流订单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 80, render(text) { return <font color="purple">{text}</font> || '-'; } },
-      { title: '物流公司名称', dataIndex: 'logisticCompany', width: 100, key: 'logisticCompany', render(text) { return text || '-'; } },
-      { title: '商品净重(磅)', dataIndex: 'skuWeight', width: 70, key: 'skuWeight', render(text) { return text || '-'; } },
-      { title: '预估物流费用', dataIndex: 'freight', width: 80, key: 'freight', render(text) { return text || '-'; } },
+      { title: '发货单号', dataIndex: 'shippingNo', key: 'shippingNo', width: 100 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 120 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 80 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 85 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '物流订单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 80 / 12.27 + '%', render(text) { return <font color="purple">{text}</font> || '-'; } },
+      { title: '物流公司名称', dataIndex: 'logisticCompany', width: 100 / 12.27 + '%', key: 'logisticCompany', render(text) { return text || '-'; } },
+      { title: '商品净重(磅)', dataIndex: 'skuWeight', width: 70 / 12.27 + '%', key: 'skuWeight', render(text) { return text || '-'; } },
+      { title: '预估物流费用', dataIndex: 'freight', width: 80 / 12.27 + '%', key: 'freight', render(text) { return text || '-'; } },
       { title: '物流状态',
         dataIndex: 'status',
         key: 'status',
-        width: 80,
+        width: 80 / 12.27 + '%',
         render(text) {
           switch (text) {
             case 0: return '已预报';
@@ -203,10 +206,10 @@ class ShippingOrder extends Component {
           }
         },
       },
-      { title: '包裹状态', dataIndex: 'tplPkgStatus', key: 'tplPkgStatus', width: 80, render(text) { return text || '-'; } },
-      { title: '创建者', dataIndex: 'userCreate', key: 'userCreate', width: 80, render(t) { return <font color="blue">{t}</font>; } },
-      { title: '打印者', dataIndex: 'userPrinter', key: 'userPrinter', width: 80, render(t) { return <font color="red">{t}</font>; } },
-      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 70, render(text) { return text || '-'; } },
+      { title: '包裹状态', dataIndex: 'tplPkgStatus', key: 'tplPkgStatus', width: 80 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '创建者', dataIndex: 'userCreate', key: 'userCreate', width: 80 / 12.27 + '%', render(t) { return <font color="blue">{t}</font>; } },
+      { title: '打印者', dataIndex: 'userPrinter', key: 'userPrinter', width: 80 / 12.27 + '%', render(t) { return <font color="red">{t}</font>; } },
+      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 70 / 12.27 + '%', render(text) { return text || '-'; } },
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
@@ -447,8 +450,8 @@ class ShippingOrder extends Component {
             </Col>
           </Row>
         </Form>
-        {p.props.loginRoler ? 
-        		<Row>　</Row> : 
+        {p.props.loginRoler ?
+        		<Row>　</Row> :
         		<Row className="operBtn">
 	          <Col>
 	            <Button type="primary" style={{ float: 'left' }} disabled={isNotSelected} size="large" onClick={this.exportPdf.bind(this)}>导出发货标签</Button>
@@ -467,6 +470,42 @@ class ShippingOrder extends Component {
           width="900"
           onCancel={() => this.setState({ showDetail: false })}
         >
+          <Row>
+            <Col style={{fontWeight:'bold'}} span="8">
+              物流方式：{data.logisticCompany}
+            </Col>
+            <Col span="8">
+              发货时间：{data.gmtCreate}
+            </Col>
+            <Col span="8">
+              销售时间:缺少数据
+            </Col>
+          </Row>
+          <Row className={styles.title}>发货信息</Row>
+          <Row>
+            <Col span="8" style={{fontWeight:'bold'}}>
+              收件人信息
+            </Col>
+            <Col span="8">
+              {data.receiver}<br/>{data.telephone}
+            </Col>
+            <Col span="8">
+              {data.receiverState} {data.receiverCity} {data.receiverDistrict}<br/>{data.addressDetail}
+            </Col>
+          </Row>
+          <Row className={styles.divider}></Row>
+          <Row>
+            <Col span="8" style={{fontWeight:'bold'}}>
+              发件人信息
+            </Col>
+            <Col span="8">
+              缺少数据<br/>缺少数据
+            </Col>
+            <Col span="8">
+              缺少数据
+            </Col>
+          </Row>
+          <div  className={styles.title}>商品信息</div>
           <Table columns={detailColumns} dataSource={shippingDetail} rowKey={r => r.id} bordered />
         </Modal>
         <Modal

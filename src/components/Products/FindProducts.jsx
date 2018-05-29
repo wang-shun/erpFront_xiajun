@@ -120,13 +120,13 @@ class FindProducts extends Component {
       { title: '采购商品名称',
         dataIndex: 'name',
         key: 'name',
-        width: 200,
+        width: 200 / 11.72 + '%',
         render(text) { return text || '-'; } },
-      { title: '商品代码', dataIndex: 'itemCode', key: 'itemCode', width: 100 },
+      { title: '商品代码', dataIndex: 'itemCode', key: 'itemCode', width: 100 / 11.72 + '%' },
       { title: '商品状态',
         dataIndex: 'purchaseStatus',
         key: 'purchaseStatus',
-        width: 80,
+        width: 80 / 11.72 + '%',
         render(text) {
           switch (text) {
             case 1: return <font color="#00f">审核通过</font>;
@@ -151,10 +151,10 @@ class FindProducts extends Component {
           );
         },
       },
-      { title: '商品品牌', dataIndex: 'brand', key: 'brand', width: 100, render(text) { return text || '-'; } },
-      { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80, render(text) { return <span>{text === 0 ? '代购' : '现货' }</span>; } },
+      { title: '商品品牌', dataIndex: 'brand', key: 'brand', width: 100 / 11.72 + '%', render(text) { return text || '-'; } },
+      { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80 / 11.72 + '%', render(text) { return <span>{text === 0 ? '代购' : '现货' }</span>; } },
       { title: '商品类目',
-        width: 100,
+        width: 100 / 11.72 + '%',
         dataIndex: 'categoryId',
         key: 'categoryId',
         render(t) {
@@ -162,11 +162,11 @@ class FindProducts extends Component {
           return <span>{cate[0] ? cate[0].name : '-'}</span>;
         },
       },
-      { title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80, render(text) { return text || '-'; } },
+      { title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80 / 11.72 + '%', render(text) { return text || '-'; } },
       { title: '是否可售',
         dataIndex: 'isSale',
         key: 'isSale',
-        width: 80,
+        width: 80 / 11.72 + '%',
         render(text) {
           switch (text) {
             case 1: return '可售';
@@ -174,8 +174,8 @@ class FindProducts extends Component {
           }
         },
       },
-      { title: '开始销售时间', dataIndex: 'startDate', key: 'startDate', width: 80, render(text) { return text ? text.split(' ')[0] : '-'; } },
-      { title: '结束销售时间', dataIndex: 'endDate', key: 'endDate', width: 80, render(text) { return text ? text.split(' ')[0] : '-'; } },
+      { title: '开始销售时间', dataIndex: 'startDate', key: 'startDate', width: 80 / 11.72 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
+      { title: '结束销售时间', dataIndex: 'endDate', key: 'endDate', width: 80 / 11.72 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
       { title: '操作',
         key: 'oper',
         width: 50,

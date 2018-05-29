@@ -158,16 +158,16 @@ class Products extends Component {
       { title: '商品名称',
         dataIndex: 'name',
         key: 'name',
-        width: 200,
+        width: 200 / 14.32 + '%',
         render(t, r) {
           return r.outerAlias ? <a href={`${yzBasicUrl}${r.outerAlias}`} rel="noopener noreferrer" target="_blank">{t}</a> : <span>{t}</span>;
         },
       },
-      { title: '商品代码', dataIndex: 'itemCode', key: 'itemCode', width: 100 },
+      { title: '商品代码', dataIndex: 'itemCode', key: 'itemCode', width: 100 / 14.32 + '%' },
       { title: '商品状态',
         dataIndex: 'status',
         key: 'status',
-        width: 60,
+        width: 60 / 14.32 + '%',
         render(t) {
           switch (t) {
             case 0: return <font color="">新建</font>;
@@ -186,7 +186,7 @@ class Products extends Component {
         render(text) {
           if (!text) return '-';
           const picList = JSON.parse(text).picList;
-          const t = picList.length ? picList[0].url : '';
+          const t = (picList.length && picList[0]) ? picList[0].url : '';
           return (
             t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
               <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
@@ -208,10 +208,10 @@ class Products extends Component {
           );
         },
       },
-      { title: '商品品牌', dataIndex: 'brand', key: 'brand', width: 100, render(text) { return text || '-'; } },
-      { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80, render(text) { return <span>{text === 0 ? '代购' : '现货' }</span>; } },
+      { title: '商品品牌', dataIndex: 'brand', key: 'brand', width: 100 / 14.32 + '%', render(text) { return text || '-'; } },
+      { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80 / 14.32 + '%', render(text) { return <span>{text === 0 ? '代购' : '现货' }</span>; } },
       { title: '商品类目',
-        width: 100,
+        width: 100 / 14.32 + '%',
         dataIndex: 'categoryId',
         key: 'categoryId',
         render(t) {
@@ -219,11 +219,11 @@ class Products extends Component {
           return <span>{cate[0] ? cate[0].name : '-'}</span>;
         },
       },
-      { title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80, render(text) { return text || '-'; } },
+      { title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80 / 14.32 + '%', render(text) { return text || '-'; } },
       { title: '是否可售',
         dataIndex: 'isSale',
         key: 'isSale',
-        width: 80,
+        width: 80 / 14.32 + '%',
         render(text) {
           switch (text) {
             case 1: return '可售';
@@ -231,10 +231,10 @@ class Products extends Component {
           }
         },
       },
-      { title: '实际库存', dataIndex: 'inventory', key: 'inventory', width: 80 },
-      { title: '虚拟库存', dataIndex: 'virtualInv', key: 'virtualInv', width: 80 },
-      { title: '开始销售时间', dataIndex: 'startDate', key: 'startDate', width: 80, render(text) { return text ? text.split(' ')[0] : '-'; } },
-      { title: '结束销售时间', dataIndex: 'endDate', key: 'endDate', width: 80, render(text) { return text ? text.split(' ')[0] : '-'; } },
+      { title: '实际库存', dataIndex: 'inventory', key: 'inventory', width: 80 / 14.32 + '%' },
+      { title: '虚拟库存', dataIndex: 'virtualInv', key: 'virtualInv', width: 80 / 14.32 + '%' },
+      { title: '开始销售时间', dataIndex: 'startDate', key: 'startDate', width: 80 / 14.32 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
+      { title: '结束销售时间', dataIndex: 'endDate', key: 'endDate', width: 80 / 14.32 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
       { title: '操作',
         key: 'oper',
         width: 90,

@@ -106,7 +106,7 @@ AjaxClass.prototype.init = function init() {
             p.handler('ERROR_PARSE');
           } finally {
             // json解析无错误，进行响应
-            if (result.msg && !result.success) {
+            if (result.msg && !result.success && result.msg !== '请求失败') {
               message.error(result.msg);
             }
             if (!p._failed) {
