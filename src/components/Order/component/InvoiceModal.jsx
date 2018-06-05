@@ -61,7 +61,7 @@ class InvoiceModal extends Component {
     initialAddress.push(data.receiverCity);
     initialAddress.push(data.receiverDistrict);
 
-    console.log(initialAddress);
+    //console.log(initialAddress);
 
     return (
       <div>
