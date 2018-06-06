@@ -44,13 +44,13 @@ class Sku extends Component {
     });
   }
 
-  updateModal(id) {
+  updateModal(skuCode) {
     this.setState({
       modalVisible: true,
     }, () => {
       this.props.dispatch({
         type: 'sku/querySku',
-        payload: { id },
+        payload: { skuCode:skuCode },
       });
     });
   }
@@ -95,7 +95,7 @@ class Sku extends Component {
         type: 'sku/lockVirtualInv',
         payload: {
           lockedVirtualInv: num,
-          itemId: record.itemId,
+          itemCode: record.itemCode,
           id: record.id,
         },
         cb() { p._refreshData(); },
@@ -192,7 +192,7 @@ class Sku extends Component {
         render(text, record) {
           return (
             <div>
-              <div><a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a></div>
+              <div><a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.skuCode)}>修改</a></div>
               <Popconfirm title="确定删除此类目？" onConfirm={p.handleDelete.bind(p, record.id)}>
                 <div><a href="javascript:void(0)" >删除</a></div>
               </Popconfirm>

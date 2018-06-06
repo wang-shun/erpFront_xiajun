@@ -334,7 +334,7 @@ class ProductsModal extends Component {
       })
     }
 
-    console.log(productData.categoryId, selectedCategoryId);
+    //console.log(productData.categoryId, selectedCategoryId);
 
     return (
       <Modal

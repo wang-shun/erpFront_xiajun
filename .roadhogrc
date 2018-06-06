@@ -6,7 +6,7 @@
   "autoprefixer": null,
   "proxy": {
     "/": {
-      "target": "http://localhost:8080/",
+      "target": "http://test.buyer007.cn",
       "changeOrigin": true,
       "pathRewrite": { "^/" : "" }
     }

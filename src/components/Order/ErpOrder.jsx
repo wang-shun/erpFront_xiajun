@@ -387,7 +387,7 @@ class ErpOrder extends Component {
         render(text) {
           if (!text) return '-';
           const picList = JSON.parse(text).picList;
-          const t = picList.length ? JSON.parse(text).picList[0].url : '';
+          const t = picList.length > 0 && picList[0] != null ? JSON.parse(text).picList[0].url : '';
           return (
             t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
               <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
@@ -619,8 +619,8 @@ class ErpOrder extends Component {
                   </Select>)}
               </FormItem>
             </Col>
-            {p.props.loginRoler ? 
-	        		<Col>　</Col> : 
+            {p.props.loginRoler ?
+	        		<Col>　</Col> :
 		        		<Col span="8">
 	              <FormItem
 	                label="代理商"
@@ -666,8 +666,8 @@ class ErpOrder extends Component {
             </Col>
           </Row>
         </Form>
-        {p.props.loginRoler ? 
-        		<Row>　</Row> : 
+        {p.props.loginRoler ?
+        		<Row>　</Row> :
         		<Row className="operBtn">
 	          <Button style={{ float: 'left', marginRight: 10 }} type="primary" disabled={isNotSelected} size="large" onClick={p.showDeliveryModal.bind(p)}>发货</Button>
 	          <Button style={{ float: 'left', marginRight: 10 }} type="primary" disabled={isNotSelected} size="large" onClick={p.showBatchDeliveryModal.bind(p)}>批量发货</Button>
