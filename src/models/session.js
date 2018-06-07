@@ -3,8 +3,8 @@ import { routerCfg, originalNavigation } from '../constants';
 // import { backendCfg, routerCfg, setNavigation, originalNavigation } from '../constants';
 import fetch from '../utils/request';
 
-const login = ({ payload }) => fetch.post('/login', { data: payload }).catch(e => e);
-const logout = ({ payload }) => fetch.post('/logout', { data: payload }).catch(e => e);
+const login = ({ payload }) => fetch.post('haiLogin/login', { data: payload }).catch(e => e);
+const logout = ({ payload }) => fetch.post('haiLogin/logout', { data: payload }).catch(e => e);
 // const queryPermissions = () => fetch.post('/user/resCodes').catch(e => e);
 
 // 首页数据
