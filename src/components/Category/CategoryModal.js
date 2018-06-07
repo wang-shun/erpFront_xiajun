@@ -94,7 +94,7 @@ class CategoryModal extends Component {
                 label="选择父类目"
                 {...formItemLayout}
               >
-                {getFieldDecorator('pid', {
+                {getFieldDecorator('pcode', {
                   initialValue: pid,
                 })(
                   <TreeSelect placeholder="留空则默认为顶级目录" treeDefaultExpandAll treeData={tree} allowClear />)}
