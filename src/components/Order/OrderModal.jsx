@@ -152,13 +152,13 @@ class OrderModal extends Component {
                 label="销售"
                 {...formItemLayout}
               >
-                {getFieldDecorator('salesId', {
+                {getFieldDecorator('dealerCode', {
                   initialValue: orderData.salesId ? orderData.salesId.toString() : undefined,
                   rules: [{ required: true, message: '请选择销售' }],
                 })(
                   <Select placeholder="请选择销售" allowClear>
                     {agencyList.map((el) => {
-                      return <Option key={el.id} value={el.id && el.id.toString()}>{el.name}</Option>;
+                      return <Option key={el.code} value={el.code && el.code.toString()}>{el.name}</Option>;
                     })}
                   </Select>,
                 )}
@@ -225,8 +225,8 @@ class OrderModal extends Component {
                 label="外部订单号"
                 {...formItemLayout}
               >
-                {getFieldDecorator('targetNo', {
-                  initialValue: orderData.targetNo,
+                {getFieldDecorator('channelOrderNo', {
+                  initialValue: orderData.channelOrderNo,
                 })(
                   <Input placeholder="请输入外部订单号" />,
                 )}
