@@ -74,14 +74,14 @@ class Order extends Component {
     }
   }
 
-  updateModal(id, e) {
+  updateModal(orderNo, e) {
     if (e) e.stopPropagation();
     const p = this;
     p.setState({
       modalVisible: true,
       title: '修改',
     }, () => {
-      p.props.dispatch({ type: 'order/queryOrder', payload: { id } });
+      p.props.dispatch({ type: 'order/queryOrder', payload: { orderNo } });
       p.props.dispatch({ type: 'sku/querySkuList', payload: {} });
     });
   }
@@ -104,18 +104,18 @@ class Order extends Component {
     }, () => {
       p.props.dispatch({
         type: 'order/queryOrderDetail',
-        payload: { id: record.id },
+        payload: { orderNo: record.orderNo },
       });
     });
   }
 
-  handleDelete(id, e) {
+  handleDelete(orderNo, e) {
     if (e) e.stopPropagation();
     const p = this;
     const { currentPage, orderList = [] } = this.props;
     this.props.dispatch({
       type: 'order/deleteOrder',
-      payload: { id },
+      payload: { orderNo },
       cb() {
         if (orderList.length < 2 && currentPage > 1) {
           p.handleSubmit(null, currentPage - 1);
@@ -148,7 +148,7 @@ class Order extends Component {
       }
     });
   }
-  
+
   outerOrderReview() {	//微信录单确认
   	const p = this;
   	p.props.dispatch({
@@ -233,9 +233,9 @@ class Order extends Component {
             <div>
               {record.status !== -1 && <a href="javascript:void(0)" onClick={p.handleProDetail.bind(p, record)}>订单明细</a>}
               <br />
-              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a>
+              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.orderNo)}>修改</a>
               <br />
-              <Popconfirm title="确定删除此订单？" onConfirm={p.handleDelete.bind(p, record.id)}>
+              <Popconfirm title="确定删除此订单？" onConfirm={p.handleDelete.bind(p, record.orderNo)}>
                 <a href="javascript:void(0)" style={{ marginRight: 10 }}>删除</a>
               </Popconfirm>
             </div>);
@@ -463,8 +463,8 @@ class Order extends Component {
             </Col>
           </Row>
         </Form>
-        {p.props.loginRoler ? 
-        		<Row>　</Row> : 
+        {p.props.loginRoler ?
+        		<Row>　</Row> :
         		<Row className="operBtn">
           <Col>
             <Button type="primary" size="large" onClick={p.showModal.bind(p)} style={{ float: 'left' }}>新增订单</Button>
