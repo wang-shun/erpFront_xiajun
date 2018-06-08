@@ -155,7 +155,7 @@ class FindProducts extends Component {
       { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80 / 11.72 + '%', render(text) { return <span>{text === 0 ? '代购' : '现货' }</span>; } },
       { title: '商品类目',
         width: 100 / 11.72 + '%',
-        dataIndex: 'categoryId',
+        dataIndex: 'categoryCode',
         key: 'categoryId',
         render(t) {
           const cate = p.interator(tree, t && t.toString()) || [];
