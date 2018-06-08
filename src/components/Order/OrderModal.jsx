@@ -257,6 +257,7 @@ class OrderModal extends Component {
               >
                 {getFieldDecorator('payType', {
                   initialValue: orderData.payType && orderData.payType.toString(),
+                  rules: [{ required: true, message: '请选择支付方式' }],
                 })(
                   <Select placeholder="请选择支付方式" allowClear>
                     <Option key="0">微信自有支付</Option>

@@ -287,11 +287,11 @@ class DeliveryModal extends Component {
               <Col span={12}>
                 <FormItem
                   label="物流公司名称"
-                  {...formItemLayout}
+                  {...formItemLayout}   
                 >
                   {getFieldDecorator('logisticCompany', {
                     initialValue: data.logisticCompany || undefined,
-                    rules: [{ required: true, message: '请选择物流公司名称' }],
+                    // rules: [{ required: true, message: '请选择物流公司名称' }],
                   })(
                     <Select placeholder="请选择物流公司名称" allowClear onChange={this.handleLogisticCompanyChange.bind(this)}>
                       {deliveryCompanyList.map(v => (
