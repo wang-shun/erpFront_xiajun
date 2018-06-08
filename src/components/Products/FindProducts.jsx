@@ -156,7 +156,7 @@ class FindProducts extends Component {
       { title: '商品类目',
         width: 100 / 11.72 + '%',
         dataIndex: 'categoryCode',
-        key: 'categoryId',
+        key: 'categoryCode',
         render(t) {
           const cate = p.interator(tree, t && t.toString()) || [];
           return <span>{cate[0] ? cate[0].name : '-'}</span>;
