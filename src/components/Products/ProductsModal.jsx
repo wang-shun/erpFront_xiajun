@@ -88,7 +88,7 @@ class ProductsModal extends Component {
           bookingDate: fieldsValue.bookingDate && fieldsValue.bookingDate.format('YYYY-MM-DD HH:mm:ss'),
           skuList,
           saleOnChannels: fieldsValue.saleOnChannels,
-          categoryId: fieldsValue.categoryId[fieldsValue.categoryId.length - 1],
+          categoryCode: fieldsValue.categoryCode[fieldsValue.categoryCode.length - 1],
         };
 
         // 处理图片
@@ -318,14 +318,14 @@ class ProductsModal extends Component {
 
     let selectedCategoryId = [];
 
-    if (productData.categoryId) {
+    if (productData.categoryCode) {
       tree.forEach((el) => {
         if (el.children) {
           el.children.forEach((el2) => {
             if (el2.children) {
               el2.children.forEach((el3) => {
-                if (el3.id.toString() === productData.categoryId.toString()) {
-                  selectedCategoryId = [el.id.toString(), el2.id.toString(), el3.id.toString()];
+                if (el3.categoryCode.toString() === productData.categoryCode.toString()) {
+                  selectedCategoryId = [el3.categoryCode.toString()];
                 }
               });
             }
@@ -350,7 +350,7 @@ class ProductsModal extends Component {
                     label="所属类目"
                     {...formItemLayout}
                   >
-                    {getFieldDecorator('categoryId', {
+                    {getFieldDecorator('categoryCode', {
                       initialValue: selectedCategoryId,
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(

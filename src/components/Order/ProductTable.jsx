@@ -400,7 +400,7 @@ class ProductTable extends Component {
                 {getFieldDecorator(`r_${r.key}_salePrice`, {
                   initialValue: text,
                 })(
-                  <InputNumber step={0.01} min={0} placeholder="请输入" />,
+                  <InputNumber step={0.01} min={0.01} placeholder="请输入" />,
                 )}
                 {getFieldDecorator(`r_${r.key}_skuId`, {
                   initialValue: r.skuId || r.id,
