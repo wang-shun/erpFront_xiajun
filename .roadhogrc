@@ -1,0 +1,34 @@
+{
+  "entry": "src/index.js",
+  "disableCSSModules": false,
+  "less": true,
+  "publicPath": "/",
+  "autoprefixer": null,
+  "proxy": {
+    "/": {
+      "target": "http://127.0.0.1:8010/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/" : "" }
+    }
+  },
+  "extraBabelPlugins": [
+    "transform-runtime",
+    "transform-decorators-legacy",
+    ["import", { "libraryName": "antd", "style": true }]
+  ],
+  "theme": {
+    "primary-color": "#00cbd7"
+  },
+  "env": {
+    "development": {
+      "extraBabelPlugins": [
+        "dva-hmr"
+      ]
+    },
+    "production": {
+      "extraBabelPlugins": [
+        "transform-remove-console-enhance"
+      ]
+    }
+  }
+}
