@@ -52,6 +52,7 @@ import PurchaseReceiptTask from './components/Purchase/PurchaseReceiptTask'; // 
 import ReportNoStock from './components/Report/ReportNoStock';
 import ReportNoSendPackage from './components/Report/ReportNoSendPackage';
 import ReportlogisticCompanyAvgPackage from './components/Report/ReportlogisticCompanyAvgPackage';
+import RoleMng from './components/RoleMng/RoleMng';
 
 function redirectHelper(...args) {
   // 传入参数3，为onEnter
@@ -124,6 +125,7 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.REPORT}/${routerCfg.REPORT_NOSTOCKREPORT}`} component={ReportNoStock} />
         <Route path={`/${routerCfg.REPORT}/${routerCfg.REPORT_PXPACKAGEREPORT}`} component={ReportNoSendPackage} />
         <Route path={`/${routerCfg.REPORT}/${routerCfg.REPORT_AVGREPORT}`} component={ReportlogisticCompanyAvgPackage} />
+        <Route path={`/${routerCfg.ROLE_MNG}`} component={RoleMng} />
         {/* 一级导航重定向 */}
         <Redirect from={`/${routerCfg.PERMISSION}`} to={`/${routerCfg.PERMISSION}/${routerCfg.RESOURCE}`} />
         <Redirect from={`/${routerCfg.PRODUCTS}`} to={`/${routerCfg.PRODUCTS}/${routerCfg.PRODUCTS_LIST}`} />

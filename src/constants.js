@@ -54,6 +54,7 @@ export const backendCfg = {
 
   // 内置
   overview: 'overview',
+  roleMng: 'role_mng',
 };
 
 // 路由字符串常量配置
@@ -130,6 +131,7 @@ export const routerCfg = {
   /* WXUSER:'wxuser',
   WXUSERLIST:'wxactivity',*/
 
+  ROLE_MNG: 'roleMng',
 };
 
 export const originalNavigation = [
@@ -212,6 +214,7 @@ export const originalNavigation = [
       { key: routerCfg.REPORT_AVGREPORT, name: '物流公司时效报表' },
     ],
   },
+  { key: routerCfg.ROLE_MNG, name: '角色管理', icon: 'lock' },
    /*{ key: routerCfg.WXUSER, name: '小程序活动管理', icon: 'torsos',
     child: [
       { key: routerCfg.WXUSERLIST, name: '小程序优惠活动' },

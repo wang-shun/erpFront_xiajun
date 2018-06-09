@@ -19,6 +19,10 @@
   "theme": {
     "primary-color": "#00cbd7"
   },
+  "externals": {
+    "react": "window.React",
+    "react-dom": "window.ReactDOM"
+  },
   "env": {
     "development": {
       "extraBabelPlugins": [

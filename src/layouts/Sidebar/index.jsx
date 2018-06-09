@@ -111,7 +111,7 @@ class Menus extends Component {
           {...menuProps}
           mode={siderFold ? 'vertical' : 'inline'}
           theme="dark"
-          selectedKeys={[location.pathname.split('/')[2] ? location.pathname.split('/')[2].split('?')[0] : 'overview']}
+          selectedKeys={[location.pathname.split('/')[2] ? location.pathname.split('/')[2].split('?')[0] : location.pathname.match('overview') ? 'overview' : 'roleMng']}
         >
           {menuItems}
         </Menu>
