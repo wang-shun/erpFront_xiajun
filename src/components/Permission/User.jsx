@@ -24,9 +24,9 @@ class Resource extends Component {
       if (err) return;
       if (values.createTime) values.createTime = new Date(values.createTime).format('yyyy-MM-dd hh:mm:ss');
       if (userModal.id) {
-        dispatch({ type: 'permission/updateUser', payload: { ...values, id: userModal.id } });
+        dispatch({ type: 'user/updateUser', payload: { ...values, id: userModal.id } });
       } else {
-        dispatch({ type: 'permission/addUser', payload: { ...values } });
+        dispatch({ type: 'user/addUser', payload: { ...values } });
       }
       p.handleCancel();
     });
@@ -40,10 +40,10 @@ class Resource extends Component {
   }
   handleQuery(r) {
     this.setState({ visible: true, title: '修改' });
-    this.props.dispatch({ type: 'permission/queryUser', payload: { id: r.id } });
+    this.props.dispatch({ type: 'user/queryUser', payload: { id: r.id } });
   }
   handleDelete(r) {
-    this.props.dispatch({ type: 'permission/deleteUser', payload: { id: r.id } });
+    this.props.dispatch({ type: 'user/deleteUser', payload: { id: r.id } });
   }
   checkPhone(rules, value, cb) {
     if (!check.phone(value)) cb('请输入正确的手机号码');
@@ -127,7 +127,7 @@ class Resource extends Component {
       total,
       pageSize: 20,
       onChange(pageIndex) {
-        p.props.dispatch({ type: 'permission/queryUserList', payload: { pageIndex } });
+        p.props.dispatch({ type: 'user/queryUserList', payload: { pageIndex } });
       },
     };
 
