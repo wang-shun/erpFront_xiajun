@@ -2,28 +2,28 @@ import { message } from 'antd';
 
 import fetch from '../utils/request';
 
-const queryResourceList = ({ payload }) => fetch.post('/resourceHai/queryTree', { data: payload }).catch(e => e); // queryList
-const addResource = ({ payload }) => fetch.post('/resourceHai/add', { data: payload }).catch(e => e);
-const updateResource = ({ payload }) => fetch.post('/resourceHai/update', { data: payload }).catch(e => e);
-const deleteResource = ({ payload }) => fetch.post('/resourceHai/delete', { data: payload }).catch(e => e);
-const queryResource = ({ payload }) => fetch.post('/resourceHai/query', { data: payload }).catch(e => e);
-const queryRoleList = ({ payload }) => fetch.post('/roleHai/queryList', { data: payload }).catch(e => e);
-const addRole = ({ payload }) => fetch.post('/roleHai/add', { data: payload }).catch(e => e);
-const updateRole = ({ payload }) => fetch.post('/roleHai/update', { data: payload }).catch(e => e);
-const deleteRole = ({ payload }) => fetch.post('/roleHai/delete', { data: payload }).catch(e => e);
-const queryRole = ({ payload }) => fetch.post('/roleHai/query', { data: payload }).catch(e => e);
-const queryUserList = ({ payload }) => fetch.post('/userHai/queryList', { data: payload }).catch(e => e);
-const addUser = ({ payload }) => fetch.post('/userHai/add', { data: payload }).catch(e => e);
-const updateUser = ({ payload }) => fetch.post('/userHai/update', { data: payload }).catch(e => e);
-const deleteUser = ({ payload }) => fetch.post('/userHai/delete', { data: payload }).catch(e => e);
-const queryUser = ({ payload }) => fetch.post('/userHai/query', { data: payload }).catch(e => e);
-const queryOrgList = ({ payload }) => fetch.post('/organizationHai/queryList', { data: payload }).catch(e => e);
-const addOrg = ({ payload }) => fetch.post('/organizationHai/add', { data: payload }).catch(e => e);
-const updateOrg = ({ payload }) => fetch.post('/organizationHai/update', { data: payload }).catch(e => e);
-const deleteOrg = ({ payload }) => fetch.post('/organizationHai/delete', { data: payload }).catch(e => e);
-const queryOrg = ({ payload }) => fetch.post('/organizationHai/query', { data: payload }).catch(e => e);
+const queryResourceList = ({ payload }) => fetch.post('/resource/queryTree', { data: payload }).catch(e => e); // queryList
+const addResource = ({ payload }) => fetch.post('/resource/add', { data: payload }).catch(e => e);
+const updateResource = ({ payload }) => fetch.post('/resource/update', { data: payload }).catch(e => e);
+const deleteResource = ({ payload }) => fetch.post('/resource/delete', { data: payload }).catch(e => e);
+const queryResource = ({ payload }) => fetch.post('/resource/query', { data: payload }).catch(e => e);
+const queryRoleList = ({ payload }) => fetch.post('/role/queryList', { data: payload }).catch(e => e);
+const addRole = ({ payload }) => fetch.post('/role/add', { data: payload }).catch(e => e);
+const updateRole = ({ payload }) => fetch.post('/role/update', { data: payload }).catch(e => e);
+const deleteRole = ({ payload }) => fetch.post('/role/delete', { data: payload }).catch(e => e);
+const queryRole = ({ payload }) => fetch.post('/role/query', { data: payload }).catch(e => e);
+const queryUserList = ({ payload }) => fetch.post('/user/queryList', { data: payload }).catch(e => e);
+const addUser = ({ payload }) => fetch.post('/user/add', { data: payload }).catch(e => e);
+const updateUser = ({ payload }) => fetch.post('/user/update', { data: payload }).catch(e => e);
+const deleteUser = ({ payload }) => fetch.post('/user/delete', { data: payload }).catch(e => e);
+const queryUser = ({ payload }) => fetch.post('/user/query', { data: payload }).catch(e => e);
+const queryOrgList = ({ payload }) => fetch.post('/organization/queryList', { data: payload }).catch(e => e);
+const addOrg = ({ payload }) => fetch.post('/organization/add', { data: payload }).catch(e => e);
+const updateOrg = ({ payload }) => fetch.post('/organization/update', { data: payload }).catch(e => e);
+const deleteOrg = ({ payload }) => fetch.post('/organization/delete', { data: payload }).catch(e => e);
+const queryOrg = ({ payload }) => fetch.post('/organization/query', { data: payload }).catch(e => e);
 // 角色授权
-const authRole = ({ payload }) => fetch.post('/roleHai/updateGrant', { data: payload }).catch(e => e);
+const authRole = ({ payload }) => fetch.post('/role/updateGrant', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'permission',
