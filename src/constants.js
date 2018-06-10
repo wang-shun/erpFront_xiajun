@@ -3,6 +3,13 @@ export const API_URL = 'http://localhost';
 
 // 后端权限码映射
 export const backendCfg = {
+  /* xiongjieying add */
+  permission: 'permission',
+  role: 'role',
+  resource: 'resource',
+  user: 'user',
+  organization: 'organization',
+
   products: 'item',
   productsList: 'item_list',
   finditemList: 'finditem_list', // 采购商品列表
