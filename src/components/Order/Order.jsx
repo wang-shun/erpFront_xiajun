@@ -470,9 +470,8 @@ class Order extends Component {
             <Button type="primary" size="large" onClick={p.showModal.bind(p)} style={{ float: 'left' }}>新增订单</Button>
             <Button type="primary" size="large" onClick={p.exportMainOrder.bind(p)} style={{ float: 'right', marginLeft: 10 }}>导出订单</Button>
             <Button type="primary" disabled={isNotSelected} size="large" onClick={p.handleOrderAction.bind(p, 'close')} style={{ float: 'right' }}>订单关闭</Button>
-            <a href='/wx/messageList' target="_blank"/>
-            <!-- Button type="primary" size="large" style={{ float: 'right', marginRight: 10}}>微信录单</Button></a>
-            <Button type="primary" size="large" onClick={p.outerOrderReview.bind(p)} style={{ float: 'right', marginRight: 10}}>录单确认</Button -->
+            <a href='/wx/messageList' target="_blank"><Button type="primary" size="large" style={{ float: 'right', marginRight: 10}}>微信录单</Button></a>
+            <Button type="primary" size="large" onClick={p.outerOrderReview.bind(p)} style={{ float: 'right', marginRight: 10}}>录单确认</Button>
           </Col>
         </Row>
         	}
