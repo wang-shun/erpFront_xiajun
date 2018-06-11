@@ -21,9 +21,9 @@ class Organization extends Component {
       if (err) return;
       if (values.createTime) values.createTime = new Date(values.createTime).format('yyyy-MM-dd hh:mm:ss');
       if (orgModal.data) {
-        dispatch({ type: 'permission/updateOrg', payload: { ...values, id: orgModal.data.id } });
+        dispatch({ type: 'organization/updateOrg', payload: { ...values, id: orgModal.data.id } });
       } else {
-        dispatch({ type: 'permission/addOrg', payload: { ...values } });
+        dispatch({ type: 'organization/addOrg', payload: { ...values } });
       }
       p.handleCancel();
     });
@@ -37,10 +37,10 @@ class Organization extends Component {
   }
   handleQuery(r) {
     this.setState({ visible: true, title: '修改' });
-    this.props.dispatch({ type: 'permission/queryOrg', payload: { id: r.id } });
+    this.props.dispatch({ type: 'organization/queryOrg', payload: { id: r.id } });
   }
   handleDelete(r) {
-    this.props.dispatch({ type: 'permission/deleteOrg', payload: { id: r.id } });
+    this.props.dispatch({ type: 'organization/deleteOrg', payload: { id: r.id } });
   }
   render() {
     const p = this;
@@ -77,7 +77,7 @@ class Organization extends Component {
       total,
       pageSize: 20,
       onChange(pageIndex) {
-        p.props.dispatch({ type: 'permission/queryOrgList', payload: { pageIndex } });
+        p.props.dispatch({ type: 'organization/queryOrgList', payload: { pageIndex } });
       },
     };
     return (
