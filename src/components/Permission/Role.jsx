@@ -22,9 +22,9 @@ class Role extends Component {
     form.validateFields((err, values) => {
       if (err) return;
       if (roleModal.id) {
-        dispatch({ type: 'role/updateRole', payload: { ...values, id: roleModal.id } });
+        dispatch({ type: 'permission/updateRole', payload: { ...values, id: roleModal.id } });
       } else {
-        dispatch({ type: 'role/addRole', payload: { ...values } });
+        dispatch({ type: 'permission/addRole', payload: { ...values } });
       }
       p.handleCancel();
     });
@@ -45,10 +45,10 @@ class Role extends Component {
     }
   }
   handleDelete(r) {
-    this.props.dispatch({ type: 'role/deleteRole', payload: { id: r.id } });
+    this.props.dispatch({ type: 'permission/deleteRole', payload: { id: r.id } });
   }
   showAuthModal(r) {
-    this.props.dispatch({ type: 'resource/queryResourceList', payload: {} });
+    this.props.dispatch({ type: 'permission/queryResourceList', payload: {} });
     this.setState({ authModalVisible: true, roleId: r.id });
   }
   handleAuth() {
@@ -58,7 +58,7 @@ class Role extends Component {
       return;
     }
     this.props.dispatch({
-      type: 'role/authRole',
+      type: 'permission/authRole',
       payload: { id: roleId, resourceIds: JSON.stringify(resourceIds) },
     });
     this.setState({ authModalVisible: false });
@@ -108,7 +108,7 @@ class Role extends Component {
       total,
       pageSize: 20,
       onChange(pageIndex) {
-        p.props.dispatch({ type: 'role/queryRoleList', payload: { pageIndex } });
+        p.props.dispatch({ type: 'permission/queryRoleList', payload: { pageIndex } });
       },
     };
     const rowSelection = {

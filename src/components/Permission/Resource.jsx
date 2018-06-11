@@ -21,9 +21,9 @@ class Resource extends Component {
       if (err) return;
       if (values.createTime) values.createTime = new Date(values.createTime).format('yyyy-MM-dd hh:mm:ss');
       if (resourceModal.id) {
-        dispatch({ type: 'resource/updateResource', payload: { ...values, id: resourceModal.id } });
+        dispatch({ type: 'permission/updateResource', payload: { ...values, id: resourceModal.id } });
       } else {
-        dispatch({ type: 'resource/addResource', payload: { ...values } });
+        dispatch({ type: 'permission/addResource', payload: { ...values } });
       }
       p.handleCancel();
     });
@@ -38,13 +38,13 @@ class Resource extends Component {
         this.setState({ visible: true, title: '新增' }); break;
       case 'update':
         this.setState({ visible: true, title: '修改' });
-        this.props.dispatch({ type: 'resource/queryResource', payload: { id: r.id } });
+        this.props.dispatch({ type: 'permission/queryResource', payload: { id: r.id } });
         break;
       default: return false;
     }
   }
   handleDelete(r) {
-    this.props.dispatch({ type: 'resource/deleteResource', payload: { id: r.id } });
+    this.props.dispatch({ type: 'permission/deleteResource', payload: { id: r.id } });
   }
   render() {
     const p = this;
