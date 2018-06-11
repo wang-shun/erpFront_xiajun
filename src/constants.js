@@ -3,6 +3,13 @@ export const API_URL = 'http://localhost';
 
 // 后端权限码映射
 export const backendCfg = {
+  /* xiongjieying add */
+  permission: 'permission',
+  role: 'role',
+  resource: 'resource',
+  user: 'user',
+  organization: 'organization',
+
   products: 'item',
   productsList: 'item_list',
   finditemList: 'finditem_list', // 采购商品列表
@@ -54,6 +61,7 @@ export const backendCfg = {
 
   // 内置
   overview: 'overview',
+  roleMng: 'role_mng',
 };
 
 // 路由字符串常量配置
@@ -130,18 +138,19 @@ export const routerCfg = {
   /* WXUSER:'wxuser',
   WXUSERLIST:'wxactivity',*/
 
+  ROLE_MNG: 'roleMng',
 };
 
 export const originalNavigation = [
   { key: routerCfg.OVERVIEW, name: '首页', icon: 'laptop' },
-  // { key: routerCfg.PERMISSION, name: '权限管理', icon: 'team',
-  //   child: [
-  //     { key: routerCfg.RESOURCE, name: '资源管理' },
-  //     { key: routerCfg.ROLE, name: '角色管理' },
-  //     { key: routerCfg.USER, name: '用户管理' },
-  //     { key: routerCfg.ORGANIZATION, name: '部门管理' },
-  //   ],
-  // },
+  { key: routerCfg.PERMISSION, name: '权限管理', icon: 'team',
+    child: [
+      { key: routerCfg.RESOURCE, name: '资源管理' },
+      { key: routerCfg.ROLE, name: '角色管理' },
+      { key: routerCfg.USER, name: '用户管理' },
+      { key: routerCfg.ORGANIZATION, name: '部门管理' },
+    ],
+  },
   { key: routerCfg.PRODUCTS, name: '商品管理', icon: 'bars',
     child: [
       { key: routerCfg.PRODUCTS_LIST, name: '商品列表' },
@@ -212,6 +221,7 @@ export const originalNavigation = [
       { key: routerCfg.REPORT_AVGREPORT, name: '物流公司时效报表' },
     ],
   },
+  { key: routerCfg.ROLE_MNG, name: '角色管理', icon: 'lock' },
    /*{ key: routerCfg.WXUSER, name: '小程序活动管理', icon: 'torsos',
     child: [
       { key: routerCfg.WXUSERLIST, name: '小程序优惠活动' },

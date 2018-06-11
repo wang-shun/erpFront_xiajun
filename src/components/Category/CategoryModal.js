@@ -51,7 +51,7 @@ class CategoryModal extends Component {
     const { form, visible, tree = [], cateData, title } = this.props;
     const { getFieldDecorator } = form;
     const cateModalData = cateData.data || {};
-    const pid = cateModalData.pid && cateModalData.pid !== 0 ? toString(cateModalData.pid, 'SELECT') : undefined;
+    const pCode = cateModalData.pCode && cateModalData.pCode !== 0 ? toString(cateModalData.pCode, 'SELECT') : undefined;
     const modalProps = {
       visible,
       wrapClassName: 'modalStyle',
@@ -94,8 +94,8 @@ class CategoryModal extends Component {
                 label="选择父类目"
                 {...formItemLayout}
               >
-                {getFieldDecorator('pid', {
-                  initialValue: pid,
+                {getFieldDecorator('pCode', {
+                  initialValue: pCode,
                 })(
                   <TreeSelect placeholder="留空则默认为顶级目录" treeDefaultExpandAll treeData={tree} allowClear />)}
               </FormItem>

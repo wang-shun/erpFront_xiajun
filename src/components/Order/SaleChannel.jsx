@@ -86,6 +86,7 @@ class SaleChannel extends Component {
     // };
     const columnsList = [
       { title: '销售渠道名称', dataIndex: 'name', key: 'name', width: '16%' },
+      { title: '销售渠道编码', dataIndex: 'channelNo', key: 'channelNo', width: '16%' },
       { title: '类型',
         dataIndex: 'type',
         key: 'type',

@@ -5,6 +5,12 @@
     "build": "roadhog build",
     "lint": "eslint --ext .js src test"
   },
+  "babel": {
+    "presets": [
+      "es2017",
+      "react"
+    ]
+  },
   "dependencies": {
     "antd": "^2.13.14",
     "babel-plugin-import": "^1.7.0",

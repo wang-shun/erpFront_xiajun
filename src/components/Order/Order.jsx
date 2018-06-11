@@ -191,9 +191,9 @@ class Order extends Component {
     };
     const columnsList = [
       { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 150 / 13.92 + '%' },
-      { title: '外部订单号', dataIndex: 'targetNo', key: 'targetNo', width: 120 / 13.92 + '%', render(text) { return text || '-'; } },
-      { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80 / 13.92 + '%', render(text) { return text || '-'; } },
-      { title: '商户订单号',dataIndex: 'wxPayTradeNo', key: 'wxPayTradeNo', width: 110 / 13.92 + '%', render(text) { return text || '-'; } },
+      { title: '外部订单号', dataIndex: 'channelOrderNo', key: 'channelOrderNo', width: 120 / 13.92 + '%', render(text) { return text || '-'; } },
+      { title: '销售员', dataIndex: 'dealerName', key: 'dealerName', width: 80 / 13.92 + '%', render(text) { return text || '-'; } },
+      { title: '商户订单号',dataIndex: 'shopCode', key: 'shopCode', width: 110 / 13.92 + '%', render(text) { return text || '-'; } },
       { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 150 / 13.92 + '%', render(text) { return text ? text : '-'; } },
       // { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 150, render(text) { return text || '-'; } },
       { title: '订单状态',

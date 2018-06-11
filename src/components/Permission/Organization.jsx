@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Table, Row, Col, Button, Modal, Input, InputNumber, Popconfirm, Select } from 'antd';
+import { Form, Table, Row, Col, Button, Modal, Input, InputNumber,Icon, Popconfirm, Select } from 'antd';
 import { connect } from 'dva';
 
 const FormItem = Form.Item;
@@ -14,6 +14,25 @@ class Organization extends Component {
       title: '',
     };
   }
+  showClear(type) { // 是否显示清除按钮
+    const { getFieldValue } = this.props.form;
+    const data = getFieldValue(type);
+    if (data) {
+      return <Icon type="close-circle" onClick={this.handleEmptyInput.bind(this, type)} />;
+    }
+    return null;
+  }
+  handleEmptyInput(type) { // 清空内容
+    const { setFieldsValue } = this.props.form;
+    switch (type) {
+      case 'address': setFieldsValue({ address: undefined }); break;
+      case 'iconCls': setFieldsValue({ iconCls: undefined }); break;
+      case 'code': setFieldsValue({ code: undefined }); break;
+      case 'name': setFieldsValue({ name: undefined }); break;
+      case 'address': setFieldsValue({ address: undefined }); break;
+      default: return false;
+    }
+  }
   handleSubmit() {
     const p = this;
     const { orgModal = {}, dispatch, form } = this.props;
@@ -23,7 +42,7 @@ class Organization extends Component {
       if (orgModal.data) {
         dispatch({ type: 'permission/updateOrg', payload: { ...values, id: orgModal.data.id } });
       } else {
-        dispatch({ type: 'permission/addOrg', payload: { ...values } });
+        dispatch({ type: 'permission/addOrg'});
       }
       p.handleCancel();
     });
@@ -33,18 +52,29 @@ class Organization extends Component {
     this.props.form.resetFields();
   }
   showModal() {
-    this.setState({ visible: true, title: '新增' });
+    this.setState({
+      visible: true,
+      title: '新增',
+    });
   }
-  handleQuery(r) {
-    this.setState({ visible: true, title: '修改' });
-    this.props.dispatch({ type: 'permission/queryOrg', payload: { id: r.id } });
+  handleQuery(id,r) {
+    // this.setState({ visible: true, title: '修改' });
+    // this.props.dispatch({ type: 'permission/queryOrg', payload: { id: r.id } });
+    if (r) r.stopPropagation();
+    const p = this;
+    p.setState({
+      visible: true,
+      title: '修改',
+    }, () => {
+      p.props.dispatch({ type: 'permission/queryOrg', payload: { id } });
+    });
   }
   handleDelete(r) {
     this.props.dispatch({ type: 'permission/deleteOrg', payload: { id: r.id } });
   }
   render() {
     const p = this;
-    const { orgList = [], total, form, orgModal = {} } = this.props;
+    const { orgList = [], total, form,wareList = [], orgModal = {} } = this.props;
     const { visible, title } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -64,7 +94,8 @@ class Organization extends Component {
         render(t, r) {
           return (
             <div>
-              <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.handleQuery.bind(p, r)}>修改</a>
+              {/* <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.handleQuery.bind(p, r)}>修改</a> */}
+             <div><a href="javascript:void(0)" onClick={p.handleQuery.bind(p, r.id)} >修改</a></div>
               <Popconfirm title="确定删除" onConfirm={p.handleDelete.bind(p, r)}>
                 <a href="javascript:void(0)">删除</a>
               </Popconfirm>
@@ -105,9 +136,8 @@ class Organization extends Component {
                 <FormItem label="部门名称" {...formItemLayout}>
                   {getFieldDecorator('name', {
                     rules: [{ required: true, message: '请输入部门名称' }],
-                    initialValue: orgModal.name,
                   })(
-                    <Input placeholder="请输入部门名称" />,
+                    <Input placeholder="请输入部门名称" suffix={p.showClear('name')} />,
                   )}
                 </FormItem>
               </Col>
@@ -115,9 +145,9 @@ class Organization extends Component {
                 <FormItem label="编号" {...formItemLayout}>
                   {getFieldDecorator('code', {
                     rules: [{ required: true, message: '请输入编号' }],
-                    initialValue: orgModal.code,
+                  
                   })(
-                    <Input placeholder="请输入编号" />,
+                    <Input placeholder="请输入部门名称" suffix={p.showClear('code')} />,
                   )}
                 </FormItem>
               </Col>
@@ -125,40 +155,41 @@ class Organization extends Component {
                 <FormItem label="排序" {...formItemLayout}>
                   {getFieldDecorator('seq', {
                     rules: [{ required: true, message: '请输入排序' }],
-                    initialValue: orgModal.seq,
+      
                   })(
-                    <InputNumber placeholder="请输入排序" />,
+                    <Input placeholder="请输入部门名称" suffix={p.showClear('seq')} />,
                   )}
                 </FormItem>
               </Col>
               <Col>
                 <FormItem label="图标" {...formItemLayout}>
                   {getFieldDecorator('iconCls', {
-                    initialValue: orgModal.iconCls,
+                    
                   })(
-                    <Input placeholder="请输入图标" />,
+        
+                    <Input placeholder="请输入图标" suffix={p.showClear('iconCls')} />,
                   )}
                 </FormItem>
               </Col>
               <Col>
                 <FormItem label="地址" {...formItemLayout}>
                   {getFieldDecorator('address', {
-                    initialValue: orgModal.address,
+                
                   })(
-                    <Input placeholder="请输入地址" />,
+                    <Input placeholder="请输入地址" suffix={p.showClear('address')} />,
                   )}
                 </FormItem>
               </Col>
               <Col>
-                <FormItem label="上级部门" {...formItemLayout}>
-                  {getFieldDecorator('pid', {
-                    initialValue: orgModal.pid ? orgModal.pid.toString() : undefined,
-                  })(
-                    <Select placeholder="请选择上级部门" allowClear>
-                      {orgList.map(el => <Option key={el.id} value={el.id.toString()}>{el.name}</Option>)}
-                    </Select>,
-                  )}
-                </FormItem>
+                <FormItem
+                label="上级部门"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('pid', {})(
+                  <Select placeholder="请选择上级部门" optionLabelProp="title" allowClear>
+                    {wareList.map(el => <Option key={el.id} title={el.id.toString()}>{el.name}</Option>)}
+                  </Select>)}
+              </FormItem>
               </Col>
             </Row>
           </Form>

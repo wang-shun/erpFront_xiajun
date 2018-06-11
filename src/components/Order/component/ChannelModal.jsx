@@ -125,6 +125,21 @@ class ChannelModal extends Component {
             <Row>
               <Col span={7}>
                 <FormItem
+                  label="渠道编码"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('channelNo', {
+                    initialValue: data.channelNo,
+                    rules: [{ required: true, message: '请输入' }],
+                  })(
+                    <Input placeholder="请输入渠道编码" />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={7}>
+                <FormItem
                   label="类型"
                   {...formItemLayout}
                 >

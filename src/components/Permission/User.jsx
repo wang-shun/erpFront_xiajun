@@ -127,7 +127,7 @@ class Resource extends Component {
       total,
       pageSize: 20,
       onChange(pageIndex) {
-        p.props.dispatch({ type: 'permission/queryUserList', payload: { pageIndex } });
+        p.props.dispatch({ type: 'user/queryUserList', payload: { pageIndex } });
       },
     };
 

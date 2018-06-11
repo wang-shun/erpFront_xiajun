@@ -5,7 +5,7 @@ import fetch from '../utils/request';
 const addOrder = ({ payload }) => fetch.post('/outerOrder/add', { data: payload }).catch(e => e);
 const updateOrder = ({ payload }) => fetch.post('/outerOrder/update', { data: payload }).catch(e => e);
 const deleteOrder = ({ payload }) => fetch.post('/outerOrder/delete', { data: payload }).catch(e => e);
-const queryOrderList = ({ payload }) => fetch.post('/outerOrder/queryOuterOrderList', { data: payload }).catch(e => e);
+const queryOrderList = ({ payload }) => fetch.post('/outerOrder/index', { data: payload }).catch(e => e);
 const queryOrder = ({ payload }) => fetch.post('/outerOrder/query', { data: payload }).catch(e => e);
 const queryOrderDetail = ({ payload }) => fetch.post('/outerOrder/erpStockup', { data: payload }).catch(e => e);
 const closeOrder = ({ payload }) => fetch.post('/outerOrder/close', { data: payload }).catch(e => e);
@@ -52,7 +52,7 @@ const releaseInventory = ({ payload }) => fetch.post('/erpOrder/releaseInventory
 const queryReturnOrderById = ({ payload }) => fetch.post('/erpReturnOrder/queryById', { data: payload }).catch(e => e);
 const updateReturnOrder = ({ payload }) => fetch.post('/erpReturnOrder/update', { data: payload }).catch(e => e);
 const addReturnOrder = ({ payload }) => fetch.post('/erpReturnOrder/add', { data: payload }).catch(e => e);
-const queryReturnOrderList = ({ payload }) => fetch.post('/erpReturnOrder/query', { data: payload }).catch(e => e);
+const queryReturnOrderList = ({ payload }) => fetch.post('/erpReturnOrder/index', { data: payload }).catch(e => e);
 // 销售渠道管理
 const queryChannelList = () => fetch.post('/channel/querylist').catch(e => e);
 const queryChannel = ({ payload }) => fetch.post('/channel/query', { data: payload }).catch(e => e);
