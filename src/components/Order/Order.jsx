@@ -373,11 +373,11 @@ class Order extends Component {
                 })(
                   <Select placeholder="请选择订单状态" >
                     <Option value="10">全部</Option>
-                    <Option value="0">新建</Option>
-                    <Option value="1">部分发货</Option>
-                    <Option value="2">全部发货</Option>
+                    <Option value="-4">退货完成</Option>
                     <Option value="-1">已关闭</Option>
-                    <Option value="-2">待确认</Option>
+                    <Option value="0">新建</Option>
+                    <Option value="2">全部发货</Option>
+                    <Option value="4">订单完成</Option>
                   </Select>,
                 )}
               </FormItem>
