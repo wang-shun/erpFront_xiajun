@@ -84,7 +84,7 @@ class Brands extends Component {
   checkEnName(rule, value, cb) {
     if (!value) cb('请输入');
     const { brandList = [] } = this.props;
-    const result = brandList.every(brand => brand.name.toLowerCase() !== value.toLowerCase());
+    const result = brandList.every(brand => brand.name !== value);
     if (!result) {
       cb('已有此英文品牌，请重新输入');
     }
@@ -165,7 +165,7 @@ class Brands extends Component {
           </Row>
           <Row style={{ marginLeft: 13 }}>
             <Col className="listBtnGroup">
-              <Button htmlType="submit" size="large" type="primary">查询</Button>
+              <Button htmlType="submit" size="large" type="primary" >查询</Button>
               <Button size="large" type="ghost" onClick={() => { form.resetFields(); }}>清空</Button>
             </Col>
           </Row>
@@ -226,9 +226,12 @@ class Brands extends Component {
   }
 }
 
+
 function mapStateToProps(state) {
   const { brandList, brandTotal, brandValue } = state.products;
   return { brandList, brandTotal, brandValue };
 }
+
+
 
 export default connect(mapStateToProps)(Form.create()(Brands));
