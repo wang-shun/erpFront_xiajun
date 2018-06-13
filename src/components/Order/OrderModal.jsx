@@ -153,7 +153,7 @@ class OrderModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('dealerCode', {
-                  initialValue: orderData.salesId ? orderData.salesId.toString() : undefined,
+                  // initialValue: orderData.dealerCode ? orderData.dealerName.toString() : undefined,
                   rules: [{ required: true, message: '请选择销售' }],
                 })(
                   <Select placeholder="请选择销售" allowClear>

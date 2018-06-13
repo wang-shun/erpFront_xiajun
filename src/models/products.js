@@ -113,7 +113,8 @@ export default {
           const picStr = decodeURIComponent(data.data.mainPic).replace(/&quot;/g, '"');
           const picObj = JSON.parse(picStr);
           picObj.picList.forEach((el) => {
-            el.thumbUrl = el.url; // `${el.url}?x-oss-process=image/resize,w_200,limit_0`;
+            //下面一行临时注释掉
+            //el.thumbUrl = el.url; // `${el.url}?x-oss-process=image/resize,w_200,limit_0`;
           });
           // 写回去
           data.data.mainPic = JSON.stringify(picObj);

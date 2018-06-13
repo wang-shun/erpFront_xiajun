@@ -362,7 +362,8 @@ class ErpOrder extends Component {
         width: 60,
         render(text) {
           switch (text) {
-            case 0: return <font>未备货</font>;
+            case -4: return <font>退货完成</font>;
+            case -1: return <font>已关闭</font>;
             case 1: return <font color="sienna">部分备货</font>;
             case 2: return <font color="saddlebrown">部分在途备货</font>;
             case 3: return <font color="saddlebrown">全部在途备货</font>;
@@ -491,9 +492,11 @@ class ErpOrder extends Component {
               >
                 {getFieldDecorator('status', {})(
                   <Select placeholder="请选择" allowClear>
-                    <Option value="0">新建</Option>
-                    <Option value="2">已发货</Option>
+                    <Option value="-4">退货完成</Option>
                     <Option value="-1">已关闭</Option>
+                    <Option value="0">新建</Option>
+                    <Option value="2">全部发货</Option>
+                    <Option value="4">订单完成</Option>
                   </Select>,
                 )}
               </FormItem>

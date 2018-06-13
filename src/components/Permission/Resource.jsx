@@ -125,7 +125,7 @@ class Resource extends Component {
                 <FormItem label="资源名称" {...formItemLayout}>
                   {getFieldDecorator('name', {
                     rules: [{ required: true, message: '请输入资源名称' }],
-                    initialValue: resourceModal.name,
+                    // initialValue: resourceModal.name?resourceModal.name.toString() : undefined,
                   })(
                     <Input placeholder="请输入资源名称" />,
                   )}
@@ -135,7 +135,7 @@ class Resource extends Component {
                 <FormItem label="资源类型" {...formItemLayout}>
                   {getFieldDecorator('resourceType', {
                     rules: [{ required: true, message: '请输入资源类型' }],
-                    initialValue: typeof (resourceModal.resourceType) === 'number' ? resourceModal.resourceType.toString() : undefined,
+                    // initialValue: typeof (resourceModal.resourceType) === 'number' ? resourceModal.resourceType.toString() : undefined,
                   })(
                     <Select placeholder="请输入资源类型" allowClear>
                       <Option key="0" value="0">菜单</Option>
@@ -147,7 +147,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="资源路径" {...formItemLayout}>
                   {getFieldDecorator('url', {
-                    initialValue: resourceModal.url,
+                    // initialValue: resourceModal.url,
                   })(
                     <Input placeholder="请输入资源路径" />,
                   )}
@@ -156,7 +156,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="打开方式" {...formItemLayout}>
                   {getFieldDecorator('openMode', {
-                    initialValue: resourceModal.openMode || undefined,
+                    // initialValue: resourceModal.openMode || undefined,
                   })(
                     <Select placeholder="请选择打开方式" allowClear>
                       <Option key="ajax" value="ajax">ajax</Option>
@@ -168,7 +168,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="资源图标" {...formItemLayout}>
                   {getFieldDecorator('iconCls', {
-                    initialValue: resourceModal.iconCls,
+                    // initialValue: resourceModal.iconCls,
                   })(
                     <Input placeholder="请输入资源图标" />,
                   )}
@@ -178,7 +178,7 @@ class Resource extends Component {
                 <FormItem label="排序" {...formItemLayout}>
                   {getFieldDecorator('seq', {
                     rules: [{ required: true, message: '请输入排序' }],
-                    initialValue: resourceModal.seq,
+                    // initialValue: resourceModal.seq,
                   })(
                     <Input placeholder="请输入排序" />,
                   )}
@@ -188,7 +188,7 @@ class Resource extends Component {
                 <FormItem label="状态" {...formItemLayout}>
                   {getFieldDecorator('status', {
                     rules: [{ required: true, message: '请输入状态' }],
-                    initialValue: typeof (resourceModal.status) === 'number' ? resourceModal.status.toString() : undefined,
+                    // initialValue: typeof (resourceModal.status) === 'number' ? resourceModal.status.toString() : undefined,
                   })(
                     <Select placeholder="请输入状态" allowClear>
                       <Option key="0" value="0">正常</Option>
@@ -200,7 +200,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="资源编码" {...formItemLayout}>
                   {getFieldDecorator('code', {
-                    initialValue: resourceModal.code,
+                    // initialValue: resourceModal.code,
                   })(
                     <Input placeholder="请输入资源编码" />,
                   )}
@@ -209,7 +209,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="父级资源" {...formItemLayout}>
                   {getFieldDecorator('pid', {
-                    initialValue: (resourceModal.pid && resourceModal.pid.toString()) || undefined,
+                    // initialValue: (resourceModal.pid && resourceModal.pid.toString()) || undefined,
                   })(
                     <TreeSelect
                       treeDefaultExpandAll

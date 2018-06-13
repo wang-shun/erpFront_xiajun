@@ -117,9 +117,9 @@ class FindProducts extends Component {
     const p = this;
     const { currentPage, findItemList = [], productsTotal, productsValues = {}, tree = [], currentPageSizeone } = this.props;
     const columns = [
-      { title: '采购商品名称',
-        dataIndex: 'name',
-        key: 'name',
+      { title: '采购商品名字',
+        dataIndex: 'itemName',
+        key: 'itemName',
         width: 200 / 11.72 + '%',
         render(text) { return text || '-'; } },
       { title: '商品代码', dataIndex: 'itemCode', key: 'itemCode', width: 100 / 11.72 + '%' },
