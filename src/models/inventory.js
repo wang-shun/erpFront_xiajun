@@ -14,8 +14,8 @@ const checkOut = ({ payload }) => fetch.post('/inventory/inventoryCheckOut', { d
 const checkOutToStock = ({ payload }) => fetch.post('/inventory/inventoryCheckOuttoStock', { data: payload }).catch(e => e);
 // 仓库管理
 const queryWareList = ({ payload }) => fetch.get('/warehouse/queryWarehouses', { data: payload }).catch(e => e);
-const addWare = ({ payload }) => fetch.get('/warehouse/add', { data: payload }).catch(e => e);
-const updateWare = ({ payload }) => fetch.get('/warehouse/update', { data: payload }).catch(e => e);
+const addWare = ({ payload }) => fetch.post('/warehouse/add', { data: payload }).catch(e => e);
+const updateWare = ({ payload }) => fetch.post('/warehouse/update', { data: payload }).catch(e => e);
 const queryWare = ({ payload }) => fetch.get('/warehouse/query', { data: payload }).catch(e => e);
 
 // 出入库记录
