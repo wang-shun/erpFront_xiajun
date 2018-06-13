@@ -47,6 +47,7 @@ class Products extends Component {
 
   updateModal(id) {
     const p = this;
+    console.log(id);
     this.setState({ modalVisible: true }, () => {
       p.props.dispatch({ type: 'products/queryProduct', payload: { id } });
     });
@@ -212,14 +213,14 @@ class Products extends Component {
       { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80 / 14.32 + '%', render(text) { return <span>{text === 0 ? '代购' : '现货' }</span>; } },
       { title: '商品类目',
         width: 100 / 14.32 + '%',
-        dataIndex: 'categoryId',
-        key: 'categoryId',
-        render(t) {
-          const cate = p.interator(tree, t && t.toString()) || [];
-          return <span>{cate[0] ? cate[0].name : '-'}</span>;
-        },
+        dataIndex: 'categoryName',
+        key: 'categoryName',
+        // render(t) {
+        //   const cate = p.interator(tree, t && t.toString()) || [];
+        //   return <span>{cate[0] ? cate[0].name : '-'}</span>;
+        // },
       },
-      { title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80 / 14.32 + '%', render(text) { return text || '-'; } },
+      //{ title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80 / 14.32 + '%', render(text) { return text || '-'; } },
       { title: '是否可售',
         dataIndex: 'isSale',
         key: 'isSale',
