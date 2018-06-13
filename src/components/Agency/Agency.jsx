@@ -97,7 +97,7 @@ class Agency extends Component {
     };
     const columnsList = [
       { title: '用户名称', dataIndex: 'name', key: 'name', render(text) { return text || '-'; } },
-      { title: '销售类别名称', dataIndex: 'typeName', key: 'typeName', render(text) { return text || '-'; } },
+      { title: '销售类别名称', dataIndex: 'typeCode', key: 'typeCode', render(text) { return text || '-'; } },
       { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', render(text) { return text || '-'; } },
       { title: '修改时间', dataIndex: 'gmtModify', key: 'gmtModify', render(text) { return text || '-'; } },
       { title: '操作',
