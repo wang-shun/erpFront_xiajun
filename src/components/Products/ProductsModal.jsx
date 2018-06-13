@@ -347,7 +347,7 @@ class ProductsModal extends Component {
               <Row>
                 <Col span={7}>
                   <FormItem
-                    label="所属类目"
+                    label="所属类"
                     {...formItemLayout}
                   >
                     {getFieldDecorator('categoryCode', {

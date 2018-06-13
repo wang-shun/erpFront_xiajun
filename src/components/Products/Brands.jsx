@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Input, Form, Table, Row, Col, Button, Modal } from 'antd';
+import { Input, Form, Table, Row, Col, Button, Modal,Popconfirm } from 'antd';
+import styles from './Products.less';
 
 const FormItem = Form.Item;
 
@@ -121,9 +122,11 @@ class Brands extends Component {
         key: 'oper',
         render(t, r) {
           return (
-            <div>
+            <div className={styles.operation}>
               <a href="javascript:void(0)" onClick={p.showModal.bind(p, r.id)} >修改</a>
-              <a href="javascript:void(0)" onClick={p.handleDelete.bind(p, r.id)} style={{ margin: '0 10px' }} >删除</a>
+              <Popconfirm title="确定删除此品牌？" onConfirm={p.handleDelete.bind(p, r.id)}>
+                <a href="javascript:void(0)">删除</a>
+              </Popconfirm>
             </div>
           );
         },
