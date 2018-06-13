@@ -144,7 +144,7 @@ class Resource extends Component {
             <Table columns={columns} dataSource={userList} rowKey={r => r.id} pagination={paginationProps} bordered />
           </Col>
         </Row>
-        <Modal
+        {visible && <Modal
           visible={visible}
           width={600}
           title={title}
@@ -268,7 +268,7 @@ class Resource extends Component {
               </Col>
             </Row>
           </Form>
-        </Modal>
+        </Modal>}
       </div>);
   }
 }
