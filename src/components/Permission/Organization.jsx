@@ -21,9 +21,9 @@ class Organization extends Component {
       if (err) return;
       if (values.createTime) values.createTime = new Date(values.createTime).format('yyyy-MM-dd hh:mm:ss');
       if (orgModal.data) {
-        dispatch({ type: 'permission/updateOrg', payload: { ...values, id: orgModal.data.id } });
+        dispatch({ type: 'organization/updateOrg', payload: { ...values, id: orgModal.data.id } });
       } else {
-        dispatch({ type: 'permission/addOrg', payload: { ...values } });
+        dispatch({ type: 'organization/addOrg', payload: { ...values } });
       }
       p.handleCancel();
     });
