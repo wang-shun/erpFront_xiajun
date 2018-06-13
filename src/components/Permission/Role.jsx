@@ -183,7 +183,7 @@ class Role extends Component {
             </Row>
           </Form>
         </Modal>}
-        {visible && <Modal
+        <Modal
           visible={authModalVisible}
           title="授权"
           onOk={this.handleAuth.bind(this)}
@@ -197,7 +197,7 @@ class Role extends Component {
             pagination={false}
             bordered
           />
-        </Modal>}
+        </Modal>
       </div>);
   }
 }
