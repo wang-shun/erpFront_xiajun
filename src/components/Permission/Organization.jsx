@@ -93,7 +93,7 @@ class Organization extends Component {
             <Table columns={columns} dataSource={orgList} rowKey={r => r.id} pagination={paginationProps} bordered />
           </Col>
         </Row>
-        <Modal
+        {visible && <Modal
           visible={visible}
           title={title}
           onOk={this.handleSubmit.bind(this)}
@@ -162,7 +162,7 @@ class Organization extends Component {
               </Col>
             </Row>
           </Form>
-        </Modal>
+        </Modal>}
       </div>);
   }
 }
