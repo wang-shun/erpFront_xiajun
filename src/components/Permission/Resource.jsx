@@ -40,7 +40,7 @@ class Resource extends Component {
   showModal(type, r) {
     switch (type) {
       case 'add':
-        this.setState({ visible: true, title: '新增' }); 
+        this.setState({ visible: true, title: '新增' });
         break;
       case 'update':
         this.setState({ visible: true, title: '修改' });
@@ -131,8 +131,8 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="资源名称" {...formItemLayout}>
                   {getFieldDecorator('name', {
-                    rules: [{ required: true, message: '请输入资源名称' }], 
-                    // initialValue: resourceModal.name?resourceModal.name.toString() : undefined,
+                    rules: [{ required: true, message: '请输入资源名称' }],
+                    initialValue: resourceModal.name?resourceModal.name.toString() : undefined,
                   })(
                     <Input placeholder="请输入资源名称" />,
                   )}

@@ -167,7 +167,10 @@ class Role extends Component {
                     rules: [{ required: true, message: '请输入状态' }],
                     initialValue: roleModal.status,
                   })(
-                    <Input placeholder="请输入状态" />,
+                    <Select placeholder="请输入状态" allowClear>
+                      <Option key="0" value="0">正常</Option>
+                      <Option key="1" value="1">停用</Option>
+                    </Select>,
                   )}
                 </FormItem>
               </Col>
