@@ -179,7 +179,7 @@ class Brands extends Component {
           </Col>
         </Row>
         <Table columns={columns} dataSource={brandList} pagination={paginationProps} rowKey={r => r.id} bordered />
-        <Modal visible={visible} title={title} onCancel={this.handleCancel.bind(this)} onOk={this.handleOkClick.bind(this)}>
+        {visible && <Modal visible={visible} title={title} onCancel={this.handleCancel.bind(this)} onOk={this.handleOkClick.bind(this)}>
           <Row>
             <Col>
               <FormItem
@@ -223,7 +223,7 @@ class Brands extends Component {
               </FormItem>
             </Col>
           </Row>
-        </Modal>
+        </Modal>}
       </div>
     );
   }
