@@ -4,7 +4,7 @@ import fetch from '../utils/request';
 
 const queryResourceList = ({ payload }) => fetch.post('/resource/queryTree', { data: payload }).catch(e => e); // queryList
 const addResource = ({ payload }) => fetch.post('/resource/add', { data: payload }).catch(e => e);
-const updateResource = ({ payload }) => fetch.post('/resource/update', { data: payload }).catch(e => e);
+const updateResource = ({ payload }) => fetch.post('/resource/edit', { data: payload }).catch(e => e);
 const deleteResource = ({ payload }) => fetch.post('/resource/delete', { data: payload }).catch(e => e);
 const queryResource = ({ payload }) => fetch.post('/resource/query', { data: payload }).catch(e => e);
 const queryRoleList = ({ payload }) => fetch.post('/role/queryList', { data: payload }).catch(e => e);
