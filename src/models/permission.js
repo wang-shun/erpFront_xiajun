@@ -19,7 +19,7 @@ const deleteUser = ({ payload }) => fetch.post('/user/delete', { data: payload }
 const queryUser = ({ payload }) => fetch.post('/user/query', { data: payload }).catch(e => e);
 const queryOrgList = ({ payload }) => fetch.post('/organization/queryList', { data: payload }).catch(e => e);
 const addOrg = ({ payload }) => fetch.post('/organization/add', { data: payload }).catch(e => e);
-const updateOrg = ({ payload }) => fetch.post('/organization/update', { data: payload }).catch(e => e);
+const updateOrg = ({ payload }) => fetch.post('/organization/edit', { data: payload }).catch(e => e);
 const deleteOrg = ({ payload }) => fetch.post('/organization/delete', { data: payload }).catch(e => e);
 const queryOrg = ({ payload }) => fetch.post('/organization/query', { data: payload }).catch(e => e);
 // 角色授权

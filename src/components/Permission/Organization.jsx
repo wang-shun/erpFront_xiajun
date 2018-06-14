@@ -20,8 +20,8 @@ class Organization extends Component {
     form.validateFields((err, values) => {
       if (err) return;
       if (values.createTime) values.createTime = new Date(values.createTime).format('yyyy-MM-dd hh:mm:ss');
-      if (orgModal.data) {
-        dispatch({ type: 'permission/updateOrg', payload: { ...values, id: orgModal.data.id } });
+      if (orgModal.id) {
+        dispatch({ type: 'permission/updateOrg', payload: { ...values, id: orgModal.id } });
       } else {
         dispatch({ type: 'permission/addOrg', payload: { ...values } });
       }
@@ -93,7 +93,7 @@ class Organization extends Component {
             <Table columns={columns} dataSource={orgList} rowKey={r => r.id} pagination={paginationProps} bordered />
           </Col>
         </Row>
-        <Modal
+        {visible && <Modal
           visible={visible}
           title={title}
           onOk={this.handleSubmit.bind(this)}
@@ -162,7 +162,7 @@ class Organization extends Component {
               </Col>
             </Row>
           </Form>
-        </Modal>
+        </Modal>}
       </div>);
   }
 }
