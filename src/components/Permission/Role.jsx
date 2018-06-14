@@ -133,7 +133,7 @@ class Role extends Component {
             <Table columns={columns} dataSource={roleList} rowKey={r => r.id} pagination={paginationProps} bordered />
           </Col>
         </Row>
-        <Modal
+        {visible && <Modal
           visible={visible}
           title={title}
           onOk={this.handleSubmit.bind(this)}
@@ -182,7 +182,7 @@ class Role extends Component {
               </Col>
             </Row>
           </Form>
-        </Modal>
+        </Modal>}
         <Modal
           visible={authModalVisible}
           title="授权"
