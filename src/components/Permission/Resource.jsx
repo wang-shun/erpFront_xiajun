@@ -20,7 +20,8 @@ class Resource extends Component {
     form.validateFields((err, values) => {
       if (err) return;
       if (values.createTime) values.createTime = new Date(values.createTime).format('yyyy-MM-dd hh:mm:ss');
-      if (resourceModal.id) {
+      console.log(resourceModal)
+      if (resourceModal) {
         dispatch({ type: 'permission/updateResource', payload: { ...values, id: resourceModal.id } });
       } else {
         dispatch({ type: 'permission/addResource', payload: { ...values } });
