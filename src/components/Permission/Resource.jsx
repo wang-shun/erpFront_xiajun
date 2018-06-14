@@ -15,15 +15,19 @@ class Resource extends Component {
     };
   }
   handleSubmit() {
+    console.log(this.props)
     const p = this;
     const { resourceModal = {}, dispatch, form } = this.props;
     form.validateFields((err, values) => {
       if (err) return;
       if (values.createTime) values.createTime = new Date(values.createTime).format('yyyy-MM-dd hh:mm:ss');
       console.log(resourceModal)
-      if (resourceModal) {
+      if (resourceModal.id) {
+        console.log(resourceModal)
+        console.log(1)
         dispatch({ type: 'permission/updateResource', payload: { ...values, id: resourceModal.id } });
       } else {
+        console.log(2)
         dispatch({ type: 'permission/addResource', payload: { ...values } });
       }
       p.handleCancel();
@@ -36,7 +40,8 @@ class Resource extends Component {
   showModal(type, r) {
     switch (type) {
       case 'add':
-        this.setState({ visible: true, title: '新增' }); break;
+        this.setState({ visible: true, title: '新增' }); 
+        break;
       case 'update':
         this.setState({ visible: true, title: '修改' });
         this.props.dispatch({ type: 'permission/queryResource', payload: { id: r.id } });
@@ -50,6 +55,7 @@ class Resource extends Component {
   render() {
     const p = this;
     const { resourceList = [], resourceExpandedKeys, form, resourceModal = {} } = this.props;
+    console.log(this.props)
     const { visible, title } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -113,7 +119,7 @@ class Resource extends Component {
             />
           </Col>
         </Row>
-        {visible && <Modal
+        <Modal
           visible={visible}
           width={600}
           title={title}
@@ -125,7 +131,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="资源名称" {...formItemLayout}>
                   {getFieldDecorator('name', {
-                    rules: [{ required: true, message: '请输入资源名称' }],
+                    rules: [{ required: true, message: '请输入资源名称' }], 
                     // initialValue: resourceModal.name?resourceModal.name.toString() : undefined,
                   })(
                     <Input placeholder="请输入资源名称" />,
@@ -136,7 +142,7 @@ class Resource extends Component {
                 <FormItem label="资源类型" {...formItemLayout}>
                   {getFieldDecorator('resourceType', {
                     rules: [{ required: true, message: '请输入资源类型' }],
-                    // initialValue: typeof (resourceModal.resourceType) === 'number' ? resourceModal.resourceType.toString() : undefined,
+                    initialValue: typeof (resourceModal.resourceType) === 'number' ? resourceModal.resourceType.toString() : undefined,
                   })(
                     <Select placeholder="请输入资源类型" allowClear>
                       <Option key="0" value="0">菜单</Option>
@@ -148,7 +154,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="资源路径" {...formItemLayout}>
                   {getFieldDecorator('url', {
-                    // initialValue: resourceModal.url,
+                    initialValue: resourceModal.url,
                   })(
                     <Input placeholder="请输入资源路径" />,
                   )}
@@ -157,7 +163,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="打开方式" {...formItemLayout}>
                   {getFieldDecorator('openMode', {
-                    // initialValue: resourceModal.openMode || undefined,
+                    initialValue: resourceModal.openMode || undefined,
                   })(
                     <Select placeholder="请选择打开方式" allowClear>
                       <Option key="ajax" value="ajax">ajax</Option>
@@ -169,7 +175,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="资源图标" {...formItemLayout}>
                   {getFieldDecorator('iconCls', {
-                    // initialValue: resourceModal.iconCls,
+                    initialValue: resourceModal.iconCls,
                   })(
                     <Input placeholder="请输入资源图标" />,
                   )}
@@ -179,7 +185,7 @@ class Resource extends Component {
                 <FormItem label="排序" {...formItemLayout}>
                   {getFieldDecorator('seq', {
                     rules: [{ required: true, message: '请输入排序' }],
-                    // initialValue: resourceModal.seq,
+                    initialValue: resourceModal.seq,
                   })(
                     <Input placeholder="请输入排序" />,
                   )}
@@ -189,7 +195,7 @@ class Resource extends Component {
                 <FormItem label="状态" {...formItemLayout}>
                   {getFieldDecorator('status', {
                     rules: [{ required: true, message: '请输入状态' }],
-                    // initialValue: typeof (resourceModal.status) === 'number' ? resourceModal.status.toString() : undefined,
+                    initialValue: typeof (resourceModal.status) === 'number' ? resourceModal.status.toString() : undefined,
                   })(
                     <Select placeholder="请输入状态" allowClear>
                       <Option key="0" value="0">正常</Option>
@@ -201,7 +207,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="资源编码" {...formItemLayout}>
                   {getFieldDecorator('code', {
-                    // initialValue: resourceModal.code,
+                    initialValue: resourceModal.code,
                   })(
                     <Input placeholder="请输入资源编码" />,
                   )}
@@ -210,7 +216,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="父级资源" {...formItemLayout}>
                   {getFieldDecorator('pid', {
-                    // initialValue: (resourceModal.pid && resourceModal.pid.toString()) || undefined,
+                    initialValue: (resourceModal.pid && resourceModal.pid.toString()) || undefined,
                   })(
                     <TreeSelect
                       treeDefaultExpandAll
@@ -222,7 +228,7 @@ class Resource extends Component {
               </Col>
             </Row>
           </Form>
-        </Modal>}
+        </Modal>
       </div>);
   }
 }
