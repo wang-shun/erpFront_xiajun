@@ -34,7 +34,7 @@ class DeliveryModal extends Component {
         values.receiverDistrict = values.address[2];
         delete values.address;
       }
-      values.erpOrderId = JSON.stringify(checkId);
+      values.mallOrders = JSON.stringify(checkId);
       dispatch({
         type: 'order/mergeDelivery',
         payload: { ...values },
@@ -393,7 +393,7 @@ class DeliveryModal extends Component {
               </Col>
             </Row>
             <Row>
-              <Table rowSelection={rowSelection} columns={columns} dataSource={data.erpOrderList || []} rowKey={r => r.id} pagination={false} bordered />
+              <Table rowSelection={rowSelection} columns={columns} dataSource={data.mallSubOrderList || []} rowKey={r => r.id} pagination={false} bordered />
             </Row>
             <br />
             <Row>

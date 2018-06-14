@@ -5,7 +5,7 @@ const addSku = ({ payload }) => fetch.post('/itemSku/add', { data: payload }).ca
 const updateSku = ({ payload }) => fetch.post('/itemSku/update', { data: payload }).catch(e => e);
 const querySku = ({ payload }) => fetch.post('/itemSku/query', { data: payload }).catch(e => e);
 const querySkuList = ({ payload }) => fetch.post('/itemSku/queryItemSkuList', { data: payload }).catch(e => e);
-const querySkuList2 = ({ payload }) => fetch.post('/purchase/queryItemSkuList', { data: payload }).catch(e => e);
+const querySkuList2 = ({ payload }) => fetch.post('/itemSku/queryItemSkuList', { data: payload }).catch(e => e);
 const deleteSku = ({ payload }) => fetch.post('/itemSku/delete', { data: payload }).catch(e => e);
 const queryPackageScales = () => fetch.post('/freight/getPackageScaleList').catch(e => e);
 const queryScaleTypes = () => fetch.post('/itemSku/scaleTypeList').catch(e => e);
