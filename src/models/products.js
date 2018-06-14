@@ -30,7 +30,7 @@ const queryFindProductList = ({ payload }) => fetch.post('/item/finditem/queryFi
 const queryFindProduct = ({ payload }) => fetch.post('/item/finditem/passOrRefuse', { data: payload }).catch(e => e);
 
 // 买手
-const queryAllItaliaBuyer = () => fetch.post('/item/queryAllItaliaBuyer').catch(e => e);
+const queryAllItaliaBuyer = () => fetch.post('/purchase/queryBuyers').catch(e => e);
 export default {
   namespace: 'products',
   state: {
