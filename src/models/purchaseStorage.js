@@ -3,7 +3,7 @@ import fetch from '../utils/request';
 
 // 采购入库相关接口
 const queryPurchaseStorageList = ({ payload }) => fetch.post('/purchaseStorage/queryPurStorages', { data: payload }).catch(e => e);
-const queryBuyerTaskList = ({ payload }) => fetch.post('/purchase/queryBuyerTaskList', { data: payload }).catch(e => e);
+const queryBuyerTaskList = ({ payload }) => fetch.post('/purchase/queryTaskDailyList', { data: payload }).catch(e => e);
 const addStorage = ({ payload }) => fetch.post('/purchaseStorage/add', { data: payload }).catch(e => e);
 const updateStorage = ({ payload }) => fetch.post('/purchaseStorage/update', { data: payload }).catch(e => e);
 const confirmStorage = ({ payload }) => fetch.post('/purchaseStorage/confirm', { data: payload }).catch(e => e);

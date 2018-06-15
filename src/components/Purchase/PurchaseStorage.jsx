@@ -178,7 +178,7 @@ class PurchaseStorage extends Component {
     };
     const columnsList = [
       { title: '入库单号', dataIndex: 'stoOrderNo', key: 'stoOrderNo' },
-      { title: '买手姓名', dataIndex: 'buyerName', key: 'buyerName' },
+      { title: '买手姓名', dataIndex: 'nickName', key: 'nickName' },
       { title: '操作员名字', dataIndex: 'userCreate', key: 'userCreate' },
       { title: '仓库名称', dataIndex: 'warehouseName', key: 'warehouseName' },
       { title: '新增时间', dataIndex: 'gmtCreate', key: 'gmtCreate', render(t) { return t && t.split(' ')[0]; } },

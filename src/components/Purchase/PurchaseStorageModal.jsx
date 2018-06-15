@@ -468,12 +468,12 @@ class PurchaseModal extends Component {
                 label="选择买手"
                 {...formItemLayout}
               >
-                {getFieldDecorator('buyerId', {
-                  initialValue: toString(purchaseStorageData.buyerId, 'SELECT'),
+                {getFieldDecorator('openId', {
+                  initialValue: toString(purchaseStorageData.openId, 'SELECT'),
                   rules: [{ required: true, message: '请选择买手' }],
                 })(
                   <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.queryBuyerTaskList.bind(this)}>
-                    {buyer.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
+                    {buyer.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
                   </Select>,
                 )}
               </FormItem>

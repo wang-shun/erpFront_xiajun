@@ -154,7 +154,7 @@ class Purchase extends Component {
       { title: '任务单号', dataIndex: 'taskOrderNo', key: 'taskOrderNo', width: 150 },
       { title: '任务名称', dataIndex: 'taskTitle', key: 'taskTitle', width: 100 },
       { title: '任务描述', dataIndex: 'taskDesc', key: 'taskDesc', width: 100 },
-      { title: '买手', dataIndex: 'buyerName', key: 'buyerName', width: 60, render(text) { return text || '-'; } },
+      { title: '买手', dataIndex: 'nickName', key: 'nickName', width: 60, render(text) { return text || '-'; } },
       { title: '图片',
         dataIndex: 'imageUrl',
         key: 'imageUrl',
@@ -255,7 +255,7 @@ class Purchase extends Component {
               >
                 {getFieldDecorator('buyerId', {})(
                   <Select placeholder="请选择用户" optionLabelProp="title" mode>
-                    {buyer.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
+                    {buyer.map(el => <Option key={el.id} title={el.nickName}>{el.nickName}</Option>)}
                   </Select>,
                 )}
               </FormItem>
