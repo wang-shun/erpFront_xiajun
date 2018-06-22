@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm, message } from 'antd';
+import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm, message, Select } from 'antd';
 import { connect } from 'dva';
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 @window.regStateCache
 class Role extends Component {
@@ -22,22 +23,31 @@ class Role extends Component {
     form.validateFields((err, values) => {
       if (err) return;
       if (roleModal.id) {
+        console.log(1)
         dispatch({ type: 'permission/updateRole', payload: { ...values, id: roleModal.id } });
       } else {
+        console.log(2)
         dispatch({ type: 'permission/addRole', payload: { ...values } });
       }
       p.handleCancel();
     });
   }
   handleCancel() {
-    this.setState({ visible: false });
+    this.setState({
+      visible: false,
+    });
     this.props.form.resetFields();
   }
   showModal(type, r) {
+    this.props.form.resetFields();
     switch (type) {
       case 'add':
-        this.setState({ visible: true, title: '新增' }); break;
+      console.log(3)
+        this.props.form.resetFields();
+        this.setState({ visible: true, title: '新增' }); 
+        break;
       case 'update':
+      console.log(4)
         this.setState({ visible: true, title: '修改' });
         this.props.dispatch({ type: 'permission/queryRole', payload: { id: r.id } });
         break;
@@ -137,7 +147,7 @@ class Role extends Component {
           visible={visible}
           title={title}
           onOk={this.handleSubmit.bind(this)}
-          onCancel={this.handleCancel.bind(this)}
+          onCancel={this.handleCancel.bind(this)}  
         >
           <Form>
             <Row>
@@ -168,8 +178,8 @@ class Role extends Component {
                     initialValue: roleModal.status,
                   })(
                     <Select placeholder="请输入状态" allowClear>
-                      <Option key="0" value="0">正常</Option>
-                      <Option key="1" value="1">停用</Option>
+                      <Option value={0}>正常</Option>
+                      <Option value={1}>停用</Option>
                     </Select>,
                   )}
                 </FormItem>
@@ -185,7 +195,7 @@ class Role extends Component {
               </Col>
             </Row>
           </Form>
-        </Modal>}
+        </Modal> }
         <Modal
           visible={authModalVisible}
           title="授权"
