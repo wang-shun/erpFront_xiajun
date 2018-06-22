@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Input, Button, Row, Col, Select, DatePicker, Form, TreeSelect, Modal, Popover, Icon, Popconfirm, Checkbox } from 'antd';
 import ProductsModal from './ProductsModal';
-import ProductsUpload from './ProductsUpload';
+import ProductsUpload2 from './ProductsUpload2';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -443,7 +443,7 @@ class Products extends Component {
           loginRoler={loginRoler}
           countries={countries}
         />
-        <ProductsUpload 
+        <ProductsUpload2
         visible={uploadVisble}
         title = {titles}
         close = {this.closeMore.bind(this)}

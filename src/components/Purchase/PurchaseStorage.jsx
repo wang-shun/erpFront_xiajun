@@ -16,9 +16,23 @@ class PurchaseStorage extends Component {
       selectedRowKeys: [],
       showDetail: false,
       data: [],
+      upsvisible: true,
+      upsvisibleTwo: true,
     };
   }
-
+  //仓库选中
+  storehouse(){
+   this.setState({
+    upsvisible: false,
+    upsvisibleTwo: false,
+   })
+  }
+  //买手选中
+  storehouseTwo(){
+    this.setState({
+      upsvisibleTwo: true,
+    })
+  }
   onSelectChange(selectedRowKeys) {
     this.setState({ selectedRowKeys });
   }
@@ -170,21 +184,22 @@ class PurchaseStorage extends Component {
   render() {
     const p = this;
     const { form, dispatch, list = [], currentPage, total, buyer = [], wareList = [], showModal, editInfo = {}, buyerTaskList = [], showBarcodeModal } = p.props;
-    const { selectedRowKeys, showDetail, data } = p.state;
+    const { showDetail, data, upsvisible, upsvisibleTwo} = p.state;
     const { getFieldDecorator } = form;
+    console.log(buyer)
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
     };
     const columnsList = [
       { title: '入库单号', dataIndex: 'stoOrderNo', key: 'stoOrderNo' },
-      { title: '买手姓名', dataIndex: 'nickName', key: 'nickName' },
-      { title: '操作员名字', dataIndex: 'userCreate', key: 'userCreate' },
-      { title: '仓库名称', dataIndex: 'warehouseName', key: 'warehouseName' },
-      { title: '新增时间', dataIndex: 'gmtCreate', key: 'gmtCreate', render(t) { return t && t.split(' ')[0]; } },
-      { title: '修改时间', dataIndex: 'gmtModify', key: 'gmtModify', render(t) { return t && t.split(' ')[0]; } },
-      { title: '入库时间', dataIndex: 'putInDate', key: 'putInDate', render(t) { return (t && t.split(' ')[0]) || '-'; } },
-      { title: '状态', dataIndex: 'status', key: 'status',         
+      { title: '商品名', dataIndex: 'nickName', key: 'nickName' },
+      { title: 'UPC', dataIndex: 'userCreate', key: 'userCreate' },
+      { title: '规格', dataIndex: 'warehouseName', key: 'warehouseName' },
+      { title: '预入库数', dataIndex: 'gmtCreate', key: 'gmtCreate', render(t) { return t && t.split(' ')[0]; } },
+      { title: '采购买手', dataIndex: 'gmtModify', key: 'gmtModify', render(t) { return t && t.split(' ')[0]; } },
+      { title: '最新更新时间', dataIndex: 'putInDate', key: 'putInDate', render(t) { return (t && t.split(' ')[0]) || '-'; } },
+      { title: '入库仓库', dataIndex: 'status', key: 'status',         
           render(t) {
           switch (t) {
             case 0: return <font color="red">未入库</font>;
@@ -194,7 +209,47 @@ class PurchaseStorage extends Component {
           }
         }, 
       },
-      { title: '备注', dataIndex: 'remark', key: 'remark', render(t) { return t || '-'; } },
+      { title: '入库数', dataIndex: 'remark', key: 'remark', render(t) { return t || '-'; } },
+      { title: '货架号', dataIndex: 'remark', key: 'remark', render(t) { return t || '-'; } },
+      { title: '操作',
+        dataIndex: 'operator',
+        key: 'operator',
+        width: 160,
+        render(t, r) {
+          return (
+            <div>
+              <a href="javascript:void(0)" onClick={p.queryDetail.bind(p, r)} style={{ marginRight: 10 }}>查看</a>
+              {r.storageType === 1 ?
+                <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.showBarcodeModal.bind(p, 'update', r.id)}>修改</a> :
+                <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.showModal.bind(p, 'update', r.id)}>修改</a>}
+              <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r.id)} >
+                <a href="javascript:void(0)" style={{ marginRight: 10 }}>删除</a>
+              </Popconfirm>
+              <a href="javascript:void(0)" onClick={p.exportDetail.bind(p, r.id)} >导出</a>
+            </div>);
+        },
+      },
+    ];
+    const columnsSelectList = [
+      { title: '入库单号', dataIndex: 'stoOrderNo', key: 'stoOrderNo' },
+      { title: '商品名', dataIndex: 'nickName', key: 'nickName' },
+      { title: 'UPC', dataIndex: 'userCreate', key: 'userCreate' },
+      { title: '规格', dataIndex: 'warehouseName', key: 'warehouseName' },
+      { title: '预入库数', dataIndex: 'gmtCreate', key: 'gmtCreate', render(t) { return t && t.split(' ')[0]; } },
+      { title: '采购买手', dataIndex: 'gmtModify', key: 'gmtModify', render(t) { return t && t.split(' ')[0]; } },
+      { title: '最新更新时间', dataIndex: 'putInDate', key: 'putInDate', render(t) { return (t && t.split(' ')[0]) || '-'; } },
+      { title: '入库仓库', dataIndex: 'status', key: 'status',         
+          render(t) {
+          switch (t) {
+            case 0: return <font color="red">未入库</font>;
+            case 1: return <font color="blue">已入库</font>;
+            case -1: return <font color="green">已合并</font>;
+            default: return '已入库';
+          }
+        }, 
+      },
+      { title: '入库数', dataIndex: 'remark', key: 'remark', render(t) { return t || '-'; } },
+      { title: '货架号', dataIndex: 'remark', key: 'remark', render(t) { return t || '-'; } },
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
@@ -249,91 +304,63 @@ class PurchaseStorage extends Component {
       { title: '货架号', dataIndex: 'shelfNo', key: 'shelfNo', width: 80 },
     ];
 
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange.bind(this),
-    };
-
-    const paginationProps = {
-      total,
-      current: currentPage,
-      pageSize: 20,
-      onChange(pageIndex) {
-        p.handleSubmit(null, pageIndex);
-      },
-    };
-
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        <div className="refresh-btn"><Button type="primary" size="large" onClick={this.showModal.bind(this, 'add')} style={{ float: 'left', marginRight: 10 }}>新增入库</Button></div>
+        
         <Form onSubmit={this.handleSubmit.bind(this)}>
-          <Row gutter={20} style={{ width: 800 }}>
-            <Col span="8">
-              <FormItem
-                label="买手"
-
-                {...formItemLayout}
-              >
-                {getFieldDecorator('buyerId', {})(
-                  <Select placeholder="请选择用户" optionLabelProp="title" combobox allowClear>
-                    {buyer.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
-                  </Select>)}
-              </FormItem>
-            </Col>
-            <Col span="8">
-              <FormItem
-                label="入库单号"
-
-                {...formItemLayout}
-              >
-                {getFieldDecorator('stoOrderNo', {})(
-                  <Input placeholder="请输入入库单号" />)}
-              </FormItem>
-            </Col>
-            <Col span="8">
+          <Row gutter={20} style={{ width: 1100, marginLeft: '-68px' }}>
+            <Col span="6">
               <FormItem
                 label="仓库"
+
                 {...formItemLayout}
               >
                 {getFieldDecorator('warehouseId', {})(
-                  <Select placeholder="请选择仓库" optionLabelProp="title" allowClear>
+                  <Select placeholder="请选择仓库" optionLabelProp="title" combobox allowClear onChange={this. storehouse.bind(this)}>
                     {wareList.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
                   </Select>)}
               </FormItem>
             </Col>
-          </Row>
-          <Row gutter={20} style={{ width: 800 }}>
-            <Col style={{ marginLeft: 6 }}>
+            <Col span="6">
               <FormItem
-                label="订单时间"
-                labelCol={{ span: 3 }}
+                label="采购买手"
+
+                {...formItemLayout}
               >
-                {getFieldDecorator('orderDate', {})(<DatePicker.RangePicker />)}
+                {getFieldDecorator('buyerId', {})(
+                  <Select placeholder="请选择买手" optionLabelProp="title" combobox allowClear onChange= {this.storehouseTwo.bind(this)}>
+                    {buyer.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
+                  </Select>)}
               </FormItem>
             </Col>
-          </Row>
-          <Row gutter={20} style={{ width: 800 }}>
-            <Col style={{ marginLeft: 6 }}>
+            <Col span="6">
               <FormItem
-                label="入库时间"
-                labelCol={{ span: 3 }}
+                label="UPC"
+
+                {...formItemLayout}
               >
-                {getFieldDecorator('storageDate', {})(<DatePicker.RangePicker />)}
+                {getFieldDecorator('stoOrderNo', {})(
+                  <Input placeholder="请扫UPC或手动输入" disabled={upsvisible && upsvisibleTwo}/>)}
               </FormItem>
             </Col>
-          </Row>
-          <Row>
-            <Col className="listBtnGroup" style={{ marginLeft: 14 }}>
-              <Button htmlType="submit" size="large" type="primary">查询</Button>
-              <Button size="large" type="ghost" onClick={() => form.resetFields()}>清空</Button>
+            <Col span="6">
+              <FormItem>
+                <Button type="primary" size="large" onClick={this.showModal.bind(this, 'add')} style={{ float: 'left', marginRight: 10 }}>查询</Button>
+              </FormItem>
             </Col>
           </Row>
         </Form>
-        <Row className="operBtn">
-          <Button type="primary" size="large" onClick={this.showModal.bind(this, 'add')} style={{ float: 'left', marginRight: 10 }}>新增入库</Button>
-          <Button type="primary" size="large" onClick={this.showBarcodeModal.bind(this, 'add')} style={{ float: 'left' }}>扫描入库</Button>
-          <Button type="primary" size="large" onClick={this.batchStorage.bind(this)} style={{ float: 'right'}} disabled={selectedRowKeys.length === 0}>批量入库</Button>
-          <Button type="primary" size="large" onClick={this.mergeStorage.bind(this)} style={{ float: 'right',marginRight: 10  }} disabled={selectedRowKeys.length === 0}>合并入库</Button>
+        <Row>
+          <Col>
+            <Table
+              columns={columnsSelectList}
+              dataSource={list}
+              bordered
+              size="large"
+              rowKey={record => record.id}
+            />
+          </Col>
         </Row>
         <Row>
           <Col>
@@ -343,8 +370,6 @@ class PurchaseStorage extends Component {
               bordered
               size="large"
               rowKey={record => record.id}
-              pagination={paginationProps}
-              rowSelection={rowSelection}
             />
           </Col>
         </Row>

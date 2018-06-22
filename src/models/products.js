@@ -28,7 +28,8 @@ const getDimensionCodeUtil = ({ payload }) => fetch.post('/item/getDimensionCode
 // 采购商品
 const queryFindProductList = ({ payload }) => fetch.post('/item/finditem/queryFindItemList', { data: payload }).catch(e => e);
 const queryFindProduct = ({ payload }) => fetch.post('/item/finditem/passOrRefuse', { data: payload }).catch(e => e);
-
+//商品导入
+const queryImprotItem = ({ payload }) => fetch.post('/item/improtItem', { data: payload }).catch(e => e);
 // 买手
 const queryAllItaliaBuyer = () => fetch.post('/purchase/queryBuyers').catch(e => e);
 export default {
