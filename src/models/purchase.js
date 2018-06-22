@@ -21,6 +21,8 @@ const purchaseReceiptTaskList = ({ payload }) => fetch.post('/receipt/queryTaskR
 const purchaseNoCompleteTimeList = ({ payload }) => fetch.post('/purchase/nocompleteTaskDailyOrderTime', { data: payload }).catch(e => e);
 // 采购未完成详情
 const purchaseNoCompleteDateil = ({ payload }) => fetch.post('/purchase/nocompleteTaskDaily', { data: payload }).catch(e => e);
+// 导入需求
+const purchaseImprotTask= ({ payload }) => fetch.post('/purchaseTask/improtTask', {data: payload}).catch(e =>e)
 export default {
   namespace: 'purchase',
   state: {

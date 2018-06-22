@@ -147,7 +147,7 @@ class Agency extends Component {
               >
                 {getFieldDecorator('typeId', {})(
                   <Select placeholder="请选择销售类别名称" allowClear>
-                    {list.map((el, index) => <Option key={index} value={el.typeId && el.typeId.toString()}>{el.typeName}</Option>)}
+                    {list.map((el, index) => <Option key={index} value={el.id && el.id.toString()}>{el.typeCode}</Option>)}
                   </Select>,
                 )}
               </FormItem>

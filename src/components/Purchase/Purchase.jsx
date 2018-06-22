@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Input, DatePicker, Button, Row, Col, Select, Form, Popconfirm, Popover, Modal } from 'antd';
 import PurchaseModal from './PurchaseModal';
+import PurchaseUpload from './PurchaseUpload';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -15,7 +16,9 @@ class Purchase extends Component {
     this.state = {
       modalVisible: false,
       title: '', // modal的title
+      titles:'',
       taskDailyIds: [],
+      uploadVisble:false,
     };
   }
 
@@ -54,7 +57,13 @@ class Purchase extends Component {
       title: '新增',
     });
   }
-
+  showMore(){
+    console.log('thisthis')
+    this.setState({
+      uploadVisble: true,
+      titles: '导入需求',
+    })
+  }
   updateModal(id, e) {
     if (e) e.stopPropagation();
     const p = this;
@@ -75,7 +84,9 @@ class Purchase extends Component {
       this._refreshData();
     });
   }
-
+  closeMore(){
+    this.setState({ uploadVisble: false})
+  }
   handleDelete(record) {
     const p = this;
     const { list = [], currentPage, dispatch } = this.props;
@@ -144,6 +155,7 @@ class Purchase extends Component {
   render() {
     const p = this;
     const { form, list = [], currentPage, total, purchaseValues = {}, buyer = [], dispatch } = p.props;
+    const { uploadVisble, titles } = this.state
     const { getFieldDecorator, resetFields } = form;
     const { title } = p.state;
     const formItemLayout = {
@@ -292,6 +304,7 @@ class Purchase extends Component {
         </Form>
         <Row className="operBtn">
           <Button style={{ float: 'left' }} type="primary" size="large" onClick={p.showModal.bind(p)}>新增采购</Button>
+          <Button style={{ float: 'left', left:'20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>导入采购需求任务</Button>
           <Button style={{ float: 'right', marginLeft: 10 }} type="primary" size="large" disabled={isNotSelected} onClick={p.handlePurchaseAction.bind(p, 'finish')}>完成采购</Button>
           <Button style={{ float: 'right', marginLeft: 10 }} size="large" disabled={isNotSelected} onClick={p.handlePurchaseAction.bind(p, 'close')}>取消采购</Button>
           <Button style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.handlePurchaseAction.bind(p, 'create')}>根据当前订单生成采购任务</Button>
@@ -317,6 +330,11 @@ class Purchase extends Component {
           title={title}
           buyer={buyer}
           dispatch={dispatch}
+        />
+        <PurchaseUpload 
+        visible={uploadVisble}
+        title = {titles}
+        close = {this.closeMore.bind(this)}
         />
       </div>
     );

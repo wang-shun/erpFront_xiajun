@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Input, Button, Row, Col, Select, DatePicker, Form, TreeSelect, Modal, Popover, Icon, Popconfirm, Checkbox } from 'antd';
 import ProductsModal from './ProductsModal';
-
+import ProductsUpload from './ProductsUpload';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -14,6 +14,8 @@ class Products extends Component {
     super();
     this.state = {
       checkId: [],
+      uploadVisble: false,
+      titles:'',
     };
   }
 
@@ -59,7 +61,16 @@ class Products extends Component {
       this.props.dispatch({ type: 'products/queryAllBrand', payload: {} });      
     });
   }
-
+  showMore(){
+    console.log('thisthis')
+    this.setState({
+      uploadVisble: true,
+      titles: '导入商品',
+    })
+  }
+  closeMore(){
+    this.setState({ uploadVisble: false})
+  }
   cleanVirtualInvModal(itemId) {
     const p = this;
     p.props.dispatch({
@@ -150,6 +161,7 @@ class Products extends Component {
     const p = this;
     const { form, currentPage, currentPageSize, productsList = [], productsTotal, allBrands = [], productsValues = {}, tree = [], loginRoler, allBuyers = [], countries = [] } = this.props;
     const { getFieldDecorator, resetFields } = form;
+    const { uploadVisble, titles } = this.state
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
@@ -401,6 +413,7 @@ class Products extends Component {
         <Row className="operBtn">
           <Col>
             <Button type="primary" style={{ float: 'left' }} size="large" onClick={() => { this.showModal(); } }>添加商品</Button>
+            <Button style={{ float: 'left', left:'20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>批量导入商品</Button>
             <Button type="primary" style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large" onClick={p.batchAction.bind(p, 'syn')}>批量同步</Button>
             <Button type="primary" style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large" onClick={p.batchAction.bind(p, 'onSell')}>批量上架</Button>
             <Button type="primary" style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large" onClick={p.batchAction.bind(p, 'offSell')}>批量下架</Button>
@@ -429,6 +442,11 @@ class Products extends Component {
           tree={tree}
           loginRoler={loginRoler}
           countries={countries}
+        />
+        <ProductsUpload 
+        visible={uploadVisble}
+        title = {titles}
+        close = {this.closeMore.bind(this)}
         />
       </div>
     );
