@@ -236,7 +236,7 @@ export default {
         });
       }
     },
-     // 买手管理
+     //
     * queryAllItaliaBuyer(param, { call, put }) {
       const data = yield call(queryAllItaliaBuyer);
       if (data.success) {
@@ -323,7 +323,7 @@ export default {
             dispatch({ type: 'queryCatesTree', payload: query });
             dispatch({ type: 'queryAllItaliaBuyer', payload: query });
             dispatch({ type: 'queryAllCountries', payload: query });
-            dispatch({ type: 'queryAllChannels', payload: query });            
+            dispatch({ type: 'queryAllChannels', payload: query });
           }, 0);
         }
         if ((pathname === '/products/productsList' && !window.existCacheState('/products/productsList')) || (pathname === '/products/skuList' && !window.existCacheState('/products/skuList'))) {

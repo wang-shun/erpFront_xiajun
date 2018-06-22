@@ -13,11 +13,12 @@ const updateAgencyType = ({ payload }) => fetch.post('/sellerType/update', { dat
 const addAgencyType = ({ payload }) => fetch.post('/sellerType/add', { data: payload }).catch(e => e);
 const queryBuyerList = ({ payload }) => fetch.post('/purchase/queryBuyers', { data: payload }).catch(e => e);
 const queryBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/query', { data: payload }).catch(e => e);
-const updateBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/update', { data: payload }).catch(e => e);
-const addBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/add', { data: payload }).catch(e => e);
-const setCommission = ({ payload }) => fetch.post('/wx/purchaseUser/setCommission', { data: payload }).catch(e => e);
+const updateBuyer = ({ payload }) => fetch.post('/purchase/update', { data: payload }).catch(e => e);
+const addBuyer = ({ payload }) => fetch.post('/purchase/add', { data: payload }).catch(e => e);
+const setCommission = ({ payload }) => fetch.post('/purchase/setCommission', { data: payload }).catch(e => e);
 const deleteBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/delete', { data: payload }).catch(e => e);
 const queryWareList = ({ payload }) => fetch.get('/warehouse/queryWarehouses', { data: payload }).catch(e => e);
+const queryBuyerById = ({ payload }) => fetch.get('/purchase/queryBuyerById', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'agency',
@@ -139,26 +140,34 @@ export default {
         });
       }
     },
-    * updateBuyerType({ payload, cb }, { call, put }) {
-      const data = yield call(updateBuyerType, { payload });
+    * updateBuyer({ payload, cb }, { call, put }) {
+      const data = yield call(updateBuyer, { payload });
       if (data.success) {
         message.success('修改成功');
+        yield put({
+          type: 'queryBuyerList',
+          payload: {payload: data},
+        });
         cb();
-        const listData = yield call(queryBuyerList, { payload });
-        if (listData.success) {
-          yield put({ type: 'updateBuyerList', payload: listData });
-        }
+        // const listData = yield call(queryBuyerList, { payload });
+        // if (listData.success) {
+        //   yield put({ type: 'queryBuyerList', payload: listData });
+        // }
       }
     },
-    * addBuyerType({ payload, cb }, { call, put }) {
-      const data = yield call(addBuyerType, { payload });
+    * addBuyer({ payload, cb }, { call, put }) {
+      const data = yield call(addBuyer, { payload });
       if (data.success) {
         message.success('新增成功');
+        yield put({
+          type: 'queryBuyerList',
+          payload: {payload: data},
+        });
         cb();
-        const listData = yield call(queryBuyerList, { payload });
-        if (listData.success) {
-          yield put({ type: 'updateBuyerList', payload: listData });
-        }
+        // const listData = yield call(queryBuyerList, { payload });
+        // if (listData.success) {
+        //   yield put({ type: 'queryBuyerList', payload: listData });
+        // }
       }
     },
     * setCommission({ payload, cb }, { call, put }) {
@@ -167,10 +176,21 @@ export default {
         message.success('佣金修改成功');
         yield put({
           type: 'queryBuyerList',
-          payload: {},
+          payload: {payload: data},
         });
         cb();
       }
+    },
+    * queryBuyerById({ payload, cb }, { call, put }) {
+      const data = yield call(queryBuyerById, { payload });
+      if (data.success) {
+         message.success('查询信息成功');
+         yield put({
+           type:'saveBuyerType',//调用reducers函数saveBuyerType，将回来的数据，写回至buyerValues
+           payload: {payload:data},
+       });
+       cb();//刷新数据
+       }
     },
     * addAgencyType({ payload }, { call }) {
       const data = yield call(addAgencyType, { payload });

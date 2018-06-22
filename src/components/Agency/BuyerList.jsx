@@ -31,9 +31,9 @@ class BuyerList extends Component {
     const { buyerValues = {}, dispatch } = this.props;
     this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) return;
-      if (buyerValues.id) { // 修改
+      if (buyerValues.id) { //修改
         dispatch({
-          type: 'agency/updateBuyerType',
+          type: 'agency/updateBuyer',
           payload: {
             ...fieldsValue,
             id: buyerValues.id,
@@ -45,7 +45,7 @@ class BuyerList extends Component {
         });
       } else { // 新增
         dispatch({
-          type: 'agency/addBuyerType',
+          type: 'agency/addBuyer',
           payload: {
             ...fieldsValue,
           },
@@ -77,7 +77,7 @@ class BuyerList extends Component {
       title: '修改',
     }, () => {
       p.props.dispatch({
-        type: 'agency/queryBuyerType',
+        type: 'agency/queryBuyerById',
         payload: {
           id: record.id,
         },
@@ -160,7 +160,7 @@ class BuyerList extends Component {
   render() {
     const p = this;
     const { form, buyerList = [], buyerValues = {}, wareList = [] } = p.props;
-    console.log(buyerValues);
+
     const { getFieldDecorator } = form;
     const { title, visible } = p.state;
     const formItemLayout = {
