@@ -8,7 +8,7 @@ const addProducts = ({ payload }) => fetch.post('/item/add', { data: payload }).
 const queryCatesTree = () => fetch.post('/category/tree').catch(e => e);
 const queryAllCountries = () => fetch.post('/country/queryAllCountries').catch(e => e);
 const addCountry = ({ payload }) => fetch.post('/country/add', { data: payload }).catch(e => e);
-const queryAllChannels = () => fetch.post('/channelAccount/querylist').catch(e => e);
+const queryAllChannels = () => fetch.post('/channel/querylist').catch(e => e);
 
 // 批量同步
 const batchSynItemYouzan = ({ payload }) => fetch.post('/youzanSyn/batchSynItemYouzan', { data: payload }).catch(e => e);
@@ -325,7 +325,7 @@ export default {
             dispatch({ type: 'queryCatesTree', payload: query });
             dispatch({ type: 'queryAllItaliaBuyer', payload: query });
             dispatch({ type: 'queryAllCountries', payload: query });
-            dispatch({ type: 'queryAllChannels', payload: query });            
+            dispatch({ type: 'queryAllChannels', payload: query });
           }, 0);
         }
         if ((pathname === '/products/productsList' && !window.existCacheState('/products/productsList')) || (pathname === '/products/skuList' && !window.existCacheState('/products/skuList'))) {
