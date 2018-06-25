@@ -6,6 +6,7 @@ import fetch from '../utils/request';
 const login = ({ payload }) => fetch.post('haiLogin/login', { data: payload }).catch(e => e);
 const logout = ({ payload }) => fetch.post('haiLogin/logout', { data: payload }).catch(e => e);
 // const queryPermissions = () => fetch.post('/user/resCodes').catch(e => e);
+const wxRout = ({ payload }) => fetch.post('wechatLogin/getUrl', { data: payload }).catch(e => e);
 
 // 首页数据
 const queryIndexData = ({ payload, url }) => fetch.post(url, { data: payload }).catch(e => e);
@@ -41,6 +42,7 @@ export default {
     dataSource: [],
     overviewInfo: {},
     msgList: [],
+    wxData: '',
   },
   reducers: {
     updateUsername(state, { payload }) {
@@ -55,6 +57,9 @@ export default {
     commonUpdate(state, { payload }) {
       return { ...state, ...payload };
     },
+    wxRouterList(state, {payload}){
+      return { ...state, wxData: payload.data};
+    }
   },
   effects: {
     * queryIndexData(payload, { call, put }) {
@@ -83,6 +88,15 @@ export default {
     },
     * logout(payload, { call }) {
       yield call(logout, payload);
+    },
+    * wxRout(payload, { call, put }) {
+      const data = yield call(wxRout, { payload: { ...payload } });
+      if (data.success) {
+        yield put({
+          type: 'wxRouterList',
+          payload: data,
+        });
+      }
     },
     * login(payload, { call }) {
       const data = yield call(login, payload);
@@ -129,10 +143,15 @@ export default {
     },
   },
   subscriptions: {
-    setup({ history }) {
+    setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
         if (pathname === `/${routerCfg.LOGIN}`) {
           localStorage.removeItem('HAIERP_LAST_LOGIN');
+        }
+        if (pathname === '/login' && !window.existCacheState('/login')) {
+          setTimeout(() => {
+            dispatch({ type: 'wxRout', payload: {} });
+          }, 0);
         }
       });
     },
