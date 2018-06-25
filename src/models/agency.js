@@ -189,7 +189,7 @@ export default {
            type:'saveBuyerType',//调用reducers函数saveBuyerType，将回来的数据，写回至buyerValues
            payload: {payload:data},
        });
-       cb();//刷新数据
+       cb();//自己传递的数据
        }
     },
     * addAgencyType({ payload }, { call }) {

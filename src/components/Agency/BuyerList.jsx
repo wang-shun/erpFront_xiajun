@@ -18,6 +18,7 @@ class BuyerList extends Component {
       title: '-', // modal的title
       editable: [],
       commissionAfter: '%',
+      buyerValueLocal:{}
     };
     this.selectAfter = (
       <Select defaultValue="%" style={{ width: 60 }} onChange={val => this.setState({ commissionAfter: val })}>
@@ -28,15 +29,15 @@ class BuyerList extends Component {
   }
   // 这里的提交是新增或修改 不是分页， TODO: 分页
   handleSubmit() {
-    const { buyerValues = {}, dispatch } = this.props;
+    const { buyerValueLocal = {}, dispatch } = this.props;
     this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) return;
-      if (buyerValues.id) { //修改
+      if (buyerValueLocal.id) { //修改
         dispatch({
           type: 'agency/updateBuyer',
           payload: {
             ...fieldsValue,
-            id: buyerValues.id,
+            id: buyerValueLocal.id,
             pageIndex: 1,
           },
           cb: () => {
@@ -75,14 +76,19 @@ class BuyerList extends Component {
     p.setState({
       visible: true,
       title: '修改',
+      buyerValueLocal:record
     }, () => {
-      p.props.dispatch({
-        type: 'agency/queryBuyerById',
-        payload: {
-          id: record.id,
-        },
-      });
-    });
+      // p.props.dispatch({
+      //   type: 'agency/queryBuyerById',
+      //   payload: {
+      //     id: record.id,
+      //   },
+      //   cb: () => {
+      //     // this.closeModal(false);
+      //   },
+      // });
+    }
+    );
   }
 
   handleDelete(record, i) {
@@ -159,7 +165,7 @@ class BuyerList extends Component {
 
   render() {
     const p = this;
-    const { form, buyerList = [], buyerValues = {}, wareList = [] } = p.props;
+    const { form, buyerList = [], buyerValueLocal = {}, wareList = [] } = p.props;
 
     const { getFieldDecorator } = form;
     const { title, visible } = p.state;
@@ -245,7 +251,8 @@ class BuyerList extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('nickName', {
-                    initialValue: buyerValues.nickName,
+                    //initialValue: buyerValues.nickName,
+                    initialValue: this.state.buyerValueLocal.nickName,
                     rules: [{ required: true, message: '请输入' }],
                   })(
                     <Input placeholder="请输入买手名" />,
@@ -258,7 +265,8 @@ class BuyerList extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('warehouseId', {
-                    initialValue: buyerValues.warehouseId && buyerValues.warehouseId.toString(),
+                    //initialValue: buyerValues.warehouseId && buyerValues.warehouseId.toString(),
+                    initialValue: this.state.buyerValueLocal.warehouseId && buyerValueLocal.warehouseId.toString(),
                     rules: [{ required: true, message: '请选择' }],
                   })(
                     <Select placeholder="请选择仓库" allowClear>
@@ -274,7 +282,8 @@ class BuyerList extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('purchaseCommissionStr', {
-                    initialValue: buyerValues.purchaseCommissionStr,
+                    //initialValue: buyerValues.purchaseCommissionStr,
+                    initialValue: this.state.buyerValueLocal.purchaseCommissionStr,
                     rules: [{ required: true, message: '请输入' }],
                   })(
                     <Input placeholder="请输入佣金比率" />,
@@ -292,11 +301,11 @@ class BuyerList extends Component {
 function mapStateToProps(state) {
   const {
     buyerList,
-    buyerValues,
+    buyerValueLocal,
     wareList,
   } = state.agency;
   return {
-    buyerValues,
+    buyerValueLocal,
     buyerList,
     wareList,
   };
