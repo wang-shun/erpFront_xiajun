@@ -21,6 +21,7 @@ class Agency extends Component {
   handleSubmit(e, page) {
     if (e) e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
+      console.log(fieldsValue)
       if (err) {
         return;
       }
@@ -89,6 +90,7 @@ class Agency extends Component {
   render() {
     const p = this;
     const { form, list = [], typeList = [], total, currentPage, agencyValues = {}, dispatch } = p.props;
+    console.log(list)
     const { getFieldDecorator, resetFields } = form;
     const { title } = p.state;
     const formItemLayout = {
@@ -97,7 +99,7 @@ class Agency extends Component {
     };
     const columnsList = [
       { title: '用户名称', dataIndex: 'name', key: 'name', render(text) { return text || '-'; } },
-      { title: '销售类别名称', dataIndex: 'typeCode', key: 'typeCode', render(text) { return text || '-'; } },
+      { title: '销售类别名称', dataIndex: 'typeName', key: 'typeCode', render(text) { return text || '-'; } },
       { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', render(text) { return text || '-'; } },
       { title: '修改时间', dataIndex: 'gmtModify', key: 'gmtModify', render(text) { return text || '-'; } },
       { title: '操作',
@@ -147,7 +149,7 @@ class Agency extends Component {
               >
                 {getFieldDecorator('typeId', {})(
                   <Select placeholder="请选择销售类别名称" allowClear>
-                    {list.map((el, index) => <Option key={index} value={el.id && el.id.toString()}>{el.typeCode}</Option>)}
+                    {list.map((el, index) => <Option key={index} value={el.id && el.id.toString()}>{el.typeName}</Option>)}
                   </Select>,
                 )}
               </FormItem>
@@ -192,6 +194,9 @@ class Agency extends Component {
 
 function mapStateToProps(state) {
   const { list, currentPage, typeList, total, agencyValues } = state.agency;
+  console.log(state)
+  console.log(state.agency)
+  console.log(list, total)
   return {
     list,
     typeList,
