@@ -2,7 +2,7 @@ import { message } from 'antd';
 
 import fetch from '../utils/request';
 
-const queryResourceList = ({ payload }) => fetch.post('/resource/queryTree', { data: payload }).catch(e => e); // queryList
+const queryResourceList = ({ payload }) => fetch.post('/role/queryTree', { data: payload }).catch(e => e); // queryList
 const addResource = ({ payload }) => fetch.post('/resource/add', { data: payload }).catch(e => e);
 const updateResource = ({ payload }) => fetch.post('/resource/edit', { data: payload }).catch(e => e);
 const deleteResource = ({ payload }) => fetch.post('/resource/delete', { data: payload }).catch(e => e);
@@ -24,6 +24,8 @@ const deleteOrg = ({ payload }) => fetch.post('/organization/delete', { data: pa
 const queryOrg = ({ payload }) => fetch.post('/organization/query', { data: payload }).catch(e => e);
 // 角色授权
 const authRole = ({ payload }) => fetch.post('/role/updateGrant', { data: payload }).catch(e => e);
+// 扫码加用户
+const wxRout = ({ payload }) => fetch.post('wechatLogin/getImgUrl', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'permission',
@@ -45,6 +47,8 @@ export default {
     orgTotal: 1,
     orgCurrentPage: 1,
     orgModal: {},
+    //
+    wxData: '',
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -329,6 +333,15 @@ export default {
         });
       }
     },
+    * wxRout(payload, { call, put }) {
+      const data = yield call(wxRout, { payload: { ...payload } });
+      if (data.success) {
+        yield put({
+          type: 'wxRouterList',
+          payload: data,
+        });
+      }
+    },
   },
   reducers: {
     updateResourceList(state, { payload }) {
@@ -379,5 +392,9 @@ export default {
     saveOrg(state, { payload }) {
       return { ...state, orgModal: payload.data };
     },
+    //wxRouterList
+    wxRouterList(state, {payload}) {
+      return { ...state, wxData: payload.data}
+    }
   },
 };

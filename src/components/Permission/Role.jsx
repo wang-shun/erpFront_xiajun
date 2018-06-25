@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm, message, Select } from 'antd';
 import { connect } from 'dva';
+import { join } from 'redux-saga/effects';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -58,24 +59,27 @@ class Role extends Component {
     this.props.dispatch({ type: 'permission/deleteRole', payload: { id: r.id } });
   }
   showAuthModal(r) {
+    console.log(this.props)
     this.props.dispatch({ type: 'permission/queryResourceList', payload: {} });
     this.setState({ authModalVisible: true, roleId: r.id });
   }
   handleAuth() {
     const { roleId, resourceIds } = this.state;
+    let Mao = resourceIds.join(',');
     if (!resourceIds.length) {
       message.error('请选择需要授权的资源');
       return;
     }
     this.props.dispatch({
       type: 'permission/authRole',
-      payload: { id: roleId, resourceIds: JSON.stringify(resourceIds) },
+      payload: { id: roleId, resourceIds: Mao },
     });
     this.setState({ authModalVisible: false });
   }
   render() {
     const p = this;
     const { resourceList = [], roleList = [], total, form, roleModal = {} } = this.props;
+    console.log(this.props)
     const { visible, title, authModalVisible } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
