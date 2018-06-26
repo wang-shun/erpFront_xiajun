@@ -45,7 +45,8 @@ class Role extends Component {
       case 'add':
       console.log(3)
         this.props.form.resetFields();
-        this.setState({ visible: true, title: '新增' }); 
+        this.setState({ visible: true, title: '新增', roleModal: {}});
+        this.props.dispatch({ type: 'permission/clearRole', payload: { } }); 
         break;
       case 'update':
       console.log(4)

@@ -40,7 +40,8 @@ class Resource extends Component {
   showModal(type, r) {
     switch (type) {
       case 'add':
-        this.setState({ visible: true, title: '新增' });
+        this.setState({ visible: true, title: '新增', resourceModal: {}});
+        this.props.dispatch({ type: 'permission/clearResource', payload: { } }); 
         break;
       case 'update':
         this.setState({ visible: true, title: '修改' });
