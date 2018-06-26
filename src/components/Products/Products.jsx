@@ -319,7 +319,7 @@ class Products extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('name', {})(
-                  <Input placeholder="请输入商品名称" suffix={p.showClear('name')} />)}
+                  <Input placeholder="请输入商品名称" maxLength="60" suffix={p.showClear('name')} />)}
               </FormItem>
             </Col>
             <Col span="8">
