@@ -41,7 +41,7 @@ class Resource extends Component {
     switch (type) {
       case 'add':
         this.setState({ visible: true, title: '新增', resourceModal: {}});
-        this.props.dispatch({ type: 'permission/clearResource', payload: { } }); 
+        this.props.dispatch({ type: 'permission/clearResource', payload: {} }); 
         break;
       case 'update':
         this.setState({ visible: true, title: '修改' });
@@ -68,7 +68,7 @@ class Resource extends Component {
       { title: '资源路径', key: 'url', dataIndex: 'url' },
       { title: '打开方式', key: 'openMode', dataIndex: 'openMode' },
       { title: '排序', key: 'seq', dataIndex: 'seq' },
-      { title: '图标', key: 'iconCls', dataIndex: 'iconCls' },
+      { title: '图标', key: 'icon', dataIndex: 'icon' },
       { title: '资源类型',
         key: 'resourceType',
         dataIndex: 'resourceType',
@@ -77,7 +77,7 @@ class Resource extends Component {
           else if (t === 1) return '按钮';
         },
       },
-      { title: '资源编码', key: 'resCode', dataIndex: 'resCode' },
+      { title: '资源编码', key: 'resourceId', dataIndex: 'resourceId' },
       { title: '状态',
         key: 'status',
         dataIndex: 'status',
