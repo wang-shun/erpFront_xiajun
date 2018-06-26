@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, message, Upload, Icon, Input, Row, Col, Button, Form, Select } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import reqwest from 'reqwest';
+//import reqwest from 'reqwest';
 
 moment.locale('zh-cn');
 
@@ -67,7 +67,7 @@ class PurchaseUpload extends Component {
     };
     const uploadProps = {
       action: '/purchaseTask/improtTask',
-      
+
       // action: '/uploadFile/picUpload',
       listType: 'picture-card',
       multiple: true,
