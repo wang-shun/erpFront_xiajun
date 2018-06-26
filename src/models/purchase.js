@@ -1,9 +1,9 @@
 import { message } from 'antd';
 import fetch from '../utils/request';
 
-const addPurchase = ({ payload }) => fetch.post('/purchase/add', { data: payload }).catch(e => e);
+const addPurchase = ({ payload }) => fetch.post('/purchaseTask/add', { data: payload }).catch(e => e);
 const updatePurchase = ({ payload }) => fetch.post('/purchase/update', { data: payload }).catch(e => e);
-const queryPurchaseList = ({ payload }) => fetch.post('/purchase/queryTaskDailyList', { data: payload }).catch(e => e);
+const queryPurchaseList = ({ payload }) => fetch.post('/purchaseTask/queryTaskDailyList', { data: payload }).catch(e => e);
 const queryPurchase = ({ payload }) => fetch.post('/purchase/query', { data: payload }).catch(e => e);
 const queryBuyers = ({ payload }) => fetch.post('/purchase/queryBuyers', { data: payload }).catch(e => e);
 const deletePurchase = ({ payload }) => fetch.post('/purchase/delete', { data: payload }).catch(e => e);

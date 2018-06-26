@@ -4,7 +4,7 @@ import { platform } from 'os';
 
 // 采购入库相关接口
 const queryPurchaseStorageList = ({ payload }) => fetch.post('/purchaseStorage/queryPurStorages', { data: payload }).catch(e => e);
-const queryBuyerTaskList = ({ payload }) => fetch.post('/purchase/queryTaskDailyList', { data: payload }).catch(e => e);
+const queryBuyerTaskList = ({ payload }) => fetch.post('/purchaseTask/queryTaskDailyList', { data: payload }).catch(e => e);
 const addStorage = ({ payload }) => fetch.post('/purchaseStorage/add', { data: payload }).catch(e => e);
 const updateStorage = ({ payload }) => fetch.post('/purchaseStorage/update', { data: payload }).catch(e => e);
 const confirmStorage = ({ payload }) => fetch.post('/purchaseStorage/confirm', { data: payload }).catch(e => e);
@@ -105,7 +105,7 @@ export default {
       yield put({ type: 'updateByopenid', payload: data });
     }
     },
-    
+
     * purchaseAndUpc({ payload }, { call, put }) {
     const data = yield call(purchaseAndUpc, { payload });
     if (data.success) {
@@ -123,14 +123,14 @@ export default {
     if (data.success) {
       yield put({ type: 'updateWithParam', payload: data });
     }
-    }, 
+    },
     * queryWithComfirm({ payload }, { call, put }) {
     const data = yield call(queryWithComfirm, { payload });
     if (data.success) {
       yield put({ type: 'updateWithComfirm', payload: data });
     }
     },
-    
+
     * queryWithDelete({ payload }, { call, put }) {
     const data = yield call(queryWithDelete, { payload });
     if (data.success) {

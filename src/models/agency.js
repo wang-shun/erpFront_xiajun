@@ -16,7 +16,7 @@ const queryBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/query', { d
 const updateBuyer = ({ payload }) => fetch.post('/purchase/update', { data: payload }).catch(e => e);
 const addBuyer = ({ payload }) => fetch.post('/purchase/add', { data: payload }).catch(e => e);
 const setCommission = ({ payload }) => fetch.post('/purchase/setCommission', { data: payload }).catch(e => e);
-const deleteBuyerType = ({ payload }) => fetch.post('/wx/purchaseUser/delete', { data: payload }).catch(e => e);
+const deleteBuyerType = ({ payload }) => fetch.post('/purchase/delete', { data: payload }).catch(e => e);
 const queryWareList = ({ payload }) => fetch.get('/warehouse/queryWarehouses', { data: payload }).catch(e => e);
 const queryBuyerById = ({ payload }) => fetch.get('/purchase/queryBuyerById', { data: payload }).catch(e => e);
 
