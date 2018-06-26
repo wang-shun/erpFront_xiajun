@@ -2,7 +2,7 @@ import { message } from 'antd';
 
 import fetch from '../utils/request';
 
-const queryResourceList = ({ payload }) => fetch.post('/role/queryTree', { data: payload }).catch(e => e); // queryList
+const queryResourceList = ({ payload }) => fetch.post('/resource/queryTree', { data: payload }).catch(e => e); // queryList
 const addResource = ({ payload }) => fetch.post('/resource/add', { data: payload }).catch(e => e);
 const updateResource = ({ payload }) => fetch.post('/resource/edit', { data: payload }).catch(e => e);
 const deleteResource = ({ payload }) => fetch.post('/resource/delete', { data: payload }).catch(e => e);
