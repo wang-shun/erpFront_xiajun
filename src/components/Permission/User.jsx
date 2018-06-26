@@ -38,7 +38,8 @@ class Resource extends Component {
     this.props.form.resetFields();
   }
   showModal() {
-    this.setState({ visible: true, title: '新增' });
+    this.setState({ visible: true, title: '新增', userModal: {} });
+    this.props.dispatch({ type: 'permission/clearUser', payload: { } });
   }
   showWxModal(){
     this.setState({
