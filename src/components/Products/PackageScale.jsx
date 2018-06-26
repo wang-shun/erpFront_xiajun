@@ -130,7 +130,7 @@ class PackageScale extends Component {
             />
           </Col>
         </Row>
-        <Modal {...modalProps}>
+        {visible && <Modal {...modalProps}>
           <Form>
             <FormItem
               label="类别名称"
@@ -155,7 +155,7 @@ class PackageScale extends Component {
               )}
             </FormItem>
           </Form>
-        </Modal>
+        </Modal>}
       </div>
     );
   }

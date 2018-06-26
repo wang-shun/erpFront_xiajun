@@ -358,7 +358,7 @@ class BarcodeModal extends Component {
                   rules: [{ required: true, message: '请选择买手' }],
                 })(
                   <Select placeholder="请选择买手" optionLabelProp="title">
-                    {buyer.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
+                    {buyer.map(el => <Option key={el.id} title={el.nickName}>{el.nickName}</Option>)}
                   </Select>,
                 )}
               </FormItem>

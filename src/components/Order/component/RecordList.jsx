@@ -26,7 +26,7 @@ export default class extends Component {
   render() {
     const { record } = this.props;
     const columns = [
-      { title: '主订单号', dataIndex: 'orderId', key: 'orderNo', width: 100 },
+      { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 100 },
       { title: '子订单号', dataIndex: 'erpOrderId', key: 'erpNo', width: 150 },
       // { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 150 },
       // { title: '图片',
@@ -45,9 +45,9 @@ export default class extends Component {
       // },
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
       { title: '订单所需数量', dataIndex: 'quantity', key: 'quantity' },
-      { title: '配货数量', dataIndex: 'booked', key: 'booked' },
+      { title: '配货数量', dataIndex: 'inventory', key: 'inventory' },
       { title: '配货方式', dataIndex: 'inventoryType', key: 'inventoryType', render: t => (t === 'INVENTORY' ? '现货' : t === 'TRANS_INV' ? '在途' : '-') },
-      { title: '库位ID', dataIndex: 'inventoryAreaId', key: 'inventoryAreaId' },
+      { title: '库位ID', dataIndex: 'warehouseNo', key: 'warehouseNo' },
       { title: '发货仓库', dataIndex: 'warehouseName', key: 'warehouseName' },
       { title: '货架号', dataIndex: 'positionNo', key: 'positionNo' },
     ];

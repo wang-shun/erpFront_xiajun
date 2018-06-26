@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Input, Form, Table, Row, Col, Button, Modal } from 'antd';
+import { Input, Form, Table, Row, Col, Button, Modal,Popconfirm } from 'antd';
+import styles from './Products.less';
 
 const FormItem = Form.Item;
 
@@ -84,7 +85,7 @@ class Brands extends Component {
   checkEnName(rule, value, cb) {
     if (!value) cb('请输入');
     const { brandList = [] } = this.props;
-    const result = brandList.every(brand => brand.name.toLowerCase() !== value.toLowerCase());
+    const result = brandList.every(brand => brand.name !== value);
     if (!result) {
       cb('已有此英文品牌，请重新输入');
     }
@@ -121,9 +122,11 @@ class Brands extends Component {
         key: 'oper',
         render(t, r) {
           return (
-            <div>
+            <div className={styles.operation}>
               <a href="javascript:void(0)" onClick={p.showModal.bind(p, r.id)} >修改</a>
-              <a href="javascript:void(0)" onClick={p.handleDelete.bind(p, r.id)} style={{ margin: '0 10px' }} >删除</a>
+              <Popconfirm title="确定删除此品牌？" onConfirm={p.handleDelete.bind(p, r.id)}>
+                <a href="javascript:void(0)">删除</a>
+              </Popconfirm>
             </div>
           );
         },
@@ -165,7 +168,7 @@ class Brands extends Component {
           </Row>
           <Row style={{ marginLeft: 13 }}>
             <Col className="listBtnGroup">
-              <Button htmlType="submit" size="large" type="primary">查询</Button>
+              <Button htmlType="submit" size="large" type="primary" >查询</Button>
               <Button size="large" type="ghost" onClick={() => { form.resetFields(); }}>清空</Button>
             </Col>
           </Row>
@@ -176,7 +179,7 @@ class Brands extends Component {
           </Col>
         </Row>
         <Table columns={columns} dataSource={brandList} pagination={paginationProps} rowKey={r => r.id} bordered />
-        <Modal visible={visible} title={title} onCancel={this.handleCancel.bind(this)} onOk={this.handleOkClick.bind(this)}>
+        {visible && <Modal visible={visible} title={title} onCancel={this.handleCancel.bind(this)} onOk={this.handleOkClick.bind(this)}>
           <Row>
             <Col>
               <FormItem
@@ -220,15 +223,18 @@ class Brands extends Component {
               </FormItem>
             </Col>
           </Row>
-        </Modal>
+        </Modal>}
       </div>
     );
   }
 }
 
+
 function mapStateToProps(state) {
   const { brandList, brandTotal, brandValue } = state.products;
   return { brandList, brandTotal, brandValue };
 }
+
+
 
 export default connect(mapStateToProps)(Form.create()(Brands));

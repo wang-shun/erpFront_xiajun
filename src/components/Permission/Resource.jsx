@@ -15,14 +15,19 @@ class Resource extends Component {
     };
   }
   handleSubmit() {
+    console.log(this.props)
     const p = this;
     const { resourceModal = {}, dispatch, form } = this.props;
     form.validateFields((err, values) => {
       if (err) return;
       if (values.createTime) values.createTime = new Date(values.createTime).format('yyyy-MM-dd hh:mm:ss');
+      console.log(resourceModal)
       if (resourceModal.id) {
+        console.log(resourceModal)
+        console.log(1)
         dispatch({ type: 'permission/updateResource', payload: { ...values, id: resourceModal.id } });
       } else {
+        console.log(2)
         dispatch({ type: 'permission/addResource', payload: { ...values } });
       }
       p.handleCancel();
@@ -35,7 +40,9 @@ class Resource extends Component {
   showModal(type, r) {
     switch (type) {
       case 'add':
-        this.setState({ visible: true, title: '新增' }); break;
+        this.setState({ visible: true, title: '新增', resourceModal: {}});
+        this.props.dispatch({ type: 'permission/clearResource', payload: { } }); 
+        break;
       case 'update':
         this.setState({ visible: true, title: '修改' });
         this.props.dispatch({ type: 'permission/queryResource', payload: { id: r.id } });
@@ -49,6 +56,7 @@ class Resource extends Component {
   render() {
     const p = this;
     const { resourceList = [], resourceExpandedKeys, form, resourceModal = {} } = this.props;
+    console.log(this.props)
     const { visible, title } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -125,7 +133,7 @@ class Resource extends Component {
                 <FormItem label="资源名称" {...formItemLayout}>
                   {getFieldDecorator('name', {
                     rules: [{ required: true, message: '请输入资源名称' }],
-                    initialValue: resourceModal.name,
+                    initialValue: resourceModal.name?resourceModal.name.toString() : undefined,
                   })(
                     <Input placeholder="请输入资源名称" />,
                   )}

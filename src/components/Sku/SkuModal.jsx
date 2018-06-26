@@ -200,6 +200,7 @@ class SkuModal extends Component {
                   rules: [{ required: true, message: '请选择' }],
                 })(
                   <Select
+                    disabled
                     combobox
                     placeholder="请选择"
                     onChange={p.handleSearch.bind(p)}

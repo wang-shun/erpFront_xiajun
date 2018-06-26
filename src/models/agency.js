@@ -244,7 +244,6 @@ export default {
       return { ...state, agencyTypeValues: payload.data };
     },
     saveBuyerType(state, { payload }) {
-      console.log(payload);
       return { ...state, buyerValues: payload.data || {} };
     },
     updateList(state, { payload }) {

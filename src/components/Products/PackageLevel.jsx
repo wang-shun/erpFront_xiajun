@@ -162,7 +162,7 @@ class PackageLevel extends Component {
             />
           </Col>
         </Row>
-        <Modal {...modalProps}>
+        {visible && <Modal {...modalProps}>
           <Form>
             <FormItem
               label="包装规格类别名称"
@@ -228,7 +228,7 @@ class PackageLevel extends Component {
               )}
             </FormItem>
           </Form>
-        </Modal>
+        </Modal>}
       </div>
     );
   }

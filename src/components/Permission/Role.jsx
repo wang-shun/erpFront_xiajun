@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm, message } from 'antd';
+import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm, message, Select } from 'antd';
 import { connect } from 'dva';
+import { join } from 'redux-saga/effects';
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 @window.regStateCache
 class Role extends Component {
@@ -22,22 +24,32 @@ class Role extends Component {
     form.validateFields((err, values) => {
       if (err) return;
       if (roleModal.id) {
+        console.log(1)
         dispatch({ type: 'permission/updateRole', payload: { ...values, id: roleModal.id } });
       } else {
+        console.log(2)
         dispatch({ type: 'permission/addRole', payload: { ...values } });
       }
       p.handleCancel();
     });
   }
   handleCancel() {
-    this.setState({ visible: false });
+    this.setState({
+      visible: false,
+    });
     this.props.form.resetFields();
   }
   showModal(type, r) {
+    this.props.form.resetFields();
     switch (type) {
       case 'add':
-        this.setState({ visible: true, title: '新增' }); break;
+      console.log(3)
+        this.props.form.resetFields();
+        this.setState({ visible: true, title: '新增', roleModal: {}});
+        this.props.dispatch({ type: 'permission/clearRole', payload: { } }); 
+        break;
       case 'update':
+      console.log(4)
         this.setState({ visible: true, title: '修改' });
         this.props.dispatch({ type: 'permission/queryRole', payload: { id: r.id } });
         break;
@@ -48,24 +60,27 @@ class Role extends Component {
     this.props.dispatch({ type: 'permission/deleteRole', payload: { id: r.id } });
   }
   showAuthModal(r) {
+    console.log(this.props)
     this.props.dispatch({ type: 'permission/queryResourceList', payload: {} });
     this.setState({ authModalVisible: true, roleId: r.id });
   }
   handleAuth() {
     const { roleId, resourceIds } = this.state;
+    let Mao = resourceIds.join(',');
     if (!resourceIds.length) {
       message.error('请选择需要授权的资源');
       return;
     }
     this.props.dispatch({
       type: 'permission/authRole',
-      payload: { id: roleId, resourceIds: JSON.stringify(resourceIds) },
+      payload: { id: roleId, resourceIds: Mao },
     });
     this.setState({ authModalVisible: false });
   }
   render() {
     const p = this;
     const { resourceList = [], roleList = [], total, form, roleModal = {} } = this.props;
+    console.log(this.props)
     const { visible, title, authModalVisible } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -133,11 +148,11 @@ class Role extends Component {
             <Table columns={columns} dataSource={roleList} rowKey={r => r.id} pagination={paginationProps} bordered />
           </Col>
         </Row>
-        <Modal
+        {visible && <Modal
           visible={visible}
           title={title}
           onOk={this.handleSubmit.bind(this)}
-          onCancel={this.handleCancel.bind(this)}
+          onCancel={this.handleCancel.bind(this)}  
         >
           <Form>
             <Row>
@@ -167,7 +182,10 @@ class Role extends Component {
                     rules: [{ required: true, message: '请输入状态' }],
                     initialValue: roleModal.status,
                   })(
-                    <Input placeholder="请输入状态" />,
+                    <Select placeholder="请输入状态" allowClear>
+                      <Option value={0}>正常</Option>
+                      <Option value={1}>停用</Option>
+                    </Select>,
                   )}
                 </FormItem>
               </Col>
@@ -182,7 +200,7 @@ class Role extends Component {
               </Col>
             </Row>
           </Form>
-        </Modal>
+        </Modal> }
         <Modal
           visible={authModalVisible}
           title="授权"

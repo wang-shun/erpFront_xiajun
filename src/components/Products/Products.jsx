@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Input, Button, Row, Col, Select, DatePicker, Form, TreeSelect, Modal, Popover, Icon, Popconfirm, Checkbox } from 'antd';
 import ProductsModal from './ProductsModal';
-
+import ProductsUpload2 from './ProductsUpload2';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -14,6 +14,8 @@ class Products extends Component {
     super();
     this.state = {
       checkId: [],
+      uploadVisble: false,
+      titles:'',
     };
   }
 
@@ -47,6 +49,7 @@ class Products extends Component {
 
   updateModal(id) {
     const p = this;
+    console.log(id);
     this.setState({ modalVisible: true }, () => {
       p.props.dispatch({ type: 'products/queryProduct', payload: { id } });
     });
@@ -58,7 +61,16 @@ class Products extends Component {
       this.props.dispatch({ type: 'products/queryAllBrand', payload: {} });      
     });
   }
-
+  showMore(){
+    console.log('thisthis')
+    this.setState({
+      uploadVisble: true,
+      titles: '导入商品',
+    })
+  }
+  closeMore(){
+    this.setState({ uploadVisble: false})
+  }
   cleanVirtualInvModal(itemId) {
     const p = this;
     p.props.dispatch({
@@ -149,6 +161,7 @@ class Products extends Component {
     const p = this;
     const { form, currentPage, currentPageSize, productsList = [], productsTotal, allBrands = [], productsValues = {}, tree = [], loginRoler, allBuyers = [], countries = [] } = this.props;
     const { getFieldDecorator, resetFields } = form;
+    const { uploadVisble, titles } = this.state
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
@@ -212,14 +225,14 @@ class Products extends Component {
       { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80 / 14.32 + '%', render(text) { return <span>{text === 0 ? '代购' : '现货' }</span>; } },
       { title: '商品类目',
         width: 100 / 14.32 + '%',
-        dataIndex: 'categoryId',
-        key: 'categoryId',
-        render(t) {
-          const cate = p.interator(tree, t && t.toString()) || [];
-          return <span>{cate[0] ? cate[0].name : '-'}</span>;
-        },
+        dataIndex: 'categoryName',
+        key: 'categoryName',
+        // render(t) {
+        //   const cate = p.interator(tree, t && t.toString()) || [];
+        //   return <span>{cate[0] ? cate[0].name : '-'}</span>;
+        // },
       },
-      { title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80 / 14.32 + '%', render(text) { return text || '-'; } },
+      //{ title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80 / 14.32 + '%', render(text) { return text || '-'; } },
       { title: '是否可售',
         dataIndex: 'isSale',
         key: 'isSale',
@@ -400,6 +413,7 @@ class Products extends Component {
         <Row className="operBtn">
           <Col>
             <Button type="primary" style={{ float: 'left' }} size="large" onClick={() => { this.showModal(); } }>添加商品</Button>
+            <Button style={{ float: 'left', left:'20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>批量导入商品</Button>
             <Button type="primary" style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large" onClick={p.batchAction.bind(p, 'syn')}>批量同步</Button>
             <Button type="primary" style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large" onClick={p.batchAction.bind(p, 'onSell')}>批量上架</Button>
             <Button type="primary" style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large" onClick={p.batchAction.bind(p, 'offSell')}>批量下架</Button>
@@ -428,6 +442,11 @@ class Products extends Component {
           tree={tree}
           loginRoler={loginRoler}
           countries={countries}
+        />
+        <ProductsUpload2
+        visible={uploadVisble}
+        title = {titles}
+        close = {this.closeMore.bind(this)}
         />
       </div>
     );
