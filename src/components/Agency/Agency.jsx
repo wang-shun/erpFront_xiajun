@@ -137,7 +137,7 @@ class Agency extends Component {
                 label="用户名称"
                 {...formItemLayout}
               >
-                {getFieldDecorator('userName', {})(
+                {getFieldDecorator('name', {})(
                   <Input placeholder="请输入用户名称" />,
                 )}
               </FormItem>
@@ -147,9 +147,9 @@ class Agency extends Component {
                 label="销售类别名称"
                 {...formItemLayout}
               >
-                {getFieldDecorator('typeId', {})(
+                {getFieldDecorator('typeName', {})(
                   <Select placeholder="请选择销售类别名称" allowClear>
-                    {list.map((el, index) => <Option key={index} value={el.id && el.id.toString()}>{el.typeName}</Option>)}
+                    {list.map((el, index) => <Option key={index} value={el.typeName && el.typeName.toString()}>{el.typeName}</Option>)}
                   </Select>,
                 )}
               </FormItem>
