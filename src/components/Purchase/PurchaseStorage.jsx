@@ -46,7 +46,7 @@ class PurchaseStorage extends Component {
   changeActiveKey(key) {
     this.setState({ activeTab: key });
   }
-  handleSubmit(e, values) {
+  handleSubmitList(e, values) {
     if (e) e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       console.log(values)
@@ -95,7 +95,7 @@ class PurchaseStorage extends Component {
 
     })
   }
-  keypress(value) {
+  handleSubmit(value) {
     this.props.form.validateFieldsAndScroll((err, values) => {
 
       this.props.dispatch({
@@ -115,13 +115,9 @@ class PurchaseStorage extends Component {
       this.props.dispatch({
         type: 'purchaseStorage/queryWithComfirm',
         payload: { detailVo: JSON.stringify(p)},
-        cb() { p._refreshData(); },
-        //
       })
+      this._refreshData();
     })
-  }
-  _refreshData(){
-    console.log('this')
   }
   handleDelete(r, index) {
     console.log(r)
@@ -130,12 +126,12 @@ class PurchaseStorage extends Component {
       type: 'purchaseStorage/queryWithDelete',
       payload: { id: r.id },
     })
-    
+    this._refreshData();
   }
 
-  componentDidMount(){
-    setTimeout(()=>this.props.form.resetFields(),100);
-  }
+  // componentDidMount(){
+  //   setTimeout(()=>this.props.form.resetFields(),100);
+  // }
 
   render() {
     const p = this;
@@ -248,7 +244,7 @@ class PurchaseStorage extends Component {
     return (
       <Tabs activeKey={activeTab} type="card" onChange={this.changeActiveKey.bind(this)}>
         <TabPane tab="扫码入库" key="1">
-          <Form onSubmit={this.handleSubmit.bind(this)}>
+          <Form onSubmit={this.handleSubmitList.bind(this)}>
             <Row gutter={20} style={{ width: 1100, marginLeft: '-68px' }}>
               <Col span="6">
                 <FormItem
@@ -281,7 +277,7 @@ class PurchaseStorage extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('stoOrderNo', {})(
-                    <Input placeholder="请扫UPC或手动输入" disabled={upsvalue != '' && upsvalueTwo != '' ? false : true} onKeyPress={this.keypress.bind(this)} />)}
+                    <Input placeholder="请扫UPC或手动输入" disabled={upsvalue != '' && upsvalueTwo != '' ? false : true} onKeyPress={this. handleSubmit.bind(this)} />)}
                 </FormItem>
               </Col>
               <Col span="6">
