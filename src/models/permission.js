@@ -319,7 +319,7 @@ export default {
         message.success('新增机构成功');
         yield put({
           type: 'queryOrgList',
-          payload: {},
+          payload: {} ,
         });
       }
     },

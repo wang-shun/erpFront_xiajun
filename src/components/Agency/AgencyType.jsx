@@ -39,13 +39,15 @@ class AgencyType extends Component {
   showModal() {
     this.setState({ visible: true, title: '新增' });
   }
-
-  closeModal(visible) {
-    this.setState({ visible });
-    this.props.dispatch({
-      type: 'agency/saveAgencyType',
-      payload: {},
+  
+  closeModal(modalVisible) {
+    this.setState({
+      modalVisible,
     }, () => {
+      this.props.dispatch({
+        type: 'agency/saveAgencyType',
+        payload: {},
+      });
       this._refreshData();
     });
   }
