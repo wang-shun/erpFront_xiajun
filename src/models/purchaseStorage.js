@@ -124,7 +124,7 @@ export default {
       yield put({ type: 'updateWithParam', payload: data });
     }
     },
-    * queryWithComfirm({ payload }, { call, put }) {
+    * queryWithComfirm({ payload, cb }, { call, put }) {
     const data = yield call(queryWithComfirm, { payload });
     if (data.success) {
       message.success('入库成功');
@@ -132,7 +132,7 @@ export default {
     }
     },
 
-    * queryWithDelete({ payload }, { call, put }) {
+    * queryWithDelete({ payload, cb }, { call, put }) {
     const data = yield call(queryWithDelete, { payload });
     if (data.success) {
       message.success('删除入库单成功');
