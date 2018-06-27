@@ -7,6 +7,11 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
 
+const formItemLayout = {
+  labelCol: { span: 11 },
+  wrapperCol: { span: 13 },
+};
+
 function getScaleOptions(batchSkuSort, scaleTypes) {
   const filteredBatchOptions = scaleTypes.filter((el) => {
     el.id = el.id.toString();
