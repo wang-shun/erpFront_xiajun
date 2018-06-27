@@ -26,8 +26,11 @@ class PurchaseStorage extends Component {
   storehouse(value, p) {
     const { selectWhList } = this.props
     console.log(selectWhList)
+    console.log(value)
     if (value) {
       let Mao = value.label
+      let sunM = value.key
+      console.log(sunM)
       this.setState({
         upsvalue: value,
         mStore: Mao,
@@ -41,7 +44,6 @@ class PurchaseStorage extends Component {
     })
   }
   changeActiveKey(key) {
-    console.log(key)
     this.setState({ activeTab: key });
   }
   handleSubmit(e, values) {
@@ -94,9 +96,8 @@ class PurchaseStorage extends Component {
     })
   }
   keypress(value) {
-    console.log('this')
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values)
+
       this.props.dispatch({
         type: 'purchaseStorage/purchaseAndUpc',
         payload: { buyerOpenId: values.buyerId, upc: values.stoOrderNo }
@@ -104,28 +105,33 @@ class PurchaseStorage extends Component {
     })
   }
   wareHouse(p, r) {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (values.r_undefined_quantity == "" || values.r_undefined_shelfNo == "") {
-        return;
-      }
-      p.warehouseName = values.r_undefined_warehouseName
-      p.quantity = values.r_undefined_quantity
-      p.shelfNo = values.r_undefined_shelfNo
-      
+    this.props.form.validateFieldsAndScroll([`r_${p.id}_shelfNo`, `r_${p.id}_quantity`],(err, values) => {
+      const { upsvalue } = this.state
+      console.log(upsvalue.key)
+      console.log(values)
+      p.warehouseNo = upsvalue.key
+      p.quantity = parseInt(values["r_"+p.id+"_quantity"])
+      p.shelfNo = values["r_"+p.id+"_shelfNo"]
+      p.warehouseName = upsvalue.label
+      console.log(p)
       this.props.dispatch({
         type: 'purchaseStorage/queryWithComfirm',
         payload: { detailVo: JSON.stringify(p)}
       })
-
     })
+    // this.keypress();
   }
-  handleDelete(id) {
-    console.log(id)
+  handleDelete(r) {
     this.props.dispatch({
       type: 'purchaseStorage/queryWithDelete',
-      payload: { id: id }
+      payload: { id: r.id }
     })
   }
+
+  componentDidMount(){
+    setTimeout(()=>this.props.form.resetFields(),100);
+  }
+
   render() {
     const p = this;
     const { form, buyers = [], selectWhList = [], searchAllList = [], listUpc = [], alreadyList = [] } = p.props;
@@ -159,7 +165,7 @@ class PurchaseStorage extends Component {
         render(t, r) {
           return (
             <FormItem>
-              {getFieldDecorator(`r_${r.key}_warehouseName`, { initialValue: mStore, rules: [{ required: true, message: '该项必填' }] })(
+              {getFieldDecorator(`r_${r.id}_warehouseName`, { initialValue: mStore, })(
                 <Input placeholder="请填写仓库" disabled={true} />)}
             </FormItem>
           );
@@ -170,7 +176,7 @@ class PurchaseStorage extends Component {
         render(t, r) {
           return (
             <FormItem>
-              {getFieldDecorator(`r_${r.key}_quantity`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
+              {getFieldDecorator(`r_${r.id}_quantity`, { initialValue: t || '',})(
                 <Input placeholder="请填写入库数" />)}
             </FormItem>
           );
@@ -181,7 +187,7 @@ class PurchaseStorage extends Component {
         render(t, r) {
           return (
             <FormItem>
-              {getFieldDecorator(`r_${r.key}_shelfNo`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
+              {getFieldDecorator(`r_${r.id}_shelfNo`, { initialValue: t || '', })(
                 <Input placeholder="请填写货架号" />)}
             </FormItem>
           );
@@ -198,7 +204,7 @@ class PurchaseStorage extends Component {
               <p><Button type="primary" size="large" style={{ marginBottom: 5, marginRight: 10 }} onClick={p.wareHouse.bind(p, r)}>入库</Button></p>
               <p>
                 <a href="javascript:void(0)" style={{ marginRight: 10 }}>备注 |</a>
-                <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r.id)} >
+                <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r)} >
                   <a href="javascript:void(0)" style={{ marginRight: 10, color: "gray" }}>删除</a>
                 </Popconfirm>
               </p>
@@ -212,11 +218,11 @@ class PurchaseStorage extends Component {
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
       { title: '入库数', dataIndex: 'quantity', key: 'quantity' },
       { title: '买手', dataIndex: 'buyerName', key: 'buyerName' },
-      { title: '操作员', dataIndex: '', key: 'buyerName' },
+      { title: '操作员', dataIndex: 'opUserName', key: 'opUserName' },
       { title: '仓库', dataIndex: 'warehouseName', key: 'warehouseName' },
-      { title: '库位', dataIndex: 'gmtCreate', key: 'gmtCreate' },
-      { title: '更新时间', dataIndex: 'statusName', key: 'statusName' },
-      { title: '入库时间', dataIndex: 'statusName', key: 'statusName' },
+      { title: '库位', dataIndex: 'shelfNo', key: 'shelfNo' },
+      { title: '更新时间', dataIndex: 'gmtModify', key: 'gmtModify' },
+      { title: '入库时间', dataIndex: 'opTime', key: 'opTime' },
       { title: '状态', dataIndex: 'statusName', key: 'statusName' },
       {
         title: '操作',
@@ -247,7 +253,7 @@ class PurchaseStorage extends Component {
                 >
                   {getFieldDecorator('warehouseId', {})(
                     <Select labelInValue placeholder="请选择仓库" optionLabelProp="title" combobox allowClear onChange={this.storehouse.bind(this)}>
-                      {selectWhList.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
+                      {selectWhList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
                     </Select>)}
                 </FormItem>
               </Col>
@@ -317,7 +323,7 @@ class PurchaseStorage extends Component {
           </Row>
         </TabPane>
         <TabPane tab="已入库明细" key="2">
-          <Form onSubmit={this.handleSubmit.bind(this)}>
+          <Form>
             <Row gutter={20} style={{ width: 1100, marginLeft: '-68px' }}>
               <Col span="6">
                 <FormItem
