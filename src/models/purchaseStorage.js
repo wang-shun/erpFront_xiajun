@@ -124,7 +124,7 @@ export default {
       yield put({ type: 'updateWithParam', payload: data });
     }
     },
-    * queryWithComfirm({ payload, cb }, { call, put }) {
+    * queryWithComfirm({ payload, cb}, { call, put }) {
     const data = yield call(queryWithComfirm, { payload });
     if (data.success) {
       message.success('入库成功');
@@ -182,6 +182,7 @@ export default {
         message.success('删除入库单成功');
         cb();
       }
+
     },
     * multiConfirmStorage({ payload, cb }, { call }) {
       const data = yield call(multiConfirmStorage, { payload });

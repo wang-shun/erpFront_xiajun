@@ -115,8 +115,10 @@ class PurchaseStorage extends Component {
       this.props.dispatch({
         type: 'purchaseStorage/queryWithComfirm',
         payload: { detailVo: JSON.stringify(p)},
+        cb: () => { this._refreshData(); },
       })
-      this._refreshData();
+      
+      // setTimeout(()=>this._refreshData(),2000);
     })
   }
   handleDelete(r, index) {
@@ -125,8 +127,8 @@ class PurchaseStorage extends Component {
     this.props.dispatch({
       type: 'purchaseStorage/queryWithDelete',
       payload: { id: r.id },
+      cb: () => { this._refreshData(); },
     })
-    this._refreshData();
   }
 
   // componentDidMount(){
