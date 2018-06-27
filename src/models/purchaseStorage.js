@@ -134,7 +134,7 @@ export default {
     * queryWithDelete({ payload }, { call, put }) {
     const data = yield call(queryWithDelete, { payload });
     if (data.success) {
-      yield put({ type: 'updateWithDelete', payload: data });
+      message.success('删除角色成功');
     }
     },
     //
@@ -235,9 +235,6 @@ export default {
     },
     updateWithComfirm(state, {payload}){
       return { ...state, Mal: payload.data}
-    },
-    updateWithDelete(state, {payload}){
-      return { ...state, Mal2: payload.data}
     },
     //
     updateBuyerTaskList(state, { payload }) {
