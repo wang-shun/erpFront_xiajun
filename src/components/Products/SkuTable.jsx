@@ -473,7 +473,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_thirdSkuCode`, { initialValue: t || '' })(
-                  <Input placeholder="请填写货号" />)}
+                  <Input placeholder="请填写货号" disabled="disabled"/>)}
               </FormItem>
             );
           },
@@ -487,7 +487,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" />)}
+                  <Input placeholder="请填写" disabled="disabled"/>)}
               </FormItem>
             );
           },
@@ -501,7 +501,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_scale`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" />)}
+                  <Input placeholder="请填写" disabled="disabled"/>)}
                 {getFieldDecorator(`r_${r.key}_id`, { initialValue: r.id || null })(
                   <Input style={{ display: 'none' }} />)}
               </FormItem>

@@ -116,6 +116,7 @@ class PurchaseStorage extends Component {
         type: 'purchaseStorage/queryWithComfirm',
         payload: { detailVo: JSON.stringify(p)},
         cb() { p._refreshData(); },
+        //
       })
     })
   }
