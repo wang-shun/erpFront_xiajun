@@ -131,7 +131,7 @@ class AgencyType extends Component {
             />
           </Col>
         </Row>
-        <Modal {...modalProps}>
+        {visible && <Modal {...modalProps}>
           <Form>
             <FormItem
               label="类别名称"
@@ -166,7 +166,7 @@ class AgencyType extends Component {
               )}
             </FormItem>
           </Form>
-        </Modal>
+        </Modal>}
       </div>
     );
   }
