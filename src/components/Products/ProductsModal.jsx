@@ -414,7 +414,7 @@ class ProductsModal extends Component {
                       initialValue: toString(productData.enName),
                       rules: [{ message: '请输入英文名称' }],
                     })(
-                      <Input placeholder="请输入英文名称" />,
+                      <Input placeholder="请输入英文名称" maxLength="128"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -428,7 +428,7 @@ class ProductsModal extends Component {
                       initialValue: toString(productData.name),
                       rules: [{ required: true, message: '请输入商品名称' }],
                     })(
-                      <Input placeholder="请输入商品名称" />,
+                      <Input placeholder="请输入商品名称" maxLength="60"/>,
                     )}
                   </FormItem>
                 </Col>
