@@ -72,7 +72,7 @@ class PurchaseModal extends Component {
       }
     });
     this.setState({ storageList, selectedRowKeys: [] });
-    
+
     this.linstenInputChange();
   }
 
@@ -91,7 +91,7 @@ class PurchaseModal extends Component {
       if (storageList[newIndex].id) delete storageList[newIndex].id;
     }
     this.setState({ storageList });
-    
+
     this.linstenInputChange();
   }
 
@@ -102,9 +102,9 @@ class PurchaseModal extends Component {
         if(skuId == storageList[i].skuId) {
             storageList.splice(i--, 1);
         }
-    }    
+    }
     this.setState({ storageList });
-    
+
     this.linstenInputChange();
   }
 
@@ -116,10 +116,10 @@ class PurchaseModal extends Component {
       }
     });
     this.setState({ storageList });
-    
+
     this.linstenInputChange();
   }
-  
+
   linstenInputChange() {
   	const p = this;
   	const storageList = this.state.storageList;
@@ -276,10 +276,11 @@ class PurchaseModal extends Component {
   render() {
     const p = this;
     const { form, title, visible, purchaseStorageData = {}, buyer = [], wareList = [], buyerTaskList = [] } = p.props;
+
     const { selectedRowKeys, storageList } = p.state;
     const { getFieldDecorator } = form;
     const ARR = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    
+
 
     const modalProps = {
       visible,
@@ -316,7 +317,7 @@ class PurchaseModal extends Component {
       selectedRowKeys,
       onChange: this.onSelectChange.bind(this),
     };
-    
+
     const columnsTaskList = [
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 50 },
       { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 50 },
@@ -468,12 +469,12 @@ class PurchaseModal extends Component {
                 label="选择买手"
                 {...formItemLayout}
               >
-                {getFieldDecorator('openId', {
-                  initialValue: toString(purchaseStorageData.openId, 'SELECT'),
+                {getFieldDecorator('buyerId', {
+                  initialValue: toString(purchaseStorageData.buyerId, 'SELECT'),
                   rules: [{ required: true, message: '请选择买手' }],
                 })(
                   <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.queryBuyerTaskList.bind(this)}>
-                    {buyer.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
+                    {buyer.map(el => <Option key={el.id} title={el.nickName}>{el.nickName}</Option>)}
                   </Select>,
                 )}
               </FormItem>

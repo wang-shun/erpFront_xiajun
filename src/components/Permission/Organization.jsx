@@ -33,7 +33,8 @@ class Organization extends Component {
     this.props.form.resetFields();
   }
   showModal() {
-    this.setState({ visible: true, title: '新增' });
+    this.setState({ visible: true, title: '新增', orgModal: {} });
+    this.props.dispatch({ type: 'permission/clearOrg', payload: { } }); 
   }
   handleQuery(r) {
     this.setState({ visible: true, title: '修改' });
@@ -55,8 +56,8 @@ class Organization extends Component {
       { title: '编号', key: 'code', dataIndex: 'code' },
       { title: '部门名称', key: 'name', dataIndex: 'name' },
       { title: '排序', key: 'seq', dataIndex: 'seq' },
-      { title: '图标', key: 'iconCls', dataIndex: 'iconCls' },
-      { title: '创建时间', key: 'createTime', dataIndex: 'createTime' },
+      { title: '图标', key: 'icon', dataIndex: 'icon' },
+      { title: '创建时间', key: 'gmtCreate', dataIndex: 'gmtCreate' },
       { title: '地址', key: 'address', dataIndex: 'address' },
       { title: '操作',
         key: 'oper',

@@ -38,7 +38,8 @@ class Resource extends Component {
     this.props.form.resetFields();
   }
   showModal() {
-    this.setState({ visible: true, title: '新增' });
+    this.setState({ visible: true, title: '新增', userModal: {} });
+    this.props.dispatch({ type: 'permission/clearUser', payload: { } });
   }
   showWxModal(){
     this.setState({
@@ -78,7 +79,7 @@ class Resource extends Component {
       { title: '登录名', key: 'loginName', dataIndex: 'loginName' },
       { title: '姓名', key: 'name', dataIndex: 'name' },
       { title: '所属部门', key: 'organizationName', dataIndex: 'organizationName' },
-      { title: '创建时间', key: 'createTime', dataIndex: 'createTime' },
+      { title: '创建时间', key: 'gmtCreate', dataIndex: 'gmtCreate' },
       { title: '性别',
         key: 'sex',
         dataIndex: 'sex',
@@ -185,7 +186,10 @@ class Resource extends Component {
                 </FormItem>
               </Col>
               <Col span={12}>
-                <FormItem label="密码" {...formItemLayout}>
+                <FormItem 
+                  label="密码" 
+                  {...formItemLayout}
+                >
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: '请输入密码' }],
                     initialValue: userModal.password,

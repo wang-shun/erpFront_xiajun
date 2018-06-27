@@ -2,7 +2,7 @@ import { message } from 'antd';
 
 import fetch from '../utils/request';
 
-const queryResourceList = ({ payload }) => fetch.post('/role/queryTree', { data: payload }).catch(e => e); // queryList
+const queryResourceList = ({ payload }) => fetch.post('/resource/queryTree', { data: payload }).catch(e => e); // queryList
 const addResource = ({ payload }) => fetch.post('/resource/add', { data: payload }).catch(e => e);
 const updateResource = ({ payload }) => fetch.post('/resource/edit', { data: payload }).catch(e => e);
 const deleteResource = ({ payload }) => fetch.post('/resource/delete', { data: payload }).catch(e => e);
@@ -140,6 +140,12 @@ export default {
         });
       }
     },
+    * clearResource({ payload }, { put }) {
+      yield put({
+        type: 'clearResource4Add',
+        payload: {},
+      });
+    },
     * queryRoleList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ permission }) => permission.roleCurrentPage);
       if (payload && payload.pageIndex) {
@@ -201,6 +207,12 @@ export default {
         });
       }
     },
+    * clearRole({ payload }, { put }) {
+        yield put({
+          type: 'clearRole4Add',
+          payload: {},
+        });
+      },
     * authRole({ payload }, { call, put }) {
       const data = yield call(authRole, { payload });
       if (data.success) {
@@ -272,6 +284,12 @@ export default {
         });
       }
     },
+    * clearUser({ payload }, { put }) {
+        yield put({
+          type: 'clearUser4Add',
+          payload: {},
+        });
+    },
     * queryOrgList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ permission }) => permission.roleCurrentPage);
       if (payload && payload.pageIndex) {
@@ -333,6 +351,12 @@ export default {
         });
       }
     },
+    * clearOrg({ payload }, { put }) {
+      yield put({
+        type: 'clearOrg4Add',
+        payload: {},
+      });
+    },
     * wxRout(payload, { call, put }) {
       const data = yield call(wxRout, { payload: { ...payload } });
       if (data.success) {
@@ -365,6 +389,9 @@ export default {
     saveResource(state, { payload }) {
       return { ...state, resourceModal: payload.data };
     },
+    clearResource4Add(state, { payload }) {
+      return { ...state, resourceModal: payload };
+    },
     updateRoleList(state, { payload }) {
       return { ...state, roleList: payload.data, roleTotal: payload.totalCount };
     },
@@ -373,6 +400,9 @@ export default {
     },
     saveRole(state, { payload }) {
       return { ...state, roleModal: payload.data };
+    },
+    clearRole4Add(state, { payload }) {
+      return { ...state, roleModal: payload };
     },
     updateUserList(state, { payload }) {
       return { ...state, userList: payload.data, userTotal: payload.totalCount };
@@ -383,6 +413,10 @@ export default {
     saveUser(state, { payload }) {
       return { ...state, userModal: payload.data };
     },
+    clearUser4Add(state, { payload }) {
+      return { ...state, userModal: payload };
+    },
+    
     updateOrgList(state, { payload }) {
       return { ...state, orgList: payload.data, orgTotal: payload.totalCount };
     },
@@ -391,6 +425,9 @@ export default {
     },
     saveOrg(state, { payload }) {
       return { ...state, orgModal: payload.data };
+    },
+    clearOrg4Add(state, { payload }) {
+      return { ...state, orgModal: payload };
     },
     //wxRouterList
     wxRouterList(state, {payload}) {

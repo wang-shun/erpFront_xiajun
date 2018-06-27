@@ -238,7 +238,7 @@ export default {
         });
       }
     },
-     // 买手管理
+     //
     * queryAllItaliaBuyer(param, { call, put }) {
       const data = yield call(queryAllItaliaBuyer);
       if (data.success) {

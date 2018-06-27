@@ -12,7 +12,7 @@ export const backendCfg = {
 
   products: 'item',
   productsList: 'item_list',
-  finditemList: 'finditem_list', // 采购商品列表
+  finditemList: 'finditem_list', // 商品列表
   brandList: 'item_brand',
   skuList: 'item_skulist',
   packageScale: 'item_scale',

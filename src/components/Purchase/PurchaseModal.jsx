@@ -40,7 +40,7 @@ class PurchaseModal extends Component {
     const { form, dispatch, modalValues } = p.props;
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) { return; }
-      if (fieldsValue.defaultBuyer) fieldsValue.buyerId = fieldsValue.defaultBuyer;
+      if (fieldsValue.defaultBuyer) fieldsValue.openId = fieldsValue.defaultBuyer;
       delete fieldsValue.defaultBuyer;
       p.getSkuValue((detailList) => {
         const values = {
@@ -114,7 +114,7 @@ class PurchaseModal extends Component {
   handleInputChange(e) {
     const { getFieldsValue, setFieldsValue } = this.props.form;
     if (!getFieldsValue().taskDesc || getFieldsValue().taskDesc !== e.target.value) {
-      setFieldsValue({ taskDesc: e.target.value });
+      //setFieldsValue({ taskDesc: e.target.value });
     }
   }
 
@@ -366,7 +366,7 @@ class PurchaseModal extends Component {
             </Col>
           </Row>
           <Row>
-            <ProductTable defaultBuyer={defaultBuyer || toString(purchaseData.buyerId)} defaultStartTime={defaultStartTime || taskStartTime} defaultEndTime={defaultEndTime || taskEndTime} data={purchaseData.taskDetailList} parent={this} buyer={buyer} />
+            <ProductTable defaultBuyer={defaultBuyer || toString(purchaseData.openId)} defaultStartTime={defaultStartTime || taskStartTime} defaultEndTime={defaultEndTime || taskEndTime} data={purchaseData.taskDetailList} parent={this} buyer={buyer} />
           </Row>
         </Form>
       </Modal>
