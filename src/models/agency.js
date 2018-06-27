@@ -192,17 +192,25 @@ export default {
        cb();//自己传递的数据
        }
     },
-    * addAgencyType({ payload }, { call }) {
+    * addAgencyType({ payload }, { call, put }) {
       const data = yield call(addAgencyType, { payload });
       if (data.success) {
         message.success('新增类别成功');
+        yield put({
+          type: 'queryAgencyTypeList',
+          payload: {payload:data},
+        });
       }
     },
-    * deleteAgencyType({ payload, cb }, { call }) {
+    * deleteAgencyType({ payload}, { call, put }) {
       const data = yield call(deleteAgencyType, { payload });
       if (data.success) {
         message.success('删除类目成功');
-        cb();
+        yield put({
+          type: 'queryAgencyTypeList',
+          payload: {payload:data},
+        });
+        // cb();
       }
     },
     * deleteBuyerType({ payload, cb }, { call, put }) {
@@ -215,10 +223,14 @@ export default {
         }
       }
     },
-    * updateAgencyType({ payload }, { call }) {
+    * updateAgencyType({ payload }, { call, put }) {
       const data = yield call(updateAgencyType, { payload });
       if (data.success) {
         message.success('修改类目成功');
+        yield put({
+          type: 'queryAgencyTypeList',
+          payload: {payload: data},
+        });
       }
     },
     * queryWareList({ payload }, { call, put, select }) {

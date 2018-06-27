@@ -83,7 +83,7 @@ class Organization extends Component {
     };
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Row>
           <Col style={{ paddingBottom: '15px' }}>
             <Button type="primary" size="large" onClick={this.showModal.bind(this)}>增加部门</Button>
@@ -134,8 +134,8 @@ class Organization extends Component {
               </Col>
               <Col>
                 <FormItem label="图标" {...formItemLayout}>
-                  {getFieldDecorator('iconCls', {
-                    initialValue: orgModal.iconCls,
+                  {getFieldDecorator('icon', {
+                    initialValue: orgModal.icon,
                   })(
                     <Input placeholder="请输入图标" />,
                   )}
