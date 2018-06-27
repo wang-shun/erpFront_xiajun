@@ -104,11 +104,9 @@ class PurchaseStorage extends Component {
       })
     })
   }
-  wareHouse(p, r) {
+  wareHouse(p, r, index) {
     this.props.form.validateFieldsAndScroll([`r_${p.id}_shelfNo`, `r_${p.id}_quantity`],(err, values) => {
       const { upsvalue } = this.state
-      console.log(upsvalue.key)
-      console.log(values)
       p.warehouseNo = upsvalue.key
       p.quantity = parseInt(values["r_"+p.id+"_quantity"])
       p.shelfNo = values["r_"+p.id+"_shelfNo"]
@@ -116,16 +114,23 @@ class PurchaseStorage extends Component {
       console.log(p)
       this.props.dispatch({
         type: 'purchaseStorage/queryWithComfirm',
-        payload: { detailVo: JSON.stringify(p)}
+        payload: { detailVo: JSON.stringify(p)},
+        cb() { p._refreshData(); },
+        //
       })
     })
-    // this.keypress();
   }
-  handleDelete(r) {
+  _refreshData(){
+    console.log('this')
+  }
+  handleDelete(r, index) {
+    console.log(r)
+    console.log(index)
     this.props.dispatch({
       type: 'purchaseStorage/queryWithDelete',
-      payload: { id: r.id }
+      payload: { id: r.id },
     })
+    
   }
 
   componentDidMount(){
@@ -198,13 +203,13 @@ class PurchaseStorage extends Component {
         dataIndex: 'operator',
         key: 'operator',
         width: 160,
-        render(t, r) {
+        render(t, r, index) {
           return (
             <div>
-              <p><Button type="primary" size="large" style={{ marginBottom: 5, marginRight: 10 }} onClick={p.wareHouse.bind(p, r)}>入库</Button></p>
+              <p><Button type="primary" size="large" style={{ marginBottom: 5, marginRight: 10 }} onClick={p.wareHouse.bind(p, r, index)}>入库</Button></p>
               <p>
                 <a href="javascript:void(0)" style={{ marginRight: 10 }}>备注 |</a>
-                <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r)} >
+                <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r, index)} >
                   <a href="javascript:void(0)" style={{ marginRight: 10, color: "gray" }}>删除</a>
                 </Popconfirm>
               </p>
