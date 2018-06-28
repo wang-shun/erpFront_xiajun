@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+<body>
+    <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+    <div id="login_container"></div>
+    <script>
+      var obj = new WxLogin
+      ({
+          id:"login_container",//div的id
+          appid: "wxfcdeefc831b3e8c4",
+          scope: "snsapi_login",//写死
+          redirect_uri: 'https%3A%2F%2Ferp.buyer007.com%2FwechatLogin%2Fauthorized',
+          state: "",
+          style: "black",//二维码黑白风格        
+          href: "https://某个域名下的css文件"
+      });
+    </script>
+</body>
+</html>
