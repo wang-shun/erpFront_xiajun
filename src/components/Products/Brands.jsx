@@ -42,7 +42,7 @@ class Brands extends Component {
           type: 'products/queryBrand',
           payload: { id },
         });
-      }
+      } 
     });
   }
   handleDelete(id) {
@@ -188,7 +188,8 @@ class Brands extends Component {
               >
                 {getFieldDecorator('enName', {
                   initialValue: brandValue.name,
-                  rules: [{ required: true, validator: this.checkEnName.bind(this) }],
+                  //rules: [{ required: true, validator: this.checkEnName.bind(this) }],
+                  rules: [{ required: true}],
                 })(
                   <Input placeholder="请输入品牌名称" />,
                 )}
@@ -203,7 +204,8 @@ class Brands extends Component {
               >
                 {getFieldDecorator('cnName', {
                   initialValue: brandValue.nameChina,
-                  rules: [{ validator: this.checkCnName.bind(this) }],
+                  //rules: [{ validator: this.checkCnName.bind(this) }],
+                  rules: [{}],
                 })(
                   <Input placeholder="请输入品牌中文名" />)}
               </FormItem>

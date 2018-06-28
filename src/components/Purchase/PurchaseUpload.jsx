@@ -41,7 +41,7 @@ class PurchaseUpload extends Component {
     const p = this;
     const { title, visible } = p.props;
     const {mao} = this.state;
-    console.log(mao)
+
     // const { previewImage, defaultBuyer, defaultStartTime, defaultEndTime } = p.state;
     // const purchaseData = (modalValues && modalValues.data) || {};
     // const { getFieldDecorator } = form;
@@ -67,7 +67,7 @@ class PurchaseUpload extends Component {
     };
     const uploadProps = {
       action: '/purchaseTask/improtTask',
-
+      
       // action: '/uploadFile/picUpload',
       listType: 'picture-card',
       multiple: true,

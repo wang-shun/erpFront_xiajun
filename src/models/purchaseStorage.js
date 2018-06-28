@@ -124,17 +124,19 @@ export default {
       yield put({ type: 'updateWithParam', payload: data });
     }
     },
-    * queryWithComfirm({ payload }, { call, put }) {
+    * queryWithComfirm({ payload, cb}, { call, put }) {
     const data = yield call(queryWithComfirm, { payload });
     if (data.success) {
-      yield put({ type: 'updateWithComfirm', payload: data });
+      message.success('入库成功');
+      cb();
     }
     },
 
-    * queryWithDelete({ payload }, { call, put }) {
+    * queryWithDelete({ payload, cb }, { call, put }) {
     const data = yield call(queryWithDelete, { payload });
     if (data.success) {
-      yield put({ type: 'updateWithDelete', payload: data });
+      message.success('删除入库单成功');
+      cb();
     }
     },
     //
@@ -180,6 +182,7 @@ export default {
         message.success('删除入库单成功');
         cb();
       }
+
     },
     * multiConfirmStorage({ payload, cb }, { call }) {
       const data = yield call(multiConfirmStorage, { payload });
@@ -235,9 +238,6 @@ export default {
     },
     updateWithComfirm(state, {payload}){
       return { ...state, Mal: payload.data}
-    },
-    updateWithDelete(state, {payload}){
-      return { ...state, Mal2: payload.data}
     },
     //
     updateBuyerTaskList(state, { payload }) {
