@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Input, Button, Row, Col, Form, Modal, Popconfirm } from 'antd';
-
+import AgencyModal from './AgencyModal';
 const FormItem = Form.Item;
 
 @window.regStateCache
@@ -44,18 +44,17 @@ class AgencyType extends Component {
   showModal() {
     this.setState({ visible: true, title: '新增' });
   }
-  
-  closeModal(modalVisible) {
-    this.setState({
-      modalVisible,
+
+  closeModal(visible) {
+    this.setState({ visible });
+    this.props.dispatch({
+      type: 'agency/saveAgencyType',
+      payload: {},
     }, () => {
-      this.props.dispatch({
-        type: 'agency/saveAgencyType',
-        payload: {},
-      });
       this._refreshData();
     });
   }
+
 
   handleQuery(record) {
     const p = this;

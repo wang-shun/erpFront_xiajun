@@ -175,8 +175,8 @@ class Resource extends Component {
               </Col>
               <Col span={12}>
                 <FormItem label="资源图标" {...formItemLayout}>
-                  {getFieldDecorator('iconCls', {
-                    initialValue: resourceModal.iconCls,
+                  {getFieldDecorator('icon', {
+                    initialValue: resourceModal.icon,
                   })(
                     <Input placeholder="请输入资源图标" />,
                   )}

@@ -99,14 +99,21 @@ class Order extends Component {
   handleProDetail(record, e) {
     if (e) e.stopPropagation();
     const p = this;
+    // p.setState({
+    //   visible: true,
+    // }, () => {
+    //   p.props.dispatch({
+    //     type: 'order/queryOrderDetail',
+    //     payload: { orderNo: record.orderNo },
+    //   });
+    // });
     p.setState({
       visible: true,
-    }, () => {
-      p.props.dispatch({
-        type: 'order/queryOrderDetail',
-        payload: { orderNo: record.orderNo },
-      });
-    });
+    })
+    p.props.dispatch({
+      type: 'order/queryOrderDetail', 
+      payload: { orderNo: record.orderNo },
+    })
   }
 
   handleDelete(orderNo, e) {
@@ -329,7 +336,6 @@ class Order extends Component {
     const modalProps = {
       title: `订单编号：${(orderDetailList && orderDetailList[0] && orderDetailList[0].orderNo) || '-'}`,
       footer: null,
-      visible,
       width: 1200,
       closable: true,
       onCancel() {
@@ -468,10 +474,10 @@ class Order extends Component {
         		<Row className="operBtn">
           <Col>
             <Button type="primary" size="large" onClick={p.showModal.bind(p)} style={{ float: 'left' }}>新增订单</Button>
-            <Button type="primary" size="large" onClick={p.exportMainOrder.bind(p)} style={{ float: 'right', marginLeft: 10 }}>导出订单</Button>
+            {/* <Button type="primary" size="large" onClick={p.exportMainOrder.bind(p)} style={{ float: 'right', marginLeft: 10 }}>导出订单</Button> */}
             <Button type="primary" disabled={isNotSelected} size="large" onClick={p.handleOrderAction.bind(p, 'close')} style={{ float: 'right' }}>订单关闭</Button>
-            <a href='/wx/messageList' target="_blank"><Button type="primary" size="large" style={{ float: 'right', marginRight: 10}}>微信录单</Button></a>
-            <Button type="primary" size="large" onClick={p.outerOrderReview.bind(p)} style={{ float: 'right', marginRight: 10}}>录单确认</Button>
+            {/* <a href='/wx/messageList' target="_blank"><Button type="primary" size="large" style={{ float: 'right', marginRight: 10}}>微信录单</Button></a> */}
+            {/* <Button type="primary" size="large" onClick={p.outerOrderReview.bind(p)} style={{ float: 'right', marginRight: 10}}>录单确认</Button> */}
           </Col>
         </Row>
         	}
@@ -482,7 +488,7 @@ class Order extends Component {
               dataSource={orderList}
               bordered
               size="large"
-              onRowClick={record => p.handleProDetail(record)}
+              // onRowClick={record => p.handleProDetail(record)}
               rowKey={record => record.id}
               pagination={listPaginationProps}
               rowSelection={rowSelection}
@@ -490,7 +496,7 @@ class Order extends Component {
             />
           </Col>
         </Row>
-        <Modal {...modalProps}>
+        <Modal {...modalProps} visible={visible}>
           <Table
             columns={skuColumns}
             dataSource={orderDetailList}
