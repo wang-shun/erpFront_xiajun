@@ -61,7 +61,7 @@ export default {
     * addPackageScale({ payload }, { call, put }) {
       const data = yield call(addPackageScale, { payload });
       if (data.success) {
-        message.success('新增类别成功');
+        message.success('新增包装规格成功');
         yield put({
           type: 'queryPackageScaleList',
           payload: { pageIndex: 1 },
