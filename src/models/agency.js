@@ -90,14 +90,14 @@ export default {
     * deleteAgency({ payload, cb }, { call }) {
       const data = yield call(deleteAgency, { payload });
       if (data.success) {
-        message.success('删除类目成功');
+        message.success('删除销售成功');
         cb();
       }
     },
     * updateAgency({ payload }, { call }) {
       const data = yield call(updateAgency, { payload });
       if (data.success) {
-        message.success('修改类目成功');
+        message.success('修改销售成功');
       }
     },
     * queryAgencyTypeList({ payload }, { call, put, select }) {
@@ -198,14 +198,14 @@ export default {
         message.success('新增类别成功');
         yield put({
           type: 'queryAgencyTypeList',
-          payload: {payload:data},
+          payload: {},
         });
       }
     },
     * deleteAgencyType({ payload}, { call, put }) {
       const data = yield call(deleteAgencyType, { payload });
       if (data.success) {
-        message.success('删除类目成功');
+        message.success('删除类别成功');
         yield put({
           type: 'queryAgencyTypeList',
           payload: {payload:data},
@@ -226,10 +226,10 @@ export default {
     * updateAgencyType({ payload }, { call, put }) {
       const data = yield call(updateAgencyType, { payload });
       if (data.success) {
-        message.success('修改类目成功');
+        message.success('修改类别成功');
         yield put({
           type: 'queryAgencyTypeList',
-          payload: {payload: data},
+          payload: {},
         });
       }
     },

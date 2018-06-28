@@ -147,7 +147,7 @@ class Resource extends Component {
         {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Row>
           <Col style={{ paddingBottom: '15px' }}>
-            <Button type="primary" size="large" onClick={this.showModal.bind(this)}>增加用户</Button>
+            <Button type="primary" size="large" onClick={this.showModal.bind(this)}></Button>
             <Button type="primary" size="large" onClick={this.showWxModal.bind(this)} style={{marginLeft:'10px'}}>扫码加用户</Button>
           </Col>
         </Row>
