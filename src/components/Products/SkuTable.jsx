@@ -490,7 +490,7 @@ class SkuTable extends Component {
           width: '6%',
           render(t, r) {
             return (
-              <FormItem>
+              <FormItem required="true">
                 {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
                   <Input placeholder="请填写" required='required'/>)}
               </FormItem>

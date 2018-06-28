@@ -35,7 +35,12 @@ class AgencyType extends Component {
       this.closeModal(false);
     });
   }
-
+  refresh(){
+    this.props.dispatch({
+      type: 'agency/queryAgencyTypeList',
+      payload: { pageIndex: 1 },
+    })
+  }
   showModal() {
     this.setState({ visible: true, title: '新增' });
   }
@@ -116,8 +121,8 @@ class AgencyType extends Component {
 
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
-        <Row>
+        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this.refresh.bind(this)}>刷新</Button></div>
+        <Row style={{ width: 200}}>
           <Col style={{ marginBottom: 10 }}>
             <Button type="primary" size="large" onClick={p.showModal.bind(p)}>新增类别</Button>
           </Col>
