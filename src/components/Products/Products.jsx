@@ -111,7 +111,8 @@ class Products extends Component {
     }
     Modal.confirm({
       title: '确定',
-      content: `确定要${action}id为${JSON.stringify(checkId)}的产品吗？`,
+      // content: `确定要${action}id为${JSON.stringify(checkId)}的产品吗？`,
+      content: `确定要${action}该产品吗？`,
       onOk() {
         p.props.dispatch({
           type,

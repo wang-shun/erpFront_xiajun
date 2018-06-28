@@ -46,7 +46,7 @@ class Resource extends Component {
       visibleWx: true,
       titles: '扫码加用户'
     })
-    this.props.dispatch({ type: 'permission/wxRout', payload: {} })
+    // this.props.dispatch({ type: 'permission/wxRout', payload: {} })
   }
   handleQuery(r) {
     this.setState({ visible: true, title: '修改' });
@@ -290,7 +290,14 @@ class Resource extends Component {
           title={titles} 
           onOk={this.handleCancel.bind(this)}
           onCancel={this.handleCancel.bind(this)}>
-          <img src= {wxData}/>
+          <iframe 
+                style={{width:'100%', height:'500px', overflow:'visible'}}
+                ref="iframe" 
+                src="http://m.buyer007.com/wx.html"
+                width="100%" 
+                scrolling="no" 
+                frameBorder="0"
+            />
         </Modal>}
       </div>);
   }

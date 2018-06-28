@@ -126,7 +126,7 @@ export default {
         });
       }
     },
-    * deletePackageLevel({ payload }, { call, put, select }) {
+    * deletePackageLevel({ payload, cb}, { call, put, select }) {
       const data = yield call(deletePackageLevel, { payload });
       if (data.success) {
         message.success('删除类目成功');
@@ -142,6 +142,7 @@ export default {
           type: 'queryPackageLevelList',
           payload: { pageIndex: 1 },
         });
+        cb();
       }
     },
     * updatePackageLevel({ payload }, { call, put }) {

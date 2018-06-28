@@ -484,7 +484,7 @@ class SkuTable extends Component {
           },
         },
         {
-          title: '规格1',
+          title: '颜色',
           dataIndex: 'color',
           key: 'color',
           width: '6%',
@@ -492,13 +492,13 @@ class SkuTable extends Component {
             return (
               <FormItem required="true">
                 {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" disabled="disabled"/>)}
+                  <Input placeholder="请填写" required='required'/>)}
               </FormItem>
             );
           },
         },
         {
-          title: '规格2',
+          title: '尺寸',
           dataIndex: 'scale',
           key: 'scale',
           width: '7%',
@@ -506,7 +506,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_scale`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" disabled="disabled"/>)}
+                  <Input placeholder="请填写" required='required'/>)}
                 {getFieldDecorator(`r_${r.key}_id`, { initialValue: r.id || null })(
                   <Input style={{ display: 'none' }} />)}
               </FormItem>
