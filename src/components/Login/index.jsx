@@ -11,6 +11,7 @@ class Login extends Component {
     super();
     this.state = {
       loginButtonLoading: false,
+      wxMao: '',
     };
   }
   handleOk() {
@@ -23,6 +24,11 @@ class Login extends Component {
       p.submitLogin(values);
     });
   }
+  wxRouter(payload){
+    const { session = {}} = this.props;
+    let Mao = session.wxData
+    window.location.href= Mao
+  }
   submitLogin(payload) {
     this.props.dispatch({
       type: 'session/login',
@@ -30,6 +36,7 @@ class Login extends Component {
     });
   }
   render() {
+    const { session= {} } = this.props
     const { handleOk } = this;
     const { form } = this.props;
     const { loginButtonLoading } = this.state;
@@ -66,6 +73,7 @@ class Login extends Component {
             </Button>
           </Row>
           <p>网擒科技 版权所有</p>
+          <div style={{textAlign:'center'}}><a onClick={this.wxRouter.bind(this)}>微信登录</a></div>
         </form>
       </div>
     );

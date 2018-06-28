@@ -649,13 +649,13 @@ class ProductTable extends Component {
           },
         },
         { title: <font color="#00f">买手</font>,
-          dataIndex: 'buyerId',
-          key: 'buyerId',
+          dataIndex: 'openId',
+          key: 'openId',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_buyerId`, {
+                {getFieldDecorator(`r_${r.key}_openId`, {
                   initialValue: t ? t.toString() : defaultBuyer,
                   rules: [{ required: true, message: '该项必选' }],
                 })(

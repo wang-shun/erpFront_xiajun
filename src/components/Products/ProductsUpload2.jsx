@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, message, Upload, Icon, Input, Row, Col, Button, Form, Select } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import reqwest from 'reqwest';
+//import reqwest from 'reqwest';
 
 moment.locale('zh-cn');
 
@@ -11,7 +11,7 @@ const Option = Select.Option;
 
 function toString(str, type) {
   if (typeof str !== 'undefined' && str !== null) {
-    
+
     return str.toString();
   }
   if (type === 'SELECT') return undefined;
@@ -59,7 +59,7 @@ class ProductsUpload2 extends Component {
     };
     const uploadProps = {
       action: '/item/improtItem',
-      
+
       // action: '/uploadFile/picUpload',
       listType: 'picture-card',
       multiple: true,

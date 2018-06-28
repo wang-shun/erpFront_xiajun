@@ -18,6 +18,7 @@ class BuyerList extends Component {
       title: '-', // modal的title
       editable: [],
       commissionAfter: '%',
+      buyerValueLocal:{}
     };
     this.selectAfter = (
       <Select defaultValue="%" style={{ width: 60 }} onChange={val => this.setState({ commissionAfter: val })}>
@@ -28,15 +29,16 @@ class BuyerList extends Component {
   }
   // 这里的提交是新增或修改 不是分页， TODO: 分页
   handleSubmit() {
-    const { buyerValues = {}, dispatch } = this.props;
+    //const { buyerValueLocal = {}, dispatch } = this.props;
+    const {dispatch } = this.props;
     this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) return;
-      if (buyerValues.id) { // 修改
+      if (this.state.buyerValueLocal.id) { //修改
         dispatch({
-          type: 'agency/updateBuyerType',
+          type: 'agency/updateBuyer',
           payload: {
             ...fieldsValue,
-            id: buyerValues.id,
+            id: this.state.buyerValueLocal.id,
             pageIndex: 1,
           },
           cb: () => {
@@ -45,7 +47,7 @@ class BuyerList extends Component {
         });
       } else { // 新增
         dispatch({
-          type: 'agency/addBuyerType',
+          type: 'agency/addBuyer',
           payload: {
             ...fieldsValue,
           },
@@ -70,19 +72,26 @@ class BuyerList extends Component {
     });
   }
 
-  handleQuery(record) {
+  editBuyer(record) {
+    console.log("record "+record);
     const p = this;
     p.setState({
       visible: true,
       title: '修改',
+      buyerValueLocal:record
     }, () => {
-      p.props.dispatch({
-        type: 'agency/queryBuyerType',
-        payload: {
-          id: record.id,
-        },
-      });
-    });
+      // p.props.dispatch({
+      //   type: 'agency/queryBuyerById',
+      //   payload: {
+      //     id: record.id,
+      //   },
+      //   cb: () => {
+      //     // this.closeModal(false);
+      //   },
+      // })
+    }
+    );
+    //console.log("buyerValueLocal "+this.state.buyerValueLocal);
   }
 
   handleDelete(record, i) {
@@ -159,10 +168,10 @@ class BuyerList extends Component {
 
   render() {
     const p = this;
-    const { form, buyerList = [], buyerValues = {}, wareList = [] } = p.props;
-    console.log(buyerValues);
+    const { form, buyerList = [], buyerValueLocal = {}, wareList = [] } = p.props;
+
     const { getFieldDecorator } = form;
-    const { title, visible } = p.state;
+    const { title, visible }  = p.state;
     const formItemLayout = {
       labelCol: {
         span: 10,
@@ -197,7 +206,7 @@ class BuyerList extends Component {
       render(t, r, i) {
         return (
           <div>
-            <a href="javascript:void(0)" onClick={p.handleQuery.bind(p, r)} style={{ marginRight: 10 }}>修改</a>
+            <a href="javascript:void(0)" onClick={p.editBuyer.bind(p, r)} style={{ marginRight: 10 }}>修改</a>
             <Popconfirm title="确定删除此类别？" onConfirm={p.handleDelete.bind(p, r, i)}>
               <a href="javascript:void(0)">删除</a>
             </Popconfirm>
@@ -245,7 +254,8 @@ class BuyerList extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('nickName', {
-                    initialValue: buyerValues.nickName,
+                    //initialValue: buyerValues.nickName,
+                    initialValue: this.state.buyerValueLocal.nickName,
                     rules: [{ required: true, message: '请输入' }],
                   })(
                     <Input placeholder="请输入买手名" />,
@@ -258,7 +268,8 @@ class BuyerList extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('warehouseId', {
-                    initialValue: buyerValues.warehouseId && buyerValues.warehouseId.toString(),
+                    //initialValue: buyerValues.warehouseId && buyerValues.warehouseId.toString(),
+                    initialValue: this.state.buyerValueLocal.warehouseId && this.state.buyerValueLocal.warehouseId.toString(),
                     rules: [{ required: true, message: '请选择' }],
                   })(
                     <Select placeholder="请选择仓库" allowClear>
@@ -274,7 +285,8 @@ class BuyerList extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('purchaseCommissionStr', {
-                    initialValue: buyerValues.purchaseCommissionStr,
+                    //initialValue: buyerValues.purchaseCommissionStr,
+                    initialValue: this.state.buyerValueLocal.purchaseCommissionStr,
                     rules: [{ required: true, message: '请输入' }],
                   })(
                     <Input placeholder="请输入佣金比率" />,
@@ -292,11 +304,11 @@ class BuyerList extends Component {
 function mapStateToProps(state) {
   const {
     buyerList,
-    buyerValues,
+    buyerValueLocal,
     wareList,
   } = state.agency;
   return {
-    buyerValues,
+    buyerValueLocal,
     buyerList,
     wareList,
   };

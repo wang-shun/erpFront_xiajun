@@ -15,6 +15,8 @@ class Resource extends Component {
     this.state = {
       visible: false,
       title: '',
+      visibleWx: false,
+      titles: '',
     };
   }
   handleSubmit() {
@@ -32,11 +34,19 @@ class Resource extends Component {
     });
   }
   handleCancel() {
-    this.setState({ visible: false });
+    this.setState({ visible: false, visibleWx: false });
     this.props.form.resetFields();
   }
   showModal() {
-    this.setState({ visible: true, title: '新增' });
+    this.setState({ visible: true, title: '新增', userModal: {} });
+    this.props.dispatch({ type: 'permission/clearUser', payload: { } });
+  }
+  showWxModal(){
+    this.setState({
+      visibleWx: true,
+      titles: '扫码加用户'
+    })
+    this.props.dispatch({ type: 'permission/wxRout', payload: {} })
   }
   handleQuery(r) {
     this.setState({ visible: true, title: '修改' });
@@ -51,8 +61,9 @@ class Resource extends Component {
   }
   render() {
     const p = this;
-    const { userList = [], total, form, userModal = {}, orgList = [], roleList = [] } = this.props;
-    const { visible, title } = this.state;
+    const { userList = [], total, form, userModal = {}, orgList = [], roleList = [], wxData } = this.props;
+    console.log(wxData)
+    const { visible, title, titles, visibleWx } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -68,7 +79,7 @@ class Resource extends Component {
       { title: '登录名', key: 'loginName', dataIndex: 'loginName' },
       { title: '姓名', key: 'name', dataIndex: 'name' },
       { title: '所属部门', key: 'organizationName', dataIndex: 'organizationName' },
-      { title: '创建时间', key: 'createTime', dataIndex: 'createTime' },
+      { title: '创建时间', key: 'gmtCreate', dataIndex: 'gmtCreate' },
       { title: '性别',
         key: 'sex',
         dataIndex: 'sex',
@@ -133,10 +144,11 @@ class Resource extends Component {
 
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Row>
           <Col style={{ paddingBottom: '15px' }}>
             <Button type="primary" size="large" onClick={this.showModal.bind(this)}>增加用户</Button>
+            <Button type="primary" size="large" onClick={this.showWxModal.bind(this)} style={{marginLeft:'10px'}}>扫码加用户</Button>
           </Col>
         </Row>
         <Row>
@@ -174,7 +186,10 @@ class Resource extends Component {
                 </FormItem>
               </Col>
               <Col span={12}>
-                <FormItem label="密码" {...formItemLayout}>
+                <FormItem 
+                  label="密码" 
+                  {...formItemLayout}
+                >
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: '请输入密码' }],
                     initialValue: userModal.password,
@@ -269,13 +284,21 @@ class Resource extends Component {
             </Row>
           </Form>
         </Modal>}
+        {visibleWx && <Modal 
+          visible={visibleWx} 
+          width={600} 
+          title={titles} 
+          onOk={this.handleCancel.bind(this)}
+          onCancel={this.handleCancel.bind(this)}>
+          <img src= {wxData}/>
+        </Modal>}
       </div>);
   }
 }
 
 function mapStateToProps(state) {
-  const { userList, userTotal, userModal, orgList, roleList } = state.permission;
-  return { userList, total: userTotal, userModal, orgList, roleList };
+  const { userList, userTotal, userModal, orgList, roleList, wxData } = state.permission;
+  return { userList, total: userTotal, userModal, orgList, roleList, wxData };
 }
 
 export default connect(mapStateToProps)(Form.create()(Resource));

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm, message, Select } from 'antd';
 import { connect } from 'dva';
+import { join } from 'redux-saga/effects';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -44,7 +45,8 @@ class Role extends Component {
       case 'add':
       console.log(3)
         this.props.form.resetFields();
-        this.setState({ visible: true, title: '新增' }); 
+        this.setState({ visible: true, title: '新增', roleModal: {}});
+        this.props.dispatch({ type: 'permission/clearRole', payload: { } }); 
         break;
       case 'update':
       console.log(4)
@@ -58,24 +60,27 @@ class Role extends Component {
     this.props.dispatch({ type: 'permission/deleteRole', payload: { id: r.id } });
   }
   showAuthModal(r) {
+    console.log(this.props)
     this.props.dispatch({ type: 'permission/queryResourceList', payload: {} });
     this.setState({ authModalVisible: true, roleId: r.id });
   }
   handleAuth() {
     const { roleId, resourceIds } = this.state;
+    let Mao = resourceIds.join(',');
     if (!resourceIds.length) {
       message.error('请选择需要授权的资源');
       return;
     }
     this.props.dispatch({
       type: 'permission/authRole',
-      payload: { id: roleId, resourceIds: JSON.stringify(resourceIds) },
+      payload: { id: roleId, resourceIds: Mao },
     });
     this.setState({ authModalVisible: false });
   }
   render() {
     const p = this;
     const { resourceList = [], roleList = [], total, form, roleModal = {} } = this.props;
+    console.log(this.props)
     const { visible, title, authModalVisible } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -132,7 +137,7 @@ class Role extends Component {
     };
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Row>
           <Col style={{ paddingBottom: '15px' }}>
             <Button type="primary" size="large" onClick={this.showModal.bind(this, 'add')}>增加角色</Button>
