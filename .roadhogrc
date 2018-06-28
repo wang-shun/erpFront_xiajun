@@ -6,7 +6,7 @@
   "autoprefixer": null,
   "proxy": {
     "/": {
-      "target": "http://172.16.6.232:8100",
+      "target": "http://127.0.0.1:8100",
       "changeOrigin": true,
       "pathRewrite": { "^/" : "" }
     }
