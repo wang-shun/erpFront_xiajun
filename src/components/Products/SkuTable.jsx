@@ -478,7 +478,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_thirdSkuCode`, { initialValue: t || '' })(
-                  <Input placeholder="请填写货号" disabled="disabled"/>)}
+                  <Input  disabled="disabled"/>)}
               </FormItem>
             );
           },

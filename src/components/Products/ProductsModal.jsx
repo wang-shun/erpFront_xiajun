@@ -536,7 +536,7 @@ class ProductsModal extends Component {
                     {getFieldDecorator('buySite', {
                       initialValue: toString(productData.buySite),
                     })(
-                      <Input placeholder="请输入采购站点" disabled="disabled"/>,
+                      <Input  disabled="disabled"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -586,7 +586,7 @@ class ProductsModal extends Component {
                       initialValue: productData.saleOnChannels || [],
                       rules: [{ required: false, message: '请选择第三方销售' }],
                     })(
-                      <Select placeholder="请选择第三方销售" mode="multiple" allowClear disabled="disabled">
+                      <Select placeholder="请选择第三方销售" mode="multiple" allowClear>
                         {channels.map((el, index) => (
                           <Option key={index} value={el.type}>{el.name}</Option>
                           ))}
@@ -649,7 +649,7 @@ class ProductsModal extends Component {
                       initialValue: _roleIds,
                       rules: [{ required: false, message: '请选择买手' }],
                     })(
-                      <Select placeholder="请选择买手" mode="multiple" allowClear disabled="disabled">
+                      <Select  mode="multiple" allowClear disabled="disabled">
                         {allBuyers.map((el) => {
                           return <Option key={el.id} value={el.id.toString()} >{el.nickName}</Option>;
                         })}
