@@ -111,7 +111,8 @@ class Products extends Component {
     }
     Modal.confirm({
       title: '确定',
-      content: `确定要${action}id为${JSON.stringify(checkId)}的产品吗？`,
+      // content: `确定要${action}id为${JSON.stringify(checkId)}的产品吗？`,
+      content: `确定要${action}该产品吗？`,
       onOk() {
         p.props.dispatch({
           type,
@@ -319,7 +320,7 @@ class Products extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('name', {})(
-                  <Input placeholder="请输入商品名" maxLength="60" suffix={p.showClear('name')} />)}
+                  <Input placeholder="请输入商品名称" maxLength="60" suffix={p.showClear('name')} />)}
               </FormItem>
             </Col>
             <Col span="8">
@@ -414,9 +415,9 @@ class Products extends Component {
           <Col>
             <Button type="primary" style={{ float: 'left' }} size="large" onClick={() => { this.showModal(); } }>添加商品</Button>
             <Button style={{ float: 'left', left:'20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>批量导入商品</Button>
-            <Button type="primary" style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large" onClick={p.batchAction.bind(p, 'syn')}>批量同步</Button>
-            <Button type="primary" style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large" onClick={p.batchAction.bind(p, 'onSell')}>批量上架</Button>
-            <Button type="primary" style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large" onClick={p.batchAction.bind(p, 'offSell')}>批量下架</Button>
+            <Button type="primary" style={{ float: 'right', marginLeft: 10 }}  size="large" onClick={p.batchAction.bind(p, 'syn')}>批量同步</Button>
+            <Button type="primary" style={{ float: 'right', marginLeft: 10 }}  size="large" onClick={p.batchAction.bind(p, 'onSell')}>批量上架</Button>
+            <Button type="primary" style={{ float: 'right', marginLeft: 10 }}  size="large" onClick={p.batchAction.bind(p, 'offSell')}>批量下架</Button>
           </Col>
         </Row>
         <Row>

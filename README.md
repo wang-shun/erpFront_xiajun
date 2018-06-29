@@ -44,7 +44,7 @@
 	-- Purchase
 		-- component
 			-- BarcodeStorageModal // 扫描入库
-		-- Purchase // 采购管理
+		-- Purchase // 管理
 		-- PurchaseStorage // 入库管理
 	-- Report
 		-- ReportItemListing // 上新报表

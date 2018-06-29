@@ -45,7 +45,8 @@ class Role extends Component {
       case 'add':
       console.log(3)
         this.props.form.resetFields();
-        this.setState({ visible: true, title: '新增' }); 
+        this.setState({ visible: true, title: '新增', roleModal: {}});
+        this.props.dispatch({ type: 'permission/clearRole', payload: { } }); 
         break;
       case 'update':
       console.log(4)
@@ -136,7 +137,7 @@ class Role extends Component {
     };
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Row>
           <Col style={{ paddingBottom: '15px' }}>
             <Button type="primary" size="large" onClick={this.showModal.bind(this, 'add')}>增加角色</Button>

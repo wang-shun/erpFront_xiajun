@@ -218,7 +218,7 @@ class ReturnOrder extends Component {
     };
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Form onSubmit={this.handleSubmit.bind(this)}>
           <Row gutter={20} style={{ width: 800 }}>
             <Col span="8">
@@ -230,7 +230,7 @@ class ReturnOrder extends Component {
                   <Input placeholder="请输入主订单号" suffix={p.showClear('orderNo')} />)}
               </FormItem>
             </Col>
-            <Col span="8">
+            {/* <Col span="8">
               <FormItem
                 label="子订单号"
                 {...formItemLayout}
@@ -346,7 +346,7 @@ class ReturnOrder extends Component {
                   </Select>,
                 )}
               </FormItem>
-            </Col>
+            </Col> */}
             <Col span="12" style={{ marginLeft: 6 }}>
               <FormItem
                 label="退款时间"
@@ -356,18 +356,18 @@ class ReturnOrder extends Component {
               </FormItem>
             </Col>
           </Row>
-          <Row style={{ marginLeft: 13 }}>
+          <Row style={{ marginLeft: 13,marginBottom: 15}}>
             <Col className="listBtnGroup">
               <Button htmlType="submit" size="large" type="primary">查询</Button>
               <Button size="large" type="ghost" onClick={() => { resetFields(); }}>清空</Button>
             </Col>
           </Row>
         </Form>
-        <Row className="operBtn">
+        {/* <Row className="operBtn">
           <Col>
             <Button type="primary" style={{ float: 'right' }} size="large" onClick={this.exportReturnOrder.bind(this)}>导出退单</Button>
           </Col>
-        </Row>
+        </Row> */}
         <Row>
           <Col>
             <Table

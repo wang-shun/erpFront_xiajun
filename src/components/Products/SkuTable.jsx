@@ -7,6 +7,11 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
 
+const formItemLayout = {
+  labelCol: { span: 11 },
+  wrapperCol: { span: 13 },
+};
+
 function getScaleOptions(batchSkuSort, scaleTypes) {
   const filteredBatchOptions = scaleTypes.filter((el) => {
     el.id = el.id.toString();
@@ -473,27 +478,27 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_thirdSkuCode`, { initialValue: t || '' })(
-                  <Input placeholder="请填写货号" />)}
+                  <Input  disabled="disabled"/>)}
               </FormItem>
             );
           },
         },
         {
-          title: '规格1',
+          title: '颜色',
           dataIndex: 'color',
           key: 'color',
           width: '6%',
           render(t, r) {
             return (
-              <FormItem>
+              <FormItem required="true">
                 {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" />)}
+                  <Input placeholder="请填写" required='required'/>)}
               </FormItem>
             );
           },
         },
         {
-          title: '规格2',
+          title: '尺寸',
           dataIndex: 'scale',
           key: 'scale',
           width: '7%',
@@ -501,7 +506,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_scale`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" />)}
+                  <Input placeholder="请填写" required='required'/>)}
                 {getFieldDecorator(`r_${r.key}_id`, { initialValue: r.id || null })(
                   <Input style={{ display: 'none' }} />)}
               </FormItem>

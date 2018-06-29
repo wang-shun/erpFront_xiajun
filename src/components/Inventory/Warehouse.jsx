@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm } from 'antd';
+import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm, Tooltip } from 'antd';
 import { connect } from 'dva';
 
 const FormItem = Form.Item;
@@ -48,28 +48,32 @@ class Warehouse extends Component {
     const { getFieldDecorator } = form;
     const columns = [
       { title: '仓库名称', key: 'name', dataIndex: 'name' },
-      { title: '操作',
+      {
+        title: '操作',
         key: 'oper',
         dataIndex: 'oper',
         render(t, r) {
           return (
             <div>
-              <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.handleQuery.bind(p, r)}>修改</a>
-              <Popconfirm title="确定删除" onConfirm={p.handleDelete.bind(p, r)}>
-                <a href="javascript:void(0)">删除</a>
-              </Popconfirm>
+              {/* <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.handleQuery.bind(p, r)}>修改</a> */}
+              <Tooltip placement="topLeft" title="暂未开发">
+                <a href="javascript:void(0)" style={{ marginRight: 10, color: "gray" }}>修改</a>
+              </Tooltip>
+              <Tooltip placement="topLeft" title="暂未开发">
+                <a href="javascript:void(0)" style={{ color:"gray"}}>删除</a>
+              </Tooltip>
             </div>
           );
         },
       },
     ];
     const paginationProps = {
-      total : 0,
+      total: 0,
       pageSize: 20,
     };
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Row>
           <Col style={{ paddingBottom: '15px' }}>
             <Button type="primary" size="large" onClick={this.showModal.bind(this)}>增加仓库</Button>

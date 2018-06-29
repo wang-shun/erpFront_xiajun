@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, Button, Row, Col, Select, DatePicker, Form, Popconfirm, Modal, Popover } from 'antd';
-import PurchaseStorageModal from './PurchaseStorageModal';
-import BarcodeModal from './component/BarcodeStorageModal';
+import { Table, Input, Button, Row, Col, Select, Form, Tabs, Popconfirm } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
+const TabPane = Tabs.TabPane;
 
 @window.regStateCache
 class PurchaseStorage extends Component {
@@ -16,403 +15,388 @@ class PurchaseStorage extends Component {
       selectedRowKeys: [],
       showDetail: false,
       data: [],
-      upsvisible: true,
-      upsvisibleTwo: true,
+      upsvalue: '',
+      upsvalueTwo: '',
+      activeTab: '1',
+      mStore: '',
+      wareVisible: true,
     };
   }
   //仓库选中
-  storehouse(){
-   this.setState({
-    upsvisible: false,
-    upsvisibleTwo: false,
-   })
+  storehouse(value, p) {
+    const { selectWhList } = this.props
+    console.log(selectWhList)
+    console.log(value)
+    if (value) {
+      let Mao = value.label
+      let sunM = value.key
+      console.log(sunM)
+      this.setState({
+        upsvalue: value,
+        mStore: Mao,
+      })
+    }
   }
   //买手选中
-  storehouseTwo(){
+  storehouseTwo(value) {
+    console.log(value)
     this.setState({
-      upsvisibleTwo: true,
+      upsvalueTwo: value,
+    })
+    this.props.dispatch({
+      type: 'purchaseStorage/purchaseByopenid',
+      payload: { buyerOpenId: value }
     })
   }
-  onSelectChange(selectedRowKeys) {
-    this.setState({ selectedRowKeys });
+  changeActiveKey(key) {
+    this.setState({ activeTab: key });
   }
-
-  batchStorage() {
-    const p = this;
-    Modal.confirm({
-      title: '确认将选中项批量入库？',
-      content: '操作不可撤回，请预先核对',
-      onOk() {
-        p.props.dispatch({
-          type: 'purchaseStorage/multiConfirmStorage',
-          payload: { ids: JSON.stringify(p.state.selectedRowKeys) },
-          cb() { p.handleSubmit(); },
-        });
-        p.setState({ selectedRowKeys: [] });
-      },
-    });
-  }
-  //合并小程序入库
-  mergeStorage() {
-    const p = this;
-    Modal.confirm({
-      title: '确认将选中的入库单合并为一个入库？',
-      content: '操作不可撤回，请预先核对',
-      onOk() {
-        p.props.dispatch({
-          type: 'purchaseStorage/mergePurchaseStorage',
-          payload: { ids: JSON.stringify(p.state.selectedRowKeys) },
-          cb() { p.handleSubmit(); },
-        });
-        p.setState({ selectedRowKeys: [] });
-      },
-    });
-  }
-
-  handleSubmit(e, page) {
+  // handleSubmitList(e, values) {
+  //   if (e) e.preventDefault();
+  //   this.props.form.validateFieldsAndScroll((err, values) => {
+  //     console.log(values)
+  //     console.log(values.buyerId)
+  //     this.props.dispatch({
+  //       type: 'purchaseStorage/purchaseByopenid',
+  //       payload: { buyerOpenId: values.buyerId }
+  //     })
+  //   })
+  // }
+  alreadMo(e, values) {
     if (e) e.preventDefault();
-    // 清除多选
-    this.setState({ selectedRowKeys: [] }, () => {
-      this.props.form.validateFieldsAndScroll((err, values) => {
-        if (err) return;
-        if (values.orderDate && values.orderDate[0] && values.orderDate[1]) {
-          values.startTime = new Date(values.orderDate[0]).format('yyyy-MM-dd');
-          values.endTime = new Date(values.orderDate[1]).format('yyyy-MM-dd');
-        }
-        if (values.storageDate && values.storageDate[0] && values.storageDate[1]) {
-          values.putInStart = new Date(values.storageDate[0]).format('yyyy-MM-dd');
-          values.putInEnd = new Date(values.storageDate[1]).format('yyyy-MM-dd');
-        }
-        delete values.orderDate;
-        delete values.storageDate;
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values.buyerId)
+      console.log(values.stoOrderNo)
+      if (values.buyerId == undefined && values.stoOrderNo == undefined) {
         this.props.dispatch({
-          type: 'purchaseStorage/queryPurchaseStorageList',
+          type: 'purchaseStorage/queryWithParam',
+          payload: { buyerOpenId: '', upc: '' }
+        })
+      } else if (values.buyerId == undefined && values.stoOrderNo != undefined) {
+        this.props.dispatch({
+          type: 'purchaseStorage/queryWithParam',
           payload: {
-            ...values,
-            pageIndex: typeof page === 'number' ? page : 1,
-          },
-        });
-      });
-    });
-  }
-
-  closeModal() {
-    this._refreshData();
-  }
-
-  showModal(type, id) {
-    const p = this;	
-    if (type === 'update') {
-     this.props.dispatch({ type: 'purchaseStorage/queryStorage', payload: { id },cb(data) {
-          if (data && data.purchaseStorageDetailList) {
-            p.setState({ data: data.purchaseStorageDetailList });
+            buyerOpenId: '',
+            upc: values.stoOrderNo,
           }
-        }, });
-    }
-    this.props.dispatch({ type: 'purchaseStorage/toggleShowModal'});
-  }
-
-  showBarcodeModal(type, id) {
-    if (type === 'update') {
-      this.props.dispatch({ type: 'purchaseStorage/queryStorage', payload: { id } });
-    } else {
-      this.setState({ data: [] });
-    }
-    this.props.dispatch({ type: 'purchaseStorage/toggleBarcodeModal' });
-  }
-
-  handleDelete(id) {
-    const p = this;
-    const { list = [], currentPage, dispatch } = this.props;
-    dispatch({
-      type: 'purchaseStorage/deleteStorage',
-      payload: { id },
-      cb() {
-        if (list.length < 2 && currentPage > 1) {
-          p.handleSubmit(null, currentPage - 1);
-        } else p.handleSubmit(null, currentPage);
-      },
-    });
-  }
-
-  updateModal(id) {
-    const p = this;
-    this.setState({ modalVisible: true }, () => {
-      p.props.dispatch({ type: 'products/queryProduct', payload: { id } });
-    });
-  }
-
-  queryDetail(r) {
-    const p = this;
-    p.setState({ showDetail: true }, () => {
-      p.props.dispatch({
-        type: 'purchaseStorage/queryStorage',
-        payload: { id: r.id },
-        cb(data) {
-          if (data && data.purchaseStorageDetailList) {
-            data.purchaseStorageDetailList.push({
-              skuCode: <font color="#00f" >明细合计</font>,
-              quantity: data.totalQuantity,
-              transQuantity: data.totalTransQuantity,
-              taskDailyCount: data.totalTaskDailyCount,
-              id: 0,
-            });
-            p.setState({ data: data.purchaseStorageDetailList });
+        })
+      } else if (values.buyerId != undefined && values.stoOrderNo == undefined) {
+        this.props.dispatch({
+          type: 'purchaseStorage/queryWithParam',
+          payload: {
+            buyerOpenId: values.buyerId,
+            upc: '',
           }
-        },
-      });
-    });
-  }
+        })
+      } else if (values.buyerId != undefined && values.stoOrderNo != undefined) {
+        this.props.dispatch({
+          type: 'purchaseStorage/queryWithParam',
+          payload: {
+            buyerOpenId: values.buyerId,
+            upc: values.stoOrderNo,
+          }
+        })
+      }
 
-  exportDetail(id) {
+    })
+  }
+  handleSubmit(value) {
+    this.props.form.validateFieldsAndScroll((err, values) => {
+
+      this.props.dispatch({
+        type: 'purchaseStorage/purchaseAndUpc',
+        payload: { buyerOpenId: values.buyerId, upc: values.stoOrderNo }
+      })
+    })
+  }
+  wareHouse(p, r, index) {
+    this.props.form.validateFieldsAndScroll([`r_${p.id}_shelfNo`, `r_${p.id}_quantity`],(err, values) => {
+      const { upsvalue } = this.state
+      p.warehouseNo = upsvalue.key
+      p.quantity = parseInt(values["r_"+p.id+"_quantity"])
+      p.shelfNo = values["r_"+p.id+"_shelfNo"]
+      p.warehouseName = upsvalue.label
+      console.log(p)
+      this.props.dispatch({
+        type: 'purchaseStorage/queryWithComfirm',
+        payload: { detailVo: JSON.stringify(p)},
+        cb: () => { this._refreshData(); },
+      })
+      
+      // setTimeout(()=>this._refreshData(),2000);
+    })
+  }
+  handleDelete(r, index) {
+    console.log(r)
+    console.log(index)
     this.props.dispatch({
-      type: 'purchaseStorage/exportDetail',
-      payload: { id },
-    });
+      type: 'purchaseStorage/queryWithDelete',
+      payload: { id: r.id },
+      cb: () => { this._refreshData(); },
+    })
   }
 
-  closeDetailModal() {
-    const detailList = this.props.editInfo.purchaseStorageDetailList || [];
-    const len = detailList.length;
-    if (detailList[len - 1].id === 0) detailList.pop();
-    this.props.dispatch({ type: 'purchaseStorage/clearEditInfo' });
-    setTimeout(() => {
-      this.setState({ showDetail: false });
-    }, 300);
-  }
+  // componentDidMount(){
+  //   setTimeout(()=>this.props.form.resetFields(),100);
+  // }
 
   render() {
     const p = this;
-    const { form, dispatch, list = [], currentPage, total, buyer = [], wareList = [], showModal, editInfo = {}, buyerTaskList = [], showBarcodeModal } = p.props;
-    const { showDetail, data, upsvisible, upsvisibleTwo} = p.state;
+    const { form, buyers = [], selectWhList = [], searchAllList = [], listUpc = [], alreadyList = [] } = p.props;
+    const { upsvalue, upsvalueTwo, activeTab, mStore, wareVisible } = p.state;
     const { getFieldDecorator } = form;
-    console.log(buyer)
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
     };
     const columnsList = [
-      { title: '入库单号', dataIndex: 'stoOrderNo', key: 'stoOrderNo' },
-      { title: '商品名', dataIndex: 'nickName', key: 'nickName' },
-      { title: 'UPC', dataIndex: 'userCreate', key: 'userCreate' },
-      { title: '规格', dataIndex: 'warehouseName', key: 'warehouseName' },
-      { title: '预入库数', dataIndex: 'gmtCreate', key: 'gmtCreate', render(t) { return t && t.split(' ')[0]; } },
-      { title: '采购买手', dataIndex: 'gmtModify', key: 'gmtModify', render(t) { return t && t.split(' ')[0]; } },
-      { title: '最新更新时间', dataIndex: 'putInDate', key: 'putInDate', render(t) { return (t && t.split(' ')[0]) || '-'; } },
-      { title: '入库仓库', dataIndex: 'status', key: 'status',         
-          render(t) {
-          switch (t) {
-            case 0: return <font color="red">未入库</font>;
-            case 1: return <font color="blue">已入库</font>;
-            case -1: return <font color="green">已合并</font>;
-            default: return '已入库';
-          }
-        }, 
-      },
-      { title: '入库数', dataIndex: 'remark', key: 'remark', render(t) { return t || '-'; } },
-      { title: '货架号', dataIndex: 'remark', key: 'remark', render(t) { return t || '-'; } },
-      { title: '操作',
-        dataIndex: 'operator',
-        key: 'operator',
-        width: 160,
-        render(t, r) {
-          return (
-            <div>
-              <a href="javascript:void(0)" onClick={p.queryDetail.bind(p, r)} style={{ marginRight: 10 }}>查看</a>
-              {r.storageType === 1 ?
-                <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.showBarcodeModal.bind(p, 'update', r.id)}>修改</a> :
-                <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.showModal.bind(p, 'update', r.id)}>修改</a>}
-              <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r.id)} >
-                <a href="javascript:void(0)" style={{ marginRight: 10 }}>删除</a>
-              </Popconfirm>
-              <a href="javascript:void(0)" onClick={p.exportDetail.bind(p, r.id)} >导出</a>
-            </div>);
-        },
-      },
+      { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
+      { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
+      { title: 'UPC', dataIndex: 'upc', key: 'upc' },
+      { title: '规格', dataIndex: 'specifications', key: 'specifications' },
+      { title: '预入库数', dataIndex: 'transQuantity', key: 'transQuantity' },
+      { title: '采购买手', dataIndex: 'buyerName', key: 'buyerName' },
+      { title: '最新更新时间', dataIndex: 'gmtModify', key: 'gmtModify' },
+      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate' },
+      { title: '状态', dataIndex: 'statusName', key: 'statusName' },
     ];
     const columnsSelectList = [
-      { title: '入库单号', dataIndex: 'stoOrderNo', key: 'stoOrderNo' },
-      { title: '商品名', dataIndex: 'nickName', key: 'nickName' },
-      { title: 'UPC', dataIndex: 'userCreate', key: 'userCreate' },
-      { title: '规格', dataIndex: 'warehouseName', key: 'warehouseName' },
-      { title: '预入库数', dataIndex: 'gmtCreate', key: 'gmtCreate', render(t) { return t && t.split(' ')[0]; } },
-      { title: '采购买手', dataIndex: 'gmtModify', key: 'gmtModify', render(t) { return t && t.split(' ')[0]; } },
-      { title: '最新更新时间', dataIndex: 'putInDate', key: 'putInDate', render(t) { return (t && t.split(' ')[0]) || '-'; } },
-      { title: '入库仓库', dataIndex: 'status', key: 'status',         
-          render(t) {
-          switch (t) {
-            case 0: return <font color="red">未入库</font>;
-            case 1: return <font color="blue">已入库</font>;
-            case -1: return <font color="green">已合并</font>;
-            default: return '已入库';
-          }
-        }, 
+      { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
+      { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
+      { title: 'UPC', dataIndex: 'upc', key: 'upc' },
+      { title: '规格', dataIndex: 'specifications', key: 'specifications' },
+      { title: '预入库数', dataIndex: 'transQuantity', key: 'transQuantity' },
+      { title: '采购买手', dataIndex: 'buyerName', key: 'buyerName' },
+      { title: '最新更新时间', dataIndex: 'gmtModify', key: 'gmtModify' },
+      {
+        title: '入库仓库', dataIndex: 'warehouseName', key: 'warehouseName',
+        render(t, r) {
+          return (
+            <FormItem>
+              {getFieldDecorator(`r_${r.id}_warehouseName`, { initialValue: mStore, })(
+                <Input placeholder="请填写仓库" disabled={true} />)}
+            </FormItem>
+          );
+        },
       },
-      { title: '入库数', dataIndex: 'remark', key: 'remark', render(t) { return t || '-'; } },
-      { title: '货架号', dataIndex: 'remark', key: 'remark', render(t) { return t || '-'; } },
-      { title: '操作',
+      {
+        title: '入库数', dataIndex: 'quantity', key: 'quantity',
+        render(t, r) {
+          return (
+            <FormItem>
+              {getFieldDecorator(`r_${r.id}_quantity`, { initialValue: t || '',})(
+                <Input placeholder="请填写入库数" />)}
+            </FormItem>
+          );
+        },
+      },
+      {
+        title: '货架号', dataIndex: 'shelfNo', key: 'shelfNo',
+        render(t, r) {
+          return (
+            <FormItem>
+              {getFieldDecorator(`r_${r.id}_shelfNo`, { initialValue: t || '', })(
+                <Input placeholder="请填写货架号" />)}
+            </FormItem>
+          );
+        },
+      },
+      {
+        title: '操作',
+        dataIndex: 'operator',
+        key: 'operator',
+        width: 160,
+        render(t, r, index) {
+          return (
+            <div>
+              <p><Button type="primary" size="large" style={{ marginBottom: 5, marginRight: 10 }} onClick={p.wareHouse.bind(p, r, index)}>入库</Button></p>
+              <p>
+                <a href="javascript:void(0)" style={{ marginRight: 10 }}>备注 |</a>
+                <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r, index)} >
+                  <a href="javascript:void(0)" style={{ marginRight: 10, color: "gray" }}>删除</a>
+                </Popconfirm>
+              </p>
+            </div>);
+        },
+      },
+    ];
+    const alreadyColumns = [
+      { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
+      { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
+      { title: 'UPC', dataIndex: 'upc', key: 'upc' },
+      { title: '入库数', dataIndex: 'quantity', key: 'quantity' },
+      { title: '买手', dataIndex: 'buyerName', key: 'buyerName' },
+      { title: '操作员', dataIndex: 'opUserName', key: 'opUserName' },
+      { title: '仓库', dataIndex: 'warehouseName', key: 'warehouseName' },
+      { title: '库位', dataIndex: 'shelfNo', key: 'shelfNo' },
+      { title: '更新时间', dataIndex: 'gmtModify', key: 'gmtModify' },
+      { title: '入库时间', dataIndex: 'opTime', key: 'opTime' },
+      { title: '状态', dataIndex: 'statusName', key: 'statusName' },
+      {
+        title: '操作',
         dataIndex: 'operator',
         key: 'operator',
         width: 160,
         render(t, r) {
           return (
             <div>
-              <a href="javascript:void(0)" onClick={p.queryDetail.bind(p, r)} style={{ marginRight: 10 }}>查看</a>
-              {r.storageType === 1 ?
-                <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.showBarcodeModal.bind(p, 'update', r.id)}>修改</a> :
-                <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.showModal.bind(p, 'update', r.id)}>修改</a>}
-              <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r.id)} >
-                <a href="javascript:void(0)" style={{ marginRight: 10 }}>删除</a>
-              </Popconfirm>
-              <a href="javascript:void(0)" onClick={p.exportDetail.bind(p, r.id)} >导出</a>
+              <p style={{ marginRight: 10 }}>查看</p>
+              <p style={{ marginRight: 10 }}>修改</p>
+              <p>删除</p>
             </div>);
         },
       },
-    ];
 
-    const columnsStorageList = [
-      { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 80 },
-      { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 80 },
-      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 100 },
-      { title: '采购站点', dataIndex: 'buySite', key: 'buySite', width: 70 },
-      { title: '图片',
-        dataIndex: 'skuPic',
-        key: 'skuPic',
-        width: 80,
-        render(t) {
-          if (t) {
-            const picObj = JSON.parse(t);
-            const picList = picObj.picList;
-            if (picList.length) {
-              const imgUrl = picList[0].url;
-              return (
-                <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(imgUrl)} style={{ width: 400 }} />}>
-                  <img role="presentation" src={imgHandlerThumb(imgUrl)} width={60} height={60} />
-                </Popover>
-              );
-            }
-          }
-          return '-';
-        },
-      },
-      { title: '规格1', dataIndex: 'color', key: 'color', width: 60 },
-      { title: '规格', dataIndex: 'scale', key: 'scale', width: 60 },
-      { title: '计划采购数', dataIndex: 'taskDailyCount', key: 'taskDailyCount', width: 60 },
-      { title: '入库数', dataIndex: 'quantity', key: 'quantity', width: 70, render(t) { return t || 0; } },
-      { title: '在途入库数', dataIndex: 'transQuantity', key: 'transQuantity', width: 70, render(t) { return t || 0; } },
-      { title: '仓库', dataIndex: 'warehouseName', key: 'warehouseName', width: 80 },
-      { title: '货架号', dataIndex: 'shelfNo', key: 'shelfNo', width: 80 },
-    ];
-
+    ]
     return (
-      <div>
-        <div className="refresh-btn"><Button type="primary" size="large" onClick={this.showModal.bind(this, 'add')} style={{ float: 'left', marginRight: 10 }}>新增入库</Button></div>
-        
-        <Form onSubmit={this.handleSubmit.bind(this)}>
-          <Row gutter={20} style={{ width: 1100, marginLeft: '-68px' }}>
-            <Col span="6">
-              <FormItem
-                label="仓库"
+      <Tabs activeKey={activeTab} type="card" onChange={this.changeActiveKey.bind(this)}>
+        <TabPane tab="扫码入库" key="1">
+          <Form>
+            <Row gutter={20} style={{ width: 1100, marginLeft: '-68px' }}>
+              <Col span="6">
+                <FormItem
+                  label="仓库"
 
-                {...formItemLayout}
-              >
-                {getFieldDecorator('warehouseId', {})(
-                  <Select placeholder="请选择仓库" optionLabelProp="title" combobox allowClear onChange={this. storehouse.bind(this)}>
-                    {wareList.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
-                  </Select>)}
-              </FormItem>
-            </Col>
-            <Col span="6">
-              <FormItem
-                label="采购买手"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('warehouseId', {})(
+                    <Select labelInValue placeholder="请选择仓库" optionLabelProp="title" combobox allowClear onChange={this.storehouse.bind(this)}>
+                      {selectWhList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
+                    </Select>)}
+                </FormItem>
+              </Col>
+              <Col span="6">
+                <FormItem
+                  label="采购买手"
 
-                {...formItemLayout}
-              >
-                {getFieldDecorator('buyerId', {})(
-                  <Select placeholder="请选择买手" optionLabelProp="title" combobox allowClear onChange= {this.storehouseTwo.bind(this)}>
-                    {buyer.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
-                  </Select>)}
-              </FormItem>
-            </Col>
-            <Col span="6">
-              <FormItem
-                label="UPC"
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('buyerId', {})(
+                    <Select placeholder="请选择买手" optionLabelProp="title" combobox allowClear onChange={this.storehouseTwo.bind(this)}>
+                      {buyers.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
+                    </Select>)}
+                </FormItem>
+              </Col>
+              <Col span="6">
+                <FormItem
+                  label="UPC"
 
-                {...formItemLayout}
-              >
-                {getFieldDecorator('stoOrderNo', {})(
-                  <Input placeholder="请扫UPC或手动输入" disabled={upsvisible && upsvisibleTwo}/>)}
-              </FormItem>
-            </Col>
-            <Col span="6">
-              <FormItem>
-                <Button type="primary" size="large" onClick={this.showModal.bind(this, 'add')} style={{ float: 'left', marginRight: 10 }}>查询</Button>
-              </FormItem>
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('stoOrderNo', {})(
+                    // <Input placeholder="请扫UPC或手动输入" disabled={upsvalue != '' && upsvalueTwo != '' ? false : true} onKeyPress={this.handleSubmit.bind(this)} />)}
+                    <Input placeholder="请扫UPC或手动输入" disabled={upsvalue != '' && upsvalueTwo != '' ? false : true}/>)}
+                </FormItem>
+              </Col>
+              <Col span="6">
+                <FormItem>
+                  <Button htmlType="submit" type="primary" size="large" style={{ float: 'left', marginRight: 10 }} onClick={this.handleSubmit.bind(this)}>查询</Button>
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
+          <Row>
+            <Col>
+              新增入库操作：
+              </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Table
+                columns={columnsSelectList}
+                dataSource={listUpc}
+                bordered
+                size="large"
+                rowKey={record => record.id}
+                pagination={false}
+              />
             </Col>
           </Row>
-        </Form>
-        <Row>
-          <Col>
-            <Table
-              columns={columnsSelectList}
-              dataSource={list}
-              bordered
-              size="large"
-              rowKey={record => record.id}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Table
-              columns={columnsList}
-              dataSource={list}
-              bordered
-              size="large"
-              rowKey={record => record.id}
-            />
-          </Col>
-        </Row>
-        <Modal
-          visible={showDetail}
-          title="详情"
-          footer={null}
-          width={1200}
-          onCancel={this.closeDetailModal.bind(this)}
-        >
-          <Table columns={columnsStorageList} pagination={false} dataSource={data} rowKey={r => r.id} bordered scroll={{ y: 500 }} />
-        </Modal>
-        {showModal && <PurchaseStorageModal
-          visible={showModal}
-          title={Object.keys(editInfo).length > 0 ? '修改入库单' : '新增入库单'}
-          buyer={buyer}
-          wareList={wareList}
-          buyerTaskList={buyerTaskList}
-          purchaseStorageData={editInfo}
-          isShowDetail={showDetail}
-          dispatch={dispatch}
-          close={this.closeModal.bind(this)}
-        />}
-        {showBarcodeModal && <BarcodeModal
-          visible={showBarcodeModal}
-          title={Object.keys(editInfo).length > 0 ? '修改入库单' : '新增入库单'}
-          wareList={wareList}
-          buyer={buyer}
-          barcodeStorageData={editInfo}
-          isShowDetail={showDetail}
-          dispatch={dispatch}
-          close={this.closeModal.bind(this)}
-        />}
-      </div>
+          <Row style={{ marginTop: '10px' }}>
+            <Col>
+              预入库列表：
+              </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Table
+                columns={columnsList}
+                dataSource={searchAllList}
+                bordered
+                size="large"
+                rowKey={record => record.id}
+                pagination={false}
+
+              />
+            </Col>
+          </Row>
+        </TabPane>
+        <TabPane tab="已入库明细" key="2">
+          <Form>
+            <Row gutter={20} style={{ width: 1100, marginLeft: '-68px' }}>
+              <Col span="6">
+                <FormItem
+                  label="UPC"
+
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('stoOrderNo', {})(
+                    <Input placeholder="请扫UPC或手动输入" />)}
+                </FormItem>
+              </Col>
+              <Col span="6">
+                <FormItem
+                  label="采购买手"
+
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('buyerId', {})(
+                    <Select placeholder="请选择买手" optionLabelProp="title" combobox allowClear onChange={this.storehouseTwo.bind(this)}>
+                      {buyers.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
+                    </Select>)}
+                </FormItem>
+              </Col>
+              {/* <Col span="6">
+                <FormItem
+                  label="商品名"
+
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('warehouseId', {})(
+                    <Input placeholder="请输入商品关键字" />
+                  )}
+                </FormItem>
+              </Col> */}
+              <Col span="6">
+                <FormItem>
+                  <Button type="primary" size="large" style={{ float: 'left', marginRight: 10 }} onClick={this.alreadMo.bind(this)}>查询</Button>
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
+          <Row>
+            <Col>
+              <Table
+                columns={alreadyColumns}
+                dataSource={alreadyList}
+                bordered
+                size="large"
+                rowKey={record => record.id}
+                pagination={false}
+              />
+            </Col>
+          </Row>
+        </TabPane>
+      </Tabs>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { list, total, currentPage, buyer, showModal, editInfo, buyerTaskList, showBarcodeModal } = state.purchaseStorage;
+  const { list, total, currentPage, buyer, showModal, editInfo, buyerTaskList, showBarcodeModal, buyers, selectWhList, searchAllList, listUpc, alreadyList } = state.purchaseStorage;
   const { wareList } = state.inventory;
   return {
-    list, total, currentPage, buyer, wareList, showModal, editInfo, buyerTaskList, showBarcodeModal,
+    list, total, currentPage, buyer, wareList, showModal, editInfo, buyerTaskList, showBarcodeModal, buyers, selectWhList, searchAllList, listUpc, alreadyList
   };
 }
 
