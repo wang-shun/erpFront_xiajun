@@ -62,7 +62,6 @@ class Resource extends Component {
   render() {
     const p = this;
     const { userList = [], total, form, userModal = {}, orgList = [], roleList = [], wxData } = this.props;
-    console.log(wxData)
     const { visible, title, titles, visibleWx } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -293,7 +292,8 @@ class Resource extends Component {
           <iframe 
                 style={{width:'100%', height:'500px', overflow:'visible'}}
                 ref="iframe" 
-                src="http://m.buyer007.com/wx.html"
+                src="http://m.buyer007.com/wxTest.html"
+                // src="./wx.html"
                 width="100%" 
                 scrolling="no" 
                 frameBorder="0"
