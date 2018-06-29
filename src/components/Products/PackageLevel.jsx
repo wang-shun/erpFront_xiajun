@@ -28,6 +28,7 @@ class PackageLevel extends Component {
   handleSubmit() {
     const { levelValues, dispatch } = this.props;
     this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
+      console.log(fieldsValue)
       if (err) {
         return;
       }
@@ -78,6 +79,7 @@ class PackageLevel extends Component {
     this.props.dispatch({
       type: 'pack/deletePackageLevel',
       payload: { id: record.id },
+      cb: () => { }
     });
   }
 
@@ -91,6 +93,9 @@ class PackageLevel extends Component {
   render() {
     const p = this;
     const { form, levelList = [], levelValues = {}, scaleList = [], levelTotal } = p.props;
+    console.log(p.props)
+    console.log(scaleList)
+    console.log(levelValues)
     const modalValues = levelValues.data || {};
     const { getFieldDecorator } = form;
     const { title, visible } = p.state;
@@ -131,16 +136,16 @@ class PackageLevel extends Component {
         p.closeModal(false);
       },
     };
-    const paginationProps = {
-      total: levelTotal,
-      pageSize: 20,
-      onChange(page) {
-        p.props.dispatch({
-          type: 'pack/queryPackageLevelList',
-          payload: { pageIndex: page },
-        });
-      },
-    };
+    // const paginationProps = {
+    //   total: levelTotal,
+    //   pageSize: 20,
+    //   onChange(page) {
+    //     p.props.dispatch({
+    //       type: 'pack/queryPackageLevelList',
+    //       payload: { pageIndex: page },
+    //     });
+    //   },
+    // };
 
     return (
       <div>
@@ -158,7 +163,7 @@ class PackageLevel extends Component {
               bordered
               size="large"
               rowKey={record => record.id}
-              pagination={paginationProps}
+              // pagination={paginationProps}
             />
           </Col>
         </Row>

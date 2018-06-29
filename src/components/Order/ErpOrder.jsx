@@ -325,8 +325,9 @@ class ErpOrder extends Component {
         },
       },
       { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 110 },
-      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 110 },
-      { title: '销售人员', dataIndex: 'salesName', key: 'salesName', width: 50 },
+      // { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 110 },
+      // { title: '销售人员', dataIndex: 'salesName', key: 'salesName', width: 50 },
+      { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
       { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 50 },
       { title: '收件人地址',
         dataIndex: 'address',
@@ -425,7 +426,7 @@ class ErpOrder extends Component {
               </Popconfirm>}
               {r.status === 0 && [0, 9].indexOf(r.stockStatus) === -1 &&
               <Popconfirm title="确定释放库存吗？" onConfirm={p.handleInventory.bind(p, 'release', r.id)}>
-                <div><a href="javascript:void(0)" >释放库存</a></div>
+                {/* <div><a href="javascript:void(0)" >释放库存</a></div> */}
               </Popconfirm>}
               {r.erpReturnOrderId ?
                 <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'update', r)}>修改退单</a></div> :
@@ -700,7 +701,7 @@ class ErpOrder extends Component {
 	          >
 	            <Button style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large">关闭</Button>
 	          </Popover>
-	          <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportErpOrder.bind(p)}>导出订单</Button>
+	          {/* <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportErpOrder.bind(p)}>导出订单</Button> */}
 	        </Row>
         	}
         <DeliveryModal

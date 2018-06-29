@@ -77,7 +77,7 @@ class AgencyModal extends Component {
     const modalProps = {
       visible,
       wrapClassName: 'modalStyle',
-      title: '添加',
+      title: '新增',
       maskClosable: false,
       closable: true,
       onOk() {
