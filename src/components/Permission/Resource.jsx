@@ -223,6 +223,8 @@ class Resource extends Component {
                       treeDefaultExpandAll
                       placeholder="请输入父级资源"
                       treeData={resourceList}
+                      //暂时处理
+                      disabled="disabled"
                     />,
                   )}
                 </FormItem>

@@ -89,7 +89,7 @@ export default {
     * updatePackageScale({ payload }, { call, put }) {
       const data = yield call(updatePackageScale, { payload });
       if (data.success) {
-        message.success('修改类目成功');
+        message.success('修改规格类别成功');
         yield put({
           type: 'queryPackageScaleList',
           payload: {},
@@ -148,7 +148,7 @@ export default {
     * updatePackageLevel({ payload }, { call, put }) {
       const data = yield call(updatePackageLevel, { payload });
       if (data.success) {
-        message.success('修改类目成功');
+        message.success('修改规格成功');
         yield put({
           type: 'queryPackageLevelList',
           payload: { pageIndex: 1 },
