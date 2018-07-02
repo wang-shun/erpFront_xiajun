@@ -77,6 +77,13 @@ function RouterConfig({ history }) {
         onChange={redirectHelper}
       >
         <IndexRoute component={Login} />
+
+        {/* 临时处理 */}
+        <Route path={`/${routerCfg.SETTINGS}`} component={Warehouse} />
+        <Route path={`/${routerCfg.SETTINGS}/${routerCfg.WAREHOUSE}`} component={Warehouse} />
+        <Route path={`/${routerCfg.MARKETING}`} component={SaleChannel} />
+        <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} component={SaleChannel} />
+
         <Route path={`/${routerCfg.LOGIN}`} component={Login} />
         <Route path={`/${routerCfg.MESSAGE}`} component={Message} />
         <Route path={`/${routerCfg.OVERVIEW}`} component={Overview} />
@@ -107,7 +114,7 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.PERSON}/${routerCfg.AGENCY_LIST}`} component={Agency} />
         <Route path={`/${routerCfg.PERSON}/${routerCfg.AGENCY_TYPE}`} component={AgencyType} />
         <Route path={`/${routerCfg.INVENTORY}/${routerCfg.INVENTORY_LIST}`} component={Inventory} />
-        <Route path={`/${routerCfg.INVENTORY}/${routerCfg.WAREHOUSE}`} component={Warehouse} />
+        {/* <Route path={`/${routerCfg.INVENTORY}/${routerCfg.WAREHOUSE}`} component={Warehouse} /> */}
         <Route path={`/${routerCfg.INVENTORY}/${routerCfg.INOUT}`} component={Inout} />
         <Route path={`/${routerCfg.INVENTORY}/${routerCfg.OUT}`} component={Out} />
         <Route path={`/${routerCfg.INVENTORY}/${routerCfg.STOCKWAREHOUSE}`} component={StockWarehouse} />
