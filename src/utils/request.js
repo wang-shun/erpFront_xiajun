@@ -10,8 +10,6 @@ function wrapper(method, url, options, getInst) {
   return new Promise((resolve, reject) => {
     const request = ajax[method.toLowerCase()](url, options).then((res, pointer) => {
       const loc = request._request.getResponseHeader('Location');
-      console.log('thisthis')
-      console.log(request)
       if (loc) {
         location.href = '#/login';
         return;
