@@ -247,7 +247,7 @@ export const originalNavigation = [
       
     ],
   },
-  { key: routerCfg.MARKETING, name: '营销策略', icon: 'book',
+  { key: routerCfg.MARKETING, name: '营销管理', icon: 'book',
     child: [
       //{ key: routerCfg.MARKETING_TOOLS, name: '营销工具' },
      // { key: routerCfg.DISTRIBUTE_MANAGE, name: '分销管理' },
