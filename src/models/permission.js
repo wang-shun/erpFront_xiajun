@@ -25,7 +25,7 @@ const queryOrg = ({ payload }) => fetch.post('/organization/query', { data: payl
 // 角色授权
 const authRole = ({ payload }) => fetch.post('/role/updateGrant', { data: payload }).catch(e => e);
 // 扫码加用户
-const wxRout = ({ payload }) => fetch.post('wechatLogin/getImgUrl', { data: payload }).catch(e => e);
+const wxRout = ({ payload }) => fetch.post('/wechatLogin/getHtml', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'permission',
@@ -122,7 +122,6 @@ export default {
             type: 'queryResourceList',
             payload: { payload: resource.resourceCurrentPage - 1 },
           });
-          return;
         }
         yield put({
           type: 'queryResourceList',
