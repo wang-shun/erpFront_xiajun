@@ -292,8 +292,9 @@ class Resource extends Component {
           <iframe 
                 style={{width:'100%', height:'500px', overflow:'visible'}}
                 ref="iframe" 
-                src="http://m.buyer007.com/wxTest.html"
-                // src="./wx.html"
+                // srcdoc={wxData}
+                // src="http://m.buyer007.com/wxTest.html"
+                src="/wechatLogin/getHtml"
                 width="100%" 
                 scrolling="no" 
                 frameBorder="0"
