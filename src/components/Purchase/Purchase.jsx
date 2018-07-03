@@ -169,8 +169,8 @@ class Purchase extends Component {
       { title: '任务描述', dataIndex: 'remark', key: 'remark', width: 100 },
       { title: '买手', dataIndex: 'buyerName', key: 'buyerName', width: 60, render(text) { return text || '-'; } },
       { title: '图片',
-        dataIndex: 'imageUrl',
-        key: 'imageUrl',
+        dataIndex: 'skuPicUrl',
+        key: 'skuPicUrl',
         width: 80,
         render(text) {
           if (!text) return '-';
@@ -199,7 +199,7 @@ class Purchase extends Component {
       },
       { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime', width: 120, render(t) { return t ? t.split(' ')[0] : '-'; } },
       { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime', width: 120, render(t) { return t ? t.split(' ')[0] : '-'; } },
-      { title: '备注', dataIndex: 'remark', key: 'remark', width: 100, render(text) { return text || '-'; } },
+      { title: '备注', dataIndex: 'remark1', key: 'remark1', width: 100, render(text) { return text || '-'; } },
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
