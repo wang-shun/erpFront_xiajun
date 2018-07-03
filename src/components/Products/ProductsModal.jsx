@@ -318,15 +318,14 @@ class ProductsModal extends Component {
 
     let selectedCategoryId = [];
 
-    console.log("productData:"+productData);
-    if (productData.categoryId) {
+    if (productData.categoryCode) {
       tree.forEach((el) => {
         if (el.children) {
           el.children.forEach((el2) => {
             if (el2.children) {
               el2.children.forEach((el3) => {
-                if (el3.id.toString() === productData.categoryId.toString()) {
-                  selectedCategoryId = [el.id.toString(), el2.id.toString(), el3.id.toString()];
+                if (el3.categoryCode.toString() === productData.categoryCode.toString()) {
+                  selectedCategoryId = [el3.categoryCode.toString()];
                 }
               });
             }
@@ -334,7 +333,8 @@ class ProductsModal extends Component {
         }
       })
     }
-    console.log("selectedCategoryId:"+selectedCategoryId);
+
+
     
     //console.log(productData.categoryId, selectedCategoryId);
 
@@ -350,10 +350,11 @@ class ProductsModal extends Component {
                 <Col span={7}>
                   <FormItem
                     label="所属类"
+                    required="true"
                     {...formItemLayout}
                   >
-                    {getFieldDecorator('categoryId', {
-                      initialValue: "[1,2,57]",                   
+                    {getFieldDecorator('categoryCode', {
+                      initialValue: selectedCategoryId,                   
                     })(
                       <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover" />,
                       // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
@@ -389,6 +390,7 @@ class ProductsModal extends Component {
                   <FormItem
                     label="品牌"
                     {...formItemLayout}
+                    required="true"
                   >
                     {getFieldDecorator('brand', {
                       initialValue: toString(productData.brand, 'SELECT'),
@@ -677,6 +679,7 @@ class ProductsModal extends Component {
                 <Col span={21}>
                   <FormItem
                     label="添加图片"
+                    required="true"
                     labelCol={{ span: 3 }}
                     wrapperCol={{ span: 21 }}
                   >

@@ -492,7 +492,7 @@ class SkuTable extends Component {
             return (
               <FormItem required="true">
                 {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" required='required'/>)}
+                  <Input placeholder="必填" required='required'/>)}
               </FormItem>
             );
           },
@@ -506,7 +506,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_scale`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" required='required'/>)}
+                  <Input placeholder="必填" required='required'/>)}
                 {getFieldDecorator(`r_${r.key}_id`, { initialValue: r.id || null })(
                   <Input style={{ display: 'none' }} />)}
               </FormItem>
@@ -522,7 +522,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_salePrice`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
-                  <InputNumber step={0.01} min={0} placeholder="请填写" />)}
+                  <InputNumber step={0.01} min={0} placeholder="必填" />)}
               </FormItem>
             );
           },
@@ -539,7 +539,7 @@ class SkuTable extends Component {
                   initialValue: t === 0 ? '0' : (t || ''),
                   rules: [{ required: true, message: '请填写' }],
                 })(
-                  <InputNumber step={1} min={0} placeholder="请填写" />)}
+                  <InputNumber step={1} min={0} placeholder="必填" />)}
               </FormItem>
             );
           },
@@ -552,8 +552,9 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_weight`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
-                  <InputNumber step={0.01} min={0} placeholder="请填写" />)}
+                {getFieldDecorator(`r_${r.key}_weight`, { initialValue: t || '', 
+                rules: [{ required: true, message: '该项必填' }] })(
+                  <InputNumber step={0.01} min={0} placeholder="必填" />)}
               </FormItem>
             );
           },
@@ -566,8 +567,9 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_upc`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" />)}
+                {getFieldDecorator(`r_${r.key}_upc`, { initialValue: t || '',
+                rules: [{ required: true, message: '该项必填'}] })(
+                  <Input placeholder="必填" />)}
               </FormItem>
             );
           },
@@ -618,9 +620,9 @@ class SkuTable extends Component {
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_packageLevelId`, {
                   initialValue: t && typeof t === 'string' ? t.match(/\[/g) ? JSON.parse(t) : t.split(',') : '',
-                  rules: [{ required: true, message: '该项必选' }],
+                  rules: [{ required: false, message: '该项选填' }],
                 })(
-                  <Cascader options={packageScales} placeholder="请选择" />)}
+                  <Cascader options={packageScales} placeholder="选填" />)}
               </FormItem>
             );
           },
@@ -760,7 +762,8 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_weight`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
+                {getFieldDecorator(`r_${r.key}_weight`, { initialValue: t || '', 
+                rules: [{ required: true, message: '该项必填' }] })(
                   <InputNumber step={0.01} min={0} placeholder="请填写" />)}
               </FormItem>
             );
@@ -774,7 +777,8 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_upc`, { initialValue: t || '' })(
+                {getFieldDecorator(`r_${r.key}_upc`, { initialValue: t || '',
+                rules: [{ required: true, message: '该项必填' }] })(
                   <Input placeholder="请填写" />)}
               </FormItem>
             );
