@@ -30,6 +30,7 @@ class Login extends Component {
     window.location.href= Mao
   }
   submitLogin(payload) {
+    this.props.session.username=payload.username;
     this.props.dispatch({
       type: 'session/login',
       payload,

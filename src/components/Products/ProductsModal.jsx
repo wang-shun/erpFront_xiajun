@@ -318,14 +318,15 @@ class ProductsModal extends Component {
 
     let selectedCategoryId = [];
 
-    if (productData.categoryCode) {
+    console.log("productData:"+productData);
+    if (productData.categoryId) {
       tree.forEach((el) => {
         if (el.children) {
           el.children.forEach((el2) => {
             if (el2.children) {
               el2.children.forEach((el3) => {
-                if (el3.categoryCode.toString() === productData.categoryCode.toString()) {
-                  selectedCategoryId = [el3.categoryCode.toString()];
+                if (el3.id.toString() === productData.categoryId.toString()) {
+                  selectedCategoryId = [el.id.toString(), el2.id.toString(), el3.id.toString()];
                 }
               });
             }
@@ -333,7 +334,8 @@ class ProductsModal extends Component {
         }
       })
     }
-
+    console.log("selectedCategoryId:"+selectedCategoryId);
+    
     //console.log(productData.categoryId, selectedCategoryId);
 
     return (
@@ -350,9 +352,8 @@ class ProductsModal extends Component {
                     label="所属类"
                     {...formItemLayout}
                   >
-                    {getFieldDecorator('categoryCode', {
-                      initialValue: selectedCategoryId,
-                      rules: [{ required: true, validator: this.chooseCate.bind(this) }],
+                    {getFieldDecorator('categoryId', {
+                      initialValue: "[1,2,57]",                   
                     })(
                       <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover" />,
                       // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
