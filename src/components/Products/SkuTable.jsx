@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 import { Row, Col, Form, Table, Input, InputNumber, Button, Popconfirm, Upload, Icon, Cascader, message, Popover, Checkbox, Select, Modal } from 'antd';
 
 import styles from './Products.less';
@@ -545,7 +545,7 @@ class SkuTable extends Component {
           },
         },
         {
-          title: '重量(磅)',
+          title: '重量(克)',
           dataIndex: 'weight',
           key: 'weight',
           width: '10%',
