@@ -319,13 +319,16 @@ class ProductsModal extends Component {
     let selectedCategoryId = [];
 
     if (productData.categoryCode) {
+
       tree.forEach((el) => {
         if (el.children) {
           el.children.forEach((el2) => {
             if (el2.children) {
               el2.children.forEach((el3) => {
                 if (el3.categoryCode.toString() === productData.categoryCode.toString()) {
+
                   selectedCategoryId = [el3.categoryCode.toString()];
+                  console.log("maomao" + selectedCategoryId)
                 }
               });
             }
@@ -351,10 +354,10 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('categoryCode', {
-                      initialValue: selectedCategoryId,
+                      initialValue: toString(selectedCategoryId),
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(
-                      <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover" />,
+                      <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover"/>,
                       // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
                     )}
                   </FormItem>
