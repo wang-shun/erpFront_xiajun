@@ -70,7 +70,8 @@ function redirectHelper(...args) {
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route
+    
+    <Route
         path="/"
         component={MainLayout}
         onEnter={redirectHelper}

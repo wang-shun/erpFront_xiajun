@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm, message, Select } from 'antd';
 import { connect } from 'dva';
 import { join } from 'redux-saga/effects';
+import { InputNumber } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -171,7 +172,7 @@ class Role extends Component {
                     rules: [{ required: true, message: '请输入排序' }],
                     initialValue: roleModal.seq,
                   })(
-                    <Input placeholder="请输入排序" />,
+                    <InputNumber placeholder="请输入排序" />,
                   )}
                 </FormItem>
               </Col>

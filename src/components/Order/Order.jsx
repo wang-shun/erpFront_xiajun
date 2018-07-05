@@ -87,19 +87,8 @@ class Order extends Component {
       modalVisible: true,
       title: '修改',
     }, () => {
-      // p.props.dispatch({ type: 'order/queryOrder', payload: { orderNo } });
       p.props.dispatch({ type: 'order/queryOrderList', payload: { orderNo }});
       p.props.dispatch({ type: 'sku/querySkuList', payload: { skuCode } });
-    });
-  }
-
-  closeModal() {
-    this.setState({ modalVisible: false }, () => {
-      this.props.dispatch({
-        type: 'order/saveOrder',
-        payload: {},
-      });
-      this._refreshData();
     });
   }
 
@@ -222,7 +211,7 @@ class Order extends Component {
             case 2: return <font color="blue">全部发货</font>;
             case -1: return <font color="red">已关闭</font>;
             case -2: return <font color="red">待确认</font>;
-            default: return '-';
+            default: return "";
           }
         },
       },
@@ -373,8 +362,8 @@ class Order extends Component {
                 label="外部订单号"
                 {...formItemLayout}
               >
-                {getFieldDecorator('targetNo', {})(
-                  <Input placeholder="请输入外部订单号" suffix={p.showClear('targetNo')} />)}
+                {getFieldDecorator('channelOrderNo', {})(
+                  <Input placeholder="请输入外部订单号" suffix={p.showClear('channelOrderNo')} />)}
               </FormItem>
             </Col>
             <Col span="8">
