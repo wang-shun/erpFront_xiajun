@@ -230,7 +230,7 @@ class Products extends Component {
             return (<div>
               <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a>
               <br />
-              <Popconfirm title="是否要生成改小程序的二维码？" onConfirm={p.createDimensionPic.bind(p, record.id)}>
+              <Popconfirm title="是否要生成该小程序的二维码？" onConfirm={p.createDimensionPic.bind(p, record.id)}>
                 <a href="javascript:void(0)"><font color="green">生成二维码</font></a>
               </Popconfirm>
               <br />
