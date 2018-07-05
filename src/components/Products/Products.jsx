@@ -71,11 +71,11 @@ class Products extends Component {
   closeMore(){
     this.setState({ uploadVisble: false})
   }
-  cleanVirtualInvModal(itemId) {
+  cleanVirtualInvModal(id) {
     const p = this;
     p.props.dispatch({
       type: 'products/updateVirtualInvByItemId',
-      payload: { itemId },
+      payload: { id },
       cb() { p._refreshData(); },
     });
   }
