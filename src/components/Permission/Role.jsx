@@ -80,7 +80,6 @@ class Role extends Component {
   render() {
     const p = this;
     const { resourceList = [], roleList = [], total, form, roleModal = {} } = this.props;
-    console.log(this.props)
     const { visible, title, authModalVisible } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {

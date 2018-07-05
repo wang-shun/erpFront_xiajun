@@ -26,6 +26,12 @@ class Order extends Component {
     // 清除多选
     this.setState({ checkId: [] }, () => {
       this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
+        console.log("__________________")
+        console.log(fieldsValue)
+        if(fieldsValue.status == 10){
+          fieldsValue.status= ''
+        }
+        console.log(fieldsValue)
         if (err) return;
         if (fieldsValue.orderTime && fieldsValue.orderTime[0] && fieldsValue.orderTime[1]) {
           fieldsValue.startGmtCreate = new Date(fieldsValue.orderTime[0]).format('yyyy-MM-dd');
@@ -74,15 +80,16 @@ class Order extends Component {
     }
   }
 
-  updateModal(orderNo, e) {
+  updateModal(orderNo, skuCode, e) {
     if (e) e.stopPropagation();
     const p = this;
     p.setState({
       modalVisible: true,
       title: '修改',
     }, () => {
-      p.props.dispatch({ type: 'order/queryOrder', payload: { orderNo } });
-      p.props.dispatch({ type: 'sku/querySkuList', payload: {} });
+      // p.props.dispatch({ type: 'order/queryOrder', payload: { orderNo } });
+      p.props.dispatch({ type: 'order/queryOrderList', payload: { orderNo }});
+      p.props.dispatch({ type: 'sku/querySkuList', payload: { skuCode } });
     });
   }
 
@@ -189,7 +196,8 @@ class Order extends Component {
 
   render() {
     const p = this;
-    const { form, dispatch, currentPage, orderList = [], orderTotal, currentPageSize, orderValues = {}, agencyList = [], orderDetailList = [], loginRoler } = p.props;
+    const { form, dispatch, currentPage, orderList = [], orderTotal, currentPageSize, orderValues = {}, agencyList = [], orderDetailList = [], loginRoler} = p.props;
+    let orderValue = orderList[0];
     const { getFieldDecorator, resetFields } = form;
     const { title, visible, modalVisible } = p.state;
     const formItemLayout = {
@@ -240,7 +248,7 @@ class Order extends Component {
             <div>
               {record.status !== -1 && <a href="javascript:void(0)" onClick={p.handleProDetail.bind(p, record)}>订单明细</a>}
               <br />
-              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.orderNo)}>修改</a>
+              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.orderNo, record.skuCode)}>修改</a>
               <br />
               <Popconfirm title="确定删除此订单？" onConfirm={p.handleDelete.bind(p, record.orderNo)}>
                 <a href="javascript:void(0)" style={{ marginRight: 10 }}>删除</a>
@@ -510,7 +518,7 @@ class Order extends Component {
         <OrderModal
           visible={modalVisible}
           close={this.closeModal.bind(this)}
-          modalValues={orderValues}
+          modalValues={orderValue}
           agencyList={agencyList}
           title={title}
           dispatch={dispatch}

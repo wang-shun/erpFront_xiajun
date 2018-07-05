@@ -20,6 +20,10 @@ function wrapper(method, url, options, getInst) {
       }
       resolve(res, pointer);
     }, (err, pointer) => {
+      if (request._request.status.toString() === '302' || request._request.responseText.match('<!')) {
+        location.href = '#/login';
+        return;
+      }
       reject(err, pointer);
     });
     if (typeof getInst === 'function') {
