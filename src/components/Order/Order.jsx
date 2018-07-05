@@ -365,8 +365,8 @@ class Order extends Component {
                 label="外部订单号"
                 {...formItemLayout}
               >
-                {getFieldDecorator('targetNo', {})(
-                  <Input placeholder="请输入外部订单号" suffix={p.showClear('targetNo')} />)}
+                {getFieldDecorator('channelOrderNo', {})(
+                  <Input placeholder="请输入外部订单号" suffix={p.showClear('channelOrderNo')} />)}
               </FormItem>
             </Col>
             <Col span="8">
