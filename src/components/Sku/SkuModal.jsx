@@ -227,13 +227,14 @@ class SkuModal extends Component {
             </Col>
             <Col span={7}>
               <FormItem
-                label="规格2"
+                label="尺寸"
                 {...formItemLayout}
               >
                 {getFieldDecorator('scale', {
                   initialValue: toString(skuModalData.scale),
+                  rules: [{ required: true, message: '请填写重量' }]
                 })(
-                  <Input disabled placeholder="请输入规格2" />,
+                  <Input  placeholder="必填" />,
                 )}
               </FormItem>
             </Col>
@@ -245,8 +246,7 @@ class SkuModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('packageLevelId', {
-                  initialValue: skuModalData.packageLevelId && typeof skuModalData.packageLevelId === 'string' ? skuModalData.packageLevelId.match(/\[/g) ? JSON.parse(skuModalData.packageLevelId) : skuModalData.packageLevelId.split(',') : undefined,
-                  rules: [{ required: true, message: '请选择包装规格' }],
+                  initialValue: skuModalData.packageLevelId && typeof skuModalData.packageLevelId === 'string' ? skuModalData.packageLevelId.match(/\[/g) ? JSON.parse(skuModalData.packageLevelId) : skuModalData.packageLevelId.split(',') : undefined              
                 })(
                   <Cascader options={packageScales} placeholder="请选择包装规格" />)}
               </FormItem>
@@ -258,6 +258,7 @@ class SkuModal extends Component {
               >
                 {getFieldDecorator('upc', {
                   initialValue: toString(skuModalData.upc),
+                  rules: [{ required: true, message: '请填写重量' }]
                 })(
                   <Input placeholder="请输入UPC" />,
                 )}
@@ -293,13 +294,14 @@ class SkuModal extends Component {
             </Col>
             <Col span={7}>
               <FormItem
-                label="规格1"
+                label="颜色"
                 {...formItemLayout}
               >
                 {getFieldDecorator('color', {
                   initialValue: toString(skuModalData.color),
+                  rules: [{ required: true, message: '请填写重量' }]
                 })(
-                  <Input disabled placeholder="请输入规格1" />,
+                  <Input placeholder="必填" />,
                 )}
               </FormItem>
             </Col>
