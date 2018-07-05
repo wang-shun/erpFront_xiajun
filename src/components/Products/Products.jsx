@@ -71,11 +71,11 @@ class Products extends Component {
   closeMore(){
     this.setState({ uploadVisble: false})
   }
-  cleanVirtualInvModal(itemId) {
+  cleanVirtualInvModal(id) {
     const p = this;
     p.props.dispatch({
       type: 'products/updateVirtualInvByItemId',
-      payload: { itemId },
+      payload: { id },
       cb() { p._refreshData(); },
     });
   }
@@ -103,6 +103,16 @@ class Products extends Component {
     const { checkId } = this.state;
     let action = '';
     let type = '';
+    /**********xiajun 当用户没有勾选任何商品就进行操作时，进行提示******************/
+    if(0 == checkId.length) {
+      Modal.confirm({
+        title: '提示',
+        content: `请勾选商品`,
+        onOk() {
+        },
+      });
+      return;
+    }
     switch (batchType) {
       case 'syn': action = '同步'; type = 'products/batchSynItemYouzan'; break;
       case 'onSell': action = '上架'; type = 'products/batchListingYouzan'; break;

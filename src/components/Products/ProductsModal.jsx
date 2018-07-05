@@ -357,7 +357,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('categoryCode', {
-                      initialValue: toString(selectedCategoryId),
+                      initialValue: selectedCategoryId,
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(
                       <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover"/>,
