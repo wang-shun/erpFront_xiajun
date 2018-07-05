@@ -86,6 +86,7 @@ class ProductTable extends Component {
         this[`r_${newId}_skuCode_dom`].refs.input.click();
       }, 0);
     });
+    this.props.dispatch({ type: 'sku/querySkuList2', payload: {} });
   }
 
   handleDelete(key) {
@@ -94,10 +95,10 @@ class ProductTable extends Component {
   }
 
   handleSelect(key, skuCode) {
-    const { form, skuList } = this.props;
+    const { form, skuListTwo } = this.props;
     const { skuData } = this.state;
 
-    const source = skuList;
+    const source = skuListTwo;
 
     // 先判断当前列表是否有相同的skuCode，有的话数量+1
     let isDuplicate = false;
@@ -174,10 +175,12 @@ class ProductTable extends Component {
 
   render() {
     const p = this;
-    const { form, skuList = [], parent, total, pageSize } = p.props;
+    const { form, skuList = [], parent, total, pageSize, skuListTwo = [] } = p.props;
+    console.log(p.props)
     const { skuData, skuQuery } = p.state;
+    console.log('==================')
+    console.log(skuData, skuList, skuListTwo)
     const { getFieldDecorator } = form;
-
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
@@ -310,7 +313,7 @@ class ProductTable extends Component {
           <Row>
             <Table
               columns={columns}
-              dataSource={list}
+              dataSource={skuListTwo}
               size="small"
               bordered
               rowKey={record => record.id}
@@ -458,11 +461,12 @@ class ProductTable extends Component {
 }
 
 function mapStateToProps(state) {
-  const { skuList, skuTotal, pageSize } = state.sku;
+  const { skuList, skuTotal, pageSize, skuListTwo } = state.sku;
   return {
     skuList,
     total: skuTotal,
     pageSize,
+    skuListTwo
   };
 }
 

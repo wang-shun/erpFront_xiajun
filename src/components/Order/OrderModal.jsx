@@ -105,7 +105,9 @@ class OrderModal extends Component {
   render() {
     const p = this;
     const { form, title, visible, modalValues = {}, agencyList = [] } = p.props;
-    const orderData = (modalValues && modalValues.data) || {};
+    console.log(p.props)
+    const orderData = modalValues || {};
+    console.log(orderData)
     const { getFieldDecorator } = form;
     const modalProps = {
       visible,
@@ -225,8 +227,8 @@ class OrderModal extends Component {
                 label="外部订单号"
                 {...formItemLayout}
               >
-                {getFieldDecorator('channelOrderNo', {
-                  initialValue: orderData.channelOrderNo,
+                {getFieldDecorator('shopCode', {
+                  initialValue: orderData.shopCode,
                 })(
                   <Input placeholder="请输入外部订单号" />,
                 )}
@@ -256,18 +258,18 @@ class OrderModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('payType', {
-                  initialValue: orderData.payType && orderData.payType.toString(),
+                  initialValue: orderData.payType,
                   rules: [{ required: true, message: '请选择支付方式' }],
                 })(
                   <Select placeholder="请选择支付方式" allowClear>
-                    <Option key="0">微信自有支付</Option>
-                    <Option key="1">微信代销支付</Option>
-                    <Option key="2">支付宝支付</Option>
-                    <Option key="3">银行卡支付</Option>
-                    <Option key="4">代付</Option>
-                    <Option key="5">货到付款</Option>
-                    <Option key="6">百度钱包支付</Option>
-                    <Option key="12">信用卡</Option>
+                    <Option value={0}>微信自有支付</Option>
+                    <Option value={1}>微信代销支付</Option>
+                    <Option value={2}>支付宝支付</Option>
+                    <Option value={3}>银行卡支付</Option>
+                    <Option value={4}>代付</Option>
+                    <Option value={5}>货到付款</Option>
+                    <Option value={6}>百度钱包支付</Option>
+                    <Option value={12}>信用卡</Option>
                   </Select>,
                 )}
               </FormItem>
@@ -305,8 +307,8 @@ class OrderModal extends Component {
                 labelCol={{ span: 3 }}
                 wrapperCol={{ span: 18 }}
               >
-                {getFieldDecorator('remark', {
-                  initialValue: orderData.remark,
+                {getFieldDecorator('memo', {
+                  initialValue: orderData.memo,
                 })(
                   <Input placeholder="请输入备注信息" size="large" style={{ marginLeft: 3, width: 646 }} />)}
               </FormItem>
