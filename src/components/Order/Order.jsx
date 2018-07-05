@@ -82,7 +82,13 @@ class Order extends Component {
       title: '修改',
     }, () => {
       p.props.dispatch({ type: 'order/queryOrder', payload: { orderNo } });
-      p.props.dispatch({ type: 'sku/querySkuList', payload: {} });
+      // p.props.dispatch({ type: 'sku/querySkuList', payload: {} });
+      p.props.dispatch({
+        type: 'order/queryOrderList',
+        payload: {
+          orderNo
+        },
+      });
     });
   }
 
@@ -214,7 +220,7 @@ class Order extends Component {
             case 2: return <font color="blue">全部发货</font>;
             case -1: return <font color="red">已关闭</font>;
             case -2: return <font color="red">待确认</font>;
-            default: return '-';
+            default: return "";
           }
         },
       },
