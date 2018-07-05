@@ -201,7 +201,7 @@ class Order extends Component {
       { title: '外部订单号', dataIndex: 'channelOrderNo', key: 'channelOrderNo', width: 120 / 13.92 + '%', render(text) { return text || '-'; } },
       { title: '销售员', dataIndex: 'dealerName', key: 'dealerName', width: 80 / 13.92 + '%', render(text) { return text || '-'; } },
       { title: '商户订单号',dataIndex: 'shopCode', key: 'shopCode', width: 110 / 13.92 + '%', render(text) { return text || '-'; } },
-      { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 150 / 13.92 + '%', render(text) { return text ? text : '-'; } },
+      { title: '订单时间', dataIndex: 'orderTime', key: 'orderTime', width: 150 / 13.92 + '%', render(text) { return text ? text : '-'; } },
       // { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 150, render(text) { return text || '-'; } },
       { title: '订单状态',
         dataIndex: 'status',
@@ -365,8 +365,8 @@ class Order extends Component {
                 label="外部订单号"
                 {...formItemLayout}
               >
-                {getFieldDecorator('targetNo', {})(
-                  <Input placeholder="请输入外部订单号" suffix={p.showClear('targetNo')} />)}
+                {getFieldDecorator('channelOrderNo', {})(
+                  <Input placeholder="请输入外部订单号" suffix={p.showClear('channelOrderNo')} />)}
               </FormItem>
             </Col>
             <Col span="8">
@@ -408,7 +408,7 @@ class Order extends Component {
                   <Input placeholder="请输入联系电话" suffix={p.showClear('telephone')} />)}
               </FormItem>
             </Col>
-            <Col span={8}>
+            {/* <Col span={8}>
               <FormItem
                 label="销售"
                 {...formItemLayout}
@@ -421,9 +421,9 @@ class Order extends Component {
                   </Select>,
                 )}
               </FormItem>
-            </Col>
+            </Col> */}
           </Row>
-          <Row gutter={20} style={{ width: 800 }}>
+          {/* <Row gutter={20} style={{ width: 800 }}>
             <Col span="8">
               <FormItem
                 label="UPC"
@@ -461,7 +461,7 @@ class Order extends Component {
                 {getFieldDecorator('orderTime', {})(<RangePicker />)}
               </FormItem>
             </Col>
-          </Row>
+          </Row> */}
           <Row style={{ marginLeft: 13 }}>
             <Col className="listBtnGroup">
               <Button htmlType="submit" size="large" type="primary">查询</Button>

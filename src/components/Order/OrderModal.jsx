@@ -29,13 +29,13 @@ class OrderModal extends Component {
     const { form, dispatch, modalValues = {}, agencyList = [] } = p.props;
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) { return; }
-      let salesName = '';
-      agencyList.forEach((el) => {
-        if (el.id.toString() === fieldsValue.salesId) {
-          salesName = el.name;
-        }
-      });
-      fieldsValue.salesName = salesName;
+      // let salesName = '';
+      // agencyList.forEach((el) => {
+      //   if (el.id.toString() === fieldsValue.salesId) {
+      //     salesName = el.name;
+      //   }
+      // });
+      // fieldsValue.salesName = salesName;
       if (fieldsValue.address) {
         fieldsValue.receiverState = fieldsValue.address[0];
         fieldsValue.receiverCity = fieldsValue.address[1];
@@ -147,7 +147,7 @@ class OrderModal extends Component {
                 )}
               </FormItem>
             </Col>
-            <Col span={7}>
+            {/* <Col span={7}>
               <FormItem
                 label="销售"
                 {...formItemLayout}
@@ -163,21 +163,7 @@ class OrderModal extends Component {
                   </Select>,
                 )}
               </FormItem>
-            </Col>
-            <Col span={8}>
-              <FormItem
-                label="订单时间"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('orderTime', {
-                  initialValue: (orderData.orderTime && moment(orderData.orderTime, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-                  rules: [{ required: true, message: '请输入订单时间' }],
-                })(
-                  <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder="请输入订单时间" />)}
-              </FormItem>
-            </Col>
-          </Row>
-          <Row gutter={10}>
+            </Col> */}
             <Col span={7}>
               <FormItem
                 label="收件人"
@@ -194,6 +180,20 @@ class OrderModal extends Component {
                   <Input placeholder="请输入收件人" />)}
               </FormItem>
             </Col>
+            <Col span={8}>
+              <FormItem
+                label="订单时间"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('orderTime', {
+                  initialValue: (orderData.orderTime && moment(orderData.orderTime, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+                  rules: [{ required: true, message: '请输入订单时间' }],
+                })(
+                  <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder="请输入订单时间" />)}
+              </FormItem>
+            </Col>
+          </Row>
+          <Row gutter={10}>
             <Col span={7}>
               <FormItem
                 label="电话号码"
@@ -232,7 +232,7 @@ class OrderModal extends Component {
                 )}
               </FormItem>
             </Col>
-            <Col span={7}>
+            {/* <Col span={7}>
               <FormItem
                 label="销售来源"
                 {...formItemLayout}
@@ -249,7 +249,7 @@ class OrderModal extends Component {
                   </Select>,
                 )}
               </FormItem>
-            </Col>
+            </Col> */}
             <Col span={8}>
               <FormItem
                 label="支付方式"

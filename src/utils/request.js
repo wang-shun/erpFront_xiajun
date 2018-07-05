@@ -19,7 +19,7 @@ function wrapper(method, url, options, getInst) {
         return;
       }
       resolve(res, pointer);
-    }, (err, pointer) => {
+    }, (err, pointer) => { 
       reject(err, pointer);
     });
     if (typeof getInst === 'function') {
