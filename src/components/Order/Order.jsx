@@ -55,10 +55,11 @@ class Order extends Component {
       modalVisible: true,
       title: '新增',
     });
-    this.props.dispatch({
-      type: 'sku/querySkuList',
-      payload: {},
-    });
+    this.props.dispatch({ type: 'permission/clearResource', payload: {} }); 
+    // this.props.dispatch({
+    //   type: 'sku/querySkuList',
+    //   payload: {},
+    // });
   }
 
   handleOrderAction(type) {
@@ -181,6 +182,15 @@ class Order extends Component {
       return <Icon type="close-circle" onClick={this.handleEmptyInput.bind(this, type)} />;
     }
     return null;
+  }
+  closeModal() {
+    this.setState({ modalVisible: false }, () => {
+      this.props.dispatch({
+        type: 'order/saveOrder',
+        payload: {},
+      });
+      this._refreshData();
+    });
   }
 
   render() {

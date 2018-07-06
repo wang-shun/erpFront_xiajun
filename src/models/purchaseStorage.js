@@ -18,13 +18,14 @@ const queryBuyers = ({ payload }) => fetch.post('/purchase/queryBuyers', { data:
 const purchaseBuyer = ({ payload }) => fetch.post('/purchase/queryBuyers', { data: payload }).catch(e => e);
 const purchaseWarehouse = ({ payload }) => fetch.post('/warehouse/selectWhList', { data: payload }).catch(e => e);
 const purchaseSearchAll = ({ payload }) => fetch.post('/purchaseStorage/searchAll', { data: payload }).catch(e => e);
-const purchaseByopenid= ({ payload }) => fetch.post('/purchaseStorage/searchByopenid', { data: payload }).catch(e => e);
-const purchaseAndUpc= ({ payload }) => fetch.post('/purchaseStorage/searchByopenidAndUpc', { data: payload }).catch(e => e);
-const queryHasComfirm= ({ payload }) => fetch.post('/purchaseStorage/queryHasComfirm', { data: payload }).catch(e => e);
-const queryWithParam= ({ payload }) => fetch.post('/purchaseStorage/queryComfirmWithParam ', { data: payload }).catch(e => e);
-const queryWithComfirm= ({ payload }) => fetch.post('/purchaseStorage/comfirm', { data: payload }).catch(e => e);
-const queryWithDelete= ({ payload }) => fetch.post('/purchaseStorage/delete', { data: payload }).catch(e => e);
-
+const purchaseByopenid = ({ payload }) => fetch.post('/purchaseStorage/searchByopenid', { data: payload }).catch(e => e);
+const purchaseAndUpc = ({ payload }) => fetch.post('/purchaseStorage/searchByopenidAndUpc', { data: payload }).catch(e => e);
+const queryHasComfirm = ({ payload }) => fetch.post('/purchaseStorage/queryHasComfirm', { data: payload }).catch(e => e);
+const queryWithParam = ({ payload }) => fetch.post('/purchaseStorage/queryComfirmWithParam ', { data: payload }).catch(e => e);
+const queryWithComfirm = ({ payload }) => fetch.post('/purchaseStorage/comfirm', { data: payload }).catch(e => e);
+const queryWithDelete = ({ payload }) => fetch.post('/purchaseStorage/delete', { data: payload }).catch(e => e);
+// 直接入库
+const inventoryAdd = ({ payload }) => fetch.post('/inventory/add', { data: payload }).catch(e => e);
 export default {
   namespace: 'purchaseStorage',
   state: {
@@ -82,62 +83,68 @@ export default {
     },
     //采购入库new
     * purchaseBuyer({ payload }, { call, put }) {
-    const data = yield call(purchaseBuyer, { payload });
-    if (data.success) {
-      yield put({ type: 'updatepurchaseBuyer', payload: data });
-    }
+      const data = yield call(purchaseBuyer, { payload });
+      if (data.success) {
+        yield put({ type: 'updatepurchaseBuyer', payload: data });
+      }
     },
     * purchaseWarehouse({ payload }, { call, put }) {
-    const data = yield call(purchaseWarehouse, { payload });
-    if (data.success) {
-      yield put({ type: 'updateWarehouse', payload: data });
-    }
+      const data = yield call(purchaseWarehouse, { payload });
+      if (data.success) {
+        yield put({ type: 'updateWarehouse', payload: data });
+      }
     },
     * purchaseSearchAll({ payload }, { call, put }) {
-    const data = yield call(purchaseSearchAll, { payload });
-    if (data.success) {
-      yield put({ type: 'updateSearchAll', payload: data });
-    }
+      const data = yield call(purchaseSearchAll, { payload });
+      if (data.success) {
+        yield put({ type: 'updateSearchAll', payload: data });
+      }
     },
     * purchaseByopenid({ payload }, { call, put }) {
-    const data = yield call(purchaseByopenid, { payload });
-    if (data.success) {
-      yield put({ type: 'updateByopenid', payload: data });
-    }
+      const data = yield call(purchaseByopenid, { payload });
+      if (data.success) {
+        yield put({ type: 'updateByopenid', payload: data });
+      }
     },
 
     * purchaseAndUpc({ payload }, { call, put }) {
-    const data = yield call(purchaseAndUpc, { payload });
-    if (data.success) {
-      yield put({ type: 'updateAndUpc', payload: data });
-    }
+      const data = yield call(purchaseAndUpc, { payload });
+      if (data.success) {
+        yield put({ type: 'updateAndUpc', payload: data });
+      }
     },
     * queryHasComfirm({ payload }, { call, put }) {
-    const data = yield call(queryHasComfirm, { payload });
-    if (data.success) {
-      yield put({ type: 'updateComfirm', payload: data });
-    }
+      const data = yield call(queryHasComfirm, { payload });
+      if (data.success) {
+        yield put({ type: 'updateComfirm', payload: data });
+      }
     },
     * queryWithParam({ payload }, { call, put }) {
-    const data = yield call(queryWithParam, { payload });
-    if (data.success) {
-      yield put({ type: 'updateWithParam', payload: data });
-    }
+      const data = yield call(queryWithParam, { payload });
+      if (data.success) {
+        yield put({ type: 'updateWithParam', payload: data });
+      }
     },
-    * queryWithComfirm({ payload, cb}, { call, put }) {
-    const data = yield call(queryWithComfirm, { payload });
-    if (data.success) {
-      message.success('入库成功');
-      cb();
-    }
+    * queryWithComfirm({ payload, cb }, { call, put }) {
+      const data = yield call(queryWithComfirm, { payload });
+      if (data.success) {
+        message.success('入库成功');
+        cb();
+      }
     },
 
     * queryWithDelete({ payload, cb }, { call, put }) {
-    const data = yield call(queryWithDelete, { payload });
-    if (data.success) {
-      message.success('删除入库单成功');
-      cb();
-    }
+      const data = yield call(queryWithDelete, { payload });
+      if (data.success) {
+        message.success('删除入库单成功');
+        cb();
+      }
+    },
+    * inventoryAdd({ payload }, { call }) {
+      const data = yield call(inventoryAdd, { payload });
+      if (data.success) {
+        message.success('直接入库成功');
+      }
     },
     //
     * queryBuyerTaskList({ payload }, { call, put }) {
@@ -218,26 +225,26 @@ export default {
     updatepurchaseBuyer(state, { payload }) {
       return { ...state, buyers: payload.data };
     },
-    updateWarehouse(state, {payload}){
+    updateWarehouse(state, { payload }) {
       return { ...state, selectWhList: payload.data };
     },
-    updateSearchAll(state, {payload}){
-      return { ...state, searchAllList: payload.data};
+    updateSearchAll(state, { payload }) {
+      return { ...state, searchAllList: payload.data };
     },
-    updateByopenid(state, {payload}){
-      return { ...state, searchAllList: payload.data}
+    updateByopenid(state, { payload }) {
+      return { ...state, searchAllList: payload.data }
     },
-    updateAndUpc(state, {payload}){
-      return { ...state, listUpc: payload.data}
+    updateAndUpc(state, { payload }) {
+      return { ...state, listUpc: payload.data }
     },
-    updateComfirm(state, {payload}){
-      return { ...state, alreadyList: payload.data}
+    updateComfirm(state, { payload }) {
+      return { ...state, alreadyList: payload.data }
     },
-    updateWithParam(state, {payload}){
-      return { ...state, alreadyList: payload.data}
+    updateWithParam(state, { payload }) {
+      return { ...state, alreadyList: payload.data }
     },
-    updateWithComfirm(state, {payload}){
-      return { ...state, Mal: payload.data}
+    updateWithComfirm(state, { payload }) {
+      return { ...state, Mal: payload.data }
     },
     //
     updateBuyerTaskList(state, { payload }) {
