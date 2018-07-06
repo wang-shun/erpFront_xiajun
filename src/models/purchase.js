@@ -22,7 +22,9 @@ const purchaseNoCompleteTimeList = ({ payload }) => fetch.post('/purchase/nocomp
 // 采购未完成详情
 const purchaseNoCompleteDateil = ({ payload }) => fetch.post('/purchase/nocompleteTaskDaily', { data: payload }).catch(e => e);
 // 导入需求
-const purchaseImprotTask= ({ payload }) => fetch.post('/purchaseTask/improtTask', {data: payload}).catch(e =>e)
+const purchaseImprotTask = ({ payload }) => fetch.post('/purchaseTask/improtTask', { data: payload }).catch(e => e)
+
+
 export default {
   namespace: 'purchase',
   state: {
@@ -152,6 +154,7 @@ export default {
         if (cb) cb();
       }
     },
+   
     * closeTaskDaily({ payload, cb }, { call }) {
       const data = yield call(closeTaskDaily, { payload });
       if (data.success) {
@@ -179,7 +182,7 @@ export default {
       }
     },
     // 小票明细
-    *purchaseReceiptTaskList({ payload }, { call, put, select }) {
+    * purchaseReceiptTaskList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ inventory }) => inventory.receiptTaskPage);
       if (payload && payload.pageIndex) {
         pageIndex = payload.pageIndex;
@@ -198,7 +201,7 @@ export default {
       }
     },
     // 未完成时间
-    *purchaseNoCompleteTimeList({ payload }, { call, put, select }) {
+    * purchaseNoCompleteTimeList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ purchase }) => purchase.noCompleteTimePage);
       if (payload && payload.pageIndex) {
         pageIndex = payload.pageIndex;
