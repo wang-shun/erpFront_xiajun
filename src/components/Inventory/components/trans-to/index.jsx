@@ -66,7 +66,7 @@ class TransTo extends Component {
         visible={this.state.visible}
         onVisibleChange={this.toggleVisible.bind(this)}
       >
-        <a href="javascript:void(0)" style={{ marginRight: 10 }}>在途入仓</a>
+        {/* <a href="javascript:void(0)" style={{ marginRight: 10 }}>在途入仓</a> */}
       </Popover>
     );
   }
