@@ -181,7 +181,7 @@ class Sku extends Component {
           );
         },
       },
-      { title: '重量(磅)', dataIndex: 'weight', key: 'weight', width: 50 / 11.48 + '%', render(text) { return text || '-'; } },
+      { title: '重量(克)', dataIndex: 'weight', key: 'weight', width: 50 / 11.48 + '%', render(text) { return text || '-'; } },
       { title: '运费', dataIndex: 'freightStr', key: 'freightStr', width: 60 / 11.48 + '%', render(text) { return text || '-'; } },
       { title: '修改时间', dataIndex: 'gmtModify', key: 'gmtModify', width: 100 / 11.48 + '%', render(text) { return text || '-'; } },
       { title: '操作',
