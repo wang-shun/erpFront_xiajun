@@ -29,7 +29,6 @@ class Order extends Component {
         if(fieldsValue.status == 10){
           fieldsValue.status= ''
         }
-        console.log(fieldsValue)
         if (err) return;
         if (fieldsValue.orderTime && fieldsValue.orderTime[0] && fieldsValue.orderTime[1]) {
           fieldsValue.startGmtCreate = new Date(fieldsValue.orderTime[0]).format('yyyy-MM-dd');
@@ -195,7 +194,8 @@ class Order extends Component {
 
   render() {
     const p = this;
-    const { form, dispatch, currentPage, orderList = [], orderTotal, currentPageSize, orderValues = {}, agencyList = [], orderDetailList = [], loginRoler} = p.props;
+    const { form, dispatch, currentPage, orderList = [], orderTotal, currentPageSize, orderValues = {}, agencyList = [], orderDetailList = [], loginRoler, erpDetailList = []} = p.props;
+    console.log(erpDetailList)
     let orderValue = orderList[0];
     const { getFieldDecorator, resetFields } = form;
     const { title, visible, modalVisible } = p.state;
@@ -518,6 +518,7 @@ class Order extends Component {
           visible={modalVisible}
           close={this.closeModal.bind(this)}
           modalValues={orderValue}
+          erpDetailListValues = {erpDetailList}
           agencyList={agencyList}
           title={title}
           dispatch={dispatch}

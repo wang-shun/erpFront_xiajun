@@ -176,10 +176,10 @@ class ProductTable extends Component {
   render() {
     const p = this;
     const { form, skuList = [], parent, total, pageSize, skuListTwo = [] } = p.props;
-    console.log(p.props)
+    // console.log(p.props)
+    // let erpDetailLists = p.props.data
+    // console.log(erpDetailLists.shopCode)
     const { skuData, skuQuery } = p.state;
-    console.log('==================')
-    console.log(skuData, skuList, skuListTwo)
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 8 },

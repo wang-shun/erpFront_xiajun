@@ -104,8 +104,8 @@ class OrderModal extends Component {
 
   render() {
     const p = this;
-    const { form, title, visible, modalValues = {}, agencyList = [] } = p.props;
-    console.log(p.props)
+    const { form, title, visible, modalValues = {}, agencyList = [], erpDetailListValues = {}} = p.props;
+    console.log(erpDetailListValues)
     const orderData = modalValues || {};
     console.log(orderData)
     const { getFieldDecorator } = form;
@@ -315,7 +315,7 @@ class OrderModal extends Component {
             </Col>
           </Row>
           <Row>
-            <ProductTable data={orderData.outerOrderDetails} parent={this} />
+            <ProductTable data={erpDetailListValues} parent={this} />
           </Row>
         </Form>
       </Modal>

@@ -395,7 +395,7 @@ class PurchaseStorage extends Component {
                       // initialValue: roleModal.seq,
                     })(
 
-                      <Input placeholder="请输入库数目" />,
+                      <Input placeholder="请输入货架号" />,
                     )}
                   </FormItem>
                 </Col>
@@ -417,7 +417,7 @@ class PurchaseStorage extends Component {
                       rules: [{ required: true, message: '请输入库数目' }],
                       // initialValue: roleModal.description,
                     })(
-                      <InputNumber placeholder="请输入货架号" />,
+                      <InputNumber placeholder="请输入库数目" />,
                     )}
                   </FormItem>
                 </Col>

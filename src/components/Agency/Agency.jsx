@@ -21,7 +21,6 @@ class Agency extends Component {
   handleSubmit(e, page) {
     if (e) e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
-      console.log(fieldsValue)
       if (err) {
         return;
       }
@@ -90,7 +89,6 @@ class Agency extends Component {
   render() {
     const p = this;
     const { form, list = [], typeList = [], total, currentPage, agencyValues = {}, dispatch } = p.props;
-    console.log(list)
     const { getFieldDecorator, resetFields } = form;
     const { title } = p.state;
     const formItemLayout = {
@@ -194,9 +192,6 @@ class Agency extends Component {
 
 function mapStateToProps(state) {
   const { list, currentPage, typeList, total, agencyValues } = state.agency;
-  console.log(state)
-  console.log(state.agency)
-  console.log(list, total)
   return {
     list,
     typeList,

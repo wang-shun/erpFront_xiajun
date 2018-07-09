@@ -288,6 +288,7 @@ class ErpOrder extends Component {
   render() {
     const p = this;
     const { erpOrderList, erpOrderTotal, currentPage, currentPageSize, erpOrderDetail, form, dispatch, agencyList = [], erpOrderValues = {}, deliveryCompanyList = [], wareList = [], agentManList = [], returnOrderValues = {}, loginRoler } = p.props;
+    console.log(erpOrderList)
     const { getFieldDecorator, resetFields } = form;
     const { deliveryModalVisible, checkId, type, modalVisible, title, batchDeliveryVisible, formInfo, returnModalVisible, returnType, closeModalVisible, closeReason } = p.state;
     const formItemLayout = {
@@ -324,27 +325,27 @@ class ErpOrder extends Component {
           );
         },
       },
-      { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 110 },
+      { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 100 },
       // { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 110 },
       // { title: '销售人员', dataIndex: 'salesName', key: 'salesName', width: 50 },
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
-      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 50 },
+      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 100 },
       { title: '收件人地址',
         dataIndex: 'address',
         key: 'address',
-        width: 120,
+        width: 100,
         render(text, r) {
           return <span>{r.receiverState ? `${r.receiverState} ${r.receiverCity} ${r.receiverDistrict} ${r.addressDetail}` : '-'}</span>;
         },
       },
-      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 80 },
-      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 120 },
+      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 100 },
+      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 100 },
       // { title: '身份证', dataIndex: 'ifidCard', key: 'ifidCard', width: 50,render(text, record) {if(!record.idCard) return ('无');return ('有');}},
-      { title: '身份证号码', dataIndex: 'idCard', key: 'idCard', width: 80,render(text) { return text || '-'; }},
+      { title: '身份证号码', dataIndex: 'idCard', key: 'idCard', width: 100,render(text) { return text || '-'; }},
       { title: '订单状态',
         dataIndex: 'status',
         key: 'status',
-        width: 60,
+        width: 100,
         render(text) {
           switch (text) {
             case 0: return <font color="saddlebrown">新建</font>;
@@ -355,12 +356,12 @@ class ErpOrder extends Component {
           }
         },
       },
-      { title: '关闭理由', dataIndex: 'closeReason', key: 'closeReason', width: 50, render(t) { return t || '-'; } },
+      { title: '关闭理由', dataIndex: 'closeReason', key: 'closeReason', width: 100, render(t) { return t || '-'; } },
       {
         title: '备货状态',
         dataIndex: 'stockStatus',
         key: 'stockStatus',
-        width: 60,
+        width: 100,
         render(text) {
           switch (text) {
             case -4: return <font>退货完成</font>;
@@ -376,16 +377,16 @@ class ErpOrder extends Component {
           }
         },
       },
-      { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 80, render(text) { return text ? text.slice(0, 10) : '-'; } },
-      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 110, render(text) { return text || '-'; } },
-      { title: '物流公司', dataIndex: 'logisticCompany', key: 'logisticCompany', width: 50, render(text) { return text || '-'; } },
-      { title: '物流单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 100, render(text) { return <font color="purple">{text}</font> || '-'; } },
-      { title: '规格1', dataIndex: 'color', key: 'color', width: 70, render(text) { return text || '-'; } },
-      { title: '尺码', dataIndex: 'scale', key: 'scale', width: 50, render(text) { return text || '-'; } },
+      { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 100, render(text) { return text ? text.slice(0, 10) : '-'; } },
+      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 100, render(text) { return text || '-'; } },
+      //{ title: '物流公司', dataIndex: 'logisticCompany', key: 'logisticCompany', width: 100, render(text) { return text || '-'; } },
+      //{ title: '物流单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 100, render(text) { return <font color="purple">{text}</font> || '-'; } },
+      //{ title: '规格1', dataIndex: 'color', key: 'color', width: 100, render(text) { return text || '-'; } },
+      { title: '尺码', dataIndex: 'scale', key: 'scale', width: 100, render(text) { return text || '-'; } },
       { title: '图片',
         dataIndex: 'skuPic',
         key: 'skuPic',
-        width: 80,
+        width: 100,
         render(text) {
           if (!text) return '-';
           try {
@@ -408,21 +409,22 @@ class ErpOrder extends Component {
           }
         },
       },
-      { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 60 },
-      { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
-      { title:  '货号', dataIndex: 'thirdSkuCode', key: 'thirdSkuCode', width: 100 },
-      { title: '外部订单号', dataIndex: 'targetNo', key: 'targetNo', width: 110, render(text) { return text || '-'; } },
-      { title: '发货方式', dataIndex: 'logisticType', key: 'logisticType', width: 60, render(text) { return text === 0 ? '直邮' : (text === 1 ? '拼邮' : '-'); } },
-      { title: '仓库名', dataIndex: 'warehouseName', key: 'warehouseName', width: 60, render(text) { return text || '-'; } },
-      { title: '商品数量', dataIndex: 'quantity', key: 'quantity', width: 50, render(text) { return text || '-'; } },
-      { title: '商品单价', dataIndex: 'salePrice', key: 'salePrice', width: 80, render(text) { return text || '-'; } },
+      { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 100 },
+      //{ title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
+      //{ title:  '货号', dataIndex: 'thirdSkuCode', key: 'thirdSkuCode', width: 100 },
+      // { title: '外部订单号', dataIndex: 'targetNo', key: 'targetNo', width: 100, render(text) { return text || '-'; } },
+      { title: '发货方式', dataIndex: 'logisticType', key: 'logisticType', width: 100, render(text) { return text === 0 ? '直邮' : (text === 1 ? '拼邮' : '-'); } },
+      { title: '仓库名', dataIndex: 'warehouseName', key: 'warehouseName', width: 100, render(text) { return text || '-'; } },
+      { title: '商品数量', dataIndex: 'quantity', key: 'quantity', width: 100, render(text) { return text || '-'; } },
+      { title: '商品单价', dataIndex: 'salePrice', key: 'salePrice', width: 100, render(text) { return text || '-'; } },
       // { title: '身份证号', dataIndex: 'idCard', key: 'idCard', width: 220 },
       // { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 200 },
-      { title: '备注', dataIndex: 'remark', key: 'remark', width: 120, render(text) { return text || '-'; } },
+      { title: '备注', dataIndex: 'memo', key: 'memo', render(text) { return text || '-'; } },
+
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
-        width: 80,
+        width: 120,
         fixed: 'right',
         render(t, r) {
         	  if(p.props.loginRoler) return('-');
@@ -740,7 +742,7 @@ class ErpOrder extends Component {
           dataSource={erpOrderList}
           rowKey={r => r.id}
           pagination={pagination}
-          scroll={{ x: 2360, y: 500 }}
+          scroll={{ x: 2150, y: 500 }}
           bordered={true}
         />
         <ErpOrderModal
