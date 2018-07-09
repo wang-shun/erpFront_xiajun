@@ -152,7 +152,9 @@ AjaxClass.prototype.init = function init() {
           p.handler('ERROR_TIMEOUT');
         } else {
           if (p.options.globalHook) {
+            // _onError({ errorType: 'ERROR_FAILED' }, p);
             _onError({ errorType: 'ERROR_FAILED', errorMsg: '请求失败' }, p);
+
           }
           p.handler('ERROR_FAILED');
         }

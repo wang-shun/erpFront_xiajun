@@ -43,10 +43,10 @@ class OrderModal extends Component {
         delete fieldsValue.address;
       }
       p.getSkuValue((orderDetailList) => {
-        if (modalValues.data) {
+        if (modalValues.id) {
           dispatch({
             type: 'order/updateOrder',
-            payload: { ...fieldsValue, id: modalValues.data.id, outerOrderDetailList: JSON.stringify(orderDetailList) },
+            payload: { ...fieldsValue, id: modalValues.id, outerOrderDetailList: JSON.stringify(orderDetailList) },
           });
         } else {
           dispatch({

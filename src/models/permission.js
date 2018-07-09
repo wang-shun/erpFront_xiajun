@@ -398,7 +398,7 @@ export default {
       return { ...state, roleCurrentPage: payload.pageIndex };
     },
     saveRole(state, { payload }) {
-      return { ...state, roleModal: payload.data };
+      return { ...state, roleModal: payload.data }; 
     },
     clearRole4Add(state, { payload }) {
       return { ...state, roleModal: payload };

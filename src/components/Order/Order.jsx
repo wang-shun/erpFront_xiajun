@@ -26,8 +26,6 @@ class Order extends Component {
     // 清除多选
     this.setState({ checkId: [] }, () => {
       this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
-        console.log("__________________")
-        console.log(fieldsValue)
         if(fieldsValue.status == 10){
           fieldsValue.status= ''
         }
@@ -55,7 +53,7 @@ class Order extends Component {
       modalVisible: true,
       title: '新增',
     });
-    this.props.dispatch({ type: 'permission/clearResource', payload: {} }); 
+    this.props.dispatch({ type: 'order/clearOrder', payload: {} }); 
     // this.props.dispatch({
     //   type: 'sku/querySkuList',
     //   payload: {},
@@ -81,7 +79,7 @@ class Order extends Component {
     }
   }
 
-  updateModal(orderNo, skuCode, e) {
+  updateModal(orderNo, e) {
     if (e) e.stopPropagation();
     const p = this;
     p.setState({
@@ -89,7 +87,9 @@ class Order extends Component {
       title: '修改',
     }, () => {
       p.props.dispatch({ type: 'order/queryOrderList', payload: { orderNo }});
-      p.props.dispatch({ type: 'sku/querySkuList', payload: { skuCode } });
+      // p.props.dispatch({ type: 'sku/querySkuList', payload: { skuCode } });
+      p.props.dispatch({ type: 'order/erpOrderDe', payload: { orderNo }});
+
     });
   }
 
@@ -247,7 +247,7 @@ class Order extends Component {
             <div>
               {record.status !== -1 && <a href="javascript:void(0)" onClick={p.handleProDetail.bind(p, record)}>订单明细</a>}
               <br />
-              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.orderNo, record.skuCode)}>修改</a>
+              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.orderNo)}>修改</a>
               <br />
               <Popconfirm title="确定删除此订单？" onConfirm={p.handleDelete.bind(p, record.orderNo)}>
                 <a href="javascript:void(0)" style={{ marginRight: 10 }}>删除</a>
@@ -528,7 +528,7 @@ class Order extends Component {
 }
 
 function mapStateToProps(state) {
-  const { orderList, orderTotal, currentPage, currentPageSize, orderValues, orderDetailList, loginRoler } = state.order;
+  const { orderList, orderTotal, currentPage, currentPageSize, orderValues, orderDetailList, loginRoler, erpDetailList } = state.order;
   const { list } = state.agency;
   return {
     orderList,
@@ -538,7 +538,8 @@ function mapStateToProps(state) {
     orderValues,
     agencyList: list,
     orderDetailList,
-    loginRoler
+    loginRoler,
+    erpDetailList
   };
 }
 
