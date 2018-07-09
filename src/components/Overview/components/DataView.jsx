@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from '../style.less';
 import Title from './Title';
-import { Chart, Axis, Geom, Tooltip } from 'bizCharts';
+import { Chart, Axis, Geom, Tooltip } from 'bizcharts';
 
 export default class HeaderView extends Component {
   renderItem({ count, title }) {
