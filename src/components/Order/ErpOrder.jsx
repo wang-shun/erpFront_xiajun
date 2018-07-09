@@ -388,13 +388,24 @@ class ErpOrder extends Component {
         width: 80,
         render(text) {
           if (!text) return '-';
-          const picList = JSON.parse(text).picList;
-          const t = picList.length > 0 && picList[0] != null ? JSON.parse(text).picList[0].url : '';
-          return (
-            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
-              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
-            </Popover> : '-'
-          );
+          try {
+            const picList = JSON.parse(text).picList;
+            const t = picList.length > 0 && picList[0] != null ? JSON.parse(text).picList[0].url : '';
+            // console.log('image info', picList, t);
+            return (
+              t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+                <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
+              </Popover> : '-'
+            );
+          } catch (e) {
+            // console.log(e);
+            // console.log(text);
+            return (
+              text ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(text)} style={{ width: 400 }} />}>
+                <img role="presentation" src={imgHandlerThumb(text)} width={60} height={60} />
+              </Popover> : '-'
+            );
+          }
         },
       },
       { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 60 },
