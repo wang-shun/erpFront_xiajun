@@ -22,7 +22,6 @@ class Message extends Component {
 }
 
 function mapStateToProps({ message }) {
-  console.log(message);
   return {
     messageList: message.messageList,
   };
