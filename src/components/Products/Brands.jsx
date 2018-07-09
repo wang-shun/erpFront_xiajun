@@ -100,7 +100,7 @@ class Brands extends Component {
     cb();
   }
   handleSortEnName(a, b) {
-    console.log(a, b);
+    
   }
   render() {
     const p = this;
