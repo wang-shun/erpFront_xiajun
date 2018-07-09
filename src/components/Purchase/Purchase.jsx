@@ -155,6 +155,7 @@ class Purchase extends Component {
   render() {
     const p = this;
     const { form, list = [], currentPage, total, purchaseValues = {}, buyer = [], dispatch } = p.props;
+    console.log(purchaseValues)
     const { uploadVisble, titles } = this.state
     const { getFieldDecorator, resetFields } = form;
     const { title } = p.state;
@@ -266,7 +267,7 @@ class Purchase extends Component {
                 label="买手"
                 {...formItemLayout}
               >
-                {getFieldDecorator('buyerId', {})(
+                {getFieldDecorator('openId', {})(
                   <Select placeholder="请选择用户" optionLabelProp="title" mode>
                     {buyer.map(el => <Option key={el.id} title={el.nickName}>{el.nickName}</Option>)}
                   </Select>,
@@ -308,7 +309,7 @@ class Purchase extends Component {
           <Button style={{ float: 'left', left:'20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>导入采购需求任务</Button>
           <Button style={{ float: 'right', marginLeft: 10 }} type="primary" size="large" disabled={isNotSelected} onClick={p.handlePurchaseAction.bind(p, 'finish')}>完成采购</Button>
           <Button style={{ float: 'right', marginLeft: 10 }} size="large" disabled={isNotSelected} onClick={p.handlePurchaseAction.bind(p, 'close')}>取消采购</Button>
-          <Button style={{ float: 'right', marginLeft: 10 }} size="large" disabled={isNotSelected} onClick={p.handlePurchaseAction.bind(p, 'create')}>根据当前订单生成采购任务</Button>
+          {/* <Button style={{ float: 'right', marginLeft: 10 }} size="large" disabled={isNotSelected} onClick={p.handlePurchaseAction.bind(p, 'create')}>根据当前订单生成采购任务</Button> */}
           {/* <Button style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.handlePurchaseAction.bind(p, 'import')}>导入商品</Button> */}
         </Row>
         <Row>

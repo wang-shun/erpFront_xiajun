@@ -97,7 +97,7 @@ export default {
     // 渠道
     channels: [],
     channelValues: {},
-    erpDetailList: {},
+    erpDetailList: [],
   },
   reducers: {
     saveOrderList(state, { payload }) {

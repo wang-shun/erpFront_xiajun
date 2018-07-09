@@ -11,7 +11,6 @@ class Message extends Component {
 
   render() {
     const { messageList } = this.props;
-    console.log(messageList);
 
     const list = messageList.map((el) => (<Card title={el.siteMsg.title} style={{ marginBottom: 20 }}>
       <p>{el.siteMsg.content}</p>
