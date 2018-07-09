@@ -14,7 +14,7 @@ moment.locale('zh-cn');
 
 // 开启ajax格式验证
 fetch.onError((err) => {
-  message.error(err.errorMsg || '请求失败');
+  // message.error(err.errorMsg || '请求失败');
   if (err.errorCode === 'SESSION_TIMEOUT') {
     location.reload();
   }

@@ -73,7 +73,7 @@ class ProductsModal extends Component {
     const p = this;
     const { form, dispatch, modalValues } = this.props;
     form.validateFieldsAndScroll((err, fieldsValue) => {
-      console.log(fieldsValue);
+      // console.log(fieldsValue);
       if (err) {
         return;
       }
@@ -118,7 +118,7 @@ class ProductsModal extends Component {
         const lastDetailInfo = modalValues && modalValues.data && modalValues.data.detail;
         values.detail = detailInfo ? encodeURIComponent(detailInfo) : lastDetailInfo ? encodeURIComponent(lastDetailInfo) : '';
 
-        console.log(values);
+        // console.log(values);
         if (modalValues && modalValues.data) {
           dispatch({
             type: 'products/updateProducts',
@@ -238,6 +238,8 @@ class ProductsModal extends Component {
   render() {
     const p = this;
     const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [], countries = [], channels = [] } = this.props;
+    console.log(this.props)
+    console.log(tree)
     const { previewVisible, previewImage, activeTab, countryNameExit } = this.state;
     const { getFieldDecorator } = form;
     // 图片字符串解析
@@ -321,10 +323,14 @@ class ProductsModal extends Component {
     if (productData.categoryCode) {
 
       tree.forEach((el) => {
+        console.log(el)
         if (el.children) {
           el.children.forEach((el2) => {
+            console.log(el2)
             if (el2.children) {
               el2.children.forEach((el3) => {
+                console.log(el3)
+                console.log(el3.categoryCode, productData.categoryCode)
                 if (el3.categoryCode.toString() === productData.categoryCode.toString()) {
 
                   selectedCategoryId = [el3.categoryCode.toString()];

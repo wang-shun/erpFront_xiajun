@@ -293,7 +293,7 @@ class PurchaseStorage extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('warehouseId', {})(
-                    <Select labelInValue placeholder="请选择仓库" optionLabelProp="title" combobox allowClear onChange={this.storehouse.bind(this)}>
+                    <Select labelInValue placeholder="请选择仓库" optionLabelProp="title" onChange={this.storehouse.bind(this)}>
                       {selectWhList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
                     </Select>)}
                 </FormItem>
@@ -305,7 +305,7 @@ class PurchaseStorage extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('buyerId', {})(
-                    <Select placeholder="请选择买手" optionLabelProp="title" combobox allowClear onChange={this.storehouseTwo.bind(this)}>
+                    <Select placeholder="请选择买手" optionLabelProp="title"  onChange={this.storehouseTwo.bind(this)}>
                       {buyers.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
                     </Select>)}
                 </FormItem>
@@ -394,7 +394,8 @@ class PurchaseStorage extends Component {
                       rules: [{ required: true, message: '请输入货架号' }],
                       // initialValue: roleModal.seq,
                     })(
-                      <InputNumber placeholder="请输入货架号" />,
+
+                      <Input placeholder="请输入库数目" />,
                     )}
                   </FormItem>
                 </Col>
@@ -404,7 +405,7 @@ class PurchaseStorage extends Component {
                       rules: [{ required: true, message: '请输入仓库号' }],
                       // initialValue: roleModal.status,
                     })(
-                      <Select labelInValue placeholder="请选择仓库" optionLabelProp="title" combobox allowClear onChange={this.storehouse.bind(this)}>
+                      <Select labelInValue placeholder="请选择仓库" optionLabelProp="title"  onChange={this.storehouse.bind(this)}>
                         {selectWhList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
                       </Select>
                     )}
@@ -416,7 +417,7 @@ class PurchaseStorage extends Component {
                       rules: [{ required: true, message: '请输入库数目' }],
                       // initialValue: roleModal.description,
                     })(
-                      <Input placeholder="请输入库数目" />,
+                      <InputNumber placeholder="请输入货架号" />,
                     )}
                   </FormItem>
                 </Col>
