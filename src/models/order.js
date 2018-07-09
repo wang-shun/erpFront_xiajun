@@ -59,6 +59,8 @@ const queryChannel = ({ payload }) => fetch.post('/channel/query', { data: paylo
 const deleteChannel = ({ payload }) => fetch.post('/channel/delete', { data: payload }).catch(e => e);
 const addChannel = ({ payload }) => fetch.post('/channel/add', { data: payload }).catch(e => e);
 const updateChannel = ({ payload }) => fetch.post('/channel/update', { data: payload }).catch(e => e);
+// 
+const erpOrderDe = ({ payload }) => fetch.get('/erpOrder/detail', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'order',
@@ -95,10 +97,14 @@ export default {
     // 渠道
     channels: [],
     channelValues: {},
+    erpDetailList: {},
   },
   reducers: {
     saveOrderList(state, { payload }) {
       return { ...state, orderList: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };
+    },
+    clearOrder4Add(state, { payload }) {
+      return { ...state, orderList: [] };
     },
     saveCurrentPage(state, { payload }) {
       return { ...state, currentPage: payload.pageIndex };
@@ -157,6 +163,9 @@ export default {
     updateState(state, { payload }) {
       return { ...state, ...payload };
     },
+    erpOrderDeList(state, { payload }) {
+      return { ...state, erpDetailList: payload.data }
+    },
   },
   effects: {
     // 主订单
@@ -202,6 +211,15 @@ export default {
         });
       }
     },
+    * erpOrderDe({ payload }, { call, put }) {
+      const data = yield call(erpOrderDe, { payload });
+      if (data.success) {
+        yield put({
+          type: 'erpOrderDeList',
+          payload: data,
+        });
+      }
+    },
     * queryOrderList({ payload }, { call, put, select }) { // 订单管理列表
       let pageIndex = yield select(({ order }) => order.currentPage);
       let pageSize = yield select(({ order }) => order.currentPageSize);
@@ -223,6 +241,12 @@ export default {
           payload: data,
         });
       }
+    },
+    * clearOrder({ payload }, { put }) {
+      yield put({
+        type: 'clearOrder4Add',
+        payload: {},
+      });
     },
     * closeOrder({ payload, cb }, { call }) {
       const data = yield call(closeOrder, { payload });
