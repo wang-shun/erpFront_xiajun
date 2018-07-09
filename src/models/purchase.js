@@ -8,9 +8,9 @@ const queryPurchase = ({ payload }) => fetch.post('/purchase/query', { data: pay
 const queryBuyers = ({ payload }) => fetch.post('/purchase/queryBuyers', { data: payload }).catch(e => e);
 const deletePurchase = ({ payload }) => fetch.post('/purchase/delete', { data: payload }).catch(e => e);
 // 取消采购
-const closeTaskDaily = ({ payload }) => fetch.post('/purchase/closeTaskDaily', { data: payload }).catch(e => e);
+const closeTaskDaily = ({ payload }) => fetch.post('/purchaseTask/closeTaskDaily', { data: payload }).catch(e => e);
 // 完成采购
-const finishTaskDaily = ({ payload }) => fetch.post('/purchase/finishTaskDaily', { data: payload }).catch(e => e);
+const finishTaskDaily = ({ payload }) => fetch.post('/purchaseTask/finishTaskDaily', { data: payload }).catch(e => e);
 // 根据当前订单生成采购任务
 const createByOrder = () => fetch.get('/purchase/autoAddByOrder').catch(e => e);
 // 采购小票
@@ -154,7 +154,7 @@ export default {
         if (cb) cb();
       }
     },
-   
+
     * closeTaskDaily({ payload, cb }, { call }) {
       const data = yield call(closeTaskDaily, { payload });
       if (data.success) {
