@@ -227,14 +227,14 @@ class SkuModal extends Component {
             </Col>
             <Col span={7}>
               <FormItem
-                label="尺寸"
+                label="规格2"
                 {...formItemLayout}
               >
                 {getFieldDecorator('scale', {
                   initialValue: toString(skuModalData.scale),
-                  rules: [{ required: true, message: '请填写重量' }]
+                  rules: [{ required: true, message: '请填写尺寸等规格' }]
                 })(
-                  <Input  placeholder="必填" />,
+                  <Input  placeholder="尺寸等规格" />,
                 )}
               </FormItem>
             </Col>
@@ -281,7 +281,7 @@ class SkuModal extends Component {
           <Row gutter={10}>
             <Col span={7}>
               <FormItem
-                label="重量(磅)"
+                label="重量(克)"
                 {...formItemLayout}
               >
                 {getFieldDecorator('weight', {
@@ -294,14 +294,14 @@ class SkuModal extends Component {
             </Col>
             <Col span={7}>
               <FormItem
-                label="颜色"
+                label="规格1"
                 {...formItemLayout}
               >
                 {getFieldDecorator('color', {
                   initialValue: toString(skuModalData.color),
-                  rules: [{ required: true, message: '请填写重量' }]
+                  rules: [{ required: true, message: '请填写颜色等规格' }]
                 })(
-                  <Input placeholder="必填" />,
+                  <Input placeholder="颜色等规格" />,
                 )}
               </FormItem>
             </Col>
