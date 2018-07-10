@@ -26,7 +26,8 @@ const queryOrg = ({ payload }) => fetch.post('/organization/query', { data: payl
 const authRole = ({ payload }) => fetch.post('/role/updateGrant', { data: payload }).catch(e => e);
 // 扫码加用户
 const wxRout = ({ payload }) => fetch.post('/wechatLogin/getHtml', { data: payload }).catch(e => e);
-
+// 修改密码
+const editUserPwdList = ({ payload }) => fetch.post('/user/editUserPwd', { data: payload }).catch(e => e);
 export default {
   namespace: 'permission',
   state: {
@@ -365,6 +366,16 @@ export default {
         });
       }
     },
+    * editUserPwdList(payload, { call, put }) {
+    const data = yield call(editUserPwdList, { payload });
+      if (data.success) {
+        message.success('修改密码成功');
+        // yield put({
+        //   type: 'queryUserList',
+        //   payload: {},
+        // });
+      }
+  },
   },
   reducers: {
     updateResourceList(state, { payload }) {

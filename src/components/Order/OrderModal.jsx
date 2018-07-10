@@ -105,9 +105,9 @@ class OrderModal extends Component {
   render() {
     const p = this;
     const { form, title, visible, modalValues = {}, agencyList = [], erpDetailListValues = {}} = p.props;
-    console.log(erpDetailListValues)
+    // console.log(modalValues.id)
     const orderData = modalValues || {};
-    console.log(orderData)
+    // console.log(orderData)
     const { getFieldDecorator } = form;
     const modalProps = {
       visible,

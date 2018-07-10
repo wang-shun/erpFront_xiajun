@@ -85,7 +85,7 @@ class Order extends Component {
       modalVisible: true,
       title: '修改',
     }, () => {
-      p.props.dispatch({ type: 'order/queryOrderList', payload: { orderNo }});
+      p.props.dispatch({ type: 'order/queryOrderListTwo', payload: { orderNo }});
       // p.props.dispatch({ type: 'sku/querySkuList', payload: { skuCode } });
       p.props.dispatch({ type: 'order/erpOrderDe', payload: { orderNo }});
 
@@ -194,9 +194,9 @@ class Order extends Component {
 
   render() {
     const p = this;
-    const { form, dispatch, currentPage, orderList = [], orderTotal, currentPageSize, orderValues = {}, agencyList = [], orderDetailList = [], loginRoler, erpDetailList = []} = p.props;
-    console.log(erpDetailList)
-    let orderValue = orderList[0];
+    const { form, dispatch, currentPage, orderList = [], orderTotal, currentPageSize, orderValues = {}, agencyList = [], orderDetailList = [], loginRoler, erpDetailList = [], orderListTwo= []} = p.props;
+    console.log(orderListTwo)
+    let orderValue = orderListTwo[0];
     const { getFieldDecorator, resetFields } = form;
     const { title, visible, modalVisible } = p.state;
     const formItemLayout = {
@@ -247,7 +247,7 @@ class Order extends Component {
             <div>
               {record.status !== -1 && <a href="javascript:void(0)" onClick={p.handleProDetail.bind(p, record)}>订单明细</a>}
               <br />
-              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.orderNo)}>修改</a>
+              {record.status !== -1 && <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.orderNo)}>修改</a>}
               <br />
               <Popconfirm title="确定删除此订单？" onConfirm={p.handleDelete.bind(p, record.orderNo)}>
                 <a href="javascript:void(0)" style={{ marginRight: 10 }}>删除</a>
@@ -529,7 +529,7 @@ class Order extends Component {
 }
 
 function mapStateToProps(state) {
-  const { orderList, orderTotal, currentPage, currentPageSize, orderValues, orderDetailList, loginRoler, erpDetailList } = state.order;
+  const { orderList, orderTotal, currentPage, currentPageSize, orderValues, orderDetailList, loginRoler, erpDetailList, orderListTwo } = state.order;
   const { list } = state.agency;
   return {
     orderList,
@@ -540,7 +540,8 @@ function mapStateToProps(state) {
     agencyList: list,
     orderDetailList,
     loginRoler,
-    erpDetailList
+    erpDetailList,
+    orderListTwo,
   };
 }
 

@@ -17,6 +17,8 @@ class Resource extends Component {
       title: '',
       visibleWx: false,
       titles: '',
+      visiblePassword: false,
+      info: '',
     };
   }
   handleSubmit() {
@@ -34,19 +36,46 @@ class Resource extends Component {
     });
   }
   handleCancel() {
-    this.setState({ visible: false, visibleWx: false });
+    this.setState({ visible: false, visibleWx: false, visiblePassword: false });
     this.props.form.resetFields();
   }
   showModal() {
     this.setState({ visible: true, title: '新增', userModal: {} });
-    this.props.dispatch({ type: 'permission/clearUser', payload: { } });
+    this.props.dispatch({ type: 'permission/clearUser', payload: {} });
   }
-  showWxModal(){
+  showWxModal() {
     this.setState({
       visibleWx: true,
       titles: '扫码加用户'
     })
     // this.props.dispatch({ type: 'permission/wxRout', payload: {} })
+  }
+  showPasswordModal() {
+    this.setState({
+      visiblePassword: true,
+      info: '修改密码'
+    })
+  }
+  confirmPassword() {
+    const { form } = this.props
+    form.validateFieldsAndScroll((err, values) => {
+      if (err) {
+        return;
+      }
+      this.props.dispatch({ type: 'permission/editUserPwdList', ...values });
+      this.setState({
+        visiblePassword: false,
+      })
+    })
+    
+  }
+  compareToFirstPassword = (rule, value, callback) =>{
+    const form = this.props.form;
+    if (value && value !== form.getFieldValue('pwd')) {
+      callback('两次密码输入不同');
+    } else {
+      callback();
+    }
   }
   handleQuery(r) {
     this.setState({ visible: true, title: '修改' });
@@ -62,7 +91,7 @@ class Resource extends Component {
   render() {
     const p = this;
     const { userList = [], total, form, userModal = {}, orgList = [], roleList = [], wxData } = this.props;
-    const { visible, title, titles, visibleWx } = this.state;
+    const { visible, title, titles, visibleWx, info, visiblePassword } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -79,7 +108,8 @@ class Resource extends Component {
       { title: '姓名', key: 'name', dataIndex: 'name' },
       { title: '所属部门', key: 'organizationName', dataIndex: 'organizationName' },
       { title: '创建时间', key: 'gmtCreate', dataIndex: 'gmtCreate' },
-      { title: '性别',
+      {
+        title: '性别',
         key: 'sex',
         dataIndex: 'sex',
         render(t) {
@@ -89,7 +119,8 @@ class Resource extends Component {
       },
       { title: '年龄', key: 'age', dataIndex: 'age' },
       { title: '手机号', key: 'phone', dataIndex: 'phone' },
-      { title: '角色',
+      {
+        title: '角色',
         key: 'rolesList',
         dataIndex: 'rolesList',
         render(t) {
@@ -102,7 +133,8 @@ class Resource extends Component {
           return role.join(', ');
         },
       },
-      { title: '用户类型',
+      {
+        title: '用户类型',
         key: 'userType',
         dataIndex: 'userType',
         render(t) {
@@ -110,7 +142,8 @@ class Resource extends Component {
           return '用户';
         },
       },
-      { title: '状态',
+      {
+        title: '状态',
         key: 'status',
         dataIndex: 'status',
         render(t) {
@@ -118,7 +151,8 @@ class Resource extends Component {
           return '停用';
         },
       },
-      { title: '操作',
+      {
+        title: '操作',
         key: 'oper',
         dataIndex: 'oper',
         render(t, r) {
@@ -147,7 +181,8 @@ class Resource extends Component {
         <Row>
           <Col style={{ paddingBottom: '15px' }}>
             <Button type="primary" size="large" onClick={this.showModal.bind(this)}>增加用户</Button>
-            <Button type="primary" size="large" onClick={this.showWxModal.bind(this)} style={{marginLeft:'10px'}}>扫码加用户</Button>
+            <Button type="primary" size="large" onClick={this.showWxModal.bind(this)} style={{ marginLeft: '10px' }}>扫码加用户</Button>
+            <Button type="primary" size="large" onClick={this.showPasswordModal.bind(this)} style={{ marginLeft: '10px' }}>修改密码</Button>
           </Col>
         </Row>
         <Row>
@@ -170,7 +205,7 @@ class Resource extends Component {
                     rules: [{ required: true, message: '请输入登录名' }],
                     initialValue: userModal.loginName,
                   })(
-                    <Input placeholder="请输入登录名" />,
+                    <Input placeholder="请输入登录名" disabled= {userModal.id? true: false}/>,
                   )}
                 </FormItem>
               </Col>
@@ -185,15 +220,15 @@ class Resource extends Component {
                 </FormItem>
               </Col>
               <Col span={12}>
-                <FormItem 
-                  label="密码" 
+                <FormItem
+                  label="密码"
                   {...formItemLayout}
                 >
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: '请输入密码' }],
                     initialValue: userModal.password,
                   })(
-                    <Input type="password" placeholder="请输入密码" />,
+                    <Input type="password" placeholder="请输入密码" disabled= {userModal.id? true: false}/>,
                   )}
                 </FormItem>
               </Col>
@@ -283,22 +318,65 @@ class Resource extends Component {
             </Row>
           </Form>
         </Modal>}
-        {visibleWx && <Modal 
-          visible={visibleWx} 
-          width={600} 
-          title={titles} 
+        {visibleWx && <Modal
+          visible={visibleWx}
+          width={600}
+          title={titles}
           onOk={this.handleCancel.bind(this)}
           onCancel={this.handleCancel.bind(this)}>
-          <iframe 
-                style={{width:'100%', height:'500px', overflow:'visible'}}
-                ref="iframe" 
-                // srcdoc={wxData}
-                // src="http://m.buyer007.com/wxTest.html"
-                src="/wechatLogin/getHtml"
-                width="100%" 
-                scrolling="no" 
-                frameBorder="0"
-            />
+          <iframe
+            style={{ width: '100%', height: '500px', overflow: 'visible' }}
+            ref="iframe"
+            // srcdoc={wxData}
+            // src="http://m.buyer007.com/wxTest.html"
+            src="/wechatLogin/getHtml"
+            width="100%"
+            scrolling="no"
+            frameBorder="0"
+          />
+        </Modal>}
+        {visiblePassword && <Modal
+          visible={visiblePassword}
+          width={500}
+          title={info}
+          onOk={this.confirmPassword.bind(this)}
+          onCancel={this.handleCancel.bind(this)}
+        >
+          <Form>
+            <Row>
+              <Col>
+                <FormItem label="旧密码" {...formItemLayout}>
+                  {getFieldDecorator('oldPwd', {
+                    rules: [{ required: true, message: '请输入旧密码' }],
+                  })(
+                    <Input type="password" placeholder="请输入旧密码" />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FormItem label="新密码" {...formItemLayout}>
+                  {getFieldDecorator('pwd', {
+                    rules: [{ required: true, message: '请输入新密码' }],
+                  })(
+                    <Input type="password" placeholder="请输入新密码" />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FormItem label="确认密码" {...formItemLayout}>
+                  {getFieldDecorator('pwdConfirm', {
+                  rules: [{ required: true, message: '请再输入一次密码' },{ validator: this.compareToFirstPassword,}],
+                  })(
+                    <Input type="password" placeholder="请再输入一次密码" />,
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
         </Modal>}
       </div>);
   }

@@ -183,6 +183,9 @@ class PurchaseStorage extends Component {
       wrapperCol: { span: 10 },
     };
     const columnsList = [
+      
+      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },
+      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' },      
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
@@ -194,6 +197,8 @@ class PurchaseStorage extends Component {
       { title: '状态', dataIndex: 'statusName', key: 'statusName' },
     ];
     const columnsSelectList = [
+      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },
+      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' }, 
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },

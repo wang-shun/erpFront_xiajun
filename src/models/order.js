@@ -6,6 +6,7 @@ const addOrder = ({ payload }) => fetch.post('/outerOrder/add', { data: payload 
 const updateOrder = ({ payload }) => fetch.post('/outerOrder/update', { data: payload }).catch(e => e);
 const deleteOrder = ({ payload }) => fetch.post('/outerOrder/delete', { data: payload }).catch(e => e);
 const queryOrderList = ({ payload }) => fetch.post('/outerOrder/index', { data: payload }).catch(e => e);
+const queryOrderListTwo = ({ payload }) => fetch.post('/outerOrder/index', { data: payload }).catch(e => e);
 const queryOrder = ({ payload }) => fetch.post('/outerOrder/query', { data: payload }).catch(e => e);
 const queryOrderDetail = ({ payload }) => fetch.post('/outerOrder/erpStockup', { data: payload }).catch(e => e);
 const closeOrder = ({ payload }) => fetch.post('/outerOrder/close', { data: payload }).catch(e => e);
@@ -66,6 +67,7 @@ export default {
   namespace: 'order',
   state: {
     orderList: [],
+    orderListTwo: [],
     orderDetailList: [],
     orderTotal: 1,
     currentPage: 1,
@@ -103,8 +105,11 @@ export default {
     saveOrderList(state, { payload }) {
       return { ...state, orderList: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };
     },
+    saveOrderListTwo(state, { payload }){
+      return { ...state, orderListTwo: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };      
+    },
     clearOrder4Add(state, { payload }) {
-      return { ...state, orderList: [] };
+      return { ...state, orderListTwo: [] };
     },
     saveCurrentPage(state, { payload }) {
       return { ...state, currentPage: payload.pageIndex };
@@ -238,6 +243,28 @@ export default {
       if (data.success) {
         yield put({
           type: 'saveOrderList',
+          payload: data,
+        });
+      }
+    },
+    *queryOrderListTwo({ payload }, { call, put, select }) { 
+      let pageIndex = yield select(({ order }) => order.currentPage);
+      let pageSize = yield select(({ order }) => order.currentPageSize);
+      if (payload && payload.pageIndex) {
+        pageIndex = payload.pageIndex;
+        yield put({ type: 'saveCurrentPage', payload });
+      }
+      if (payload && payload.pageSize) {
+        pageSize = payload.pageSize;
+        yield put({ type: 'saveCurrentPageSize', payload });
+      }
+      if (payload.startGmt) payload.startGmt = payload.startGmt.format('YYYY-MM-DD');
+      if (payload.endGmt) payload.endGmt = payload.endGmt.format('YYYY-MM-DD');
+      if (!payload.status) payload.status = 10;
+      const data = yield call(queryOrderListTwo, { payload: { ...payload, pageIndex, pageSize } });
+      if (data.success) {
+        yield put({
+          type: 'saveOrderListTwo',
           payload: data,
         });
       }

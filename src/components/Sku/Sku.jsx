@@ -126,6 +126,7 @@ class Sku extends Component {
   render() {
     const p = this;
     const { skuList = {}, skuTotal, currentPageSkuIndex, skuData, brandList = [], productsList = [], form, tree = [], packageScales } = this.props;
+    console.log(skuList)
     const { lockedPopoverVisible } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -171,7 +172,7 @@ class Sku extends Component {
           return (
             <div>
               可售库存：{r.totalAvailableInv}<br />
-              虚拟库存：{r.virtualInv}<br />
+              虚拟库存：{r.virtualInv < 0 ? 0 : r.virtualInv}<br />
               {/* 虚拟预扣：{r.lockedVirtualInv}<br />  */}
               现货库存：{r.inventory}<br />
               现货占用：{r.lockedInv}<br />
