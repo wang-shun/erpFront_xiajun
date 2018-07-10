@@ -329,8 +329,8 @@ class ProductsModal extends Component {
             console.log(el2)
             if (el2.children) {
               el2.children.forEach((el3) => {
-                console.log(el3)
-                console.log(el3.categoryCode, productData.categoryCode)
+                // console.log(el3)
+                // console.log(el3.categoryCode, productData.categoryCode)
                 if (el3.categoryCode.toString() === productData.categoryCode.toString()) {
 
                   selectedCategoryId = [el3.categoryCode.toString()];

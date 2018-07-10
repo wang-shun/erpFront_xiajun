@@ -372,7 +372,7 @@ class Products extends Component {
                   <Input placeholder="请输入采购站点" suffix={p.showClear('buySite')} />)}
               </FormItem>
             </Col>
-            <Col span="8">
+            {/* <Col span="8">
               <FormItem
                 label="归属买手"
                 {...formItemLayout}
@@ -383,7 +383,7 @@ class Products extends Component {
                   </Select>,
                 )}
               </FormItem>
-            </Col>
+            </Col> */}
           </Row>
           <Row gutter={20} style={{ width: 800 }}>
             <Col span={14}>
