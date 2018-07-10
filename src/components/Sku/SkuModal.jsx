@@ -234,7 +234,7 @@ class SkuModal extends Component {
                   initialValue: toString(skuModalData.scale),
                   rules: [{ required: true, message: '请填写尺寸等规格' }]
                 })(
-                  <Input  placeholder="请填写尺寸等规格" />,
+                  <Input  placeholder="尺寸等规格" />,
                 )}
               </FormItem>
             </Col>
@@ -301,7 +301,7 @@ class SkuModal extends Component {
                   initialValue: toString(skuModalData.color),
                   rules: [{ required: true, message: '请填写颜色等规格' }]
                 })(
-                  <Input placeholder="请填写颜色等规格" />,
+                  <Input placeholder="颜色等规格" />,
                 )}
               </FormItem>
             </Col>
