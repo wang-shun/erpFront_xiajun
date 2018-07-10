@@ -91,6 +91,7 @@ class Resource extends Component {
   render() {
     const p = this;
     const { userList = [], total, form, userModal = {}, orgList = [], roleList = [], wxData } = this.props;
+    console.log(userModal)
     const { visible, title, titles, visibleWx, info, visiblePassword } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -205,7 +206,7 @@ class Resource extends Component {
                     rules: [{ required: true, message: '请输入登录名' }],
                     initialValue: userModal.loginName,
                   })(
-                    <Input placeholder="请输入登录名" disabled= {userModal.id? true: false}/>,
+                    <Input placeholder="请输入登录名" disabled= {userModal.id && userModal.loginName.indexOf("#init#") != 0}/>,
                   )}
                 </FormItem>
               </Col>
@@ -225,7 +226,7 @@ class Resource extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('password', {
-                    rules: [{ required: true, message: '请输入密码' }],
+                    // rules: [{ required: true, message: '请输入密码' }],
                     initialValue: userModal.password,
                   })(
                     <Input type="password" placeholder="请输入密码" disabled= {userModal.id? true: false}/>,
@@ -295,7 +296,7 @@ class Resource extends Component {
               <Col span={12}>
                 <FormItem label="手机号" {...formItemLayout}>
                   {getFieldDecorator('phone', {
-                    rules: [{ validator: this.checkPhone.bind(this) }],
+                    rules: [{ validator: this.checkPhone.bind(this) }, { required: true, message: '请输入手机号' }],
                     initialValue: userModal.phone,
                   })(
                     <Input placeholder="请输入手机号" />,
