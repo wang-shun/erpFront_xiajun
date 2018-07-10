@@ -561,8 +561,8 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                     required="true"
                   >
-                    {getFieldDecorator('deliveryMode', {
-                      initialValue: toString(productData.deliveryMode || '1'),
+                    {getFieldDecorator('logisticType', {
+                      initialValue: toString(productData.logisticType || '1'),
                     })(
                       <RadioGroup on>
                         <Radio value="1">海外直邮</Radio>
