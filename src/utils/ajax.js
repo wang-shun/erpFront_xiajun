@@ -87,7 +87,8 @@ AjaxClass.prototype.init = function init() {
     data: d,
     timeout: p.options.timeout,
     crossDomain: p.options.crossDomain,
-    contentType: p.options.useJSON ? 'application/json; charset=utf-8' : '',
+    contentType: p.options.useJSON  ? 'application/json; charset=utf-8' : '',
+
     success: (response) => {
       if (!p._aborted) {
         if (response) {

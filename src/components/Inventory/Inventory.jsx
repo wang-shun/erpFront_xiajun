@@ -140,7 +140,7 @@ class Inventory extends Component {
               <ChangePosition dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
               <br />
               {/* <span> | </span> */}
-              <CheckOutStock dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
+              {/* <CheckOutStock dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} /> */}
             </div>
           );
         },
@@ -227,9 +227,9 @@ class Inventory extends Component {
               <Button size="large" type="ghost" onClick={() => { resetFields(); }}>清空</Button>
             </Col>
           </Row>
-          <Row className="operBtn">
+          {/* <Row className="operBtn">
             <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportInv.bind(p)}>导出库存</Button>
-          </Row>
+          </Row> */}
         </Form>
         <Row style={{ marginTop: 15 }}>
           <Col>

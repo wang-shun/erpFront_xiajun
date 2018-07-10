@@ -71,7 +71,7 @@ class Purchase extends Component {
       modalVisible: true,
       title: '修改',
     }, () => {
-      p.props.dispatch({ type: 'purchase/queryPurchase', payload: { id } });
+      p.props.dispatch({ type: 'purchase/querypurchaseTask', payload: { id } });
     });
   }
 
