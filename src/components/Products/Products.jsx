@@ -15,7 +15,7 @@ class Products extends Component {
     this.state = {
       checkId: [],
       uploadVisble: false,
-      titles:'',
+      titles: '',
     };
   }
 
@@ -58,18 +58,18 @@ class Products extends Component {
   showModal() {
     const p = this;
     this.setState({ modalVisible: true }, () => {
-      this.props.dispatch({ type: 'products/queryAllBrand', payload: {} });      
+      this.props.dispatch({ type: 'products/queryAllBrand', payload: {} });
     });
   }
-  showMore(){
+  showMore() {
     console.log('thisthis')
     this.setState({
       uploadVisble: true,
       titles: '导入商品',
     })
   }
-  closeMore(){
-    this.setState({ uploadVisble: false})
+  closeMore() {
+    this.setState({ uploadVisble: false })
   }
   cleanVirtualInvModal(id) {
     const p = this;
@@ -104,7 +104,7 @@ class Products extends Component {
     let action = '';
     let type = '';
     /**********xiajun 当用户没有勾选任何商品就进行操作时，进行提示******************/
-    if(0 == checkId.length) {
+    if (0 == checkId.length) {
       Modal.confirm({
         title: '提示',
         content: `请勾选商品`,
@@ -179,7 +179,8 @@ class Products extends Component {
     };
     const yzBasicUrl = 'https://h5.youzan.com/v2/goods/';
     const columns = [
-      { title: '商品名称',
+      {
+        title: '商品名称',
         dataIndex: 'name',
         key: 'name',
         width: 200 / 14.32 + '%',
@@ -188,7 +189,8 @@ class Products extends Component {
         },
       },
       { title: '商品代码', dataIndex: 'itemCode', key: 'itemCode', width: 100 / 14.32 + '%' },
-      { title: '商品状态',
+      {
+        title: '商品状态',
         dataIndex: 'status',
         key: 'status',
         width: 60 / 14.32 + '%',
@@ -203,7 +205,8 @@ class Products extends Component {
           }
         },
       },
-      { title: '商品图片',
+      {
+        title: '商品图片',
         dataIndex: 'mainPic',
         key: 'mainPic',
         width: 80,
@@ -218,7 +221,8 @@ class Products extends Component {
           );
         },
       },
-      { title: '二维码图片',
+      {
+        title: '二维码图片',
         dataIndex: 'dimensionCodePic',
         key: 'dimensionCodePic',
         width: 80,
@@ -233,8 +237,9 @@ class Products extends Component {
         },
       },
       { title: '商品品牌', dataIndex: 'brand', key: 'brand', width: 100 / 14.32 + '%', render(text) { return text || '-'; } },
-      { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80 / 14.32 + '%', render(text) { return <span>{text === 0 ? '代购' : '现货' }</span>; } },
-      { title: '商品类目',
+      { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80 / 14.32 + '%', render(text) { return <span>{text === 0 ? '代购' : '现货'}</span>; } },
+      {
+        title: '商品类目',
         width: 100 / 14.32 + '%',
         dataIndex: 'categoryName',
         key: 'categoryName',
@@ -244,7 +249,8 @@ class Products extends Component {
         // },
       },
       //{ title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80 / 14.32 + '%', render(text) { return text || '-'; } },
-      { title: '是否可售',
+      {
+        title: '是否可售',
         dataIndex: 'isSale',
         key: 'isSale',
         width: 80 / 14.32 + '%',
@@ -256,10 +262,23 @@ class Products extends Component {
         },
       },
       { title: '实际库存', dataIndex: 'inventory', key: 'inventory', width: 80 / 14.32 + '%' },
-      { title: '虚拟库存', dataIndex: 'virtualInv', key: 'virtualInv', width: 80 / 14.32 + '%' },
+      {
+        title: '虚拟库存',
+        key: 'virtualInv', 
+        width: 80 / 14.32 + '%',
+        render(t, r){
+          return (
+            <div>
+             {r.virtualInv < 0 ? 0 : r.virtualInv}
+            </div>
+          );
+        },
+
+      },
       { title: '开始销售时间', dataIndex: 'startDate', key: 'startDate', width: 80 / 14.32 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
       { title: '结束销售时间', dataIndex: 'endDate', key: 'endDate', width: 80 / 14.32 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
-      { title: '操作',
+      {
+        title: '操作',
         key: 'oper',
         width: 90,
         render(text, record) {
@@ -423,11 +442,11 @@ class Products extends Component {
         </Form>
         <Row className="operBtn">
           <Col>
-            <Button type="primary" style={{ float: 'left' }} size="large" onClick={() => { this.showModal(); } }>添加商品</Button>
-            <Button style={{ float: 'left', left:'20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>批量导入商品</Button>
-            <Button type="primary" style={{ float: 'right', marginLeft: 10 }}  size="large" onClick={p.batchAction.bind(p, 'syn')}>批量同步</Button>
-            <Button type="primary" style={{ float: 'right', marginLeft: 10 }}  size="large" onClick={p.batchAction.bind(p, 'onSell')}>批量上架</Button>
-            <Button type="primary" style={{ float: 'right', marginLeft: 10 }}  size="large" onClick={p.batchAction.bind(p, 'offSell')}>批量下架</Button>
+            <Button type="primary" style={{ float: 'left' }} size="large" onClick={() => { this.showModal(); }}>添加商品</Button>
+            <Button style={{ float: 'left', left: '20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>批量导入商品</Button>
+            <Button type="primary" style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.batchAction.bind(p, 'syn')}>批量同步</Button>
+            <Button type="primary" style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.batchAction.bind(p, 'onSell')}>批量上架</Button>
+            <Button type="primary" style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.batchAction.bind(p, 'offSell')}>批量下架</Button>
           </Col>
         </Row>
         <Row>
@@ -455,9 +474,9 @@ class Products extends Component {
           countries={countries}
         />
         <ProductsUpload2
-        visible={uploadVisble}
-        title = {titles}
-        close = {this.closeMore.bind(this)}
+          visible={uploadVisble}
+          title={titles}
+          close={this.closeMore.bind(this)}
         />
       </div>
     );

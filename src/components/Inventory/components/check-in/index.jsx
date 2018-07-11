@@ -16,13 +16,16 @@ class CheckIn extends Component {
     });
   }
   submit() {
+    console.log('this')
     const { record, form, handleSubmit, page } = this.props;
+    console.log(record)
     form.validateFields((err, values) => {
+      console.log(values)
       if (err) return;
       this.toggleVisible();
       this.props.dispatch({
         type: 'inventory/checkIn',
-        payload: { ...values, skuId: record.skuId, warehouseId: record.warehouseId },
+        payload: { ...values, skuCode: record.skuCode, warehouseId: record.warehouseNo },
         cb() { handleSubmit(null, page); },
       });
     });

@@ -161,7 +161,7 @@ class ProductTable extends Component {
     const payload = { ...skuQuery, pageIndex: typeof num === 'number' ? num : 1 };
     if (typeof size === 'number') payload.pageSize = size;
     this.props.dispatch({
-      type: 'sku/querySkuList',
+      type: 'sku/querySkuList2',
       payload,
     });
   }
@@ -176,6 +176,7 @@ class ProductTable extends Component {
   render() {
     const p = this;
     const { form, skuList = [], parent, total, pageSize, skuListTwo = [] } = p.props;
+    console.log(skuListTwo)
     // console.log(p.props)
     // let erpDetailLists = p.props.data
     // console.log(erpDetailLists.shopCode)
