@@ -85,10 +85,14 @@ class Order extends Component {
       modalVisible: true,
       title: '修改',
     }, () => {
-      p.props.dispatch({ type: 'order/queryOrderListTwo', payload: { orderNo }});
+      p.props.dispatch({ 
+        type: 'order/queryOrderListTwo', 
+        payload: { orderNo },
+        cb: () =>{
+          p.props.dispatch({ type: 'order/erpOrderDe', payload: { orderNo }});
+        }
+      });
       // p.props.dispatch({ type: 'sku/querySkuList', payload: { skuCode } });
-      p.props.dispatch({ type: 'order/erpOrderDe', payload: { orderNo }});
-
     });
   }
 

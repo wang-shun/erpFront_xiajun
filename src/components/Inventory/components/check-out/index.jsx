@@ -16,6 +16,7 @@ export default class CheckOut extends Component {
   }
   submit() {
     const { record, handleSubmit, page } = this.props;
+    console.log(record)
     const { quantity } = this.state;
     if (!quantity) {
       this.setState({ showError: true });
@@ -24,7 +25,7 @@ export default class CheckOut extends Component {
     this.toggleVisible();
     this.props.dispatch({
       type: 'inventory/checkOut',
-      payload: { quantity, inventoryAreaId: record.id },
+      payload: { quantity, inventoryOnWarehouseNo: record.inventoryOnWarehouseNo, skuCode: record.skuCode},
       cb() { handleSubmit(null, page); },
     });
   }

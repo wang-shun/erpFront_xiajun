@@ -247,7 +247,7 @@ export default {
         });
       }
     },
-    *queryOrderListTwo({ payload }, { call, put, select }) { 
+    *queryOrderListTwo({ payload, cb }, { call, put, select }) { 
       let pageIndex = yield select(({ order }) => order.currentPage);
       let pageSize = yield select(({ order }) => order.currentPageSize);
       if (payload && payload.pageIndex) {
@@ -267,6 +267,7 @@ export default {
           type: 'saveOrderListTwo',
           payload: data,
         });
+        cb();
       }
     },
     * clearOrder({ payload }, { put }) {

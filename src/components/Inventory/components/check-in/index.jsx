@@ -16,22 +16,21 @@ class CheckIn extends Component {
     });
   }
   submit() {
-    console.log('this')
     const { record, form, handleSubmit, page } = this.props;
     console.log(record)
     form.validateFields((err, values) => {
-      console.log(values)
       if (err) return;
       this.toggleVisible();
       this.props.dispatch({
         type: 'inventory/checkIn',
-        payload: { ...values, skuCode: record.skuCode, warehouseId: record.warehouseNo },
+        payload: { ...values, skuCode: record.skuCode, inventoryOnWarehouseNo: record.inventoryOnWarehouseNo },
         cb() { handleSubmit(null, page); },
       });
     });
   }
   render() {
     const { record, form } = this.props;
+    console.log(record.shelfNo)
     const { getFieldDecorator } = form;
     return (
       <Popover
@@ -54,8 +53,8 @@ class CheckIn extends Component {
             labelCol={{ span: 7 }}
             wrapperCol={{ span: 17 }}
           >
-            {getFieldDecorator('positionNo', {
-              initialValue: record.positionNo,
+            {getFieldDecorator('shelfNo', {
+              initialValue: record.shelfNo,
               rules: [{ required: true, message: '请输入' }],
             })(
               <Input placeholder="请输入" />,
