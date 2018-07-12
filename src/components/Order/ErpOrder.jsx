@@ -259,7 +259,7 @@ class ErpOrder extends Component {
         p.props.dispatch({
           type: 'order/exportErpOrder',
           payload: {
-            ...values,
+            // ...values,
             startGmtCreate,
             endGmtCreate,
           },

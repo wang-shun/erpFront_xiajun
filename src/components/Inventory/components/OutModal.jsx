@@ -16,6 +16,7 @@ class OutModal extends Component {
       outDetailList: undefined,
       checkId: [],
       warehouseIdChecked: undefined,
+      specialSelect: '',
     };
   }
   componentWillReceiveProps(...args) {
@@ -302,11 +303,18 @@ class OutModal extends Component {
       isOperating = false;
     }
   }
+  handleSelect(value){
+    console.log(value)
+    this.setState({
+      specialSelect : value,
+    })
+  }
   render() {
     const p = this;
     const { visible, wareList = [], form, data = {}, list = [], total } = this.props;
+    console.log(data)
     const { getFieldDecorator } = form;
-    const { outDetailList } = this.state;
+    const { outDetailList, specialSelect } = this.state;
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 12 },
@@ -321,7 +329,8 @@ class OutModal extends Component {
     const columns = [
       { title: 'SKU代码', key: 'skuCode', dataIndex: 'skuCode', width: 100 },
       { title: '商品名称', key: 'itemName', dataIndex: 'itemName', width: 160 },
-      { title: '商品图片',
+      {
+        title: '商品图片',
         key: 'skuPic',
         dataIndex: 'skuPic',
         width: 90,
@@ -337,7 +346,7 @@ class OutModal extends Component {
         },
       },
       { title: '仓库名称', key: 'warehouseName', dataIndex: 'warehouseName', width: 100 },
-      { title: '货架号', key: 'positionNo', dataIndex: 'positionNo', width: 60 },
+      { title: '货架号', key: 'shelfNo', dataIndex: 'shelfNo', width: 60 },
       { title: 'UPC', key: 'upc', dataIndex: 'upc', width: 100 },
       { title: '规格1', key: 'color', dataIndex: 'color', width: 80 },
       { title: '规格2', key: 'scale', dataIndex: 'scale', width: 80 },
@@ -376,14 +385,19 @@ class OutModal extends Component {
                 labelCol={{ span: 9 }}
                 wrapperCol={{ span: 14 }}
               >
-                <Select
-                  style={{ width: '100%' }}
-                  placeholder="请选择"
-                  onChange={p.handleShowPop.bind(p)}
-                  getPopupContainer={() => document.getElementById('popoverContainer')}
-                >
-                  {wareList.map(el => <Option key={el.id && el.id.toString()}>{el.name}</Option>)}
-                </Select>
+                {getFieldDecorator('name', {
+                  initialValue: specialSelect,
+                })(
+                  <Select
+                    style={{ width: '100%' }}
+                    placeholder="请选择"
+                    onChange={p.handleShowPop.bind(p)}
+                    getPopupContainer={() => document.getElementById('popoverContainer')}
+                    disabled={true}
+                  >
+                    {wareList.map(el => <Option key={el.id && el.id.toString()}>{el.name}</Option>)}
+                  </Select>,
+                )}
               </FormItem>
             </Col>
             <Col span="5">
@@ -395,7 +409,7 @@ class OutModal extends Component {
                 <Input
                   size="default"
                   placeholder="请输入货架号"
-                  ref={(c) => { p.positionNo = c; }}
+                  ref={(c) => { p.shelfNo = c; }}
                 />
               </FormItem>
             </Col>
@@ -452,7 +466,8 @@ class OutModal extends Component {
     }
     const modalTableProps = {
       columns: [
-        { title: '商品SKU',
+        {
+          title: '商品SKU',
           dataIndex: 'skuCode',
           key: 'skuCode',
           width: 150,
@@ -477,7 +492,8 @@ class OutModal extends Component {
             );
           },
         },
-        { title: '出库数量',
+        {
+          title: '出库数量',
           dataIndex: 'quantity',
           key: 'quantity',
           width: 100,
@@ -504,7 +520,8 @@ class OutModal extends Component {
         /* title: '尺码', key: 'scale', dataIndex: 'scale', width: 80 },
         { title: '规格1', key: 'color', dataIndex: 'color', width: 80 },*/
         { title: '货架号', key: 'positionNo', dataIndex: 'positionNo', width: 80 },
-        { title: '商品图片',
+        {
+          title: '商品图片',
           key: 'skuPic',
           dataIndex: 'skuPic',
           width: 90,
@@ -519,7 +536,8 @@ class OutModal extends Component {
             );
           },
         },
-        { title: '操作',
+        {
+          title: '操作',
           key: 'oper',
           render(t, r) {
             return (
@@ -551,10 +569,10 @@ class OutModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('warehouseName', {
-                  initialValue: data.warehouseName,
+                  // initialValue: data.warehouseName,
                   rules: [{ required: true, message: '请选择' }],
                 })(
-                  <Select placeholder="请选择">
+                  <Select placeholder="请选择" onChange={this.handleSelect.bind(this)} >
                     {wareList.map(el => <Option key={el.name}>{el.name}</Option>)}
                   </Select>,
                 )}

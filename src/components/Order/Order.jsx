@@ -145,7 +145,7 @@ class Order extends Component {
         p.props.dispatch({
           type: 'order/exportMainOrder',
           payload: {
-            ...values,
+            // ...values,
             startGmtCreate,
             endGmtCreate,
           },
