@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, InputNumber, Select, Popover, Modal, Row, Col, Button, Table, Popconfirm, message } from 'antd';
 import { connect } from 'dva';
+import { compose } from '../../../../node_modules/redux';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -93,14 +94,15 @@ class OutModal extends Component {
     });
   }
   addEmptyLine(num) {
-    let { outDetailList } = this.state;
+    const { form } = this.props;
+    let { outDetailList, specialSelect} = this.state;
     if (!outDetailList) outDetailList = [];
     const skuLen = outDetailList ? outDetailList.length : 0;
     const lastId = skuLen < 1 ? 0 : outDetailList[outDetailList.length - 1].key;
     const looptime = typeof num === 'number' ? num : 1;
     this.props.dispatch({
       type: 'inventory/queryList',
-      payload: {},
+      payload: {warehouseName:specialSelect},
     });
     let currentId = parseInt(lastId, 10);
     for (let i = 0; i < looptime; i += 1) {
@@ -121,7 +123,10 @@ class OutModal extends Component {
       };
       outDetailList.push(newItem);
     }
-    this.setState({ outDetailList }, () => {
+    form.validateFieldsAndScroll([`warehouseName`],(err, values) => {
+      if (err) return;
+      console.log(values)
+      this.setState({ outDetailList }, () => {
       if (typeof num !== 'boolean') {
         setTimeout(() => {
           this[`r_${currentId}_skuCode`].focus();
@@ -129,6 +134,8 @@ class OutModal extends Component {
         }, 0);
       }
     });
+    })
+    
   }
   batchAddProduct(props) {
     let { outDetailList } = this.state;
@@ -245,12 +252,15 @@ class OutModal extends Component {
     });
   }
   doSearch() {
+    const { specialSelect } = this.state;
+    console.log(specialSelect)
     latestSearch = {
-      warehouseId: this.state.warehouseIdChecked,
-      positionNo: this.positionNo && this.positionNo.refs.input.value,
+      warehouseName: specialSelect,
+      shelfNo: this.shelfNo && this.shelfNo.refs.input.value,
       skuCode: this.skuCode && this.skuCode.refs.input.value,
       upc: this.upc && this.upc.refs.input.value,
     };
+    console.log(latestSearch)
     this.props.dispatch({
       type: 'inventory/queryList',
       payload: {
@@ -268,7 +278,7 @@ class OutModal extends Component {
   }
   handleBatchAdd(key) { // 批量添加
     if (!isOperating) {
-      isOperating = true;
+      isOperating = false;
       const { checkId } = this.state;
       const batchSelectParams = [];
       setTimeout(() => {
@@ -283,6 +293,7 @@ class OutModal extends Component {
     }
   }
   handleShowPop(value) {
+    console.log(value)
     if (value) {
       this.setState({ warehouseIdChecked: value });
     }
@@ -304,10 +315,12 @@ class OutModal extends Component {
     }
   }
   handleSelect(value){
+    const { outDetailList } = this.state;
     console.log(value)
     this.setState({
       specialSelect : value,
     })
+    
   }
   render() {
     const p = this;

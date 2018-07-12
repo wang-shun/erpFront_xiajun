@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Modal, Row, Col, Select, DatePicker } from 'antd';
+import { Form, Input, Modal, Row, Col, Select, DatePicker, InputNumber } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
@@ -111,8 +111,9 @@ class ReturnOrderModal extends Component {
                 >
                   {getFieldDecorator('returnQuantity', {
                     initialValue: data.returnQuantity,
+                    rules: [{ required: true, message: '请输入退货数量' }],
                   })(
-                    <Input placeholder="请输入" />,
+                    <InputNumber placeholder="请输入退货数量" />,
                   )}
                 </FormItem>
               </Col>

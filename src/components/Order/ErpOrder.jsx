@@ -444,7 +444,7 @@ class ErpOrder extends Component {
               {r.erpReturnOrderId ?
                 <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'update', r)}>修改退单</a></div> :
                 <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
-              {r.status !== 0 && <div><span style={{ color: '#ccc' }}>暂无</span></div>}
+              {/* {r.status !== 0 && <div><span style={{ color: '#ccc' }}>暂无</span></div>} */}
             </div>);
         },
       },
