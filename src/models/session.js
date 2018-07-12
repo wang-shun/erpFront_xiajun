@@ -6,7 +6,7 @@ import fetch from '../utils/request';
 const login = ({ payload }) => fetch.post('haiLogin/login', { data: payload }).catch(e => e);
 const logout = ({ payload }) => fetch.post('haiLogin/logout', { data: payload }).catch(e => e);
 // const queryPermissions = () => fetch.post('/user/resCodes').catch(e => e);
-const wxRout = ({ payload }) => fetch.post('wechatLogin/getUrl', { data: payload }).catch(e => e);
+// const wxRout = ({ payload }) => fetch.post('wechatLogin/getUrl', { data: payload }).catch(e => e);
 
 // 首页数据
 const queryIndexData = ({ payload, url }) => fetch.post(url, { data: payload }).catch(e => e);
@@ -150,7 +150,7 @@ export default {
         }
         if (pathname === '/login' && !window.existCacheState('/login')) {
           setTimeout(() => {
-            dispatch({ type: 'wxRout', payload: {} });
+            // dispatch({ type: 'wxRout', payload: {} });
           }, 0);
         }
       });
