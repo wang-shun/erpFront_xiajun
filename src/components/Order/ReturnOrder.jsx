@@ -131,7 +131,7 @@ class ReturnOrder extends Component {
           );
         },
       },
-      { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80, render(text) { return text || '-'; } },
+      // { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80, render(text) { return text || '-'; } },
       { title: '退单原因', dataIndex: 'returnReason', key: 'returnReason', width: 80, render(text) { return text || '-'; } },
       { title: '退单原因详情', dataIndex: 'returnReasonDetail', key: 'returnReasonDetail', width: 130, render(text) { return text ? text.slice(0, 10) : '-'; } },
       { title: '退款凭证',

@@ -101,10 +101,13 @@ class Purchase extends Component {
     });
   }
 
-  exportPurchase(id) { // 导出采购单
+  exportPurchase(r) { // 导出采购单
+    console.log(r)
+    console.log(r.buyerTaskNo)
+    let buyerTaskNo = r.buyerTaskNo
     this.props.dispatch({
       type: 'purchase/exportPurchase',
-      payload: { id },
+      payload: { buyerTaskNo },
     });
   }
 
@@ -211,7 +214,7 @@ class Purchase extends Component {
               <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r)} >
                 <a style={{ marginRight: 10 }} href="javascript:void(0)" >删除</a>
               </Popconfirm>
-              <a href="javascript:void(0)" onClick={p.exportPurchase.bind(p, r.id)}>导出</a>
+              <a href="javascript:void(0)" onClick={p.exportPurchase.bind(p, r)}>导出</a>
             </div>);
         },
       },

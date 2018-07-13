@@ -326,7 +326,7 @@ class ErpOrder extends Component {
         },
       },
       { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 100 },
-      // { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 110 },
+      { title: '子订单号', dataIndex: 'subOrderNo', key: 'subOrderNo', width: 110 },
       // { title: '销售人员', dataIndex: 'salesName', key: 'salesName', width: 50 },
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
       { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 100 },
@@ -335,7 +335,7 @@ class ErpOrder extends Component {
         key: 'address',
         width: 100,
         render(text, r) {
-          return <span>{r.receiverState ? `${r.receiverState} ${r.receiverCity} ${r.receiverDistrict} ${r.addressDetail}` : '-'}</span>;
+          return <span>{r.receiverState ? `${r.receiverState} ${r.receiverCity} ${r.receiverDistrict} ${r.receiverAddress}` : '-'}</span>;
         },
       },
       { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 100 },
