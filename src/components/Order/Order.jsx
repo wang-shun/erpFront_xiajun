@@ -220,12 +220,16 @@ class Order extends Component {
         width: 90 / 13.92 + '%',
         render(text) {
           switch (text) {
-            case 0: return <font color="saddlebrown">新建</font>;
-            case 1: return <font color="chocolate">部分发货</font>;
-            case 2: return <font color="blue">全部发货</font>;
-            case -1: return <font color="red">已关闭</font>;
-            case -2: return <font color="red">待确认</font>;
-            default: return "";
+            case 0: return <font color="saddlebrown">待付款</font>;
+            case 3: return <font color="chocolate">已付款待发货</font>;
+            case 1: return <font color="blue">部分发货</font>;
+            case 2: return <font color="red">全部发货</font>;
+            case -1: return <font color="red">关闭</font>;
+            case -3: return <font color="red">售后处理中</font>;
+            case -4: return <font color="red">售后完成</font>;
+            case 4: return <font color="red">订单完成</font>;
+            case 5: return <font color="red">已签收</font>;
+            default: return '-';
           }
         },
       },
@@ -390,11 +394,14 @@ class Order extends Component {
                 })(
                   <Select placeholder="请选择订单状态" >
                     <Option value="10">全部</Option>
-                    <Option value="-4">退货完成</Option>
-                    <Option value="-1">已关闭</Option>
-                    <Option value="0">新建</Option>
+                    <Option value="0">待付款</Option>
+                    <Option value="3">已付款待发货</Option>
                     <Option value="2">全部发货</Option>
+                    <Option value="-1">关闭</Option>
+                    <Option value="-3">售后处理中</Option>
+                    <Option value="-4">售后完成</Option>
                     <Option value="4">订单完成</Option>
+                    <Option value="5">已签收</Option>
                   </Select>,
                 )}
               </FormItem>

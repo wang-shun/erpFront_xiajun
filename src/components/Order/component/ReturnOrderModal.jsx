@@ -96,10 +96,11 @@ class ReturnOrderModal extends Component {
                     rules: [{ required: true, message: '请选择' }],
                   })(
                     <Select placeholder="请选择退单状态" allowClear>
-                      <Option key="0">待审核</Option>
-                      <Option key="1">审核通过,退款中</Option>
-                      <Option key="2">退款成功</Option>
-                      <Option key="-1">关闭</Option>
+                      <Option key="0">售后待审核</Option>
+                      <Option key="1">审核通过</Option>
+                      <Option key="2">退款完成</Option>
+                      <Option key="3">退货完成</Option>
+                      <Option key="-1">售后完成</Option>
                     </Select>,
                   )}
                 </FormItem>

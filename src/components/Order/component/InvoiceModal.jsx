@@ -207,8 +207,8 @@ class InvoiceModal extends Component {
                   label="物流状态"
                   {...formItemLayout}
                 >
-                  {getFieldDecorator('status', {
-                    initialValue: data.status ? data.status.toString() : '0',
+                  {getFieldDecorator('transferStatus', {
+                    initialValue: data.transferStatus ? data.transferStatus.toString() : '0',
                   })(
                     <Select placeholder="请选择物流状态" allowClear>
                       <Option value="0" key="0">未预报</Option>

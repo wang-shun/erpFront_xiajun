@@ -153,10 +153,11 @@ class ReturnOrder extends Component {
         width: 60,
         render(text) {
           switch (text) {
-            case 0: return <font color="">待审核</font>;
-            case 1: return <font color="chocolate">审核通过,退款中</font>;
-            case 2: return <font color="blue">退款成功</font>;
-            case -1: return <font color="red">关闭</font>;
+            case 0: return <font color="">售后待审核</font>;
+            case 1: return <font color="chocolate">审核通过</font>;
+            case 2: return <font color="blue">退款完成</font>;
+            case 3: return <font color="red">退货完成</font>;
+            case -1: return <font color="red">售后完成</font>;
             default: return '-';
           }
         },
