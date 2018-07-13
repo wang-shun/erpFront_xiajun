@@ -185,6 +185,13 @@ class ErpOrder extends Component {
       default: return false;
     }
   }
+  handleOrderModal(r){
+    let orderNumber = r.subOrderNo  
+    this.props.dispatch({
+      type: 'order/erpOrderNumber',
+      payload: {orderNumber},
+    });
+  }
   closeReturnModal() {
     this.setState({ returnModalVisible: false }, () => {
       this.props.dispatch({
@@ -475,8 +482,10 @@ class ErpOrder extends Component {
               {/* {r.erpReturnOrderId ?
                 <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'update', r)}>修改退单</a></div> :
                 <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>} */}
-                {r.status===3 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单1</a></div>}
-                {r.status===2 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单2</a></div>}
+                {r.status===2 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
+                {r.status===3 && <Popconfirm title="确定退单吗？" onConfirm={p.handleOrderModal.bind(p, r)}>
+                <div><a href="javascript:void(0)" >退单</a></div>
+              </Popconfirm>}
               {/* {r.status !== 0 && <div><span style={{ color: '#ccc' }}>暂无</span></div>} */}
             </div>);
         },

@@ -62,6 +62,9 @@ const addChannel = ({ payload }) => fetch.post('/channel/add', { data: payload }
 const updateChannel = ({ payload }) => fetch.post('/channel/update', { data: payload }).catch(e => e);
 // 
 const erpOrderDe = ({ payload }) => fetch.get('/erpOrder/detail', { data: payload }).catch(e => e);
+// 
+
+const erpOrderNumber = ({ payload }) => fetch.post('/erpOrder/return', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'order',
@@ -498,6 +501,12 @@ export default {
         if (cb) cb();
       }
     },
+    * erpOrderNumber({ payload }, { call }) {
+    const data = yield call(erpOrderNumber, { payload });
+    if (data.success) {
+      message.success('退单成功');
+    }
+  },
     exportPdf({ payload, success }) {
       window.open(`http://${location.host}/shippingOrder/shippingOrderExportPdf?shippingOrderIds=${payload}`);
       if (success) {
