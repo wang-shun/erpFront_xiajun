@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Modal, Row, Col, Cascader, Select ,Icon, message,} from 'antd';
+import { Form, Input, Modal, Row, Col, Cascader, Select, Icon, message, } from 'antd';
 
 import divisions from '../../../utils/divisions.json';
 import check from '../../../utils/checkLib';
@@ -144,7 +144,7 @@ class InvoiceModal extends Component {
                   })(
                     <Input placeholder="请输入详细地址" />)}
                 </FormItem>
-                <Icon type="copy" style={{ fontSize: 18, color: '#08c',position:'absolute',right:10,top:8 }} onClick={p.copyAddress.bind(p, initialAddress + "," + data.addressDetail)}/>
+                <Icon type="copy" style={{ fontSize: 18, color: '#08c', position: 'absolute', right: 10, top: 8 }} onClick={p.copyAddress.bind(p, initialAddress + "," + data.addressDetail)} />
               </Col>
             </Row>
             <Row>
@@ -211,9 +211,10 @@ class InvoiceModal extends Component {
                     initialValue: data.status ? data.status.toString() : '0',
                   })(
                     <Select placeholder="请选择物流状态" allowClear>
-                      <Option value="0" key="0">已预报</Option>
-                      <Option value="1" key="1">快递已发货</Option>
-                      <Option value="2" key="2">客户已收货</Option>
+                      <Option value="0" key="0">未预报</Option>
+                      <Option value="1" key="1">预报失败</Option>
+                      <Option value="10" key="10">预报成功</Option>
+                      <Option value="20" key="20">创建转运单成功</Option>
                     </Select>,
                   )}
                 </FormItem>
@@ -260,7 +261,7 @@ class InvoiceModal extends Component {
                 </FormItem>
               </Col>
             </Row>
-            <Row className={styles.divider} style={{marginBottom:"20px",}}></Row>
+            <Row className={styles.divider} style={{ marginBottom: "20px", }}></Row>
             <Row>
               <Col span={12}>
                 <FormItem

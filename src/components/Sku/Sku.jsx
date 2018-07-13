@@ -172,7 +172,7 @@ class Sku extends Component {
           return (
             <div>
               可售库存：{r.totalAvailableInv}<br />
-              虚拟库存：{r.virtualInv < 0 ? 0 : r.virtualInv}<br />
+              虚拟库存：{r.virtualInv}<br />
               {/* 虚拟预扣：{r.lockedVirtualInv}<br />  */}
               现货库存：{r.inventory}<br />
               现货占用：{r.lockedInv}<br />
@@ -208,7 +208,7 @@ class Sku extends Component {
                 visible={lockedPopoverVisible[record.id] || false}
                 onVisibleChange={p.toggleLockedPopoverVisible.bind(p, record)}
               >
-                <div><a href="javascript:void(0)">锁定</a></div>
+                {/* <div><a href="javascript:void(0)">锁定</a></div> */}
               </Popover>
             </div>);
         },

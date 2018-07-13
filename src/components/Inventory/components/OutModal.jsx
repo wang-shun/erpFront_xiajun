@@ -18,6 +18,7 @@ class OutModal extends Component {
       checkId: [],
       warehouseIdChecked: undefined,
       specialSelect: '',
+      warehouseNoSpe: '',
     };
   }
   componentWillReceiveProps(...args) {
@@ -37,14 +38,17 @@ class OutModal extends Component {
     const { form, wareList, data = {} } = this.props;
     const skuList = [];
     form.validateFieldsAndScroll((err, fieldsSku) => {
+      console.log(fieldsSku)
       if (err) { return; }
       let count = 1;
-      let warehouseId;
-      const { warehouseName, remark } = fieldsSku;
+      let warehouseNo;
+      let warehouseName;
+      const { desc } = fieldsSku;
       const keys = Object.keys(fieldsSku);
       wareList.forEach((el) => {
-        if (el.name === fieldsSku.warehouseName) {
-          warehouseId = el.id;
+        if (el.name === fieldsSku.warehouseName.label) {
+          warehouseNo = el.warehouseNo;
+          warehouseName = el.name;
         }
       });
       for (let i = 1; i < keys.length; i += 1) {
@@ -57,6 +61,8 @@ class OutModal extends Component {
           });
           if (!skuSingle.id) delete skuSingle.id;
           if (skuSingle.skuPic) delete skuSingle.skuPic;
+          if(skuSingle.skuCode) delete skuSingle.skuCode;
+          console.log(skuSingle)
           skuList.push(skuSingle);
           count += 1;
         } else count += 1;
@@ -65,7 +71,8 @@ class OutModal extends Component {
         message.error('请至少填写一项出库信息');
         return;
       }
-      const outObj = { inventoryOutDetailListStr: JSON.stringify(skuList), warehouseId, warehouseName, remark };
+      const outObj = { inventoryOutDetailList: JSON.stringify(skuList), warehouseNo, warehouseName, desc };
+      console.log(outObj)
       switch (type) {
         case 'save':
           if (data.id) {
@@ -96,6 +103,7 @@ class OutModal extends Component {
   addEmptyLine(num) {
     const { form } = this.props;
     let { outDetailList, specialSelect} = this.state;
+    console.log(specialSelect)
     if (!outDetailList) outDetailList = [];
     const skuLen = outDetailList ? outDetailList.length : 0;
     const lastId = skuLen < 1 ? 0 : outDetailList[outDetailList.length - 1].key;
@@ -110,7 +118,7 @@ class OutModal extends Component {
       const newId = currentId;
       const newItem = {
         id: '',
-        inventoryAreaId: '',
+        inventoryOnWarehouseNo: '',
         key: newId,
         skuCode: '',
         skuId: '',
@@ -119,7 +127,7 @@ class OutModal extends Component {
         scale: '',
         warehouseName: '',
         upc: '',
-        positionNo: '',
+        shelfNo: '',
       };
       outDetailList.push(newItem);
     }
@@ -139,6 +147,7 @@ class OutModal extends Component {
   }
   batchAddProduct(props) {
     let { outDetailList } = this.state;
+    console.log(outDetailList)
     if (!outDetailList) outDetailList = [];
     const skuLen = outDetailList ? outDetailList.length : 0;
     const lastId = skuLen < 1 ? 0 : outDetailList[outDetailList.length - 1].key;
@@ -176,16 +185,16 @@ class OutModal extends Component {
         if (value.id && value.id.toString() === props[0].id.toString()) {
           outDetailList.forEach((el) => {
             if (el.key.toString() === props[0].key.toString()) {
-              el.inventoryAreaId = value.id;
+              el.inventoryOnWarehouseNo = value.inventoryOnWarehouseNo;
               el.skuCode = value.skuCode;
               el.skuPic = value.skuPic;
               el.itemName = value.itemName;
               el.warehouseName = value.warehouseName;
-              el.positionNo = value.positionNo;
+              el.shelfNo = value.shelfNo;
               el.upc = value.upc;
             }
           });
-          batchUpdateFormValues[`r_${props[0].key}_inventoryAreaId`] = value.id;
+          batchUpdateFormValues[`r_${props[0].key}_inventoryOnWarehouseNo`] = value.inventoryOnWarehouseNo;
           batchUpdateFormValues[`r_${props[0].key}_skuCode`] = value.skuCode;
         }
       });
@@ -208,7 +217,7 @@ class OutModal extends Component {
         const newId = outDetailList[outDetailList.length - 1].key + 1;
         const newItem = {
           id: '',
-          inventoryAreaId: '',
+          inventoryOnWarehouseNo: '',
           key: newId,
           skuCode: '',
           skuId: '',
@@ -217,20 +226,20 @@ class OutModal extends Component {
           scale: '',
           warehouseName: '',
           upc: '',
-          positionNo: '',
+          shelfNo: '',
         };
 
         this.props.list.forEach((value) => {
           if (value.id && value.id.toString() === props[i].id.toString()) {
-            newItem.inventoryAreaId = value.id;
+            newItem.inventoryOnWarehouseNo = value.inventoryOnWarehouseNo;
             newItem.skuCode = value.skuCode;
             newItem.skuPic = value.skuPic;
             newItem.itemName = value.itemName;
             newItem.warehouseName = value.warehouseName;
-            newItem.positionNo = value.positionNo;
+            newItem.shelfNo = value.shelfNo;
             newItem.upc = value.upc;
 
-            batchUpdateFormValues[`r_${newId}_inventoryAreaId`] = value.id;
+            batchUpdateFormValues[`r_${newId}_inventoryOnWarehouseNo`] = value.inventoryOnWarehouseNo;
             batchUpdateFormValues[`r_${newId}_skuCode`] = value.skuCode;
           }
         });
@@ -314,11 +323,12 @@ class OutModal extends Component {
       isOperating = false;
     }
   }
-  handleSelect(value){
+  handleSelect(value, p){
     const { outDetailList } = this.state;
     console.log(value)
     this.setState({
-      specialSelect : value,
+      specialSelect : value.label,
+      warehouseNoSpe: value.key,
     })
     
   }
@@ -336,7 +346,7 @@ class OutModal extends Component {
       <div>
         <Button type="ghost" size="large" onClick={p.handleCancel.bind(p)}>取消</Button>
         <Button type="primary" size="large" onClick={p.handleSave.bind(p, 'confirm')}>确认出库</Button>
-        <Button type="primary" size="large" onClick={p.handleSave.bind(p, 'save')}>保存出库单</Button>
+        {/* <Button type="primary" size="large" onClick={p.handleSave.bind(p, 'save')}>保存出库单</Button> */}
       </div>
     );
     const columns = [
@@ -519,10 +529,10 @@ class OutModal extends Component {
                 })(
                   <InputNumber placeholder="请输入" />,
                 )}
-                {getFieldDecorator(`r_${r.key}_inventoryAreaId`, {
-                  initialValue: r.inventoryAreaId,
+                {getFieldDecorator(`r_${r.key}_inventoryOnWarehouseNo`, {
+                  initialValue: r.inventoryOnWarehouseNo,
                 })(
-                  <Input placeholder="请搜索" ref={(c) => { p[`r_${r.key}_inventoryAreaId`] = c; }} style={{ display: 'none' }} />,
+                  <Input placeholder="请搜索" ref={(c) => { p[`r_${r.key}_inventoryOnWarehouseNo`] = c; }} style={{ display: 'none' }} />,
                 )}
               </FormItem>
             );
@@ -532,7 +542,7 @@ class OutModal extends Component {
         { title: 'UPC', key: 'upc', dataIndex: 'upc', width: 100 },
         /* title: '尺码', key: 'scale', dataIndex: 'scale', width: 80 },
         { title: '规格1', key: 'color', dataIndex: 'color', width: 80 },*/
-        { title: '货架号', key: 'positionNo', dataIndex: 'positionNo', width: 80 },
+        { title: '货架号', key: 'shelfNo', dataIndex: 'shelfNo', width: 80 },
         {
           title: '商品图片',
           key: 'skuPic',
@@ -585,8 +595,8 @@ class OutModal extends Component {
                   // initialValue: data.warehouseName,
                   rules: [{ required: true, message: '请选择' }],
                 })(
-                  <Select placeholder="请选择" onChange={this.handleSelect.bind(this)} >
-                    {wareList.map(el => <Option key={el.name}>{el.name}</Option>)}
+                  <Select labelInValue placeholder="请选择" onChange={this.handleSelect.bind(this)} >
+                    {wareList.map(el => <Option key={el.warehouseNo} title={el.name} >{el.name}</Option>)}
                   </Select>,
                 )}
               </FormItem>
@@ -596,8 +606,8 @@ class OutModal extends Component {
                 label="备注"
                 {...formItemLayout}
               >
-                {getFieldDecorator('remark', {
-                  initialValue: data.remark,
+                {getFieldDecorator('desc', {
+                  initialValue: data.desc,
                 })(
                   <Input placeholder="请输入" />,
                 )}

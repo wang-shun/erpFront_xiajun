@@ -69,6 +69,7 @@ class ShippingOrder extends Component {
     this.setState({ checkId: [] });
   }
   queryShippingOrderDetail(r) { // 查看明细
+    console.log('this is mao')
     const p = this;
     this.props.dispatch({
       type: 'order/queryShippingOrderDetail',
@@ -154,7 +155,6 @@ class ShippingOrder extends Component {
     const { shippingOrderList, shippingOrderTotal, currentPage, currentPageSize, deliveryCompanyList = [], form, dispatch } = p.props;
     const { getFieldDecorator, resetFields } = form;
     const { visible, data, shippingDetail, showDetail, shippingTrack, showTrack} = p.state;
-
     const rowSelection = {
       onChange(selectedRowKeys, selectedRows) {
         const listId = [];
@@ -207,8 +207,8 @@ class ShippingOrder extends Component {
         },
       },
       { title: '包裹状态', dataIndex: 'tplPkgStatus', key: 'tplPkgStatus', width: 80 / 12.27 + '%', render(text) { return text || '-'; } },
-      { title: '创建者', dataIndex: 'userCreate', key: 'userCreate', width: 80 / 12.27 + '%', render(t) { return <font color="blue">{t}</font>; } },
-      { title: '打印者', dataIndex: 'userPrinter', key: 'userPrinter', width: 80 / 12.27 + '%', render(t) { return <font color="red">{t}</font>; } },
+      { title: '创建者', dataIndex: 'creator', key: 'creator', width: 80 / 12.27 + '%', render(t) { return <font color="blue">{t}</font>; } },
+      { title: '打印者', dataIndex: 'shippingPrinter', key: 'shippingPrinter', width: 80 / 12.27 + '%', render(t) { return <font color="red">{t || '-'}</font>} },
       { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 70 / 12.27 + '%', render(text) { return text || '-'; } },
       { title: '操作',
         dataIndex: 'operator',
@@ -278,7 +278,7 @@ class ShippingOrder extends Component {
       },
     ];
     const detailColumns = [
-      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 100 },
+      { title: '子订单号', dataIndex: 'subOrderNo', key: 'subOrderNo', width: 100 },
       { title: 'SKU编号', dataIndex: 'skuCode', key: 'skuCode', width: 200 },
       { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 150 },
       { title: '商品图片',

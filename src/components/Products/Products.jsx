@@ -269,7 +269,8 @@ class Products extends Component {
         render(t, r){
           return (
             <div>
-             {r.virtualInv < 0 ? 0 : r.virtualInv}
+              {r.virtualInv}
+             {/* {r.virtualInv < 0 ? 0 : r.virtualInv} */}
             </div>
           );
         },
