@@ -248,26 +248,52 @@ class ErpOrder extends Component {
   exportErpOrder() { // 导出订单
     const { form } = this.props;
     const p = this;
-    form.validateFields((err, values) => {
-      if (err) return;
-      let startGmtCreate;
-      let endGmtCreate;
-      if (values.orderTime && values.orderTime[0] && values.orderTime[1]) {
-        startGmtCreate = new Date(values.orderTime[0]).format('yyyy-MM-dd');
-        endGmtCreate = new Date(values.orderTime[1]).format('yyyy-MM-dd');
-        delete values.orderTime;
+    let checkedSubOrderId = this.state.checkId;
+    //console.log("se:"+checkedSubOrderId);
+    //console.log("ses:"+checkedSubOrderId.length);
+    let checkedSubOrderIdString = '';
+    for(var i = 0;i < checkedSubOrderId.length;i++) {
+     // console.log("ses:"+i+checkedSubOrderId[i]);
+      checkedSubOrderIdString = checkedSubOrderIdString+checkedSubOrderId[i]+",";
+    }
+    checkedSubOrderIdString = checkedSubOrderIdString.substring(0,checkedSubOrderIdString.length-1);
+    let startGmtCreate = "";
+    let endGmtCreate = "";
+    if(0 < checkedSubOrderId.length) {//有勾选则导出勾选的订单
+        console.log("勾选了订单");
         p.props.dispatch({
           type: 'order/exportErpOrder',
           payload: {
             // ...values,
             startGmtCreate,
             endGmtCreate,
+            checkedSubOrderIdString,
           },
         });
-      } else {
-        message.error('请选择创建时间范围');
-      }
-    });
+    } else {
+      form.validateFields((err, values) => {
+        if (err) return;
+        let startGmtCreate;
+        let endGmtCreate;
+        let checkedSubOrderIdString = '';
+        if (values.orderTime && values.orderTime[0] && values.orderTime[1]) {
+          startGmtCreate = new Date(values.orderTime[0]).format('yyyy-MM-dd');
+          endGmtCreate = new Date(values.orderTime[1]).format('yyyy-MM-dd');
+          delete values.orderTime;
+          p.props.dispatch({
+            type: 'order/exportErpOrder',
+            payload: {
+              // ...values,
+              startGmtCreate,
+              endGmtCreate,
+              checkedSubOrderIdString,
+            },
+          });
+        } else {
+          message.error('请勾选订单或者选择创建时间范围');
+        }
+      });        
+    }  
   }
   handleSelect(r, type, e) {
     const checked = e.target.checked;
@@ -723,7 +749,7 @@ class ErpOrder extends Component {
 	          >
 	            <Button style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large">关闭</Button>
 	          </Popover>
-	          <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportErpOrder.bind(p)}>导出订单</Button>
+	          <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportErpOrder.bind(p)}>导订单</Button>
 	        </Row>
         	}
         <DeliveryModal
