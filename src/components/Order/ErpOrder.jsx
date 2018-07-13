@@ -352,7 +352,7 @@ class ErpOrder extends Component {
         },
       },
       { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 100 },
-      { title: '子订单号', dataIndex: 'subOrderNo', key: 'subOrderNo', width: 110 },
+      { title: '子订单号', dataIndex: 'subOrderNo', key: 'subOrderNo', width: 110, render(text) { return text || '-'; }},
       // { title: '销售人员', dataIndex: 'salesName', key: 'salesName', width: 50 },
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
       { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 100 },
@@ -472,9 +472,11 @@ class ErpOrder extends Component {
               <Popconfirm title="确定释放库存吗？" onConfirm={p.handleInventory.bind(p, 'release', r.id)}>
                 {/* <div><a href="javascript:void(0)" >释放库存</a></div> */}
               </Popconfirm>}
-              {r.erpReturnOrderId ?
+              {/* {r.erpReturnOrderId ?
                 <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'update', r)}>修改退单</a></div> :
-                <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
+                <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>} */}
+                {r.status===3 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单1</a></div>}
+                {r.status===2 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单2</a></div>}
               {/* {r.status !== 0 && <div><span style={{ color: '#ccc' }}>暂无</span></div>} */}
             </div>);
         },
