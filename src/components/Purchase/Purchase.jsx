@@ -56,6 +56,7 @@ class Purchase extends Component {
       modalVisible: true,
       title: '新增',
     });
+    this.props.dispatch({ type: 'purchase/clearOrder', payload: {} }); 
   }
   showMore(){
     console.log('thisthis')
@@ -157,7 +158,8 @@ class Purchase extends Component {
 
   render() {
     const p = this;
-    const { form, list = [], currentPage, total, purchaseValues = {}, buyer = [], dispatch } = p.props;
+    const { form, list = [], currentPage, total, purchaseValues = {}, buyer = [], dispatch, savePurchaseTask={} } = p.props;
+    console.log(savePurchaseTask)
     const { uploadVisble, titles } = this.state
     const { getFieldDecorator, resetFields } = form;
     const { title } = p.state;
@@ -169,7 +171,7 @@ class Purchase extends Component {
       // taskOrderNo
       { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo', width: 150 },
       { title: '任务名称', dataIndex: 'title', key: 'title', width: 100 },
-      { title: '任务描述', dataIndex: 'remark', key: 'remark', width: 100 },
+      { title: '任务描述', dataIndex: 'taskDesc', key: 'taskDesc', width: 100, render(text) { return text || '-'; } },
       { title: '买手', dataIndex: 'buyerName', key: 'buyerName', width: 60, render(text) { return text || '-'; } },
       { title: '图片',
         dataIndex: 'skuPicUrl',
@@ -202,7 +204,7 @@ class Purchase extends Component {
       },
       { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime', width: 120, render(t) { return t ? t.split(' ')[0] : '-'; } },
       { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime', width: 120, render(t) { return t ? t.split(' ')[0] : '-'; } },
-      { title: '备注', dataIndex: 'remark1', key: 'remark1', width: 100, render(text) { return text || '-'; } },
+      { title: '备注', dataIndex: 'remark', key: 'remark', width: 100, render(text) { return text || '-'; } },
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
@@ -330,7 +332,7 @@ class Purchase extends Component {
         <PurchaseModal
           visible={this.state.modalVisible}
           close={this.closeModal.bind(this)}
-          modalValues={purchaseValues}
+          modalValues={savePurchaseTask}
           title={title}
           buyer={buyer}
           dispatch={dispatch}
@@ -346,7 +348,7 @@ class Purchase extends Component {
 }
 
 function mapStateToProps(state) {
-  const { list, total, currentPage, currentPageSize, purchaseValues, buyer } = state.purchase;
+  const { list, total, currentPage, currentPageSize, purchaseValues, buyer, savePurchaseTask } = state.purchase;
   return {
     list,
     total,
@@ -354,6 +356,7 @@ function mapStateToProps(state) {
     currentPageSize,
     purchaseValues,
     buyer,
+    savePurchaseTask,
   };
 }
 

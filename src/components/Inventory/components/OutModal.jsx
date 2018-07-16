@@ -14,31 +14,30 @@ class OutModal extends Component {
   constructor() {
     super();
     this.state = {
-      outDetailList: undefined,
+      outDetailList:[],
       checkId: [],
       warehouseIdChecked: undefined,
       specialSelect: '',
       warehouseNoSpe: '',
+
     };
   }
   componentWillReceiveProps(...args) {
-    const props = args[0];
-    const { data } = props;
-    if (data && data.inventoryOutDetailList && this.state.outDetailList === undefined) {
-      this.setState({
-        outDetailList: data.inventoryOutDetailList.map((el, index) => {
-          el.key = index + 1;
-          return el;
-        }),
-      });
-    }
+      // if (args[0].data && args[0].data.length > 0 && this.state.outDetailList.length === 0) {
+      //   this.setState({
+      //     outDetailList: args[0].data.map((el, index) => {
+      //       el.key = index + 1;
+      //       return el;
+      //     }),
+      //   });
+      // }
   }
   handleSave(type) {
     const p = this;
     const { form, wareList, data = {} } = this.props;
     const skuList = [];
     form.validateFieldsAndScroll((err, fieldsSku) => {
-      console.log(fieldsSku)
+      // console.log(fieldsSku)
       if (err) { return; }
       let count = 1;
       let warehouseNo;
@@ -61,8 +60,8 @@ class OutModal extends Component {
           });
           if (!skuSingle.id) delete skuSingle.id;
           if (skuSingle.skuPic) delete skuSingle.skuPic;
-          if(skuSingle.skuCode) delete skuSingle.skuCode;
-          console.log(skuSingle)
+          if (skuSingle.skuCode) delete skuSingle.skuCode;
+          // console.log(skuSingle)
           skuList.push(skuSingle);
           count += 1;
         } else count += 1;
@@ -72,7 +71,7 @@ class OutModal extends Component {
         return;
       }
       const outObj = { inventoryOutDetailList: JSON.stringify(skuList), warehouseNo, warehouseName, desc };
-      console.log(outObj)
+      // console.log(outObj)
       switch (type) {
         case 'save':
           if (data.id) {
@@ -102,15 +101,15 @@ class OutModal extends Component {
   }
   addEmptyLine(num) {
     const { form } = this.props;
-    let { outDetailList, specialSelect} = this.state;
-    console.log(specialSelect)
+    let { outDetailList, specialSelect } = this.state;
+    // console.log(specialSelect)
     if (!outDetailList) outDetailList = [];
     const skuLen = outDetailList ? outDetailList.length : 0;
     const lastId = skuLen < 1 ? 0 : outDetailList[outDetailList.length - 1].key;
     const looptime = typeof num === 'number' ? num : 1;
     this.props.dispatch({
       type: 'inventory/queryList',
-      payload: {warehouseName:specialSelect},
+      payload: { warehouseName: specialSelect },
     });
     let currentId = parseInt(lastId, 10);
     for (let i = 0; i < looptime; i += 1) {
@@ -131,23 +130,23 @@ class OutModal extends Component {
       };
       outDetailList.push(newItem);
     }
-    form.validateFieldsAndScroll([`warehouseName`],(err, values) => {
+    form.validateFieldsAndScroll([`warehouseName`], (err, values) => {
       if (err) return;
-      console.log(values)
+      // console.log(values)
       this.setState({ outDetailList }, () => {
-      if (typeof num !== 'boolean') {
-        setTimeout(() => {
-          this[`r_${currentId}_skuCode`].focus();
-          this[`r_${currentId}_skuCode`].refs.input.click();
-        }, 0);
-      }
-    });
+        if (typeof num !== 'boolean') {
+          setTimeout(() => {
+            this[`r_${currentId}_skuCode`].focus();
+            this[`r_${currentId}_skuCode`].refs.input.click();
+          }, 0);
+        }
+      });
     })
-    
+
   }
   batchAddProduct(props) {
     let { outDetailList } = this.state;
-    console.log(outDetailList)
+    // console.log(outDetailList)
     if (!outDetailList) outDetailList = [];
     const skuLen = outDetailList ? outDetailList.length : 0;
     const lastId = skuLen < 1 ? 0 : outDetailList[outDetailList.length - 1].key;
@@ -262,14 +261,14 @@ class OutModal extends Component {
   }
   doSearch() {
     const { specialSelect } = this.state;
-    console.log(specialSelect)
+    // console.log(specialSelect)
     latestSearch = {
       warehouseName: specialSelect,
       shelfNo: this.shelfNo && this.shelfNo.refs.input.value,
       skuCode: this.skuCode && this.skuCode.refs.input.value,
       upc: this.upc && this.upc.refs.input.value,
     };
-    console.log(latestSearch)
+    // console.log(latestSearch)
     this.props.dispatch({
       type: 'inventory/queryList',
       payload: {
@@ -302,7 +301,7 @@ class OutModal extends Component {
     }
   }
   handleShowPop(value) {
-    console.log(value)
+    // console.log(value)
     if (value) {
       this.setState({ warehouseIdChecked: value });
     }
@@ -323,19 +322,20 @@ class OutModal extends Component {
       isOperating = false;
     }
   }
-  handleSelect(value, p){
+  handleSelect(value, p) {
     const { outDetailList } = this.state;
-    console.log(value)
+    // console.log(value)
     this.setState({
-      specialSelect : value.label,
+      specialSelect: value.label,
       warehouseNoSpe: value.key,
     })
-    
+
   }
   render() {
     const p = this;
-    const { visible, wareList = [], form, data = {}, list = [], total } = this.props;
-    let specialeHouse = data.warehouseName;
+    const { visible, wareList = [], form, data = {}, list = [], total, dataValue = {} } = this.props;
+    // console.log(dataValue)
+    // console.log(data)
     const { getFieldDecorator } = form;
     const { outDetailList, specialSelect } = this.state;
     const formItemLayout = {
@@ -592,7 +592,7 @@ class OutModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('warehouseName', {
-                  initialValue: {key: data.warehouseNo, label:data.warehouseName},
+                  initialValue: { key: dataValue.warehouseNo, label: dataValue.warehouseName } || {},
                   rules: [{ required: true, message: '请选择' }],
                 })(
                   <Select labelInValue placeholder="请选择" onChange={this.handleSelect.bind(this)} >
@@ -607,7 +607,7 @@ class OutModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('remark', {
-                  initialValue: data.remark,
+                  initialValue: dataValue.remark,
                 })(
                   <Input placeholder="请输入" />,
                 )}

@@ -49,7 +49,7 @@ export default {
     noCompleteTimePage: 1,
     noCompleteTimePageSize: 20,
     noCompleteTimeTotal: 1,
-    savePurchaseTask: [],
+    savePurchaseTask: {},
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -127,15 +127,15 @@ export default {
       }
     },
     * querypurchaseTask({ payload }, { call, put }) {
-    const data = yield call(querypurchaseTask, { payload });
-    if (data.success) {
-      yield put({
-        type: 'savequerypurchaseTask',
-        payload: data,
-      });
-    }
-  },
-    
+      const data = yield call(querypurchaseTask, { payload });
+      if (data.success) {
+        yield put({
+          type: 'savequerypurchaseTask',
+          payload: data,
+        });
+      }
+    },
+
     * queryBuyers({ payload }, { call, put }) {
       const data = yield call(queryBuyers, { payload });
       if (data.success) {
@@ -238,6 +238,12 @@ export default {
         if (cb) cb(data.data);
       }
     },
+    * clearOrder({ payload }, { put }) {
+      yield put({
+        type: 'clearOrder4Add',
+        payload: {},
+      });
+    },
   },
   reducers: {
     updatePurchaseList(state, { payload }) {
@@ -279,8 +285,11 @@ export default {
     saveNoCompleteTimePageSize(state, { payload }) {
       return { ...state, noCompleteTimePageSize: payload.pageSize };
     },
-    savequerypurchaseTask( state, { payload }){
-      return { ...state, savePurchaseTask: payload.data}
+    savequerypurchaseTask(state, { payload }) {
+      return { ...state, savePurchaseTask: payload.data }
+    },
+    clearOrder4Add(state, { payload }) {
+      return { ...state, savePurchaseTask: {} };
     },
     updateNoCompleteTimeList(state, { payload }) {
       return { ...state, uncompleteTaskDailyOrder: payload.data, noCompleteTimeTotal: payload.totalCount };

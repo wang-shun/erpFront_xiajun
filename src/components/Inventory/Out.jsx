@@ -14,6 +14,7 @@ class Out extends Component {
     super();
     this.state = {
       visible: false,
+      objectValue:{}
     };
   }
   handleSubmit(e, page) {
@@ -36,13 +37,18 @@ class Out extends Component {
     });
   }
   showModal(type, r) {
+    console.log(r)
+    // let house = {}
+    // house.key = r.warehouseNo
+    // house.label = r.warehouseName
+    // console.log(house)
     switch (type) {
       case 'add': this.setState({ visible: true }); break;
       case 'update':
-        this.setState({ visible: true }, () => {
+        this.setState({ visible: true, objectValue:r }, () => {
           this.props.dispatch({
             type: 'inventory/queryOut',
-            payload: { id: r.id },
+            payload: { inventoryOutNo: r.inventoryOutNo },
           });
         });
         break;
@@ -69,7 +75,7 @@ class Out extends Component {
     const p = this;
     const { list = [], total, form, wareList = [], currentPage, outValues } = this.props;
     const { getFieldDecorator, resetFields } = form;
-    const { visible } = this.state;
+    const { visible, objectValue } = this.state;
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
@@ -178,6 +184,7 @@ class Out extends Component {
           visible={visible}
           close={this.closeModal.bind(this)}
           data={outValues}
+          dataValue = {objectValue}
         />
       </div>);
   }

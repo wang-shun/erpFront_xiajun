@@ -15,6 +15,7 @@ class ProductTable extends Component {
   }
 
   componentWillReceiveProps(...args) {
+    console.log(args)
     if (args[0].data && args[0].data.length > 0 && this.state.skuData.length === 0) {
       this.setState({
         skuData: args[0].data.map((el, index) => {

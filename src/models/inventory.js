@@ -26,7 +26,7 @@ const changePositionNo = ({ payload }) => fetch.post('/inventory/changePositionN
 const queryOutList = ({ payload }) => fetch.post('/inventory/inventoryOutQueryList', { data: payload }).catch(e => e);
 const addOut = ({ payload }) => fetch.post('/inventory/inventoryOutAdd', { data: payload }).catch(e => e);
 const updateOut = ({ payload }) => fetch.post('/inventory/inventoryOutUpdate', { data: payload }).catch(e => e);
-const queryOut = ({ payload }) => fetch.post('/inventory/inventoryOutQuery', { data: payload }).catch(e => e);
+const queryOut = ({ payload }) => fetch.post('/inventory/queryInventoryOutManifestDetail', { data: payload }).catch(e => e);
 const confirmOut = ({ payload }) => fetch.post('/inventory/inventoryOutConfirm', { data: payload }).catch(e => e);
 const deleteOut = ({ payload }) => fetch.post('/inventory/inventoryOutDelete', { data: payload }).catch(e => e);
 // 备货仓管理

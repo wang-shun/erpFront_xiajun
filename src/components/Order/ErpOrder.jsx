@@ -760,7 +760,7 @@ class ErpOrder extends Component {
 	          >
 	            <Button style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large">关闭</Button>
 	          </Popover>
-	          <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportErpOrder.bind(p)}>导订单</Button>
+	          <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportErpOrder.bind(p)}>导出订单</Button>
 	        </Row>
         	}
         <DeliveryModal
