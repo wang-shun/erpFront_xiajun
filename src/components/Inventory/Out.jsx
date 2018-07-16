@@ -75,7 +75,7 @@ class Out extends Component {
       wrapperCol: { span: 14 },
     };
     const columns = [
-      { title: '出库单ID', key: 'invOutNo', dataIndex: 'invOutNo', width: 100 },
+      { title: '出库单ID', key: 'inventoryOutNo', dataIndex: 'inventoryOutNo', width: 100 },
       { title: '仓库名称', key: 'warehouseName', dataIndex: 'warehouseName', width: 100 },
       { title: '状态',
         key: 'status',
@@ -89,10 +89,10 @@ class Out extends Component {
           }
         },
       },
-      { title: '创建者', key: 'userCreate', dataIndex: 'userCreate', width: 80 },
-      { title: '修改者', key: 'userModify', dataIndex: 'userModify', width: 80 },
+      { title: '创建者', key: 'creator', dataIndex: 'creator', width: 80 },
+      { title: '修改者', key: 'modifier', dataIndex: 'modifier', width: 80 },
       { title: '修改时间', key: 'gmtModify', dataIndex: 'gmtModify', width: 80 },
-      { title: '描述', key: 'remark', dataIndex: 'remark', width: 80 },
+      { title: '描述', key: 'remark', dataIndex: 'remark', width: 80, render(text) { return text ? text : '-'; }},
       { title: '操作',
         key: 'oper',
         width: 80,
@@ -126,9 +126,9 @@ class Out extends Component {
                 label="仓库"
                 {...formItemLayout}
               >
-                {getFieldDecorator('warehouseId', {})(
+                {getFieldDecorator('warehouseNo', {})(
                   <Select placeholder="请选择仓库" optionLabelProp="title" allowClear>
-                    {wareList.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
+                    {wareList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
                   </Select>)}
               </FormItem>
             </Col>
@@ -137,7 +137,7 @@ class Out extends Component {
                 label="出库单号"
                 {...formItemLayout}
               >
-                {getFieldDecorator('invOutNo', {})(
+                {getFieldDecorator('inventoryOutNo', {})(
                   <Input placeholder="请输入" />)}
               </FormItem>
             </Col>
