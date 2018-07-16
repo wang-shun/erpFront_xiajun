@@ -175,7 +175,7 @@ class Sku extends Component {
               虚拟库存：{r.virtualInv}<br />
               {/* 虚拟预扣：{r.lockedVirtualInv}<br />  */}
               现货库存：{r.inventory}<br />
-              现货占用：{r.lockedInv}<br />
+              占用库存：{r.lockedInv}<br />
               {/* 在途库存：{r.transInv}<br /> */}
               {/* 在途占用：{r.lockedTransInv} */}
             </div>

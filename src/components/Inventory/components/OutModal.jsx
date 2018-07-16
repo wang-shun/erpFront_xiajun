@@ -335,7 +335,7 @@ class OutModal extends Component {
   render() {
     const p = this;
     const { visible, wareList = [], form, data = {}, list = [], total } = this.props;
-    console.log(data)
+    let specialeHouse = data.warehouseName;
     const { getFieldDecorator } = form;
     const { outDetailList, specialSelect } = this.state;
     const formItemLayout = {
@@ -592,11 +592,11 @@ class OutModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('warehouseName', {
-                  // initialValue: data.warehouseName,
+                  initialValue: {key: data.warehouseNo, label:data.warehouseName},
                   rules: [{ required: true, message: '请选择' }],
                 })(
                   <Select labelInValue placeholder="请选择" onChange={this.handleSelect.bind(this)} >
-                    {wareList.map(el => <Option key={el.warehouseNo} title={el.name} >{el.name}</Option>)}
+                    {wareList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
                   </Select>,
                 )}
               </FormItem>
@@ -606,8 +606,8 @@ class OutModal extends Component {
                 label="备注"
                 {...formItemLayout}
               >
-                {getFieldDecorator('desc', {
-                  initialValue: data.desc,
+                {getFieldDecorator('remark', {
+                  initialValue: data.remark,
                 })(
                   <Input placeholder="请输入" />,
                 )}
