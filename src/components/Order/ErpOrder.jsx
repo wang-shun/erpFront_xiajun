@@ -390,6 +390,8 @@ class ErpOrder extends Component {
             case -4: return <font color="red">售后完成</font>;
             case 4: return <font color="red">订单完成</font>;
             case 5: return <font color="red">已签收</font>;
+            case 6: return <font color="red">新建</font>;
+
             default: return '-';
           }
         },
@@ -468,12 +470,13 @@ class ErpOrder extends Component {
         	  if(p.props.loginRoler) return('-');
           return (
             <div>
-              {r.status === 0 && r.quantity > 1 && <SplitOrder dispatch={dispatch} record={r} handleSubmit={p.handleSubmit.bind(p)} />}
-              {r.stockStatus !== 0 && r.stockStatus !== 9 && <RecordList dispatch={dispatch} record={r} />}
-              {r.status === 0 && <div><a href="javascript:void(0)" onClick={p.showModal.bind(p, r.id)} >修改</a></div>}
+              {/* {r.status === 0 && r.quantity > 1 && <SplitOrder dispatch={dispatch} record={r} handleSubmit={p.handleSubmit.bind(p)} />} */}
+              {r.status === 6 && <RecordList dispatch={dispatch} record={r} />}
+              {r.status === 3 && <RecordList dispatch={dispatch} record={r} />}
+              {r.status === 6 && <div><a href="javascript:void(0)" onClick={p.showModal.bind(p, r.id)} >修改</a></div>}
               {r.status === 0 && [0, 1, 2, 9].indexOf(r.stockStatus) > -1 &&
               <Popconfirm title="确定分配库存吗？" onConfirm={p.handleInventory.bind(p, 'lock', r.id)}>
-                <div><a href="javascript:void(0)" >分配库存</a></div>
+                {/* <div><a href="javascript:void(0)" >分配库存</a></div> */}
               </Popconfirm>}
               {r.status === 0 && [0, 9].indexOf(r.stockStatus) === -1 &&
               <Popconfirm title="确定释放库存吗？" onConfirm={p.handleInventory.bind(p, 'release', r.id)}>
@@ -482,8 +485,12 @@ class ErpOrder extends Component {
               {/* {r.erpReturnOrderId ?
                 <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'update', r)}>修改退单</a></div> :
                 <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>} */}
-                {r.status===2 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
+                {r.status === 2 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
+                {r.status === 5 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
                 {r.status===3 && <Popconfirm title="确定退单吗？" onConfirm={p.handleOrderModal.bind(p, r)}>
+                <div><a href="javascript:void(0)" >退单</a></div>
+              </Popconfirm>}
+              {r.status === 6 && <Popconfirm title="确定退单吗？" onConfirm={p.handleOrderModal.bind(p, r)}>
                 <div><a href="javascript:void(0)" >退单</a></div>
               </Popconfirm>}
               {/* {r.status !== 0 && <div><span style={{ color: '#ccc' }}>暂无</span></div>} */}
@@ -557,6 +564,7 @@ class ErpOrder extends Component {
                     <Option value="-4">售后完成</Option>
                     <Option value="4">订单完成</Option>
                     <Option value="5">已签收</Option>
+                    <Option value="5">新建</Option>
                   </Select>,
                 )}
               </FormItem>
@@ -758,7 +766,7 @@ class ErpOrder extends Component {
 	              </Row>
 	            </div>}
 	          >
-	            <Button style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large">关闭</Button>
+	            {/* <Button style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large">关闭</Button> */}
 	          </Popover>
 	          <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportErpOrder.bind(p)}>导出订单</Button>
 	        </Row>

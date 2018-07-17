@@ -229,6 +229,7 @@ class Order extends Component {
             case -4: return <font color="red">售后完成</font>;
             case 4: return <font color="red">订单完成</font>;
             case 5: return <font color="red">已签收</font>;
+            case 6: return <font color="red">新建</font>;
             default: return '-';
           }
         },
@@ -253,13 +254,13 @@ class Order extends Component {
         	  if(p.props.loginRoler) return('-');
           return (
             <div>
-              {record.status !== -1 && <a href="javascript:void(0)" onClick={p.handleProDetail.bind(p, record)}>订单明细</a>}
+              <a href="javascript:void(0)" onClick={p.handleProDetail.bind(p, record)}>订单明细</a>
               <br />
-              {record.status !== -1 && <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.orderNo)}>修改</a>}
+              {record.status === 6 && <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.orderNo)}>修改</a>}
               <br />
-              <Popconfirm title="确定删除此订单？" onConfirm={p.handleDelete.bind(p, record.orderNo)}>
+              {/* <Popconfirm title="确定删除此订单？" onConfirm={p.handleDelete.bind(p, record.orderNo)}>
                 <a href="javascript:void(0)" style={{ marginRight: 10 }}>删除</a>
-              </Popconfirm>
+              </Popconfirm> */}
             </div>);
         },
       },
@@ -402,6 +403,7 @@ class Order extends Component {
                     <Option value="-4">售后完成</Option>
                     <Option value="4">订单完成</Option>
                     <Option value="5">已签收</Option>
+                    <Option value="6">新建</Option>
                   </Select>,
                 )}
               </FormItem>
@@ -503,7 +505,7 @@ class Order extends Component {
           <Col>
             <Button type="primary" size="large" onClick={p.showModal.bind(p)} style={{ float: 'left' }}>新增订单</Button>
             <Button type="primary" size="large" onClick={p.exportMainOrder.bind(p)} style={{ float: 'right', marginLeft: 10 }}>导出订单</Button>
-            <Button type="primary" disabled={isNotSelected} size="large" onClick={p.handleOrderAction.bind(p, 'close')} style={{ float: 'right' }}>订单关闭</Button>
+            {/* <Button type="primary" disabled={isNotSelected} size="large" onClick={p.handleOrderAction.bind(p, 'close')} style={{ float: 'right' }}>订单关闭</Button> */}
             {/* <a href='/wx/messageList' target="_blank"><Button type="primary" size="large" style={{ float: 'right', marginRight: 10}}>微信录单</Button></a> */}
             {/* <Button type="primary" size="large" onClick={p.outerOrderReview.bind(p)} style={{ float: 'right', marginRight: 10}}>录单确认</Button> */}
           </Col>
