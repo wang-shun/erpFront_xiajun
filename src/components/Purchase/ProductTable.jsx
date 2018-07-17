@@ -45,6 +45,7 @@ class ProductTable extends Component {
     const { form } = this.props;
     const skuList = [];
     form.validateFieldsAndScroll((err, fieldsSku) => {
+      console.log(fieldsSku)
       if (err) { return; }
       let count = 1;
       const keys = Object.keys(fieldsSku);
@@ -361,7 +362,7 @@ class ProductTable extends Component {
     const p = this;
     const { form, skuList = [], parent, buyer = [], defaultBuyer, defaultStartTime, defaultEndTime, total, currentPage, pageSize, skuListTwo=[] } = p.props;
     const { skuData, previewImage, previewVisible, skuSearchType } = p.state;
-    console.log(skuData)
+    console.log(defaultBuyer)
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -654,15 +655,34 @@ class ProductTable extends Component {
             );
           },
         },
+        // { title: <font>买手</font>,
+        //   dataIndex: 'buyerName',
+        //   key: 'buyerName',
+        //   width: '8.5%',
+        //   render(t, r) {
+        //     return (
+        //       <FormItem>
+        //         {getFieldDecorator(`r_${r.key}_buyerId`, {
+        //           initialValue: t ? t.toString() : defaultBuyer,
+        //           rules: [{ required: true, message: '该项必选' }],
+        //         })(
+        //           <Select placeholder="请选择" optionLabelProp="title" disabled={true}>
+        //             {buyer.map(el => <Option key={el.id} title={el.nickName}>{el.nickName}</Option>)}
+        //           </Select>,
+        //         )}
+        //       </FormItem>
+        //     );
+        //   },
+        // },
         { title: <font color="#00f">买手</font>,
-          dataIndex: 'buyerName',
-          key: 'buyerName',
+          dataIndex: 'buyerId',
+          key: 'buyerId',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_buyerName`, {
-                  initialValue: t ? t.toString() : defaultBuyer,
+                {getFieldDecorator(`r_${r.key}_buyerId`, {
+                  initialValue: t ? t : defaultBuyer,
                   rules: [{ required: true, message: '该项必选' }],
                 })(
                   <Select placeholder="请选择" optionLabelProp="title">

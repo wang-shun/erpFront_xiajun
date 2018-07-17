@@ -38,6 +38,7 @@ class PurchaseModal extends Component {
   handleSubmit() {
     const p = this;
     const { form, dispatch, modalValues } = p.props;
+    console.log(modalValues)
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) { return; }
       if (fieldsValue.defaultBuyer) fieldsValue.openId = fieldsValue.defaultBuyer;
@@ -48,8 +49,8 @@ class PurchaseModal extends Component {
           taskStartTime: fieldsValue.taskStartTime && fieldsValue.taskStartTime.format('YYYY-MM-DD'),
           taskEndTime: fieldsValue.taskEndTime && fieldsValue.taskEndTime.format('YYYY-MM-DD'),
           detailList: JSON.stringify(detailList),
+          id : modalValues.id,
         };
-
         // 处理图片
         if (values.imageUrl) {
           const uploadMainPic = [];
@@ -62,13 +63,16 @@ class PurchaseModal extends Component {
           });
           values.imageUrl = JSON.stringify({ picList: uploadMainPic });
         }
-        if (modalValues && modalValues.data) {
+        if (modalValues && modalValues.taskDetailList) {
+          alert('1')
+          console.log(modalValues.id)
           dispatch({
             type: 'purchase/updatePurchase',
-            payload: { ...values, id: modalValues.data.id, detailList: JSON.stringify(detailList) },
+            payload: { ...values, detailList: JSON.stringify(detailList) },
             cb() { p.closeModal(); },
           });
         } else {
+          alert('2')
           dispatch({
             type: 'purchase/addPurchase',
             payload: { ...values, detailList: JSON.stringify(detailList) },
@@ -166,6 +170,7 @@ class PurchaseModal extends Component {
   render() {
     const p = this;
     const { form, title, visible, modalValues = {}, buyer = [] } = p.props;
+    console.log(modalValues)
     const { previewVisible, previewImage, defaultBuyer, defaultStartTime, defaultEndTime } = p.state;
     const purchaseData =  modalValues || {};
     console.log(purchaseData)
@@ -267,6 +272,7 @@ class PurchaseModal extends Component {
               >
                 {getFieldDecorator('buyerId', {
                   initialValue: toString(purchaseData.buyerId, 'SELECT'),
+                  // rules: [{ required: true, message: '请输入默认买手' }],
                 })(
                   <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.handleChangeBuyer.bind(this)}>
                     {buyer.map((el) => {
