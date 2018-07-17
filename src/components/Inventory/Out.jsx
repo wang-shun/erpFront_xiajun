@@ -41,7 +41,7 @@ class Out extends Component {
   showModal(type, r) {
     console.log(r)
     switch (type) {
-      case 'add': this.setState({ visible: true, }); break;
+      case 'add': this.setState({ visible: true,objectValue: '' }); break;
       case 'update':
         this.setState({ outVisble: true, objectValue:r }, () => {
           this.props.dispatch({

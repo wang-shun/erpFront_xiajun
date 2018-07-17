@@ -655,13 +655,13 @@ class ProductTable extends Component {
           },
         },
         { title: <font color="#00f">买手</font>,
-          dataIndex: 'buyerId',
-          key: 'buyerId',
+          dataIndex: 'buyerName',
+          key: 'buyerName',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_buyerId`, {
+                {getFieldDecorator(`r_${r.key}_buyerName`, {
                   initialValue: t ? t.toString() : defaultBuyer,
                   rules: [{ required: true, message: '该项必选' }],
                 })(
@@ -674,13 +674,13 @@ class ProductTable extends Component {
           },
         },
         { title: <font color="#00f">参考采购价</font>,
-          dataIndex: 'taskPrice',
-          key: 'taskPrice',
+          dataIndex: 'price',
+          key: 'price',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_taskPrice`, {
+                {getFieldDecorator(`r_${r.key}_price`, {
                   initialValue: t || undefined,
                   rules: [{ validator: p.checkPrice.bind(p, 'taskPrice', r) }],
                 })(
@@ -691,13 +691,13 @@ class ProductTable extends Component {
           },
         },
         { title: <font color="#00f">参考最大采购价</font>,
-          dataIndex: 'taskMaxPrice',
-          key: 'taskMaxPrice',
+          dataIndex: 'maxPrice',
+          key: 'maxPrice',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_taskMaxPrice`, {
+                {getFieldDecorator(`r_${r.key}_maxPrice`, {
                   initialValue: t || undefined,
                   rules: [{ validator: p.checkPrice.bind(p, 'taskMaxPrice', r) }],
                 })(
@@ -744,13 +744,13 @@ class ProductTable extends Component {
           },
         },
         { title: <font color="#00f">参考最大采购数量</font>,
-          dataIndex: 'taskMaxCount',
-          key: 'taskMaxCount',
+          dataIndex: 'maxCount',
+          key: 'maxCount',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_taskMaxCount`, {
+                {getFieldDecorator(`r_${r.key}_maxCount`, {
                   initialValue: t || undefined,
                   rules: [{ validator: p.checkCount.bind(p, 'taskMaxCount', r) }],
                 })(
