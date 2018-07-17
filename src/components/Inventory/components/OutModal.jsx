@@ -132,7 +132,7 @@ class OutModal extends Component {
     }
     form.validateFieldsAndScroll([`warehouseName`], (err, values) => {
       if (err) return;
-      // console.log(values)
+      console.log(values)
       this.setState({ outDetailList }, () => {
         if (typeof num !== 'boolean') {
           setTimeout(() => {

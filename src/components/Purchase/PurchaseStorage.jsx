@@ -112,10 +112,10 @@ class PurchaseStorage extends Component {
     })
   }
   wareHouse(p, r, index) {
-    this.props.form.validateFieldsAndScroll([`r_${p.id}_shelfNo`, `r_${p.id}_quantity`], (err, values) => {
+    this.props.form.validateFieldsAndScroll([`r_${p.id}_shelfNo`, `r_${p.id}_entryQuantity`], (err, values) => {
       const { upsvalue } = this.state
       p.warehouseNo = upsvalue.key
-      p.quantity = parseInt(values["r_" + p.id + "_quantity"])
+      p.entryQuantity = parseInt(values["r_" + p.id + "_entryQuantity"])
       p.shelfNo = values["r_" + p.id + "_shelfNo"]
       p.warehouseName = upsvalue.label
       console.log(p)
@@ -190,7 +190,7 @@ class PurchaseStorage extends Component {
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
       { title: '规格', dataIndex: 'specifications', key: 'specifications' },
-      { title: '预入库数', dataIndex: 'transQuantity', key: 'transQuantity' },
+      { title: '预入库数', dataIndex: 'preQuantity', key: 'preQuantity' },
       { title: '采购买手', dataIndex: 'buyerName', key: 'buyerName' },
       { title: '最新更新时间', dataIndex: 'gmtModify', key: 'gmtModify' },
       { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate' },
@@ -203,7 +203,7 @@ class PurchaseStorage extends Component {
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
       { title: '规格', dataIndex: 'specifications', key: 'specifications' },
-      { title: '预入库数', dataIndex: 'transQuantity', key: 'transQuantity' },
+      { title: '预入库数', dataIndex: 'preQuantity', key: 'preQuantity' },
       { title: '采购买手', dataIndex: 'buyerName', key: 'buyerName' },
       { title: '最新更新时间', dataIndex: 'gmtModify', key: 'gmtModify' },
       {
@@ -218,11 +218,11 @@ class PurchaseStorage extends Component {
         },
       },
       {
-        title: '入库数', dataIndex: 'quantity', key: 'quantity',
+        title: '入库数', dataIndex: 'entryQuantity', key: 'entryQuantity',
         render(t, r) {
           return (
             <FormItem>
-              {getFieldDecorator(`r_${r.id}_quantity`, { initialValue: t || '', })(
+              {getFieldDecorator(`r_${r.id}_entryQuantity`, { initialValue: t || '', })(
                 <Input placeholder="请填写入库数" />)}
             </FormItem>
           );
@@ -262,7 +262,7 @@ class PurchaseStorage extends Component {
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
-      { title: '入库数', dataIndex: 'quantity', key: 'quantity' },
+      { title: '入库数', dataIndex: 'entryQuantity', key: 'entryQuantity' },
       { title: '买手', dataIndex: 'buyerName', key: 'buyerName' },
       { title: '操作员', dataIndex: 'opUserName', key: 'opUserName' },
       { title: '仓库', dataIndex: 'warehouseName', key: 'warehouseName' },

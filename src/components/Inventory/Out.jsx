@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Form, Table, Row, Col, Button, Select, Input, DatePicker, Popconfirm } from 'antd';
 
 import OutModal from './components/OutModal';
+import OutModalModify from './components/OutModalModify';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -14,7 +15,8 @@ class Out extends Component {
     super();
     this.state = {
       visible: false,
-      objectValue:{}
+      objectValue:{},
+      outVisble:false,
     };
   }
   handleSubmit(e, page) {
@@ -38,14 +40,10 @@ class Out extends Component {
   }
   showModal(type, r) {
     console.log(r)
-    // let house = {}
-    // house.key = r.warehouseNo
-    // house.label = r.warehouseName
-    // console.log(house)
     switch (type) {
-      case 'add': this.setState({ visible: true }); break;
+      case 'add': this.setState({ visible: true, }); break;
       case 'update':
-        this.setState({ visible: true, objectValue:r }, () => {
+        this.setState({ outVisble: true, objectValue:r }, () => {
           this.props.dispatch({
             type: 'inventory/queryOut',
             payload: { inventoryOutNo: r.inventoryOutNo },
@@ -61,7 +59,7 @@ class Out extends Component {
       payload: {},
     });
     this.handleSubmit();
-    this.setState({ visible: false });
+    this.setState({ visible: false, outVisble: false, });
   }
   handleDelete(r) {
     const p = this;
@@ -75,7 +73,7 @@ class Out extends Component {
     const p = this;
     const { list = [], total, form, wareList = [], currentPage, outValues } = this.props;
     const { getFieldDecorator, resetFields } = form;
-    const { visible, objectValue } = this.state;
+    const { visible, objectValue, outVisble } = this.state;
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
@@ -105,7 +103,7 @@ class Out extends Component {
         render(text, record) {
           return (
             <div>
-              <a onClick={p.showModal.bind(p, 'update', record)} style={{ marginRight: 10 }}>修改</a>
+              <a onClick={p.showModal.bind(p, 'update', record)} style={{ marginRight: 10 }}>查看</a>
               <Popconfirm onConfirm={p.handleDelete.bind(p, record)} title="确认删除？">
                 <a style={{ marginRight: 10 }}>删除</a>
               </Popconfirm>
@@ -184,6 +182,12 @@ class Out extends Component {
           visible={visible}
           close={this.closeModal.bind(this)}
           data={outValues}
+          dataValue = {objectValue}
+        />
+        <OutModalModify
+          visible = {outVisble}
+          close = {this.closeModal.bind(this)}
+          Mdata={outValues}
           dataValue = {objectValue}
         />
       </div>);

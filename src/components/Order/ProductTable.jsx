@@ -238,6 +238,7 @@ class ProductTable extends Component {
         { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: '14%' },
         { title: '品牌', dataIndex: 'brand', key: 'brand', width: '8%' },
         { title: '所属分类', dataIndex: 'categoryName', key: 'categoryName', width: '8%', render(text) { return text || '-'; } },
+        { title: '规格1', dataIndex: 'color', key: 'color', width: '8%', render(text) { return text || '-'; } },
         { title: '规格2', dataIndex: 'scale', key: 'scale', width: '6%', render(text) { return text || '-'; } },
         { title: '价格', dataIndex: 'salePrice', key: 'salePrice', width: '6%', render(text) { return text || '-'; } },
         { title: '图片',
@@ -260,7 +261,7 @@ class ProductTable extends Component {
             }
           },
         },
-        { title: '规格1', dataIndex: 'color', key: 'color', width: '8%', render(text) { return text || '-'; } },
+        
         { title: '虚拟库存', dataIndex: 'virtualInv', key: 'virtualInv', width: '8%', render(text) { return text || '-'; } },
         { title: '重量(磅)', dataIndex: 'weight', key: 'weight', width: '8%', render(text) { return text || '-'; } },
         { title: '操作', dataIndex: 'oper', key: 'oper', width: '8%', render(t, r) { return <a onClick={() => { updateValue(r.skuCode); }}>选择</a>; } },
