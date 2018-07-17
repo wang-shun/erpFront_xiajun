@@ -71,7 +71,6 @@ class OutModal extends Component {
         return;
       }
       const outObj = { inventoryOutDetailList: JSON.stringify(skuList), warehouseNo, warehouseName, desc };
-      // console.log(outObj)
       switch (type) {
         case 'save':
           if (data.id) {
@@ -107,32 +106,36 @@ class OutModal extends Component {
     const skuLen = outDetailList ? outDetailList.length : 0;
     const lastId = skuLen < 1 ? 0 : outDetailList[outDetailList.length - 1].key;
     const looptime = typeof num === 'number' ? num : 1;
-    this.props.dispatch({
-      type: 'inventory/queryList',
-      payload: { warehouseName: specialSelect },
-    });
-    let currentId = parseInt(lastId, 10);
-    for (let i = 0; i < looptime; i += 1) {
-      currentId += 1;
-      const newId = currentId;
-      const newItem = {
-        id: '',
-        inventoryOnWarehouseNo: '',
-        key: newId,
-        skuCode: '',
-        skuId: '',
-        itemName: '',
-        color: '',
-        scale: '',
-        warehouseName: '',
-        upc: '',
-        shelfNo: '',
+    
+    form.validateFieldsAndScroll([`warehouseName`, `desc`], (err, values) => {
+      console.log(err)
+      if (err){
+        return;
       };
-      outDetailList.push(newItem);
-    }
-    form.validateFieldsAndScroll([`warehouseName`], (err, values) => {
-      if (err) return;
-      console.log(values)
+      console.log('values')
+      this.props.dispatch({
+        type: 'inventory/queryList',
+        payload: { warehouseName: specialSelect },
+      });
+      let currentId = parseInt(lastId, 10);
+      for (let i = 0; i < looptime; i += 1) {
+        currentId += 1;
+        const newId = currentId;
+        const newItem = {
+          id: '',
+          inventoryOnWarehouseNo: '',
+          key: newId,
+          skuCode: '',
+          skuId: '',
+          itemName: '',
+          color: '',
+          scale: '',
+          warehouseName: '',
+          upc: '',
+          shelfNo: '',
+        };
+        outDetailList.push(newItem);
+      }
       this.setState({ outDetailList }, () => {
         if (typeof num !== 'boolean') {
           setTimeout(() => {
@@ -592,7 +595,7 @@ class OutModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('warehouseName', {
-                  initialValue: { key: dataValue.warehouseNo, label: dataValue.warehouseName } || {},
+                  // initialValue: { key: dataValue.warehouseNo, label: dataValue.warehouseName } || {},
                   rules: [{ required: true, message: '请选择' }],
                 })(
                   <Select labelInValue placeholder="请选择" onChange={this.handleSelect.bind(this)} >
@@ -606,8 +609,9 @@ class OutModal extends Component {
                 label="备注"
                 {...formItemLayout}
               >
-                {getFieldDecorator('remark', {
+                {getFieldDecorator('desc', {
                   initialValue: dataValue.remark,
+
                 })(
                   <Input placeholder="请输入" />,
                 )}
