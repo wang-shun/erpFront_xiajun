@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, Button, Row, Col, Select, Form, Tabs, Popconfirm } from 'antd';
+import { Table, Input, Button, Row, Col, Select, Form, Tabs, Popconfirm, Modal, InputNumber } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -20,6 +20,8 @@ class PurchaseStorage extends Component {
       activeTab: '1',
       mStore: '',
       wareVisible: true,
+      visible: false,
+      title: '',
     };
   }
   //仓库选中
@@ -110,19 +112,19 @@ class PurchaseStorage extends Component {
     })
   }
   wareHouse(p, r, index) {
-    this.props.form.validateFieldsAndScroll([`r_${p.id}_shelfNo`, `r_${p.id}_quantity`],(err, values) => {
+    this.props.form.validateFieldsAndScroll([`r_${p.id}_shelfNo`, `r_${p.id}_entryQuantity`], (err, values) => {
       const { upsvalue } = this.state
       p.warehouseNo = upsvalue.key
-      p.quantity = parseInt(values["r_"+p.id+"_quantity"])
-      p.shelfNo = values["r_"+p.id+"_shelfNo"]
+      p.entryQuantity = parseInt(values["r_" + p.id + "_entryQuantity"])
+      p.shelfNo = values["r_" + p.id + "_shelfNo"]
       p.warehouseName = upsvalue.label
       console.log(p)
       this.props.dispatch({
         type: 'purchaseStorage/queryWithComfirm',
-        payload: { detailVo: JSON.stringify(p)},
+        payload: { detailVo: JSON.stringify(p) },
         cb: () => { this._refreshData(); },
       })
-      
+
       // setTimeout(()=>this._refreshData(),2000);
     })
   }
@@ -139,33 +141,69 @@ class PurchaseStorage extends Component {
   // componentDidMount(){
   //   setTimeout(()=>this.props.form.resetFields(),100);
   // }
+  showModal() {
+    this.setState({
+      visible: true,
+      title: '直接入库'
+    })
+  }
+  hSubmit() {
+    const { form } = this.props
+    console.log(form)
+    form.validateFields((err, values) => {
+      console.log(values)
+      if (err) return;
+      this.props.dispatch({
+        type: 'purchaseStorage/inventoryAdd', payload: {
+          skuCode: values.skuCode, warehouseNo: values.warehouseNo.key, positionNo: values.positionNo, quantity: parseInt(values.quantity)
+
+        }
+      });
+      this.hCancel();
+    })
+
+  }
+  hCancel() {
+    this.setState({
+      visible: false,
+    })
+  }
 
   render() {
     const p = this;
     const { form, buyers = [], selectWhList = [], searchAllList = [], listUpc = [], alreadyList = [] } = p.props;
-    const { upsvalue, upsvalueTwo, activeTab, mStore, wareVisible } = p.state;
+    const { upsvalue, upsvalueTwo, activeTab, mStore, wareVisible, visible, title } = p.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
     };
+    const formItemLayoutT = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 10 },
+    };
     const columnsList = [
+      
+      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },
+      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' },      
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
       { title: '规格', dataIndex: 'specifications', key: 'specifications' },
-      { title: '预入库数', dataIndex: 'transQuantity', key: 'transQuantity' },
+      { title: '预入库数', dataIndex: 'preQuantity', key: 'preQuantity' },
       { title: '采购买手', dataIndex: 'buyerName', key: 'buyerName' },
       { title: '最新更新时间', dataIndex: 'gmtModify', key: 'gmtModify' },
       { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate' },
       { title: '状态', dataIndex: 'statusName', key: 'statusName' },
     ];
     const columnsSelectList = [
+      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },
+      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' }, 
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
       { title: '规格', dataIndex: 'specifications', key: 'specifications' },
-      { title: '预入库数', dataIndex: 'transQuantity', key: 'transQuantity' },
+      { title: '预入库数', dataIndex: 'preQuantity', key: 'preQuantity' },
       { title: '采购买手', dataIndex: 'buyerName', key: 'buyerName' },
       { title: '最新更新时间', dataIndex: 'gmtModify', key: 'gmtModify' },
       {
@@ -180,11 +218,11 @@ class PurchaseStorage extends Component {
         },
       },
       {
-        title: '入库数', dataIndex: 'quantity', key: 'quantity',
+        title: '入库数', dataIndex: 'entryQuantity', key: 'entryQuantity',
         render(t, r) {
           return (
             <FormItem>
-              {getFieldDecorator(`r_${r.id}_quantity`, { initialValue: t || '',})(
+              {getFieldDecorator(`r_${r.id}_entryQuantity`, { initialValue: t || '', })(
                 <Input placeholder="请填写入库数" />)}
             </FormItem>
           );
@@ -224,7 +262,7 @@ class PurchaseStorage extends Component {
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
-      { title: '入库数', dataIndex: 'quantity', key: 'quantity' },
+      { title: '入库数', dataIndex: 'entryQuantity', key: 'entryQuantity' },
       { title: '买手', dataIndex: 'buyerName', key: 'buyerName' },
       { title: '操作员', dataIndex: 'opUserName', key: 'opUserName' },
       { title: '仓库', dataIndex: 'warehouseName', key: 'warehouseName' },
@@ -260,7 +298,7 @@ class PurchaseStorage extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('warehouseId', {})(
-                    <Select labelInValue placeholder="请选择仓库" optionLabelProp="title" combobox allowClear onChange={this.storehouse.bind(this)}>
+                    <Select labelInValue placeholder="请选择仓库" optionLabelProp="title" onChange={this.storehouse.bind(this)}>
                       {selectWhList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
                     </Select>)}
                 </FormItem>
@@ -272,7 +310,7 @@ class PurchaseStorage extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('buyerId', {})(
-                    <Select placeholder="请选择买手" optionLabelProp="title" combobox allowClear onChange={this.storehouseTwo.bind(this)}>
+                    <Select placeholder="请选择买手" optionLabelProp="title"  onChange={this.storehouseTwo.bind(this)}>
                       {buyers.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
                     </Select>)}
                 </FormItem>
@@ -285,12 +323,19 @@ class PurchaseStorage extends Component {
                 >
                   {getFieldDecorator('stoOrderNo', {})(
                     // <Input placeholder="请扫UPC或手动输入" disabled={upsvalue != '' && upsvalueTwo != '' ? false : true} onKeyPress={this.handleSubmit.bind(this)} />)}
-                    <Input placeholder="请扫UPC或手动输入" disabled={upsvalue != '' && upsvalueTwo != '' ? false : true}/>)}
+                    <Input placeholder="请扫UPC或手动输入" disabled={upsvalue != '' && upsvalueTwo != '' ? false : true} />)}
                 </FormItem>
               </Col>
               <Col span="6">
                 <FormItem>
                   <Button htmlType="submit" type="primary" size="large" style={{ float: 'left', marginRight: 10 }} onClick={this.handleSubmit.bind(this)}>查询</Button>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row style={{ height: 32 }}>
+              <Col>
+                <FormItem>
+                  <Button htmlType="submit" type="primary" size="large" style={{ float: 'right', marginRight: 10 }} onClick={this.showModal.bind(this)}>直接入库</Button>
                 </FormItem>
               </Col>
             </Row>
@@ -330,6 +375,60 @@ class PurchaseStorage extends Component {
               />
             </Col>
           </Row>
+          {visible && <Modal
+            visible={visible}
+            title={title}
+            onOk={this.hSubmit.bind(this)}
+            onCancel={this.hCancel.bind(this)}
+          >
+            <Form>
+              <Row>
+                <Col>
+                  <FormItem label="skuCode" {...formItemLayoutT}>
+                    {getFieldDecorator('skuCode', {
+                      rules: [{ required: true, message: '请输入skuCode' }],
+                      // initialValue: roleModal.name,
+                    })(
+                      <Input placeholder="请输入skuCode" />,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col>
+                  <FormItem label="货架号" {...formItemLayoutT}>
+                    {getFieldDecorator('positionNo', {
+                      rules: [{ required: true, message: '请输入货架号' }],
+                      // initialValue: roleModal.seq,
+                    })(
+
+                      <Input placeholder="请输入货架号" />,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col>
+                  <FormItem label="仓库号" {...formItemLayoutT}>
+                    {getFieldDecorator('warehouseNo', {
+                      rules: [{ required: true, message: '请输入仓库号' }],
+                      // initialValue: roleModal.status,
+                    })(
+                      <Select labelInValue placeholder="请选择仓库" optionLabelProp="title"  onChange={this.storehouse.bind(this)}>
+                        {selectWhList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col>
+                  <FormItem label="入库数目" {...formItemLayoutT}>
+                    {getFieldDecorator('quantity', {
+                      rules: [{ required: true, message: '请输入库数目' }],
+                      // initialValue: roleModal.description,
+                    })(
+                      <InputNumber placeholder="请输入库数目" />,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+            </Form>
+          </Modal>}
         </TabPane>
         <TabPane tab="已入库明细" key="2">
           <Form>

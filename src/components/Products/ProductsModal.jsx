@@ -73,7 +73,7 @@ class ProductsModal extends Component {
     const p = this;
     const { form, dispatch, modalValues } = this.props;
     form.validateFieldsAndScroll((err, fieldsValue) => {
-      console.log(fieldsValue);
+      // console.log(fieldsValue);
       if (err) {
         return;
       }
@@ -118,7 +118,7 @@ class ProductsModal extends Component {
         const lastDetailInfo = modalValues && modalValues.data && modalValues.data.detail;
         values.detail = detailInfo ? encodeURIComponent(detailInfo) : lastDetailInfo ? encodeURIComponent(lastDetailInfo) : '';
 
-        console.log(values);
+        // console.log(values);
         if (modalValues && modalValues.data) {
           dispatch({
             type: 'products/updateProducts',
@@ -238,6 +238,8 @@ class ProductsModal extends Component {
   render() {
     const p = this;
     const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [], countries = [], channels = [] } = this.props;
+    console.log(this.props)
+    console.log(tree)
     const { previewVisible, previewImage, activeTab, countryNameExit } = this.state;
     const { getFieldDecorator } = form;
     // 图片字符串解析
@@ -319,13 +321,20 @@ class ProductsModal extends Component {
     let selectedCategoryId = [];
 
     if (productData.categoryCode) {
+
       tree.forEach((el) => {
+        console.log(el)
         if (el.children) {
           el.children.forEach((el2) => {
+            console.log(el2)
             if (el2.children) {
               el2.children.forEach((el3) => {
+                // console.log(el3)
+                // console.log(el3.categoryCode, productData.categoryCode)
                 if (el3.categoryCode.toString() === productData.categoryCode.toString()) {
+
                   selectedCategoryId = [el3.categoryCode.toString()];
+                  console.log("maomao" + selectedCategoryId)
                 }
               });
             }
@@ -334,6 +343,8 @@ class ProductsModal extends Component {
       })
     }
 
+
+    
     //console.log(productData.categoryId, selectedCategoryId);
 
     return (
@@ -348,13 +359,14 @@ class ProductsModal extends Component {
                 <Col span={7}>
                   <FormItem
                     label="所属类"
+                    required="true"
                     {...formItemLayout}
                   >
                     {getFieldDecorator('categoryCode', {
                       initialValue: selectedCategoryId,
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(
-                      <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover" />,
+                      <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover"/>,
                       // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
                     )}
                   </FormItem>
@@ -388,6 +400,7 @@ class ProductsModal extends Component {
                   <FormItem
                     label="品牌"
                     {...formItemLayout}
+                    required="true"
                   >
                     {getFieldDecorator('brand', {
                       initialValue: toString(productData.brand, 'SELECT'),
@@ -548,8 +561,8 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                     required="true"
                   >
-                    {getFieldDecorator('deliveryMode', {
-                      initialValue: toString(productData.deliveryMode || '1'),
+                    {getFieldDecorator('logisticType', {
+                      initialValue: toString(productData.logisticType || '1'),
                     })(
                       <RadioGroup on>
                         <Radio value="1">海外直邮</Radio>
@@ -676,6 +689,7 @@ class ProductsModal extends Component {
                 <Col span={21}>
                   <FormItem
                     label="添加图片"
+                    required="true"
                     labelCol={{ span: 3 }}
                     wrapperCol={{ span: 21 }}
                   >

@@ -45,6 +45,7 @@ class ProductTable extends Component {
     const { form } = this.props;
     const skuList = [];
     form.validateFieldsAndScroll((err, fieldsSku) => {
+      console.log(fieldsSku)
       if (err) { return; }
       let count = 1;
       const keys = Object.keys(fieldsSku);
@@ -105,6 +106,7 @@ class ProductTable extends Component {
         }, 0);
       }
     });
+    this.props.dispatch({ type: 'sku/querySkuList2', payload: {} });
   }
 
   batchAddProduct(props) {
@@ -223,11 +225,11 @@ class ProductTable extends Component {
   }
 
   handleSelect(key, skuCode) {
-    const { form, skuList } = this.props;
+    const { form, skuListTwo } = this.props;
     let { skuData } = this.state;
     if (!skuData) skuData = [];
 
-    const source = skuList;
+    const source = skuListTwo;
 
     // 检验重复
     let isDuplicatedFirst = false;
@@ -249,14 +251,18 @@ class ProductTable extends Component {
 
       source.forEach((value) => {
         if (value.skuCode.toString() === skuCode.toString()) {
+          console.log('this------')
+          console.log(skuData)
+          console.log(value)
           skuData.forEach((el) => {
+            console.log(el)
             if (el.key.toString() === key.toString()) {
               el.skuId = value.id;
               el.skuCode = value.skuCode;
               el.skuPic = value.skuPic;
               el.purchaseNeed = value.purchaseNeed || undefined;
               el.color = value.color;
-              el.scale = value.scaleInt;
+              el.scale = value.scale;
             }
           });
           this.setState({ skuData }, () => {
@@ -265,7 +271,7 @@ class ProductTable extends Component {
               [`r_${key}_skuCode`]: value.skuCode,
               [`r_${key}_count`]: value.purchaseNeed,
               [`r_${key}_color`]: value.color,
-              [`r_${key}_scaleInt`]: value.scale,
+              [`r_${key}_scale`]: value.scale,
             });
           });
         }
@@ -354,8 +360,9 @@ class ProductTable extends Component {
 
   render() {
     const p = this;
-    const { form, skuList = [], parent, buyer = [], defaultBuyer, defaultStartTime, defaultEndTime, total, currentPage, pageSize } = p.props;
+    const { form, skuList = [], parent, buyer = [], defaultBuyer, defaultStartTime, defaultEndTime, total, currentPage, pageSize, skuListTwo=[] } = p.props;
     const { skuData, previewImage, previewVisible, skuSearchType } = p.state;
+    console.log(defaultBuyer)
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -489,7 +496,7 @@ class ProductTable extends Component {
         { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 90 },
         { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 90 },
         { title: '品牌', dataIndex: 'brand', key: 'brand', width: 80 },
-        { title: '采购站点', dataIndex: 'buySite', key: 'buySite', width: 80 },
+        { title: '采购站点', dataIndex: 'buySite', key: 'buySite', width: 80, render(text) { return text || '-'; } },
         { title: '所属分类', dataIndex: 'categoryName', key: 'categoryName', width: 75, render(text) { return text || '-'; } },
         { title: '图片',
           dataIndex: 'skuPic',
@@ -608,7 +615,7 @@ class ProductTable extends Component {
             <Button type="primary" onClick={batchSelectSku} style={{ position: 'absolute', bottom: 10, left: 0 }} disabled={p.state.selectedSku.length === 0}>批量添加</Button>
             <Table
               columns={columns}
-              dataSource={list}
+              dataSource={skuListTwo}
               size="small"
               bordered
               rowSelection={rowSelection}
@@ -648,6 +655,25 @@ class ProductTable extends Component {
             );
           },
         },
+        // { title: <font>买手</font>,
+        //   dataIndex: 'buyerName',
+        //   key: 'buyerName',
+        //   width: '8.5%',
+        //   render(t, r) {
+        //     return (
+        //       <FormItem>
+        //         {getFieldDecorator(`r_${r.key}_buyerId`, {
+        //           initialValue: t ? t.toString() : defaultBuyer,
+        //           rules: [{ required: true, message: '该项必选' }],
+        //         })(
+        //           <Select placeholder="请选择" optionLabelProp="title" disabled={true}>
+        //             {buyer.map(el => <Option key={el.id} title={el.nickName}>{el.nickName}</Option>)}
+        //           </Select>,
+        //         )}
+        //       </FormItem>
+        //     );
+        //   },
+        // },
         { title: <font color="#00f">买手</font>,
           dataIndex: 'buyerId',
           key: 'buyerId',
@@ -656,7 +682,7 @@ class ProductTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_buyerId`, {
-                  initialValue: t ? t.toString() : defaultBuyer,
+                  initialValue: t ? t : defaultBuyer,
                   rules: [{ required: true, message: '该项必选' }],
                 })(
                   <Select placeholder="请选择" optionLabelProp="title">
@@ -668,13 +694,13 @@ class ProductTable extends Component {
           },
         },
         { title: <font color="#00f">参考采购价</font>,
-          dataIndex: 'taskPrice',
-          key: 'taskPrice',
+          dataIndex: 'price',
+          key: 'price',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_taskPrice`, {
+                {getFieldDecorator(`r_${r.key}_price`, {
                   initialValue: t || undefined,
                   rules: [{ validator: p.checkPrice.bind(p, 'taskPrice', r) }],
                 })(
@@ -685,13 +711,13 @@ class ProductTable extends Component {
           },
         },
         { title: <font color="#00f">参考最大采购价</font>,
-          dataIndex: 'taskMaxPrice',
-          key: 'taskMaxPrice',
+          dataIndex: 'maxPrice',
+          key: 'maxPrice',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_taskMaxPrice`, {
+                {getFieldDecorator(`r_${r.key}_maxPrice`, {
                   initialValue: t || undefined,
                   rules: [{ validator: p.checkPrice.bind(p, 'taskMaxPrice', r) }],
                 })(
@@ -738,13 +764,13 @@ class ProductTable extends Component {
           },
         },
         { title: <font color="#00f">参考最大采购数量</font>,
-          dataIndex: 'taskMaxCount',
-          key: 'taskMaxCount',
+          dataIndex: 'maxCount',
+          key: 'maxCount',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_taskMaxCount`, {
+                {getFieldDecorator(`r_${r.key}_maxCount`, {
                   initialValue: t || undefined,
                   rules: [{ validator: p.checkCount.bind(p, 'taskMaxCount', r) }],
                 })(
@@ -771,13 +797,13 @@ class ProductTable extends Component {
           },
         },
         { title: <font color="#00f">规格2</font>,
-          dataIndex: 'scaleInt',
-          key: 'scaleInt',
+          dataIndex: 'scale',
+          key: 'scale',
           width: '8.5%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_scaleInt`, {
+                {getFieldDecorator(`r_${r.key}_scale`, {
                   initialValue: t,
                   //rules: [{ validator: p.checkCount.bind(p, 'color', r) }],
                 })(
@@ -905,12 +931,13 @@ class ProductTable extends Component {
 }
 
 function mapStateToProps(state) {
-  const { skuList, skuTotal, currentPage, pageSize } = state.sku;
+  const { skuList, skuTotal, currentPage, pageSize, skuListTwo} = state.sku;
   return {
     skuList,
     total: skuTotal,
     currentPage,
     pageSize,
+    skuListTwo,
   };
 }
 

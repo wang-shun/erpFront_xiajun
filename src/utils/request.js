@@ -10,8 +10,6 @@ function wrapper(method, url, options, getInst) {
   return new Promise((resolve, reject) => {
     const request = ajax[method.toLowerCase()](url, options).then((res, pointer) => {
       const loc = request._request.getResponseHeader('Location');
-      console.log('thisthis')
-      console.log(request)
       if (loc) {
         location.href = '#/login';
         return;
@@ -22,6 +20,10 @@ function wrapper(method, url, options, getInst) {
       }
       resolve(res, pointer);
     }, (err, pointer) => {
+      if (request._request.status.toString() === '302' || request._request.responseText.match('<!')) {
+        location.href = '#/login';
+        return;
+      }
       reject(err, pointer);
     });
     if (typeof getInst === 'function') {
@@ -29,6 +31,10 @@ function wrapper(method, url, options, getInst) {
     }
   });
 }
+
+
+
+
 
 export default {
   get: wrapper.bind(null, 'GET'),

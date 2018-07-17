@@ -73,7 +73,6 @@ class BuyerList extends Component {
   }
 
   editBuyer(record) {
-    console.log("record "+record);
     const p = this;
     p.setState({
       visible: true,

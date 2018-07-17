@@ -35,6 +35,9 @@ export default {
     saveItemSkuList(state, { payload }) {
       return { ...state, skuList: payload.data, skuTotal: payload.totalCount };
     },
+    saveItemSkuList2(state, { payload }) {
+      return { ...state, skuListTwo: payload.data, skuTotal: payload.totalCount };
+    },
     saveCurrentPage(state, { payload }) {
       return { ...state, currentPage: payload.pageIndex };
     },
@@ -132,7 +135,7 @@ export default {
       const data = yield call(querySkuList2, { payload: { ...payload, pageIndex, pageSize } });
       // if (data.success) {
       yield put({
-        type: 'saveItemSkuList',
+        type: 'saveItemSkuList2',
         payload: data,
       });
       // }

@@ -6,6 +6,7 @@ const addOrder = ({ payload }) => fetch.post('/outerOrder/add', { data: payload 
 const updateOrder = ({ payload }) => fetch.post('/outerOrder/update', { data: payload }).catch(e => e);
 const deleteOrder = ({ payload }) => fetch.post('/outerOrder/delete', { data: payload }).catch(e => e);
 const queryOrderList = ({ payload }) => fetch.post('/outerOrder/index', { data: payload }).catch(e => e);
+const queryOrderListTwo = ({ payload }) => fetch.post('/outerOrder/index', { data: payload }).catch(e => e);
 const queryOrder = ({ payload }) => fetch.post('/outerOrder/query', { data: payload }).catch(e => e);
 const queryOrderDetail = ({ payload }) => fetch.post('/outerOrder/erpStockup', { data: payload }).catch(e => e);
 const closeOrder = ({ payload }) => fetch.post('/outerOrder/close', { data: payload }).catch(e => e);
@@ -59,11 +60,17 @@ const queryChannel = ({ payload }) => fetch.post('/channel/query', { data: paylo
 const deleteChannel = ({ payload }) => fetch.post('/channel/delete', { data: payload }).catch(e => e);
 const addChannel = ({ payload }) => fetch.post('/channel/add', { data: payload }).catch(e => e);
 const updateChannel = ({ payload }) => fetch.post('/channel/update', { data: payload }).catch(e => e);
+// 
+const erpOrderDe = ({ payload }) => fetch.get('/erpOrder/detail', { data: payload }).catch(e => e);
+// 
+
+const erpOrderNumber = ({ payload }) => fetch.post('/erpOrder/return', { data: payload }).catch(e => e);
 
 export default {
   namespace: 'order',
   state: {
     orderList: [],
+    orderListTwo: [],
     orderDetailList: [],
     orderTotal: 1,
     currentPage: 1,
@@ -95,10 +102,17 @@ export default {
     // 渠道
     channels: [],
     channelValues: {},
+    erpDetailList: [],
   },
   reducers: {
     saveOrderList(state, { payload }) {
       return { ...state, orderList: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };
+    },
+    saveOrderListTwo(state, { payload }){
+      return { ...state, orderListTwo: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };      
+    },
+    clearOrder4Add(state, { payload }) {
+      return { ...state, orderListTwo: [] };
     },
     saveCurrentPage(state, { payload }) {
       return { ...state, currentPage: payload.pageIndex };
@@ -157,6 +171,9 @@ export default {
     updateState(state, { payload }) {
       return { ...state, ...payload };
     },
+    erpOrderDeList(state, { payload }) {
+      return { ...state, erpDetailList: payload.data }
+    },
   },
   effects: {
     // 主订单
@@ -202,6 +219,15 @@ export default {
         });
       }
     },
+    * erpOrderDe({ payload }, { call, put }) {
+      const data = yield call(erpOrderDe, { payload });
+      if (data.success) {
+        yield put({
+          type: 'erpOrderDeList',
+          payload: data,
+        });
+      }
+    },
     * queryOrderList({ payload }, { call, put, select }) { // 订单管理列表
       let pageIndex = yield select(({ order }) => order.currentPage);
       let pageSize = yield select(({ order }) => order.currentPageSize);
@@ -223,6 +249,35 @@ export default {
           payload: data,
         });
       }
+    },
+    *queryOrderListTwo({ payload, cb }, { call, put, select }) { 
+      let pageIndex = yield select(({ order }) => order.currentPage);
+      let pageSize = yield select(({ order }) => order.currentPageSize);
+      if (payload && payload.pageIndex) {
+        pageIndex = payload.pageIndex;
+        yield put({ type: 'saveCurrentPage', payload });
+      }
+      if (payload && payload.pageSize) {
+        pageSize = payload.pageSize;
+        yield put({ type: 'saveCurrentPageSize', payload });
+      }
+      if (payload.startGmt) payload.startGmt = payload.startGmt.format('YYYY-MM-DD');
+      if (payload.endGmt) payload.endGmt = payload.endGmt.format('YYYY-MM-DD');
+      if (!payload.status) payload.status = 10;
+      const data = yield call(queryOrderListTwo, { payload: { ...payload, pageIndex, pageSize } });
+      if (data.success) {
+        yield put({
+          type: 'saveOrderListTwo',
+          payload: data,
+        });
+        cb();
+      }
+    },
+    * clearOrder({ payload }, { put }) {
+      yield put({
+        type: 'clearOrder4Add',
+        payload: {},
+      });
     },
     * closeOrder({ payload, cb }, { call }) {
       const data = yield call(closeOrder, { payload });
@@ -446,6 +501,12 @@ export default {
         if (cb) cb();
       }
     },
+    * erpOrderNumber({ payload }, { call }) {
+    const data = yield call(erpOrderNumber, { payload });
+    if (data.success) {
+      message.success('退单成功');
+    }
+  },
     exportPdf({ payload, success }) {
       window.open(`http://${location.host}/shippingOrder/shippingOrderExportPdf?shippingOrderIds=${payload}`);
       if (success) {

@@ -56,6 +56,7 @@ class Purchase extends Component {
       modalVisible: true,
       title: '新增',
     });
+    this.props.dispatch({ type: 'purchase/clearOrder', payload: {} }); 
   }
   showMore(){
     console.log('thisthis')
@@ -71,7 +72,7 @@ class Purchase extends Component {
       modalVisible: true,
       title: '修改',
     }, () => {
-      p.props.dispatch({ type: 'purchase/queryPurchase', payload: { id } });
+      p.props.dispatch({ type: 'purchase/querypurchaseTask', payload: { id } });
     });
   }
 
@@ -101,10 +102,13 @@ class Purchase extends Component {
     });
   }
 
-  exportPurchase(id) { // 导出采购单
+  exportPurchase(r) { // 导出采购单
+    console.log(r)
+    console.log(r.buyerTaskNo)
+    let buyerTaskNo = r.buyerTaskNo
     this.props.dispatch({
       type: 'purchase/exportPurchase',
-      payload: { id },
+      payload: { buyerTaskNo },
     });
   }
 
@@ -154,7 +158,8 @@ class Purchase extends Component {
 
   render() {
     const p = this;
-    const { form, list = [], currentPage, total, purchaseValues = {}, buyer = [], dispatch } = p.props;
+    const { form, list = [], currentPage, total, purchaseValues = {}, buyer = [], dispatch, savePurchaseTask={} } = p.props;
+    console.log(savePurchaseTask)
     const { uploadVisble, titles } = this.state
     const { getFieldDecorator, resetFields } = form;
     const { title } = p.state;
@@ -163,13 +168,14 @@ class Purchase extends Component {
       wrapperCol: { span: 14 },
     };
     const columnsList = [
-      { title: '任务单号', dataIndex: 'taskOrderNo', key: 'taskOrderNo', width: 150 },
-      { title: '任务名称', dataIndex: 'taskTitle', key: 'taskTitle', width: 100 },
-      { title: '任务描述', dataIndex: 'taskDesc', key: 'taskDesc', width: 100 },
-      { title: '买手', dataIndex: 'nickName', key: 'nickName', width: 60, render(text) { return text || '-'; } },
+      // taskOrderNo
+      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo', width: 150 },
+      { title: '任务名称', dataIndex: 'title', key: 'title', width: 100 },
+      { title: '任务描述', dataIndex: 'taskDesc', key: 'taskDesc', width: 100, render(text) { return text || '-'; } },
+      { title: '买手', dataIndex: 'buyerName', key: 'buyerName', width: 60, render(text) { return text || '-'; } },
       { title: '图片',
-        dataIndex: 'imageUrl',
-        key: 'imageUrl',
+        dataIndex: 'skuPicUrl',
+        key: 'skuPicUrl',
         width: 80,
         render(text) {
           if (!text) return '-';
@@ -196,8 +202,8 @@ class Purchase extends Component {
           }
         },
       },
-      { title: '任务开始时间', dataIndex: 'taskStartTime', key: 'taskStartTime', width: 120, render(t) { return t ? t.split(' ')[0] : '-'; } },
-      { title: '任务结束时间', dataIndex: 'taskEndTime', key: 'taskEndTime', width: 120, render(t) { return t ? t.split(' ')[0] : '-'; } },
+      { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime', width: 120, render(t) { return t ? t.split(' ')[0] : '-'; } },
+      { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime', width: 120, render(t) { return t ? t.split(' ')[0] : '-'; } },
       { title: '备注', dataIndex: 'remark', key: 'remark', width: 100, render(text) { return text || '-'; } },
       { title: '操作',
         dataIndex: 'operator',
@@ -210,7 +216,7 @@ class Purchase extends Component {
               <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r)} >
                 <a style={{ marginRight: 10 }} href="javascript:void(0)" >删除</a>
               </Popconfirm>
-              <a href="javascript:void(0)" onClick={p.exportPurchase.bind(p, r.id)}>导出</a>
+              <a href="javascript:void(0)" onClick={p.exportPurchase.bind(p, r)}>导出</a>
             </div>);
         },
       },
@@ -307,7 +313,7 @@ class Purchase extends Component {
           <Button style={{ float: 'left', left:'20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>导入采购需求任务</Button>
           <Button style={{ float: 'right', marginLeft: 10 }} type="primary" size="large" disabled={isNotSelected} onClick={p.handlePurchaseAction.bind(p, 'finish')}>完成采购</Button>
           <Button style={{ float: 'right', marginLeft: 10 }} size="large" disabled={isNotSelected} onClick={p.handlePurchaseAction.bind(p, 'close')}>取消采购</Button>
-          <Button style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.handlePurchaseAction.bind(p, 'create')}>根据当前订单生成采购任务</Button>
+          {/* <Button style={{ float: 'right', marginLeft: 10 }} size="large" disabled={isNotSelected} onClick={p.handlePurchaseAction.bind(p, 'create')}>根据当前订单生成采购任务</Button> */}
           {/* <Button style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.handlePurchaseAction.bind(p, 'import')}>导入商品</Button> */}
         </Row>
         <Row>
@@ -326,12 +332,12 @@ class Purchase extends Component {
         <PurchaseModal
           visible={this.state.modalVisible}
           close={this.closeModal.bind(this)}
-          modalValues={purchaseValues}
+          modalValues={savePurchaseTask}
           title={title}
           buyer={buyer}
           dispatch={dispatch}
         />
-        <PurchaseUpload 
+        <PurchaseUpload
         visible={uploadVisble}
         title = {titles}
         close = {this.closeMore.bind(this)}
@@ -342,7 +348,7 @@ class Purchase extends Component {
 }
 
 function mapStateToProps(state) {
-  const { list, total, currentPage, currentPageSize, purchaseValues, buyer } = state.purchase;
+  const { list, total, currentPage, currentPageSize, purchaseValues, buyer, savePurchaseTask } = state.purchase;
   return {
     list,
     total,
@@ -350,6 +356,7 @@ function mapStateToProps(state) {
     currentPageSize,
     purchaseValues,
     buyer,
+    savePurchaseTask,
   };
 }
 

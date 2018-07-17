@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Table, Row, Col, Button, Modal, Input, Popconfirm, Select, TreeSelect } from 'antd';
 import { connect } from 'dva';
+import { InputNumber } from 'antd';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -188,7 +189,7 @@ class Resource extends Component {
                     rules: [{ required: true, message: '请输入排序' }],
                     initialValue: resourceModal.seq,
                   })(
-                    <Input placeholder="请输入排序" />,
+                    <InputNumber placeholder="请输入排序" />,
                   )}
                 </FormItem>
               </Col>
@@ -223,6 +224,8 @@ class Resource extends Component {
                       treeDefaultExpandAll
                       placeholder="请输入父级资源"
                       treeData={resourceList}
+                      //暂时处理
+                      disabled="disabled"
                     />,
                   )}
                 </FormItem>

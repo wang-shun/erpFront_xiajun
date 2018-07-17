@@ -126,6 +126,7 @@ class Sku extends Component {
   render() {
     const p = this;
     const { skuList = {}, skuTotal, currentPageSkuIndex, skuData, brandList = [], productsList = [], form, tree = [], packageScales } = this.props;
+    console.log(skuList)
     const { lockedPopoverVisible } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -161,8 +162,8 @@ class Sku extends Component {
         },
       },
       { title: '所属分类', dataIndex: 'categoryName', key: 'categoryName', width: 80 / 11.48 + '%', render(text) { return text || '-'; } },
-      { title: '规格2', dataIndex: 'scale', key: 'scale', width: 60 / 11.48 + '%', render(text) { return text || '-'; } },
       { title: '规格1', dataIndex: 'color', key: 'color', width: 60 / 11.48 + '%', render(text) { return text || '-'; } },
+      { title: '规格2', dataIndex: 'scale', key: 'scale', width: 60 / 11.48 + '%', render(text) { return text || '-'; } }, 
       { title: '销售价(元)', dataIndex: 'salePrice', key: 'salePrice', width: 70 / 11.48 + '%', render(text) { return text || '-'; } },
       { title: '库存',
         key: 'inve',
@@ -172,16 +173,16 @@ class Sku extends Component {
             <div>
               可售库存：{r.totalAvailableInv}<br />
               虚拟库存：{r.virtualInv}<br />
-              虚拟预扣：{r.lockedVirtualInv}<br />
+              {/* 虚拟预扣：{r.lockedVirtualInv}<br />  */}
               现货库存：{r.inventory}<br />
-              现货占用：{r.lockedInv}<br />
-              在途库存：{r.transInv}<br />
-              在途占用：{r.lockedTransInv}
+              占用库存：{r.lockedInv}<br />
+              {/* 在途库存：{r.transInv}<br /> */}
+              {/* 在途占用：{r.lockedTransInv} */}
             </div>
           );
         },
       },
-      { title: '重量(磅)', dataIndex: 'weight', key: 'weight', width: 50 / 11.48 + '%', render(text) { return text || '-'; } },
+      { title: '重量(克)', dataIndex: 'weight', key: 'weight', width: 50 / 11.48 + '%', render(text) { return text || '-'; } },
       { title: '运费', dataIndex: 'freightStr', key: 'freightStr', width: 60 / 11.48 + '%', render(text) { return text || '-'; } },
       { title: '修改时间', dataIndex: 'gmtModify', key: 'gmtModify', width: 100 / 11.48 + '%', render(text) { return text || '-'; } },
       { title: '操作',
@@ -207,7 +208,7 @@ class Sku extends Component {
                 visible={lockedPopoverVisible[record.id] || false}
                 onVisibleChange={p.toggleLockedPopoverVisible.bind(p, record)}
               >
-                <div><a href="javascript:void(0)">锁定</a></div>
+                {/* <div><a href="javascript:void(0)">锁定</a></div> */}
               </Popover>
             </div>);
         },

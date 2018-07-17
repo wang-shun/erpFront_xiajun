@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Modal, Row, Col, Select, DatePicker } from 'antd';
+import { Form, Input, Modal, Row, Col, Select, DatePicker, InputNumber } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
@@ -96,10 +96,11 @@ class ReturnOrderModal extends Component {
                     rules: [{ required: true, message: '请选择' }],
                   })(
                     <Select placeholder="请选择退单状态" allowClear>
-                      <Option key="0">待审核</Option>
-                      <Option key="1">审核通过,退款中</Option>
-                      <Option key="2">退款成功</Option>
-                      <Option key="-1">关闭</Option>
+                      <Option key="0">售后待审核</Option>
+                      <Option key="1">审核通过</Option>
+                      <Option key="2">退款完成</Option>
+                      <Option key="3">退货完成</Option>
+                      <Option key="-1">售后完成</Option>
                     </Select>,
                   )}
                 </FormItem>
@@ -111,8 +112,9 @@ class ReturnOrderModal extends Component {
                 >
                   {getFieldDecorator('returnQuantity', {
                     initialValue: data.returnQuantity,
+                    rules: [{ required: true, message: '请输入退货数量' }],
                   })(
-                    <Input placeholder="请输入" />,
+                    <InputNumber placeholder="请输入退货数量" />,
                   )}
                 </FormItem>
               </Col>

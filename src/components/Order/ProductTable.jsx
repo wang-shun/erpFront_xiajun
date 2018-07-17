@@ -15,6 +15,7 @@ class ProductTable extends Component {
   }
 
   componentWillReceiveProps(...args) {
+    console.log(args)
     if (args[0].data && args[0].data.length > 0 && this.state.skuData.length === 0) {
       this.setState({
         skuData: args[0].data.map((el, index) => {
@@ -86,6 +87,7 @@ class ProductTable extends Component {
         this[`r_${newId}_skuCode_dom`].refs.input.click();
       }, 0);
     });
+    this.props.dispatch({ type: 'sku/querySkuList2', payload: {} });
   }
 
   handleDelete(key) {
@@ -94,10 +96,10 @@ class ProductTable extends Component {
   }
 
   handleSelect(key, skuCode) {
-    const { form, skuList } = this.props;
+    const { form, skuListTwo } = this.props;
     const { skuData } = this.state;
 
-    const source = skuList;
+    const source = skuListTwo;
 
     // 先判断当前列表是否有相同的skuCode，有的话数量+1
     let isDuplicate = false;
@@ -160,7 +162,7 @@ class ProductTable extends Component {
     const payload = { ...skuQuery, pageIndex: typeof num === 'number' ? num : 1 };
     if (typeof size === 'number') payload.pageSize = size;
     this.props.dispatch({
-      type: 'sku/querySkuList',
+      type: 'sku/querySkuList2',
       payload,
     });
   }
@@ -174,10 +176,13 @@ class ProductTable extends Component {
 
   render() {
     const p = this;
-    const { form, skuList = [], parent, total, pageSize } = p.props;
+    const { form, skuList = [], parent, total, pageSize, skuListTwo = [] } = p.props;
+    console.log(skuListTwo)
+    // console.log(p.props)
+    // let erpDetailLists = p.props.data
+    // console.log(erpDetailLists.shopCode)
     const { skuData, skuQuery } = p.state;
     const { getFieldDecorator } = form;
-
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
@@ -233,6 +238,7 @@ class ProductTable extends Component {
         { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: '14%' },
         { title: '品牌', dataIndex: 'brand', key: 'brand', width: '8%' },
         { title: '所属分类', dataIndex: 'categoryName', key: 'categoryName', width: '8%', render(text) { return text || '-'; } },
+        { title: '规格1', dataIndex: 'color', key: 'color', width: '8%', render(text) { return text || '-'; } },
         { title: '规格2', dataIndex: 'scale', key: 'scale', width: '6%', render(text) { return text || '-'; } },
         { title: '价格', dataIndex: 'salePrice', key: 'salePrice', width: '6%', render(text) { return text || '-'; } },
         { title: '图片',
@@ -255,7 +261,7 @@ class ProductTable extends Component {
             }
           },
         },
-        { title: '规格1', dataIndex: 'color', key: 'color', width: '8%', render(text) { return text || '-'; } },
+        
         { title: '虚拟库存', dataIndex: 'virtualInv', key: 'virtualInv', width: '8%', render(text) { return text || '-'; } },
         { title: '重量(磅)', dataIndex: 'weight', key: 'weight', width: '8%', render(text) { return text || '-'; } },
         { title: '操作', dataIndex: 'oper', key: 'oper', width: '8%', render(t, r) { return <a onClick={() => { updateValue(r.skuCode); }}>选择</a>; } },
@@ -310,7 +316,7 @@ class ProductTable extends Component {
           <Row>
             <Table
               columns={columns}
-              dataSource={list}
+              dataSource={skuListTwo}
               size="small"
               bordered
               rowKey={record => record.id}
@@ -458,11 +464,12 @@ class ProductTable extends Component {
 }
 
 function mapStateToProps(state) {
-  const { skuList, skuTotal, pageSize } = state.sku;
+  const { skuList, skuTotal, pageSize, skuListTwo } = state.sku;
   return {
     skuList,
     total: skuTotal,
     pageSize,
+    skuListTwo
   };
 }
 

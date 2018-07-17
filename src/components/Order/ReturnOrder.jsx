@@ -131,7 +131,7 @@ class ReturnOrder extends Component {
           );
         },
       },
-      { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80, render(text) { return text || '-'; } },
+      // { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80, render(text) { return text || '-'; } },
       { title: '退单原因', dataIndex: 'returnReason', key: 'returnReason', width: 80, render(text) { return text || '-'; } },
       { title: '退单原因详情', dataIndex: 'returnReasonDetail', key: 'returnReasonDetail', width: 130, render(text) { return text ? text.slice(0, 10) : '-'; } },
       { title: '退款凭证',
@@ -153,10 +153,11 @@ class ReturnOrder extends Component {
         width: 60,
         render(text) {
           switch (text) {
-            case 0: return <font color="">待审核</font>;
-            case 1: return <font color="chocolate">审核通过,退款中</font>;
-            case 2: return <font color="blue">退款成功</font>;
-            case -1: return <font color="red">关闭</font>;
+            case 0: return <font color="">售后待审核</font>;
+            case 1: return <font color="chocolate">审核通过</font>;
+            case 2: return <font color="blue">退款完成</font>;
+            case 3: return <font color="red">退货完成</font>;
+            case -1: return <font color="red">售后完成</font>;
             default: return '-';
           }
         },

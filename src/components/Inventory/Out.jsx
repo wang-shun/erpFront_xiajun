@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Form, Table, Row, Col, Button, Select, Input, DatePicker, Popconfirm } from 'antd';
 
 import OutModal from './components/OutModal';
+import OutModalModify from './components/OutModalModify';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -14,6 +15,8 @@ class Out extends Component {
     super();
     this.state = {
       visible: false,
+      objectValue:{},
+      outVisble:false,
     };
   }
   handleSubmit(e, page) {
@@ -36,13 +39,14 @@ class Out extends Component {
     });
   }
   showModal(type, r) {
+    console.log(r)
     switch (type) {
-      case 'add': this.setState({ visible: true }); break;
+      case 'add': this.setState({ visible: true,objectValue: '' }); break;
       case 'update':
-        this.setState({ visible: true }, () => {
+        this.setState({ outVisble: true, objectValue:r }, () => {
           this.props.dispatch({
             type: 'inventory/queryOut',
-            payload: { id: r.id },
+            payload: { inventoryOutNo: r.inventoryOutNo },
           });
         });
         break;
@@ -55,7 +59,7 @@ class Out extends Component {
       payload: {},
     });
     this.handleSubmit();
-    this.setState({ visible: false });
+    this.setState({ visible: false, outVisble: false, });
   }
   handleDelete(r) {
     const p = this;
@@ -69,13 +73,13 @@ class Out extends Component {
     const p = this;
     const { list = [], total, form, wareList = [], currentPage, outValues } = this.props;
     const { getFieldDecorator, resetFields } = form;
-    const { visible } = this.state;
+    const { visible, objectValue, outVisble } = this.state;
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
     };
     const columns = [
-      { title: '出库单ID', key: 'invOutNo', dataIndex: 'invOutNo', width: 100 },
+      { title: '出库单ID', key: 'inventoryOutNo', dataIndex: 'inventoryOutNo', width: 100 },
       { title: '仓库名称', key: 'warehouseName', dataIndex: 'warehouseName', width: 100 },
       { title: '状态',
         key: 'status',
@@ -89,17 +93,17 @@ class Out extends Component {
           }
         },
       },
-      { title: '创建者', key: 'userCreate', dataIndex: 'userCreate', width: 80 },
-      { title: '修改者', key: 'userModify', dataIndex: 'userModify', width: 80 },
+      { title: '创建者', key: 'creator', dataIndex: 'creator', width: 80 },
+      { title: '修改者', key: 'modifier', dataIndex: 'modifier', width: 80 },
       { title: '修改时间', key: 'gmtModify', dataIndex: 'gmtModify', width: 80 },
-      { title: '描述', key: 'remark', dataIndex: 'remark', width: 80 },
+      { title: '描述', key: 'remark', dataIndex: 'remark', width: 80, render(text) { return text ? text : '-'; }},
       { title: '操作',
         key: 'oper',
         width: 80,
         render(text, record) {
           return (
             <div>
-              <a onClick={p.showModal.bind(p, 'update', record)} style={{ marginRight: 10 }}>修改</a>
+              <a onClick={p.showModal.bind(p, 'update', record)} style={{ marginRight: 10 }}>查看</a>
               <Popconfirm onConfirm={p.handleDelete.bind(p, record)} title="确认删除？">
                 <a style={{ marginRight: 10 }}>删除</a>
               </Popconfirm>
@@ -126,9 +130,9 @@ class Out extends Component {
                 label="仓库"
                 {...formItemLayout}
               >
-                {getFieldDecorator('warehouseId', {})(
+                {getFieldDecorator('warehouseNo', {})(
                   <Select placeholder="请选择仓库" optionLabelProp="title" allowClear>
-                    {wareList.map(el => <Option key={el.id} title={el.name}>{el.name}</Option>)}
+                    {wareList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
                   </Select>)}
               </FormItem>
             </Col>
@@ -137,7 +141,7 @@ class Out extends Component {
                 label="出库单号"
                 {...formItemLayout}
               >
-                {getFieldDecorator('invOutNo', {})(
+                {getFieldDecorator('inventoryOutNo', {})(
                   <Input placeholder="请输入" />)}
               </FormItem>
             </Col>
@@ -178,6 +182,13 @@ class Out extends Component {
           visible={visible}
           close={this.closeModal.bind(this)}
           data={outValues}
+          dataValue = {objectValue}
+        />
+        <OutModalModify
+          visible = {outVisble}
+          close = {this.closeModal.bind(this)}
+          Mdata={outValues}
+          dataValue = {objectValue}
         />
       </div>);
   }

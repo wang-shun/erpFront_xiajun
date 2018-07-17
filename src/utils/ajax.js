@@ -87,7 +87,8 @@ AjaxClass.prototype.init = function init() {
     data: d,
     timeout: p.options.timeout,
     crossDomain: p.options.crossDomain,
-    contentType: p.options.useJSON ? 'application/json; charset=utf-8' : '',
+    contentType: p.options.useJSON  ? 'application/json; charset=utf-8' : '',
+
     success: (response) => {
       if (!p._aborted) {
         if (response) {
@@ -152,7 +153,9 @@ AjaxClass.prototype.init = function init() {
           p.handler('ERROR_TIMEOUT');
         } else {
           if (p.options.globalHook) {
+            // _onError({ errorType: 'ERROR_FAILED' }, p);
             _onError({ errorType: 'ERROR_FAILED', errorMsg: '请求失败' }, p);
+
           }
           p.handler('ERROR_FAILED');
         }

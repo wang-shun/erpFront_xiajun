@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, InputNumber, Select, Popover, Modal, Row, Col, Button, Table, Popconfirm, message } from 'antd';
 import { connect } from 'dva';
+import { compose } from '../../../../node_modules/redux';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -13,36 +14,40 @@ class OutModal extends Component {
   constructor() {
     super();
     this.state = {
-      outDetailList: undefined,
+      outDetailList:[],
       checkId: [],
       warehouseIdChecked: undefined,
+      specialSelect: '',
+      warehouseNoSpe: '',
+
     };
   }
   componentWillReceiveProps(...args) {
-    const props = args[0];
-    const { data } = props;
-    if (data && data.inventoryOutDetailList && this.state.outDetailList === undefined) {
-      this.setState({
-        outDetailList: data.inventoryOutDetailList.map((el, index) => {
-          el.key = index + 1;
-          return el;
-        }),
-      });
-    }
+      // if (args[0].data && args[0].data.length > 0 && this.state.outDetailList.length === 0) {
+      //   this.setState({
+      //     outDetailList: args[0].data.map((el, index) => {
+      //       el.key = index + 1;
+      //       return el;
+      //     }),
+      //   });
+      // }
   }
   handleSave(type) {
     const p = this;
     const { form, wareList, data = {} } = this.props;
     const skuList = [];
     form.validateFieldsAndScroll((err, fieldsSku) => {
+      // console.log(fieldsSku)
       if (err) { return; }
       let count = 1;
-      let warehouseId;
-      const { warehouseName, remark } = fieldsSku;
+      let warehouseNo;
+      let warehouseName;
+      const { desc } = fieldsSku;
       const keys = Object.keys(fieldsSku);
       wareList.forEach((el) => {
-        if (el.name === fieldsSku.warehouseName) {
-          warehouseId = el.id;
+        if (el.name === fieldsSku.warehouseName.label) {
+          warehouseNo = el.warehouseNo;
+          warehouseName = el.name;
         }
       });
       for (let i = 1; i < keys.length; i += 1) {
@@ -55,6 +60,8 @@ class OutModal extends Component {
           });
           if (!skuSingle.id) delete skuSingle.id;
           if (skuSingle.skuPic) delete skuSingle.skuPic;
+          if (skuSingle.skuCode) delete skuSingle.skuCode;
+          // console.log(skuSingle)
           skuList.push(skuSingle);
           count += 1;
         } else count += 1;
@@ -63,7 +70,7 @@ class OutModal extends Component {
         message.error('请至少填写一项出库信息');
         return;
       }
-      const outObj = { inventoryOutDetailListStr: JSON.stringify(skuList), warehouseId, warehouseName, remark };
+      const outObj = { inventoryOutDetailList: JSON.stringify(skuList), warehouseNo, warehouseName, desc };
       switch (type) {
         case 'save':
           if (data.id) {
@@ -92,45 +99,57 @@ class OutModal extends Component {
     });
   }
   addEmptyLine(num) {
-    let { outDetailList } = this.state;
+    const { form } = this.props;
+    let { outDetailList, specialSelect } = this.state;
+    // console.log(specialSelect)
     if (!outDetailList) outDetailList = [];
     const skuLen = outDetailList ? outDetailList.length : 0;
     const lastId = skuLen < 1 ? 0 : outDetailList[outDetailList.length - 1].key;
     const looptime = typeof num === 'number' ? num : 1;
-    this.props.dispatch({
-      type: 'inventory/queryList',
-      payload: {},
-    });
-    let currentId = parseInt(lastId, 10);
-    for (let i = 0; i < looptime; i += 1) {
-      currentId += 1;
-      const newId = currentId;
-      const newItem = {
-        id: '',
-        inventoryAreaId: '',
-        key: newId,
-        skuCode: '',
-        skuId: '',
-        itemName: '',
-        color: '',
-        scale: '',
-        warehouseName: '',
-        upc: '',
-        positionNo: '',
+    
+    form.validateFieldsAndScroll([`warehouseName`, `desc`], (err, values) => {
+      console.log(err)
+      if (err){
+        return;
       };
-      outDetailList.push(newItem);
-    }
-    this.setState({ outDetailList }, () => {
-      if (typeof num !== 'boolean') {
-        setTimeout(() => {
-          this[`r_${currentId}_skuCode`].focus();
-          this[`r_${currentId}_skuCode`].refs.input.click();
-        }, 0);
+      console.log('values')
+      this.props.dispatch({
+        type: 'inventory/queryList',
+        payload: { warehouseName: specialSelect },
+      });
+      let currentId = parseInt(lastId, 10);
+      for (let i = 0; i < looptime; i += 1) {
+        currentId += 1;
+        const newId = currentId;
+        const newItem = {
+          id: '',
+          inventoryOnWarehouseNo: '',
+          key: newId,
+          skuCode: '',
+          skuId: '',
+          itemName: '',
+          color: '',
+          scale: '',
+          warehouseName: '',
+          upc: '',
+          shelfNo: '',
+        };
+        outDetailList.push(newItem);
       }
-    });
+      this.setState({ outDetailList }, () => {
+        if (typeof num !== 'boolean') {
+          setTimeout(() => {
+            this[`r_${currentId}_skuCode`].focus();
+            this[`r_${currentId}_skuCode`].refs.input.click();
+          }, 0);
+        }
+      });
+    })
+
   }
   batchAddProduct(props) {
     let { outDetailList } = this.state;
+    // console.log(outDetailList)
     if (!outDetailList) outDetailList = [];
     const skuLen = outDetailList ? outDetailList.length : 0;
     const lastId = skuLen < 1 ? 0 : outDetailList[outDetailList.length - 1].key;
@@ -168,16 +187,16 @@ class OutModal extends Component {
         if (value.id && value.id.toString() === props[0].id.toString()) {
           outDetailList.forEach((el) => {
             if (el.key.toString() === props[0].key.toString()) {
-              el.inventoryAreaId = value.id;
+              el.inventoryOnWarehouseNo = value.inventoryOnWarehouseNo;
               el.skuCode = value.skuCode;
               el.skuPic = value.skuPic;
               el.itemName = value.itemName;
               el.warehouseName = value.warehouseName;
-              el.positionNo = value.positionNo;
+              el.shelfNo = value.shelfNo;
               el.upc = value.upc;
             }
           });
-          batchUpdateFormValues[`r_${props[0].key}_inventoryAreaId`] = value.id;
+          batchUpdateFormValues[`r_${props[0].key}_inventoryOnWarehouseNo`] = value.inventoryOnWarehouseNo;
           batchUpdateFormValues[`r_${props[0].key}_skuCode`] = value.skuCode;
         }
       });
@@ -200,7 +219,7 @@ class OutModal extends Component {
         const newId = outDetailList[outDetailList.length - 1].key + 1;
         const newItem = {
           id: '',
-          inventoryAreaId: '',
+          inventoryOnWarehouseNo: '',
           key: newId,
           skuCode: '',
           skuId: '',
@@ -209,20 +228,20 @@ class OutModal extends Component {
           scale: '',
           warehouseName: '',
           upc: '',
-          positionNo: '',
+          shelfNo: '',
         };
 
         this.props.list.forEach((value) => {
           if (value.id && value.id.toString() === props[i].id.toString()) {
-            newItem.inventoryAreaId = value.id;
+            newItem.inventoryOnWarehouseNo = value.inventoryOnWarehouseNo;
             newItem.skuCode = value.skuCode;
             newItem.skuPic = value.skuPic;
             newItem.itemName = value.itemName;
             newItem.warehouseName = value.warehouseName;
-            newItem.positionNo = value.positionNo;
+            newItem.shelfNo = value.shelfNo;
             newItem.upc = value.upc;
 
-            batchUpdateFormValues[`r_${newId}_inventoryAreaId`] = value.id;
+            batchUpdateFormValues[`r_${newId}_inventoryOnWarehouseNo`] = value.inventoryOnWarehouseNo;
             batchUpdateFormValues[`r_${newId}_skuCode`] = value.skuCode;
           }
         });
@@ -244,12 +263,15 @@ class OutModal extends Component {
     });
   }
   doSearch() {
+    const { specialSelect } = this.state;
+    // console.log(specialSelect)
     latestSearch = {
-      warehouseId: this.state.warehouseIdChecked,
-      positionNo: this.positionNo && this.positionNo.refs.input.value,
+      warehouseName: specialSelect,
+      shelfNo: this.shelfNo && this.shelfNo.refs.input.value,
       skuCode: this.skuCode && this.skuCode.refs.input.value,
       upc: this.upc && this.upc.refs.input.value,
     };
+    // console.log(latestSearch)
     this.props.dispatch({
       type: 'inventory/queryList',
       payload: {
@@ -267,7 +289,7 @@ class OutModal extends Component {
   }
   handleBatchAdd(key) { // 批量添加
     if (!isOperating) {
-      isOperating = true;
+      isOperating = false;
       const { checkId } = this.state;
       const batchSelectParams = [];
       setTimeout(() => {
@@ -282,6 +304,7 @@ class OutModal extends Component {
     }
   }
   handleShowPop(value) {
+    // console.log(value)
     if (value) {
       this.setState({ warehouseIdChecked: value });
     }
@@ -302,11 +325,22 @@ class OutModal extends Component {
       isOperating = false;
     }
   }
+  handleSelect(value, p) {
+    const { outDetailList } = this.state;
+    // console.log(value)
+    this.setState({
+      specialSelect: value.label,
+      warehouseNoSpe: value.key,
+    })
+
+  }
   render() {
     const p = this;
-    const { visible, wareList = [], form, data = {}, list = [], total } = this.props;
+    const { visible, wareList = [], form, data = {}, list = [], total, dataValue = {} } = this.props;
+    // console.log(dataValue)
+    // console.log(data)
     const { getFieldDecorator } = form;
-    const { outDetailList } = this.state;
+    const { outDetailList, specialSelect } = this.state;
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 12 },
@@ -315,13 +349,14 @@ class OutModal extends Component {
       <div>
         <Button type="ghost" size="large" onClick={p.handleCancel.bind(p)}>取消</Button>
         <Button type="primary" size="large" onClick={p.handleSave.bind(p, 'confirm')}>确认出库</Button>
-        <Button type="primary" size="large" onClick={p.handleSave.bind(p, 'save')}>保存出库单</Button>
+        {/* <Button type="primary" size="large" onClick={p.handleSave.bind(p, 'save')}>保存出库单</Button> */}
       </div>
     );
     const columns = [
       { title: 'SKU代码', key: 'skuCode', dataIndex: 'skuCode', width: 100 },
       { title: '商品名称', key: 'itemName', dataIndex: 'itemName', width: 160 },
-      { title: '商品图片',
+      {
+        title: '商品图片',
         key: 'skuPic',
         dataIndex: 'skuPic',
         width: 90,
@@ -337,7 +372,7 @@ class OutModal extends Component {
         },
       },
       { title: '仓库名称', key: 'warehouseName', dataIndex: 'warehouseName', width: 100 },
-      { title: '货架号', key: 'positionNo', dataIndex: 'positionNo', width: 60 },
+      { title: '货架号', key: 'shelfNo', dataIndex: 'shelfNo', width: 60 },
       { title: 'UPC', key: 'upc', dataIndex: 'upc', width: 100 },
       { title: '规格1', key: 'color', dataIndex: 'color', width: 80 },
       { title: '规格2', key: 'scale', dataIndex: 'scale', width: 80 },
@@ -376,14 +411,19 @@ class OutModal extends Component {
                 labelCol={{ span: 9 }}
                 wrapperCol={{ span: 14 }}
               >
-                <Select
-                  style={{ width: '100%' }}
-                  placeholder="请选择"
-                  onChange={p.handleShowPop.bind(p)}
-                  getPopupContainer={() => document.getElementById('popoverContainer')}
-                >
-                  {wareList.map(el => <Option key={el.id && el.id.toString()}>{el.name}</Option>)}
-                </Select>
+                {getFieldDecorator('name', {
+                  initialValue: specialSelect,
+                })(
+                  <Select
+                    style={{ width: '100%' }}
+                    placeholder="请选择"
+                    onChange={p.handleShowPop.bind(p)}
+                    getPopupContainer={() => document.getElementById('popoverContainer')}
+                    disabled={true}
+                  >
+                    {wareList.map(el => <Option key={el.id && el.id.toString()}>{el.name}</Option>)}
+                  </Select>,
+                )}
               </FormItem>
             </Col>
             <Col span="5">
@@ -395,7 +435,7 @@ class OutModal extends Component {
                 <Input
                   size="default"
                   placeholder="请输入货架号"
-                  ref={(c) => { p.positionNo = c; }}
+                  ref={(c) => { p.shelfNo = c; }}
                 />
               </FormItem>
             </Col>
@@ -452,7 +492,8 @@ class OutModal extends Component {
     }
     const modalTableProps = {
       columns: [
-        { title: '商品SKU',
+        {
+          title: '商品SKU',
           dataIndex: 'skuCode',
           key: 'skuCode',
           width: 150,
@@ -477,7 +518,8 @@ class OutModal extends Component {
             );
           },
         },
-        { title: '出库数量',
+        {
+          title: '出库数量',
           dataIndex: 'quantity',
           key: 'quantity',
           width: 100,
@@ -490,10 +532,10 @@ class OutModal extends Component {
                 })(
                   <InputNumber placeholder="请输入" />,
                 )}
-                {getFieldDecorator(`r_${r.key}_inventoryAreaId`, {
-                  initialValue: r.inventoryAreaId,
+                {getFieldDecorator(`r_${r.key}_inventoryOnWarehouseNo`, {
+                  initialValue: r.inventoryOnWarehouseNo,
                 })(
-                  <Input placeholder="请搜索" ref={(c) => { p[`r_${r.key}_inventoryAreaId`] = c; }} style={{ display: 'none' }} />,
+                  <Input placeholder="请搜索" ref={(c) => { p[`r_${r.key}_inventoryOnWarehouseNo`] = c; }} style={{ display: 'none' }} />,
                 )}
               </FormItem>
             );
@@ -503,8 +545,9 @@ class OutModal extends Component {
         { title: 'UPC', key: 'upc', dataIndex: 'upc', width: 100 },
         /* title: '尺码', key: 'scale', dataIndex: 'scale', width: 80 },
         { title: '规格1', key: 'color', dataIndex: 'color', width: 80 },*/
-        { title: '货架号', key: 'positionNo', dataIndex: 'positionNo', width: 80 },
-        { title: '商品图片',
+        { title: '货架号', key: 'shelfNo', dataIndex: 'shelfNo', width: 80 },
+        {
+          title: '商品图片',
           key: 'skuPic',
           dataIndex: 'skuPic',
           width: 90,
@@ -519,7 +562,8 @@ class OutModal extends Component {
             );
           },
         },
-        { title: '操作',
+        {
+          title: '操作',
           key: 'oper',
           render(t, r) {
             return (
@@ -551,11 +595,11 @@ class OutModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('warehouseName', {
-                  initialValue: data.warehouseName,
+                  // initialValue: { key: dataValue.warehouseNo, label: dataValue.warehouseName } || {},
                   rules: [{ required: true, message: '请选择' }],
                 })(
-                  <Select placeholder="请选择">
-                    {wareList.map(el => <Option key={el.name}>{el.name}</Option>)}
+                  <Select labelInValue placeholder="请选择" onChange={this.handleSelect.bind(this)} >
+                    {wareList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
                   </Select>,
                 )}
               </FormItem>
@@ -565,8 +609,9 @@ class OutModal extends Component {
                 label="备注"
                 {...formItemLayout}
               >
-                {getFieldDecorator('remark', {
-                  initialValue: data.remark,
+                {getFieldDecorator('desc', {
+                  initialValue: dataValue.remark,
+
                 })(
                   <Input placeholder="请输入" />,
                 )}

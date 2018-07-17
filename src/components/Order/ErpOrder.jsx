@@ -185,6 +185,13 @@ class ErpOrder extends Component {
       default: return false;
     }
   }
+  handleOrderModal(r){
+    let orderNumber = r.subOrderNo  
+    this.props.dispatch({
+      type: 'order/erpOrderNumber',
+      payload: {orderNumber},
+    });
+  }
   closeReturnModal() {
     this.setState({ returnModalVisible: false }, () => {
       this.props.dispatch({
@@ -248,26 +255,52 @@ class ErpOrder extends Component {
   exportErpOrder() { // 导出订单
     const { form } = this.props;
     const p = this;
-    form.validateFields((err, values) => {
-      if (err) return;
-      let startGmtCreate;
-      let endGmtCreate;
-      if (values.orderTime && values.orderTime[0] && values.orderTime[1]) {
-        startGmtCreate = new Date(values.orderTime[0]).format('yyyy-MM-dd');
-        endGmtCreate = new Date(values.orderTime[1]).format('yyyy-MM-dd');
-        delete values.orderTime;
+    let checkedSubOrderId = this.state.checkId;
+    //console.log("se:"+checkedSubOrderId);
+    //console.log("ses:"+checkedSubOrderId.length);
+    let checkedSubOrderIdString = '';
+    for(var i = 0;i < checkedSubOrderId.length;i++) {
+     // console.log("ses:"+i+checkedSubOrderId[i]);
+      checkedSubOrderIdString = checkedSubOrderIdString+checkedSubOrderId[i]+",";
+    }
+    checkedSubOrderIdString = checkedSubOrderIdString.substring(0,checkedSubOrderIdString.length-1);
+    let startGmtCreate = "";
+    let endGmtCreate = "";
+    if(0 < checkedSubOrderId.length) {//有勾选则导出勾选的订单
+        console.log("勾选了订单");
         p.props.dispatch({
           type: 'order/exportErpOrder',
           payload: {
-            ...values,
+            // ...values,
             startGmtCreate,
             endGmtCreate,
+            checkedSubOrderIdString,
           },
         });
-      } else {
-        message.error('请选择创建时间范围');
-      }
-    });
+    } else {
+      form.validateFields((err, values) => {
+        if (err) return;
+        let startGmtCreate;
+        let endGmtCreate;
+        let checkedSubOrderIdString = '';
+        if (values.orderTime && values.orderTime[0] && values.orderTime[1]) {
+          startGmtCreate = new Date(values.orderTime[0]).format('yyyy-MM-dd');
+          endGmtCreate = new Date(values.orderTime[1]).format('yyyy-MM-dd');
+          delete values.orderTime;
+          p.props.dispatch({
+            type: 'order/exportErpOrder',
+            payload: {
+              // ...values,
+              startGmtCreate,
+              endGmtCreate,
+              checkedSubOrderIdString,
+            },
+          });
+        } else {
+          message.error('请勾选订单或者选择创建时间范围');
+        }
+      });        
+    }  
   }
   handleSelect(r, type, e) {
     const checked = e.target.checked;
@@ -288,6 +321,7 @@ class ErpOrder extends Component {
   render() {
     const p = this;
     const { erpOrderList, erpOrderTotal, currentPage, currentPageSize, erpOrderDetail, form, dispatch, agencyList = [], erpOrderValues = {}, deliveryCompanyList = [], wareList = [], agentManList = [], returnOrderValues = {}, loginRoler } = p.props;
+    console.log(erpOrderList)
     const { getFieldDecorator, resetFields } = form;
     const { deliveryModalVisible, checkId, type, modalVisible, title, batchDeliveryVisible, formInfo, returnModalVisible, returnType, closeModalVisible, closeReason } = p.state;
     const formItemLayout = {
@@ -324,43 +358,50 @@ class ErpOrder extends Component {
           );
         },
       },
-      { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 110 },
-      // { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 110 },
+      { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 100 },
+      { title: '子订单号', dataIndex: 'subOrderNo', key: 'subOrderNo', width: 110, render(text) { return text || '-'; }},
       // { title: '销售人员', dataIndex: 'salesName', key: 'salesName', width: 50 },
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
-      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 50 },
+      { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 100 },
       { title: '收件人地址',
         dataIndex: 'address',
         key: 'address',
-        width: 120,
+        width: 100,
         render(text, r) {
-          return <span>{r.receiverState ? `${r.receiverState} ${r.receiverCity} ${r.receiverDistrict} ${r.addressDetail}` : '-'}</span>;
+          return <span>{r.receiverState ? `${r.receiverState} ${r.receiverCity} ${r.receiverDistrict} ${r.receiverAddress}` : '-'}</span>;
         },
       },
-      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 80 },
-      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 120 },
+      { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 100 },
+      { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 100 },
       // { title: '身份证', dataIndex: 'ifidCard', key: 'ifidCard', width: 50,render(text, record) {if(!record.idCard) return ('无');return ('有');}},
-      { title: '身份证号码', dataIndex: 'idCard', key: 'idCard', width: 80,render(text) { return text || '-'; }},
+      { title: '身份证号码', dataIndex: 'idCard', key: 'idCard', width: 100,render(text) { return text || '-'; }},
       { title: '订单状态',
         dataIndex: 'status',
         key: 'status',
-        width: 60,
+        width: 100,
         render(text) {
           switch (text) {
-            case 0: return <font color="saddlebrown">新建</font>;
-            case 1: return <font color="chocolate">部分发货</font>;
-            case 2: return <font color="blue">全部发货</font>;
-            case -1: return <font color="red">已关闭</font>;
+            case 0: return <font color="saddlebrown">待付款</font>;
+            case 3: return <font color="chocolate">已付款待发货</font>;
+            case 1: return <font color="blue">部分发货</font>;
+            case 2: return <font color="red">全部发货</font>;
+            case -1: return <font color="red">关闭</font>;
+            case -3: return <font color="red">售后处理中</font>;
+            case -4: return <font color="red">售后完成</font>;
+            case 4: return <font color="red">订单完成</font>;
+            case 5: return <font color="red">已签收</font>;
+            case 6: return <font color="red">新建</font>;
+
             default: return '-';
           }
         },
       },
-      { title: '关闭理由', dataIndex: 'closeReason', key: 'closeReason', width: 50, render(t) { return t || '-'; } },
+      { title: '关闭理由', dataIndex: 'closeReason', key: 'closeReason', width: 100, render(t) { return t || '-'; } },
       {
         title: '备货状态',
         dataIndex: 'stockStatus',
         key: 'stockStatus',
-        width: 60,
+        width: 100,
         render(text) {
           switch (text) {
             case -4: return <font>退货完成</font>;
@@ -376,62 +417,83 @@ class ErpOrder extends Component {
           }
         },
       },
-      { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 80, render(text) { return text ? text.slice(0, 10) : '-'; } },
-      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 110, render(text) { return text || '-'; } },
-      { title: '物流公司', dataIndex: 'logisticCompany', key: 'logisticCompany', width: 50, render(text) { return text || '-'; } },
-      { title: '物流单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 100, render(text) { return <font color="purple">{text}</font> || '-'; } },
-      { title: '规格1', dataIndex: 'color', key: 'color', width: 70, render(text) { return text || '-'; } },
-      { title: '尺码', dataIndex: 'scale', key: 'scale', width: 50, render(text) { return text || '-'; } },
+      { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 100, render(text) { return text ? text.slice(0, 10) : '-'; } },
+      { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 100, render(text) { return text || '-'; } },
+      //{ title: '物流公司', dataIndex: 'logisticCompany', key: 'logisticCompany', width: 100, render(text) { return text || '-'; } },
+      //{ title: '物流单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 100, render(text) { return <font color="purple">{text}</font> || '-'; } },
+      //{ title: '规格1', dataIndex: 'color', key: 'color', width: 100, render(text) { return text || '-'; } },
+      { title: '尺码', dataIndex: 'scale', key: 'scale', width: 100, render(text) { return text || '-'; } },
       { title: '图片',
         dataIndex: 'skuPic',
         key: 'skuPic',
-        width: 80,
+        width: 100,
         render(text) {
           if (!text) return '-';
-          const picList = JSON.parse(text).picList;
-          const t = picList.length > 0 && picList[0] != null ? JSON.parse(text).picList[0].url : '';
-          return (
-            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
-              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
-            </Popover> : '-'
-          );
+          try {
+            const picList = JSON.parse(text).picList;
+            const t = picList.length > 0 && picList[0] != null ? JSON.parse(text).picList[0].url : '';
+            // console.log('image info', picList, t);
+            return (
+              t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+                <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
+              </Popover> : '-'
+            );
+          } catch (e) {
+            // console.log(e);
+            // console.log(text);
+            return (
+              text ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(text)} style={{ width: 400 }} />}>
+                <img role="presentation" src={imgHandlerThumb(text)} width={60} height={60} />
+              </Popover> : '-'
+            );
+          }
         },
       },
-      { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 60 },
-      { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
-      { title:  '货号', dataIndex: 'thirdSkuCode', key: 'thirdSkuCode', width: 100 },
-      { title: '外部订单号', dataIndex: 'targetNo', key: 'targetNo', width: 110, render(text) { return text || '-'; } },
-      { title: '发货方式', dataIndex: 'logisticType', key: 'logisticType', width: 60, render(text) { return text === 0 ? '直邮' : (text === 1 ? '拼邮' : '-'); } },
-      { title: '仓库名', dataIndex: 'warehouseName', key: 'warehouseName', width: 60, render(text) { return text || '-'; } },
-      { title: '商品数量', dataIndex: 'quantity', key: 'quantity', width: 50, render(text) { return text || '-'; } },
-      { title: '商品单价', dataIndex: 'salePrice', key: 'salePrice', width: 80, render(text) { return text || '-'; } },
+      { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 100 },
+      //{ title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
+      //{ title:  '货号', dataIndex: 'thirdSkuCode', key: 'thirdSkuCode', width: 100 },
+      // { title: '外部订单号', dataIndex: 'targetNo', key: 'targetNo', width: 100, render(text) { return text || '-'; } },
+      { title: '发货方式', dataIndex: 'logisticType', key: 'logisticType', width: 100, render(text) { return text === 0 ? '直邮' : (text === 1 ? '拼邮' : '-'); } },
+      { title: '仓库名', dataIndex: 'warehouseName', key: 'warehouseName', width: 100, render(text) { return text || '-'; } },
+      { title: '商品数量', dataIndex: 'quantity', key: 'quantity', width: 100, render(text) { return text || '-'; } },
+      { title: '商品单价', dataIndex: 'salePrice', key: 'salePrice', width: 100, render(text) { return text || '-'; } },
       // { title: '身份证号', dataIndex: 'idCard', key: 'idCard', width: 220 },
       // { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 200 },
-      { title: '备注', dataIndex: 'remark', key: 'remark', width: 120, render(text) { return text || '-'; } },
+      { title: '备注', dataIndex: 'memo', key: 'memo', render(text) { return text || '-'; } },
+
       { title: '操作',
         dataIndex: 'operator',
         key: 'operator',
-        width: 80,
+        width: 120,
         fixed: 'right',
         render(t, r) {
         	  if(p.props.loginRoler) return('-');
           return (
             <div>
-              {r.status === 0 && r.quantity > 1 && <SplitOrder dispatch={dispatch} record={r} handleSubmit={p.handleSubmit.bind(p)} />}
-              {r.stockStatus !== 0 && r.stockStatus !== 9 && <RecordList dispatch={dispatch} record={r} />}
-              {r.status === 0 && <div><a href="javascript:void(0)" onClick={p.showModal.bind(p, r.id)} >修改</a></div>}
+              {/* {r.status === 0 && r.quantity > 1 && <SplitOrder dispatch={dispatch} record={r} handleSubmit={p.handleSubmit.bind(p)} />} */}
+              {r.status === 6 && <RecordList dispatch={dispatch} record={r} />}
+              {r.status === 3 && <RecordList dispatch={dispatch} record={r} />}
+              {r.status === 6 && <div><a href="javascript:void(0)" onClick={p.showModal.bind(p, r.id)} >修改</a></div>}
               {r.status === 0 && [0, 1, 2, 9].indexOf(r.stockStatus) > -1 &&
               <Popconfirm title="确定分配库存吗？" onConfirm={p.handleInventory.bind(p, 'lock', r.id)}>
-                <div><a href="javascript:void(0)" >分配库存</a></div>
+                {/* <div><a href="javascript:void(0)" >分配库存</a></div> */}
               </Popconfirm>}
               {r.status === 0 && [0, 9].indexOf(r.stockStatus) === -1 &&
               <Popconfirm title="确定释放库存吗？" onConfirm={p.handleInventory.bind(p, 'release', r.id)}>
                 {/* <div><a href="javascript:void(0)" >释放库存</a></div> */}
               </Popconfirm>}
-              {r.erpReturnOrderId ?
+              {/* {r.erpReturnOrderId ?
                 <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'update', r)}>修改退单</a></div> :
-                <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
-              {r.status !== 0 && <div><span style={{ color: '#ccc' }}>暂无</span></div>}
+                <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>} */}
+                {r.status === 2 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
+                {r.status === 5 && <div><a href="javascript:void(0)" onClick={p.showReturnOrderModal.bind(p, 'add', r)}>退单</a></div>}
+                {r.status===3 && <Popconfirm title="确定退单吗？" onConfirm={p.handleOrderModal.bind(p, r)}>
+                <div><a href="javascript:void(0)" >退单</a></div>
+              </Popconfirm>}
+              {r.status === 6 && <Popconfirm title="确定退单吗？" onConfirm={p.handleOrderModal.bind(p, r)}>
+                <div><a href="javascript:void(0)" >退单</a></div>
+              </Popconfirm>}
+              {/* {r.status !== 0 && <div><span style={{ color: '#ccc' }}>暂无</span></div>} */}
             </div>);
         },
       },
@@ -493,11 +555,16 @@ class ErpOrder extends Component {
               >
                 {getFieldDecorator('status', {})(
                   <Select placeholder="请选择" allowClear>
-                    <Option value="-4">退货完成</Option>
-                    <Option value="-1">已关闭</Option>
-                    <Option value="0">新建</Option>
+                    <Option value="10">全部</Option>
+                    <Option value="0">待付款</Option>
+                    <Option value="3">已付款待发货</Option>
                     <Option value="2">全部发货</Option>
+                    <Option value="-1">关闭</Option>
+                    <Option value="-3">售后处理中</Option>
+                    <Option value="-4">售后完成</Option>
                     <Option value="4">订单完成</Option>
+                    <Option value="5">已签收</Option>
+                    <Option value="5">新建</Option>
                   </Select>,
                 )}
               </FormItem>
@@ -674,9 +741,9 @@ class ErpOrder extends Component {
         		<Row>　</Row> :
         		<Row className="operBtn">
 	          <Button style={{ float: 'left', marginRight: 10 }} type="primary" disabled={isNotSelected} size="large" onClick={p.showDeliveryModal.bind(p)}>发货</Button>
-	          <Button style={{ float: 'left', marginRight: 10 }} type="primary" disabled={isNotSelected} size="large" onClick={p.showBatchDeliveryModal.bind(p)}>批量发货</Button>
-	          <Button style={{ float: 'left', marginRight: 10 }} type="primary" disabled={isNotSelected} size="large" onClick={p.prepareShipping.bind(p)}>预出库</Button>
-	          <Button style={{ float: 'right', marginLeft: 10 }} type="primary" disabled={isNotSelected} size="large" onClick={p.replayAssign.bind(p)}>重分配库存</Button>
+	          {/* <Button style={{ float: 'left', marginRight: 10 }} type="primary" disabled={isNotSelected} size="large" onClick={p.showBatchDeliveryModal.bind(p)}>批量发货</Button> */}
+	          {/* <Button style={{ float: 'left', marginRight: 10 }} type="primary" disabled={isNotSelected} size="large" onClick={p.prepareShipping.bind(p)}>预出库</Button> */}
+	          {/* <Button style={{ float: 'right', marginLeft: 10 }} type="primary" disabled={isNotSelected} size="large" onClick={p.replayAssign.bind(p)}>重分配库存</Button> */}
 	          <Popover
 	            title="关闭"
 	            trigger="click"
@@ -699,9 +766,9 @@ class ErpOrder extends Component {
 	              </Row>
 	            </div>}
 	          >
-	            <Button style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large">关闭</Button>
+	            {/* <Button style={{ float: 'right', marginLeft: 10 }} disabled={isNotSelected} size="large">关闭</Button> */}
 	          </Popover>
-	          {/* <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportErpOrder.bind(p)}>导出订单</Button> */}
+	          <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportErpOrder.bind(p)}>导出订单</Button>
 	        </Row>
         	}
         <DeliveryModal
@@ -729,7 +796,7 @@ class ErpOrder extends Component {
           dataSource={erpOrderList}
           rowKey={r => r.id}
           pagination={pagination}
-          scroll={{ x: 2360, y: 500 }}
+          scroll={{ x: 2150, y: 500 }}
           bordered={true}
         />
         <ErpOrderModal

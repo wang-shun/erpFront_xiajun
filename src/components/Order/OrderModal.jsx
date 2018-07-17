@@ -29,13 +29,13 @@ class OrderModal extends Component {
     const { form, dispatch, modalValues = {}, agencyList = [] } = p.props;
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) { return; }
-      let salesName = '';
-      agencyList.forEach((el) => {
-        if (el.id.toString() === fieldsValue.salesId) {
-          salesName = el.name;
-        }
-      });
-      fieldsValue.salesName = salesName;
+      // let salesName = '';
+      // agencyList.forEach((el) => {
+      //   if (el.id.toString() === fieldsValue.salesId) {
+      //     salesName = el.name;
+      //   }
+      // });
+      // fieldsValue.salesName = salesName;
       if (fieldsValue.address) {
         fieldsValue.receiverState = fieldsValue.address[0];
         fieldsValue.receiverCity = fieldsValue.address[1];
@@ -43,10 +43,10 @@ class OrderModal extends Component {
         delete fieldsValue.address;
       }
       p.getSkuValue((orderDetailList) => {
-        if (modalValues.data) {
+        if (modalValues.id) {
           dispatch({
             type: 'order/updateOrder',
-            payload: { ...fieldsValue, id: modalValues.data.id, outerOrderDetailList: JSON.stringify(orderDetailList) },
+            payload: { ...fieldsValue, id: modalValues.id, outerOrderDetailList: JSON.stringify(orderDetailList) },
           });
         } else {
           dispatch({
@@ -104,8 +104,10 @@ class OrderModal extends Component {
 
   render() {
     const p = this;
-    const { form, title, visible, modalValues = {}, agencyList = [] } = p.props;
-    const orderData = (modalValues && modalValues.data) || {};
+    const { form, title, visible, modalValues = {}, agencyList = [], erpDetailListValues = {}} = p.props;
+    // console.log(modalValues.id)
+    const orderData = modalValues || {};
+    // console.log(orderData)
     const { getFieldDecorator } = form;
     const modalProps = {
       visible,
@@ -147,7 +149,7 @@ class OrderModal extends Component {
                 )}
               </FormItem>
             </Col>
-            <Col span={7}>
+            {/* <Col span={7}>
               <FormItem
                 label="销售"
                 {...formItemLayout}
@@ -163,21 +165,7 @@ class OrderModal extends Component {
                   </Select>,
                 )}
               </FormItem>
-            </Col>
-            <Col span={8}>
-              <FormItem
-                label="订单时间"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('orderTime', {
-                  initialValue: (orderData.orderTime && moment(orderData.orderTime, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-                  rules: [{ required: true, message: '请输入订单时间' }],
-                })(
-                  <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder="请输入订单时间" />)}
-              </FormItem>
-            </Col>
-          </Row>
-          <Row gutter={10}>
+            </Col> */}
             <Col span={7}>
               <FormItem
                 label="收件人"
@@ -194,6 +182,20 @@ class OrderModal extends Component {
                   <Input placeholder="请输入收件人" />)}
               </FormItem>
             </Col>
+            <Col span={8}>
+              <FormItem
+                label="订单时间"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('orderTime', {
+                  initialValue: (orderData.orderTime && moment(orderData.orderTime, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+                  rules: [{ required: true, message: '请输入订单时间' }],
+                })(
+                  <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder="请输入订单时间" />)}
+              </FormItem>
+            </Col>
+          </Row>
+          <Row gutter={10}>
             <Col span={7}>
               <FormItem
                 label="电话号码"
@@ -225,14 +227,14 @@ class OrderModal extends Component {
                 label="外部订单号"
                 {...formItemLayout}
               >
-                {getFieldDecorator('channelOrderNo', {
-                  initialValue: orderData.channelOrderNo,
+                {getFieldDecorator('shopCode', {
+                  initialValue: orderData.shopCode,
                 })(
                   <Input placeholder="请输入外部订单号" />,
                 )}
               </FormItem>
             </Col>
-            <Col span={7}>
+            {/* <Col span={7}>
               <FormItem
                 label="销售来源"
                 {...formItemLayout}
@@ -249,25 +251,25 @@ class OrderModal extends Component {
                   </Select>,
                 )}
               </FormItem>
-            </Col>
+            </Col> */}
             <Col span={8}>
               <FormItem
                 label="支付方式"
                 {...formItemLayout}
               >
                 {getFieldDecorator('payType', {
-                  initialValue: orderData.payType && orderData.payType.toString(),
+                  initialValue: orderData.payType,
                   rules: [{ required: true, message: '请选择支付方式' }],
                 })(
                   <Select placeholder="请选择支付方式" allowClear>
-                    <Option key="0">微信自有支付</Option>
-                    <Option key="1">微信代销支付</Option>
-                    <Option key="2">支付宝支付</Option>
-                    <Option key="3">银行卡支付</Option>
-                    <Option key="4">代付</Option>
-                    <Option key="5">货到付款</Option>
-                    <Option key="6">百度钱包支付</Option>
-                    <Option key="12">信用卡</Option>
+                    <Option value={0}>微信自有支付</Option>
+                    <Option value={1}>微信代销支付</Option>
+                    <Option value={2}>支付宝支付</Option>
+                    <Option value={3}>银行卡支付</Option>
+                    <Option value={4}>代付</Option>
+                    <Option value={5}>货到付款</Option>
+                    <Option value={6}>百度钱包支付</Option>
+                    <Option value={12}>信用卡</Option>
                   </Select>,
                 )}
               </FormItem>
@@ -305,15 +307,15 @@ class OrderModal extends Component {
                 labelCol={{ span: 3 }}
                 wrapperCol={{ span: 18 }}
               >
-                {getFieldDecorator('remark', {
-                  initialValue: orderData.remark,
+                {getFieldDecorator('memo', {
+                  initialValue: orderData.memo,
                 })(
                   <Input placeholder="请输入备注信息" size="large" style={{ marginLeft: 3, width: 646 }} />)}
               </FormItem>
             </Col>
           </Row>
           <Row>
-            <ProductTable data={orderData.outerOrderDetails} parent={this} />
+            <ProductTable data={erpDetailListValues} parent={this} />
           </Row>
         </Form>
       </Modal>

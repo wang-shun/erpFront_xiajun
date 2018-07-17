@@ -55,26 +55,26 @@ class Inout extends Component {
           );
         },
       },
-      { title: '操作人', dataIndex: 'userCreate', key: 'userCreate', width: 70, render(text) { return text || '-'; } },
+      { title: '操作人', dataIndex: 'creator', key: 'creator', width: 70, render(text) { return text || '-'; } },
       { title: '操作时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 100, render(text) { return text || '-'; } },
       { title: '仓库名称', dataIndex: 'warehouseName', key: 'warehouseName', width: 70, render(text) { return text || '-'; } },
-      { title: '货架号', dataIndex: 'positionNo', key: 'positionNo', width: 50, render(text) { return text || '-'; } },
+      { title: '货架号', dataIndex: 'shelfNo', key: 'shelfNo', width: 50, render(text) { return text || '-'; } },
       { title: '数量', dataIndex: 'quantity', key: 'quantity', width: 50, render(text) { return text || '-'; } },
       { title: '操作类型',
-        dataIndex: 'operatorType',
-        key: 'operatorType',
+        dataIndex: 'remark',
+        key: 'remark',
         width: 60,
-        render(text) {
-          switch (text) {
-            case 0: return '采购入库';
-            case 1: return '销售出库';
-            case 2: return '在途入库';
-            case 3: return '库存盘入';
-            case 4: return '库存盘出';
-            case 5: return '采购在途';
-            default: return '-';
-          }
-        },
+        // render(text) {
+        //   switch (text) {
+        //     case 0: return '采购入库';
+        //     case 1: return '销售出库';
+        //     case 2: return '在途入库';
+        //     case 3: return '库存盘入';
+        //     case 4: return '库存盘出';
+        //     case 5: return '采购在途';
+        //     default: return '-';
+        //   }
+        // },
       },
     ];
 

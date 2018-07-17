@@ -112,14 +112,14 @@ class Inventory extends Component {
       { title: '规格1', key: 'color', dataIndex: 'color', width: 80 },
       { title: '规格2', key: 'scale', dataIndex: 'scale', width: 80 },
       { title: '销售价', dataIndex: 'salePrice', key: 'salePrice', width: 80 },
-      { title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80, render(text) { return text || '-'; } },
-      { title: '可售库存', key: 'totalAvailableInv', dataIndex: 'totalAvailableInv', width: 80 },
+      // { title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80, render(text) { return text || '-'; } },
+      // { title: '可售库存', key: 'totalAvailableInv', dataIndex: 'totalAvailableInv', width: 80 },
       { title: '现货库存', key: 'inventory', dataIndex: 'inventory', sorter: true, width: 80 },
-      { title: '现货占用', key: 'lockedInv', dataIndex: 'lockedInv', sorter: true, width: 80 },
+      // { title: '现货占用', key: 'lockedInv', dataIndex: 'lockedInv', sorter: true, width: 80 },
       // { title: '虚拟库存', key: 'virtualInv', dataIndex: 'virtualInv' },
-      { title: '在途库存', key: 'transInv', dataIndex: 'transInv', sorter: true, width: 80 },
-      { title: '在途占用', key: 'lockedTransInv', dataIndex: 'lockedTransInv', sorter: true, width: 80 },
-      { title: '货架号', key: 'positionNo', dataIndex: 'positionNo', width: 60 },
+      // { title: '在途库存', key: 'transInv', dataIndex: 'transInv', sorter: true, width: 80 },
+      // { title: '在途占用', key: 'lockedTransInv', dataIndex: 'lockedTransInv', sorter: true, width: 80 },
+      { title: '货架号', key: 'shelfNo', dataIndex: 'shelfNo', width: 60 },
       { title: '操作',
         key: 'oper',
         width: 140,
@@ -140,7 +140,7 @@ class Inventory extends Component {
               <ChangePosition dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
               <br />
               {/* <span> | </span> */}
-              <CheckOutStock dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} />
+              {/* <CheckOutStock dispatch={dispatch} record={record} handleSubmit={p.handleSubmit.bind(p)} page={currentPage} /> */}
             </div>
           );
         },
@@ -227,9 +227,9 @@ class Inventory extends Component {
               <Button size="large" type="ghost" onClick={() => { resetFields(); }}>清空</Button>
             </Col>
           </Row>
-          <Row className="operBtn">
+          {/* <Row className="operBtn">
             <Button style={{ float: 'right' }} type="primary" size="large" onClick={p.exportInv.bind(p)}>导出库存</Button>
-          </Row>
+          </Row> */}
         </Form>
         <Row style={{ marginTop: 15 }}>
           <Col>

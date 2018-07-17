@@ -2,15 +2,17 @@ import { message } from 'antd';
 import fetch from '../utils/request';
 
 const addPurchase = ({ payload }) => fetch.post('/purchaseTask/add', { data: payload }).catch(e => e);
-const updatePurchase = ({ payload }) => fetch.post('/purchase/update', { data: payload }).catch(e => e);
+const updatePurchase = ({ payload }) => fetch.post('/purchaseTask/update', { data: payload }).catch(e => e);
 const queryPurchaseList = ({ payload }) => fetch.post('/purchaseTask/queryTaskDailyList', { data: payload }).catch(e => e);
 const queryPurchase = ({ payload }) => fetch.post('/purchase/query', { data: payload }).catch(e => e);
+const querypurchaseTask = ({ payload }) => fetch.post('/purchaseTask/query', { data: payload }).catch(e => e);
+
 const queryBuyers = ({ payload }) => fetch.post('/purchase/queryBuyers', { data: payload }).catch(e => e);
 const deletePurchase = ({ payload }) => fetch.post('/purchase/delete', { data: payload }).catch(e => e);
 // 取消采购
-const closeTaskDaily = ({ payload }) => fetch.post('/purchase/closeTaskDaily', { data: payload }).catch(e => e);
+const closeTaskDaily = ({ payload }) => fetch.post('/purchaseTask/closeTaskDaily', { data: payload }).catch(e => e);
 // 完成采购
-const finishTaskDaily = ({ payload }) => fetch.post('/purchase/finishTaskDaily', { data: payload }).catch(e => e);
+const finishTaskDaily = ({ payload }) => fetch.post('/purchaseTask/finishTaskDaily', { data: payload }).catch(e => e);
 // 根据当前订单生成采购任务
 const createByOrder = () => fetch.get('/purchase/autoAddByOrder').catch(e => e);
 // 采购小票
@@ -22,7 +24,9 @@ const purchaseNoCompleteTimeList = ({ payload }) => fetch.post('/purchase/nocomp
 // 采购未完成详情
 const purchaseNoCompleteDateil = ({ payload }) => fetch.post('/purchase/nocompleteTaskDaily', { data: payload }).catch(e => e);
 // 导入需求
-const purchaseImprotTask= ({ payload }) => fetch.post('/purchaseTask/improtTask', {data: payload}).catch(e =>e)
+const purchaseImprotTask = ({ payload }) => fetch.post('/purchaseTask/improtTask', { data: payload }).catch(e => e)
+
+
 export default {
   namespace: 'purchase',
   state: {
@@ -45,6 +49,7 @@ export default {
     noCompleteTimePage: 1,
     noCompleteTimePageSize: 20,
     noCompleteTimeTotal: 1,
+    savePurchaseTask: {},
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -121,6 +126,16 @@ export default {
         });
       }
     },
+    * querypurchaseTask({ payload }, { call, put }) {
+      const data = yield call(querypurchaseTask, { payload });
+      if (data.success) {
+        yield put({
+          type: 'savequerypurchaseTask',
+          payload: data,
+        });
+      }
+    },
+
     * queryBuyers({ payload }, { call, put }) {
       const data = yield call(queryBuyers, { payload });
       if (data.success) {
@@ -152,6 +167,7 @@ export default {
         if (cb) cb();
       }
     },
+
     * closeTaskDaily({ payload, cb }, { call }) {
       const data = yield call(closeTaskDaily, { payload });
       if (data.success) {
@@ -179,7 +195,7 @@ export default {
       }
     },
     // 小票明细
-    *purchaseReceiptTaskList({ payload }, { call, put, select }) {
+    * purchaseReceiptTaskList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ inventory }) => inventory.receiptTaskPage);
       if (payload && payload.pageIndex) {
         pageIndex = payload.pageIndex;
@@ -198,7 +214,7 @@ export default {
       }
     },
     // 未完成时间
-    *purchaseNoCompleteTimeList({ payload }, { call, put, select }) {
+    * purchaseNoCompleteTimeList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ purchase }) => purchase.noCompleteTimePage);
       if (payload && payload.pageIndex) {
         pageIndex = payload.pageIndex;
@@ -221,6 +237,12 @@ export default {
       if (data.success) {
         if (cb) cb(data.data);
       }
+    },
+    * clearOrder({ payload }, { put }) {
+      yield put({
+        type: 'clearOrder4Add',
+        payload: {},
+      });
     },
   },
   reducers: {
@@ -262,6 +284,12 @@ export default {
     },
     saveNoCompleteTimePageSize(state, { payload }) {
       return { ...state, noCompleteTimePageSize: payload.pageSize };
+    },
+    savequerypurchaseTask(state, { payload }) {
+      return { ...state, savePurchaseTask: payload.data }
+    },
+    clearOrder4Add(state, { payload }) {
+      return { ...state, savePurchaseTask: {} };
     },
     updateNoCompleteTimeList(state, { payload }) {
       return { ...state, uncompleteTaskDailyOrder: payload.data, noCompleteTimeTotal: payload.totalCount };

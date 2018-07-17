@@ -16,6 +16,7 @@ export default class ChangePosition extends Component {
   submit() {
     const { record, handleSubmit, page } = this.props;
     const positionNo = this.positionNo.refs.input.value;
+    console.log(positionNo)
     if (!positionNo) {
       this.setState({ showError: true });
       return;
@@ -23,7 +24,7 @@ export default class ChangePosition extends Component {
     this.toggleVisible();
     this.props.dispatch({
       type: 'inventory/changePositionNo',
-      payload: { positionNo, inventoryAreaId: record.id },
+      payload: { shelfNo:positionNo, inventoryOnWarehouseNo: record.inventoryOnWarehouseNo },
       cb() { handleSubmit(null, page); },
     });
   }
@@ -34,7 +35,7 @@ export default class ChangePosition extends Component {
       <Popover
         content={<div>
           <div style={{ paddingTop: 6 }}>货架号：
-            <Input placeholder="请输入" defaultValue={record.positionNo} ref={(c) => { this.positionNo = c; }} />
+            <Input placeholder="请输入" defaultValue={record.shelfNo} ref={(c) => { this.positionNo = c; }} />
           </div>
           {showError && <div style={{ paddingTop: 6, color: 'red' }}>请填写货架号</div>}
           <Button size="small" type="primary" style={{ marginTop: 6 }} onClick={this.submit.bind(this)}>保存</Button>
