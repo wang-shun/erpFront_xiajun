@@ -64,15 +64,12 @@ class PurchaseModal extends Component {
           values.imageUrl = JSON.stringify({ picList: uploadMainPic });
         }
         if (modalValues && modalValues.taskDetailList) {
-          alert('1')
-          console.log(modalValues.id)
           dispatch({
             type: 'purchase/updatePurchase',
             payload: { ...values, detailList: JSON.stringify(detailList) },
             cb() { p.closeModal(); },
           });
         } else {
-          alert('2')
           dispatch({
             type: 'purchase/addPurchase',
             payload: { ...values, detailList: JSON.stringify(detailList) },
