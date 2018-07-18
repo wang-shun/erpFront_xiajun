@@ -18,6 +18,10 @@ function wrapper(method, url, options, getInst) {
         location.href = '#/login';
         return;
       }
+      if (request._request.status.toString() === '420') {
+    location.href = '#/permission/user';
+    return;
+  }
       resolve(res, pointer);
     }, (err, pointer) => {
       if (request._request.status.toString() === '302' || request._request.responseText.match('<!')) {
