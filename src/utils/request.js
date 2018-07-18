@@ -28,6 +28,10 @@ function wrapper(method, url, options, getInst) {
         location.href = '#/login';
         return;
       }
+      if(request._request.status.toString() ==='420'){
+        location.href = '#/permission/user';
+        return;
+      }
       reject(err, pointer);
     });
     if (typeof getInst === 'function') {
