@@ -28,6 +28,9 @@ const authRole = ({ payload }) => fetch.post('/role/updateGrant', { data: payloa
 const wxRout = ({ payload }) => fetch.post('/wechatLogin/getHtml', { data: payload }).catch(e => e);
 // 修改密码
 const editUserPwdList = ({ payload }) => fetch.post('/user/editUserPwd', { data: payload }).catch(e => e);
+// 授权
+const authorizedWx = ({ payload }) => fetch.post('/wechatLogin/authorized', { data: payload }).catch(e => e);
+
 export default {
   namespace: 'permission',
   state: {
@@ -102,6 +105,14 @@ export default {
           payload: data,
         });
       }
+    },
+    
+    * authorizedWx({ payload, cb }, { call }) {
+    const data = yield call(authorizedWx, { payload });
+    if (data.success) {
+    message.success('授权成功');
+    cb();
+    }
     },
     * addResource({ payload }, { call, put }) {
       const data = yield call(addResource, { payload });

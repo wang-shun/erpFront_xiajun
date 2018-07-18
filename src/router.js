@@ -32,6 +32,7 @@ import Warehouse from './components/Inventory/Warehouse'; // 仓库管理
 import Inout from './components/Inventory/Inout'; // 仓库管理
 import Out from './components/Inventory/Out'; // 仓库管理
 import Resource from './components/Permission/Resource';
+import Test from './components/Permission/Test';
 import Role from './components/Permission/Role';
 import User from './components/Permission/User';
 import Organization from './components/Permission/Organization';
@@ -53,6 +54,7 @@ import ReportNoStock from './components/Report/ReportNoStock';
 import ReportNoSendPackage from './components/Report/ReportNoSendPackage';
 import ReportlogisticCompanyAvgPackage from './components/Report/ReportlogisticCompanyAvgPackage';
 import RoleMng from './components/RoleMng/RoleMng';
+
 
 function redirectHelper(...args) {
   // 传入参数3，为onEnter
@@ -90,6 +92,7 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.OVERVIEW}`} component={Overview} />
         <Route path={`/${routerCfg.PERMISSION}/${routerCfg.RESOURCE}`} component={Resource} />
         <Route path={`/${routerCfg.PERMISSION}/${routerCfg.ROLE}`} component={Role} />
+        <Route path={`/${routerCfg.PERMISSION}/${routerCfg.TEST}`} component={Test} />
         <Route path={`/${routerCfg.PERMISSION}/${routerCfg.USER}`} component={User} />
         <Route path={`/${routerCfg.PERMISSION}/${routerCfg.ORGANIZATION}`} component={Organization} />
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.PRODUCTS_LIST}`} component={Products} />

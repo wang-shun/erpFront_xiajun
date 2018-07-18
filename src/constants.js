@@ -114,6 +114,7 @@ export const routerCfg = {
   ROLE: 'role',
   RESOURCE: 'resource',
   USER: 'user',
+  TEST: 'test',
   ORGANIZATION: 'organization',
   // 商品管理
   PRODUCTS: 'products',
