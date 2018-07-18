@@ -268,7 +268,8 @@ class PurchaseModal extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('buyerId', {
-                  initialValue: toString(purchaseData.buyerId, 'SELECT'),
+                  // initialValue: toString(purchaseData.buyerId, 'SELECT'),
+                  initialValue: purchaseData.buyerId,
                   // rules: [{ required: true, message: '请输入默认买手' }],
                 })(
                   <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.handleChangeBuyer.bind(this)}>
