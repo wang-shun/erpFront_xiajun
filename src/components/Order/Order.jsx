@@ -315,10 +315,16 @@ class Order extends Component {
         width: 80,
         render(text) {
           switch (text) {
-            case 0: return <font color="saddlebrown">新建</font>;
-            case 1: return <font color="chocolate">部分发货</font>;
-            case 2: return <font color="blue">全部发货</font>;
-            case -1: return <font color="red">已关闭</font>;
+            // case 0: return <font color="saddlebrown">新建</font>;
+            // case 1: return <font color="chocolate">部分发货</font>;
+            // case 2: return <font color="blue">全部发货</font>;
+            // case -1: return <font color="red">已关闭</font>;
+            // default: return '-';
+            case 0: return <font color="saddlebrown">售后待审核</font>;
+            case 1: return <font color="chocolate">审核通过</font>;
+            case 2: return <font color="blue">退款完成</font>;
+            case 3: return <font color="red">退货完成</font>;
+            case -1: return <font color="red">售后完成</font>;
             default: return '-';
           }
         },

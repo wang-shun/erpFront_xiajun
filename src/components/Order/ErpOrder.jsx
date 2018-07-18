@@ -321,7 +321,6 @@ class ErpOrder extends Component {
   render() {
     const p = this;
     const { erpOrderList, erpOrderTotal, currentPage, currentPageSize, erpOrderDetail, form, dispatch, agencyList = [], erpOrderValues = {}, deliveryCompanyList = [], wareList = [], agentManList = [], returnOrderValues = {}, loginRoler } = p.props;
-    console.log(erpOrderList)
     const { getFieldDecorator, resetFields } = form;
     const { deliveryModalVisible, checkId, type, modalVisible, title, batchDeliveryVisible, formInfo, returnModalVisible, returnType, closeModalVisible, closeReason } = p.state;
     const formItemLayout = {

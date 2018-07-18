@@ -19,11 +19,11 @@ class ReturnOrderModal extends Component {
         values.receiveTime = values.receiveTime.format('YYYY-MM-DD');
       }
       if (returnType === '新增') {
-        const { orderNo, outerOrderId, erpNo } = data;
+        const { orderNo, outerOrderId, subOrderNo } = data;
         const erpOrderId = data.id;
         dispatch({
           type: 'order/addReturnOrder',
-          payload: { ...values, orderNo, outerOrderId, erpNo, erpOrderId },
+          payload: { ...values, orderNo, outerOrderId, subOrderNo, erpOrderId },
           cb() { p.handleCancel(); },
         });
       } else {
