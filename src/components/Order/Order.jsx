@@ -293,7 +293,7 @@ class Order extends Component {
 
     const skuColumns = [
       { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 150, render(text) { return text || '-'; } },
-      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 150, render(text) { return text || '-'; } },
+      { title: '子订单号', dataIndex: 'subOrderNo', key: 'subOrderNo', width: 150, render(text) { return text || '-'; } },
       { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 150, render(text) { return text || '-'; } },
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 150, render(text) { return text || '-'; } },
       { title: '图片',
@@ -315,16 +315,16 @@ class Order extends Component {
         width: 80,
         render(text) {
           switch (text) {
-            // case 0: return <font color="saddlebrown">新建</font>;
-            // case 1: return <font color="chocolate">部分发货</font>;
-            // case 2: return <font color="blue">全部发货</font>;
-            // case -1: return <font color="red">已关闭</font>;
-            // default: return '-';
-            case 0: return <font color="saddlebrown">售后待审核</font>;
-            case 1: return <font color="chocolate">审核通过</font>;
-            case 2: return <font color="blue">退款完成</font>;
-            case 3: return <font color="red">退货完成</font>;
-            case -1: return <font color="red">售后完成</font>;
+            case 0: return <font color="saddlebrown">待付款</font>;
+            case 3: return <font color="chocolate">已付款待发货</font>;
+            case 1: return <font color="blue">部分发货</font>;
+            case 2: return <font color="red">全部发货</font>;
+            case -1: return <font color="red">关闭</font>;
+            case -3: return <font color="red">售后处理中</font>;
+            case -4: return <font color="red">售后完成</font>;
+            case 4: return <font color="red">订单完成</font>;
+            case 5: return <font color="red">已签收</font>;
+            case 6: return <font color="red">新建</font>;
             default: return '-';
           }
         },
