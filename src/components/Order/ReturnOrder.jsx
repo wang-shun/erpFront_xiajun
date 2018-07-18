@@ -112,11 +112,12 @@ class ReturnOrder extends Component {
     };
     const columnsList = [
       { title: '主订单号', dataIndex: 'orderNo', key: 'orderNo', width: 120 },
-      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 120, render(text) { return text || '-'; } },
+      { title: '子订单号', dataIndex: 'subOrderNo', key: 'subOrderNo', width: 120, render(text) { return text || '-'; } },
       { title: 'SKU代码', dataIndex: 'skuCode', key: 'skuCode', width: 100 },
       { title: '商品名称', dataIndex: 'itemName', key: 'itemName', width: 200 },
       { title: 'UPC', dataIndex: 'upc', key: 'upc', width: 100, render(text) { return text || '-'; } },
-      { title: 'sku图片',
+      {
+        title: 'sku图片',
         dataIndex: 'skuPic',
         key: 'skuPic',
         width: 100,
@@ -134,7 +135,8 @@ class ReturnOrder extends Component {
       // { title: '销售员', dataIndex: 'salesName', key: 'salesName', width: 80, render(text) { return text || '-'; } },
       { title: '退单原因', dataIndex: 'returnReason', key: 'returnReason', width: 80, render(text) { return text || '-'; } },
       { title: '退单原因详情', dataIndex: 'returnReasonDetail', key: 'returnReasonDetail', width: 130, render(text) { return text ? text.slice(0, 10) : '-'; } },
-      { title: '退款凭证',
+      {
+        title: '退款凭证',
         dataIndex: 'proofImg',
         key: 'proofImg',
         width: 100,
@@ -147,7 +149,8 @@ class ReturnOrder extends Component {
           );
         },
       },
-      { title: '状态',
+      {
+        title: '状态',
         dataIndex: 'status',
         key: 'status',
         width: 60,
@@ -166,7 +169,8 @@ class ReturnOrder extends Component {
       { title: '退款金额', dataIndex: 'returnPrice', key: 'returnPrice', width: 60, render(text) { return text || '-'; } },
       { title: '是否国内退货', dataIndex: 'isGn', key: 'isGn', width: 60, render(text) { return text === 1 ? '是' : '否'; } },
       { title: '是否入库', dataIndex: 'isCheckin', key: 'isCheckin', width: 80, render(text) { return text === 1 ? '是' : '否'; } },
-      { title: '退款形式',
+      {
+        title: '退款形式',
         dataIndex: 'returnType',
         key: 'returnType',
         width: 80,
@@ -178,8 +182,10 @@ class ReturnOrder extends Component {
           } else {
             return '-';
           }
-        } },
-      { title: '退款来源',
+        }
+      },
+      {
+        title: '退款来源',
         dataIndex: 'returnRefer',
         key: 'returnRefer',
         width: 80,
@@ -191,11 +197,13 @@ class ReturnOrder extends Component {
           } else {
             return '-';
           }
-        } },
+        }
+      },
       { title: '收货时间', dataIndex: 'receiveTime', key: 'receiveTime', width: 100, render(text) { return text || '-'; } },
       { title: '退款时间', dataIndex: 'returnPayTime', key: 'returnPayTime', width: 100, render(text) { return text || '-'; } },
       { title: '备注', dataIndex: 'remark', key: 'remark', width: 60, render(text) { return text || '-'; } },
-      { title: '操作',
+      {
+        title: '操作',
         dataIndex: 'operator',
         key: 'operator',
         width: 60,
@@ -231,7 +239,18 @@ class ReturnOrder extends Component {
                   <Input placeholder="请输入主订单号" suffix={p.showClear('orderNo')} />)}
               </FormItem>
             </Col>
-            {/* <Col span="8">
+          </Row>
+          <Row gutter={20} style={{ width: 800 }}>
+            <Col style={{ marginLeft: 6 }}>
+              <FormItem
+                label="退款时间"
+                labelCol={{ span: 3 }}
+              >
+                {getFieldDecorator('orderTime', {})(<RangePicker />)}
+              </FormItem>
+            </Col>
+          </Row>
+          {/* <Col span="8">
               <FormItem
                 label="子订单号"
                 {...formItemLayout}
@@ -348,16 +367,16 @@ class ReturnOrder extends Component {
                 )}
               </FormItem>
             </Col> */}
-            <Col span="12" style={{ marginLeft: 6 }}>
+          {/* <Col span="8" style={{ marginLeft: 6 }}>
               <FormItem
                 label="退款时间"
                 labelCol={{ span: 6 }}
               >
                 {getFieldDecorator('orderTime', {})(<RangePicker />)}
               </FormItem>
-            </Col>
-          </Row>
-          <Row style={{ marginLeft: 13,marginBottom: 15}}>
+            </Col> */}
+
+          <Row style={{ marginLeft: 13, marginBottom: 15 }}>
             <Col className="listBtnGroup">
               <Button htmlType="submit" size="large" type="primary">查询</Button>
               <Button size="large" type="ghost" onClick={() => { resetFields(); }}>清空</Button>
