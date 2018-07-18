@@ -17,7 +17,6 @@ class CheckIn extends Component {
   }
   submit() {
     const { record, form, handleSubmit, page } = this.props;
-    console.log(record)
     form.validateFields((err, values) => {
       if (err) return;
       this.toggleVisible();
@@ -30,7 +29,6 @@ class CheckIn extends Component {
   }
   render() {
     const { record, form } = this.props;
-    console.log(record.shelfNo)
     const { getFieldDecorator } = form;
     return (
       <Popover

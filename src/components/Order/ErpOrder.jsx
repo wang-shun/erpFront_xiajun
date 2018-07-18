@@ -189,7 +189,7 @@ class ErpOrder extends Component {
     let orderNumber = r.subOrderNo  
     this.props.dispatch({
       type: 'order/erpOrderNumber',
-      payload: {orderNumber},
+      payload: {subOrderNo:orderNumber},
     });
   }
   closeReturnModal() {
