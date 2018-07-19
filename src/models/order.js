@@ -616,7 +616,7 @@ export default {
             dispatch({ type: 'agency/queryAgencyList', payload: query });
           }, 0);
         }
-        if (pathname === '/sale/saleChannel' && !window.existCacheState('/sale/saleChannel')) {
+        if ((pathname === '/marketing/saleChannel' && !window.existCacheState('/marketing/saleChannel'))||(pathname === '/marketing' && !window.existCacheState('/marketing'))) {
           setTimeout(() => {
             dispatch({ type: 'queryChannelList', payload: query });
           }, 0);

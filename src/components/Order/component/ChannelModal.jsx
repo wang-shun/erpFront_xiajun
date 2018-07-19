@@ -122,7 +122,7 @@ class ChannelModal extends Component {
                 </FormItem>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col span={7}>
                 <FormItem
                   label="渠道编码"
@@ -136,7 +136,7 @@ class ChannelModal extends Component {
                   )}
                 </FormItem>
               </Col>
-            </Row>
+            </Row> */}
             <Row>
               <Col span={7}>
                 <FormItem

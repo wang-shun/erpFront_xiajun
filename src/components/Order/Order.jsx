@@ -348,7 +348,7 @@ class Order extends Component {
         },
       },
       { title: '规格1', dataIndex: 'color', key: 'color', width: 60, render(text) { return text || '-'; } },
-      { title: '尺码', dataIndex: 'scale', key: 'scale', width: 60, render(text) { return text || '-'; } },
+      { title: '规格2', dataIndex: 'scale', key: 'scale', width: 60, render(text) { return text || '-'; } },
       { title: '品牌', dataIndex: 'brand', key: 'brand', width: 60, render(text) { return text || '-'; } },
       { title: '销售价', dataIndex: 'salePrice', key: 'salePrice', width: 60, render(text) { return text || 0; } },
       { title: '运费', dataIndex: 'freight', key: 'freight', width: 60, render(text) { return text || 0; } },

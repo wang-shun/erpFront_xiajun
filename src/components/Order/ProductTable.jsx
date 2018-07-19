@@ -221,7 +221,7 @@ class ProductTable extends Component {
         pageSizeOptions: ['20', '30', '50', '100'],
         onShowSizeChange(current, size) {
           p.props.dispatch({
-            type: 'sku/querySkuList',
+            type: 'sku/querySkuList2',
             payload: {
               pageIndex: current,
               pageSize: size,
@@ -230,6 +230,7 @@ class ProductTable extends Component {
         },
         onChange(page) {
           p.handleSearch(page, pageSize);
+          console.log(page, pageSize)
         },
       };
 
@@ -261,7 +262,7 @@ class ProductTable extends Component {
             }
           },
         },
-        
+
         { title: '虚拟库存', dataIndex: 'virtualInv', key: 'virtualInv', width: '8%', render(text) { return text || '-'; } },
         { title: '重量(磅)', dataIndex: 'weight', key: 'weight', width: '8%', render(text) { return text || '-'; } },
         { title: '操作', dataIndex: 'oper', key: 'oper', width: '8%', render(t, r) { return <a onClick={() => { updateValue(r.skuCode); }}>选择</a>; } },
