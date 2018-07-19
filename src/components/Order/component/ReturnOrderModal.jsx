@@ -9,7 +9,7 @@ const Option = Select.Option;
 class ReturnOrderModal extends Component {
   handleSubmit() {
     const p = this;
-    const { form, dispatch, data, returnType } = this.props;
+    const { form, dispatch, data, returnType, mallOrderNo } = this.props;
     form.validateFields((err, values) => {
       if (err) return;
       if (values.returnPayTime) {
@@ -30,7 +30,7 @@ class ReturnOrderModal extends Component {
         values.id = data.id;
         dispatch({
           type: 'order/updateReturnOrder',
-          payload: { ...values },
+          payload: { ...values, mallReturnOrderNo:mallOrderNo },
           cb() { p.handleCancel(); },
         });
       }

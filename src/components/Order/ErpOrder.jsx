@@ -380,15 +380,15 @@ class ErpOrder extends Component {
         width: 100,
         render(text) {
           switch (text) {
-            case 0: return <font color="saddlebrown">待付款</font>;
-            case 3: return <font color="chocolate">已付款待发货</font>;
-            case 1: return <font color="blue">部分发货</font>;
-            case 2: return <font color="red">全部发货</font>;
-            case -1: return <font color="red">关闭</font>;
-            case -3: return <font color="red">售后处理中</font>;
-            case -4: return <font color="red">售后完成</font>;
-            case 4: return <font color="red">订单完成</font>;
-            case 5: return <font color="red">已签收</font>;
+            case 0: return <font color="#ff642e">待付款</font>;
+            case 3: return <font color="#ff642e">已付款待发货</font>;
+            case 1: return <font color="#ff642e">部分发货</font>;
+            case 2: return <font color="#0c97a1">全部发货</font>;
+            case -1: return <font color="#ff2e38">关闭</font>;
+            case -3: return <font color="#ff2e38">售后处理中</font>;
+            case -4: return <font color="#549707">售后完成</font>;
+            case 4: return <font color="#549707">订单完成</font>;
+            case 5: return <font color="#549707">已签收</font>;
             case 6: return <font color="red">新建</font>;
 
             default: return '-';

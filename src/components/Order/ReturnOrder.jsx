@@ -14,6 +14,7 @@ class ReturnOrder extends Component {
     super();
     this.state = {
       visible: false,
+      mallOrderNo:'',
     };
   }
 
@@ -43,12 +44,14 @@ class ReturnOrder extends Component {
     });
   }
 
-  updateModal(id) {
+  updateModal(record) {
     const p = this;
+    const { mallOrderNo } = p.state;
     p.setState({
       visible: true,
+      mallOrderNo:record.mallReturnOrderNo,
     }, () => {
-      p.props.dispatch({ type: 'order/queryReturnOrderById', payload: { id } });
+      p.props.dispatch({ type: 'order/queryReturnOrderById', payload: { mallReturnOrderNo: record.mallReturnOrderNo } });
     });
   }
 
@@ -105,7 +108,7 @@ class ReturnOrder extends Component {
     const p = this;
     const { form, dispatch, currentPage, returnOrderList = [], returnOrderTotal, returnOrderValues = {}, agencyList = [] } = p.props;
     const { getFieldDecorator, resetFields } = form;
-    const { visible } = p.state;
+    const { visible, mallOrderNo } = p.state;
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
@@ -211,7 +214,7 @@ class ReturnOrder extends Component {
         render(text, record) {
           return (
             <div>
-              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>修改</a>
+              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record)}>修改</a>
             </div>);
         },
       },
@@ -405,6 +408,7 @@ class ReturnOrder extends Component {
           visible={visible}
           close={this.closeModal.bind(this)}
           data={returnOrderValues}
+          mallOrderNo= {mallOrderNo}
           returnType="修改"
           dispatch={dispatch}
         />
