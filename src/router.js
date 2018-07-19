@@ -54,6 +54,9 @@ import ReportNoStock from './components/Report/ReportNoStock';
 import ReportNoSendPackage from './components/Report/ReportNoSendPackage';
 import ReportlogisticCompanyAvgPackage from './components/Report/ReportlogisticCompanyAvgPackage';
 import RoleMng from './components/RoleMng/RoleMng';
+// 小程序设置
+import appset from './components/MyApp/appset';
+
 
 
 function redirectHelper(...args) {
@@ -84,6 +87,11 @@ function RouterConfig({ history }) {
         {/* 临时处理 */}
         <Route path={`/${routerCfg.SETTINGS}`} component={Warehouse} />
         <Route path={`/${routerCfg.SETTINGS}/${routerCfg.WAREHOUSE}`} component={Warehouse} />
+
+        <Route path={`/${routerCfg.MYAPP}`} component={appset} />
+        <Route path={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} component={appset} />
+
+
         <Route path={`/${routerCfg.MARKETING}`} component={SaleChannel} />
         <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} component={SaleChannel} />
 
