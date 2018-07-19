@@ -227,8 +227,8 @@ class OrderModal extends Component {
                 label="外部订单号"
                 {...formItemLayout}
               >
-                {getFieldDecorator('shopCode', {
-                  initialValue: orderData.shopCode,
+                {getFieldDecorator('channelOrderNo', {
+                  initialValue: orderData.channelOrderNo,
                 })(
                   <Input placeholder="请输入外部订单号" />,
                 )}

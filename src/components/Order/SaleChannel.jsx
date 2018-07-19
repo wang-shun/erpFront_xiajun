@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Button, Row, Col, Form, Icon, Tooltip } from 'antd';
+import { Table, Button, Row, Col, Form, Icon, Tooltip,Popconfirm } from 'antd';
 
 // const FormItem = Form.Item;
 // const Option = Select.Option;
@@ -96,7 +96,7 @@ class SaleChannel extends Component {
             case '1':
               return '平台';
             case '2':
-              return r.saleLevel;
+              return r.saleLevel+'级分销';
             default: return '-';
           }
         },
@@ -145,7 +145,9 @@ class SaleChannel extends Component {
               <span> | </span>
               {/* <a onClick={p.updateModal.bind(p, record.id)}>查看历史结算</a>
               <span> | </span> */}
-              <a onClick={p.handleDeleteChannel.bind(p, record.id)}>删除</a>
+              <Popconfirm title="确定删除此渠道？" onConfirm={p.handleDeleteChannel.bind(p, record.id)}>
+                <a href="javascript:void(0)">删除</a>
+              </Popconfirm>
             </div>);
         },
       },

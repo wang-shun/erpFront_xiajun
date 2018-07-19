@@ -247,7 +247,7 @@ export const originalNavigation = [
     ],
   },
   {
-    key: routerCfg.MARKETING, name: '营销管理', icon: 'book',
+    key: routerCfg.MARKETING, name: '营销管理', icon: 'appstore',
     child: [
       //{ key: routerCfg.MARKETING_TOOLS, name: '营销工具' },
       // { key: routerCfg.DISTRIBUTE_MANAGE, name: '分销管理' },
@@ -299,7 +299,7 @@ export const originalNavigation = [
  },*/
   //设置，xiajun
   {
-    key: routerCfg.SETTINGS, name: '设置', icon: 'shopping-cart',
+    key: routerCfg.SETTINGS, name: '设置', icon: 'setting',
     child: [
       //{ key: routerCfg.BASE_SETTINGS, name: '基本设置'},
       //{ key: routerCfg.E_COMMERCE_CHANNEL_SETTINGS, name: '电商渠道设置' },
@@ -318,7 +318,7 @@ export const originalNavigation = [
     ],
   },
   {
-    key: routerCfg.MYAPP, name: '我的小程序', icon: 'team',
+    key: routerCfg.MYAPP, name: '我的小程序', icon: 'message',
     child: [
       { key: routerCfg.APP_SETTINGS, name: '小程序设置' },
       // { key: routerCfg.APP_DECORATE, name: '小程序装修' },

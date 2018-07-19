@@ -478,7 +478,7 @@ class ShippingOrder extends Component {
               发货时间：{data.gmtCreate}
             </Col>
             <Col span="8">
-              销售时间:缺少数据
+              销售时间:
             </Col>
           </Row>
           <Row className={styles.title}>发货信息</Row>
@@ -499,10 +499,10 @@ class ShippingOrder extends Component {
               发件人信息
             </Col>
             <Col span="8">
-              缺少数据<br/>缺少数据
+              
             </Col>
             <Col span="8">
-              缺少数据
+              
             </Col>
           </Row>
           <div  className={styles.title}>商品信息</div>

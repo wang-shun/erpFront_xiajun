@@ -183,9 +183,8 @@ class PurchaseStorage extends Component {
       wrapperCol: { span: 10 },
     };
     const columnsList = [
-      
-      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },
-      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' },      
+      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' },  
+      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },    
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
@@ -197,8 +196,8 @@ class PurchaseStorage extends Component {
       { title: '状态', dataIndex: 'statusName', key: 'statusName' },
     ];
     const columnsSelectList = [
-      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },
       { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' }, 
+      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
@@ -275,14 +274,14 @@ class PurchaseStorage extends Component {
         dataIndex: 'operator',
         key: 'operator',
         width: 160,
-        render(t, r) {
-          return (
-            <div>
-              <p style={{ marginRight: 10 }}>查看</p>
-              <p style={{ marginRight: 10 }}>修改</p>
-              <p>删除</p>
-            </div>);
-        },
+        // render(t, r) {
+        //   return (
+        //     <div>
+        //       <p style={{ marginRight: 10 }}>查看</p>
+        //       <p style={{ marginRight: 10 }}>修改</p>
+        //       <p>删除</p>
+        //     </div>);
+        // },
       },
 
     ]
@@ -450,7 +449,7 @@ class PurchaseStorage extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('buyerId', {})(
-                    <Select placeholder="请选择买手" optionLabelProp="title" combobox allowClear onChange={this.storehouseTwo.bind(this)}>
+                    <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.storehouseTwo.bind(this)}>
                       {buyers.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
                     </Select>)}
                 </FormItem>
