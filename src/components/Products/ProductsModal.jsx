@@ -318,23 +318,16 @@ class ProductsModal extends Component {
     };
     const fileListSource = this.state.picList || picList;
 
-    let selectedCategoryId = [];
+    let selectedCategoryCode = [];
 
     if (productData.categoryCode) {
-
       tree.forEach((el) => {
-        console.log(el)
         if (el.children) {
           el.children.forEach((el2) => {
-            console.log(el2)
             if (el2.children) {
               el2.children.forEach((el3) => {
-                // console.log(el3)
-                // console.log(el3.categoryCode, productData.categoryCode)
                 if (el3.categoryCode.toString() === productData.categoryCode.toString()) {
-
-                  selectedCategoryId = [el3.categoryCode.toString()];
-                  console.log("maomao" + selectedCategoryId)
+                  selectedCategoryCode = [el.categoryCode.toString(), el2.categoryCode.toString(), el3.categoryCode.toString()];
                 }
               });
             }
@@ -342,6 +335,7 @@ class ProductsModal extends Component {
         }
       })
     }
+
 
 
     
@@ -358,12 +352,12 @@ class ProductsModal extends Component {
               <Row>
                 <Col span={7}>
                   <FormItem
-                    label="所属类"
+                    label="所属类目"
                     required="true"
                     {...formItemLayout}
                   >
                     {getFieldDecorator('categoryCode', {
-                      initialValue: selectedCategoryId,
+                      initialValue: selectedCategoryCode,
                       rules: [{ required: true, validator: this.chooseCate.bind(this) }],
                     })(
                       <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover"/>,
