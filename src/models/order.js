@@ -5,7 +5,6 @@ import fetch from '../utils/request';
 const addOrder = ({ payload }) => fetch.post('/outerOrder/add', { data: payload }).catch(e => e);
 const updateOrder = ({ payload }) => fetch.post('/outerOrder/update', { data: payload }).catch(e => e);
 const deleteOrder = ({ payload }) => fetch.post('/outerOrder/delete', { data: payload }).catch(e => e);
-const queryOrderList = ({ payload }) => fetch.post('/outerOrder/index', { data: payload }).catch(e => e);
 const queryOrderListTwo = ({ payload }) => fetch.post('/outerOrder/index', { data: payload }).catch(e => e);
 const queryOrder = ({ payload }) => fetch.post('/outerOrder/query', { data: payload }).catch(e => e);
 const queryOrderDetail = ({ payload }) => fetch.post('/outerOrder/erpStockup', { data: payload }).catch(e => e);
