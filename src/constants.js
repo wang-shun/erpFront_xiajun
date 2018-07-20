@@ -42,7 +42,7 @@ export const backendCfg = {
 
   brandList: 'item_brand',
   skuList: 'item_skulist',
-  packageScale: 'item_scale',
+  package: 'item_scale',
   packageLevel: 'item_level',
   category: 'category',
   sale: 'sale',
@@ -122,7 +122,7 @@ export const routerCfg = {
   BRAND_LIST: 'brandList',
   SKU_LIST: 'skuList',
   CATE_LIST: 'cateList',
-  PACKAGE_SCALE: 'packageScale',
+  PACKAGE_SCALE: 'package',
   PACKAGE_LEVEL: 'packageLevel',
   /*xiajun*/
   //FINDITEM_LIST: 'finditemList', // 采购商品列表
@@ -196,7 +196,7 @@ export const routerCfg = {
 export const originalNavigation = [
   { key: routerCfg.OVERVIEW, name: '首页', icon: 'laptop' },
   {
-    key: routerCfg.PRODUCTS, name: '商品管理', icon: 'bars',
+    key: routerCfg.PRODUCTS, name: '商品管理', icon: 'gift',
     child: [
       { key: routerCfg.PRODUCTS_LIST, name: '商品列表' },
       { key: routerCfg.SKU_LIST, name: 'SKU管理' },
@@ -204,15 +204,15 @@ export const originalNavigation = [
       //{ key: routerCfg.ITEM_KIND_MANAGE, name: '商品分类管理' },
       { key: routerCfg.CATE_LIST, name: '类目管理' },
       { key: routerCfg.BRAND_LIST, name: '品牌管理' },
-      { key: routerCfg.PACKAGE_SCALE, name: '包装规格类别' },
-      { key: routerCfg.PACKAGE_LEVEL, name: '包装规格' },
+      { key: routerCfg.PACKAGE_SCALE, name: '包装管理' },
+      // { key: routerCfg.PACKAGE_LEVEL, name: '包装规格' },
       // { key: routerCfg.FINDITEM_LIST, name: '采购商品' },
       //{ key: routerCfg.ITEM_IMPORT, name: '商品导入' },
       //{ key: routerCfg.ITEM_DISPATCH_SET, name: '商品分销设置' },
     ],
   },
   {
-    key: routerCfg.PURCHASE, name: '采购管理', icon: 'appstore-o',
+    key: routerCfg.PURCHASE, name: '采购管理', icon: 'shopping-cart',
     child: [
       { key: routerCfg.PURCHASE_LIST, name: '采购任务管理' },
       { key: routerCfg.PURCHASE_STORAGE, name: '采购入库管理' },
@@ -234,7 +234,7 @@ export const originalNavigation = [
     ],
   },
   {
-    key: routerCfg.SALE, name: '订单管理', icon: 'icon-dingdan',
+    key: routerCfg.SALE, name: '订单管理', icon: 'calendar',
     child: [
       { key: routerCfg.ORDER_LIST, name: '订单管理' },
       { key: routerCfg.ERP_ORDER, name: '子订单管理' },
@@ -245,7 +245,7 @@ export const originalNavigation = [
     ],
   },
   {
-    key: routerCfg.MARKETING, name: '营销管理', icon: 'appstore',
+    key: routerCfg.MARKETING, name: '营销管理', icon: 'pie-chart',
     child: [
       //{ key: routerCfg.MARKETING_TOOLS, name: '营销工具' },
       // { key: routerCfg.DISTRIBUTE_MANAGE, name: '分销管理' },
@@ -260,7 +260,7 @@ export const originalNavigation = [
   //   ],
   // },
   {
-    key: routerCfg.INVENTORY, name: '库存管理', icon: 'shopping-cart',
+    key: routerCfg.INVENTORY, name: '库存管理', icon: 'appstore-o',
     child: [
       // { key: routerCfg.SENDING_GOODS_MANAGE, name: '发货管理'},
       { key: routerCfg.INVENTORY_LIST, name: '库存管理' },

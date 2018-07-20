@@ -12,6 +12,7 @@ import FindProducts from './components/Products/FindProducts';
 import Brands from './components/Products/Brands';
 import PackageScale from './components/Products/PackageScale';
 import PackageLevel from './components/Products/PackageLevel';
+import Package from './components/Products/Package';
 import Sku from './components/Sku/Sku';
 import Category from './components/Category/Category';
 import Order from './components/Order/Order';
@@ -108,8 +109,9 @@ function RouterConfig({ history }) {
         {/* <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.FINDITEM_LIST}`} component={FindProducts} /> */}
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.BRAND_LIST}`} component={Brands} />
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.SKU_LIST}`} component={Sku} />
-        <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.PACKAGE_SCALE}`} component={PackageScale} />
-        <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.PACKAGE_LEVEL}`} component={PackageLevel} />
+        {/* <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.PACKAGE_SCALE}`} component={PackageScale} />
+        <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.PACKAGE_LEVEL}`} component={PackageLevel} /> */}
+        <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.PACKAGE_SCALE}`} component={Package} />
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.CATE_LIST}`} component={Category} />
 
         <Route path={`/${routerCfg.SALE}/${routerCfg.ORDER_LIST}`} component={Order} />

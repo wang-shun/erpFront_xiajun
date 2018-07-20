@@ -27,13 +27,13 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
-        if (pathname === '/products/packageLevel' && !window.existCacheState('/products/packageLevel')) {
+        if (pathname === '/products/package' && !window.existCacheState('/products/package')) {
           dispatch({ type: 'queryPackageLevelList', payload: { pageIndex: 1 } });
           dispatch({ type: 'queryPackageScaleList', payload: { pageIndex: 1 } });
         }
-        if (pathname === '/products/packageScale' && !window.existCacheState('/products/packageScale')) {
-          dispatch({ type: 'queryPackageScaleList', payload: { pageIndex: 1 } });
-        }
+        // if (pathname === '/products/package' && !window.existCacheState('/products/package')) {
+        //   dispatch({ type: 'queryPackageScaleList', payload: { pageIndex: 1 } });
+        // }
       });
     },
   },
@@ -116,6 +116,15 @@ export default {
         });
       }
     },
+  //   * clearqueryPackageLevel({ payload }, { call, put }) { // 类目管理列表
+  //   const data = yield call(clearqueryPackageLevel, { payload });
+  //   if (data.success) {
+  //     yield put({
+  //       type: 'clearsaveLevel',
+  //       payload: data,
+  //     });
+  //   }
+  // },
     * addPackageLevel({ payload }, { call, put }) {
       const data = yield call(addPackageLevel, { payload });
       if (data.success) {
@@ -172,6 +181,9 @@ export default {
     saveLevel(state, { payload }) {
       return { ...state, levelValues: payload };
     },
+    // clearsaveLevel(state, { payload }){
+    //   return { ...state, levelValues: ''}
+    // },
     saveLevelPage(state, { payload }) {
       return { ...state, levelCurrent: payload.pageIndex };
     },
