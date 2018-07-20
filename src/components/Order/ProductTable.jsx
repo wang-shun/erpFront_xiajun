@@ -176,7 +176,7 @@ class ProductTable extends Component {
 
   render() {
     const p = this;
-    const { form, skuList = [], parent, total, pageSize, skuListTwo = [], orderTimeVisible  } = p.props;
+    const { form, skuList = [], parent, total, pageSize, skuListTwo = []  } = p.props;
     console.log(skuListTwo)
     // console.log(p.props)
     // let erpDetailLists = p.props.data
@@ -347,7 +347,7 @@ class ProductTable extends Component {
                     title="搜索SKU"
                     trigger="click"
                   >
-                    <Input onFocus={p.handleSearch.bind(p)} placeholder="请选择SKU" value={text || undefined} ref={(c) => { p[`r_${r.key}_skuCode_dom`] = c; }} disabled={orderTimeVisible}/>
+                    <Input onFocus={p.handleSearch.bind(p)} placeholder="请选择SKU" value={text || undefined} ref={(c) => { p[`r_${r.key}_skuCode_dom`] = c; }}/>
                   </Popover>,
                 )}
               </FormItem>

@@ -317,7 +317,7 @@ class OrderModal extends Component {
             </Col>
           </Row>
           <Row>
-            <ProductTable data={erpDetailListValues} orderTimeVisible = {orderTimeVisible} parent={this} />
+            <ProductTable data={erpDetailListValues} parent={this} />
           </Row>
         </Form>
       </Modal>
