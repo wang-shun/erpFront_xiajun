@@ -195,8 +195,6 @@ export const routerCfg = {
 
 export const originalNavigation = [
   { key: routerCfg.OVERVIEW, name: '首页', icon: 'laptop' },
-  // 我的小程序(new)
-
   {
     key: routerCfg.PRODUCTS, name: '商品管理', icon: 'bars',
     child: [
@@ -236,11 +234,11 @@ export const originalNavigation = [
     ],
   },
   {
-    key: routerCfg.SALE, name: '订单管理', icon: 'book',
+    key: routerCfg.SALE, name: '订单管理', icon: 'icon-dingdan',
     child: [
       { key: routerCfg.ORDER_LIST, name: '订单管理' },
       { key: routerCfg.ERP_ORDER, name: '子订单管理' },
-      { key: routerCfg.RETURN_ORDER, name: '售后订单' },
+      { key: routerCfg.RETURN_ORDER, name: '售后管理' },
       { key: routerCfg.SHIPPING_ORDER, name: '发货单管理' },
       //{ key: routerCfg.RETURN_ORDER, name: '退单管理' },
 
@@ -310,11 +308,11 @@ export const originalNavigation = [
   },
   {
     key: routerCfg.PERMISSION, name: '权限管理', icon: 'team',
-    child: [
-      { key: routerCfg.RESOURCE, name: '资源管理' },
+    child: [     
       { key: routerCfg.ROLE, name: '角色管理' },
       { key: routerCfg.USER, name: '用户管理' },
       { key: routerCfg.ORGANIZATION, name: '部门管理' },
+      { key: routerCfg.RESOURCE, name: '资源管理' },
     ],
   },
   {

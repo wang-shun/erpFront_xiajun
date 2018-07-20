@@ -154,7 +154,7 @@ export default {
       }
     },
     * exportPurchase({ payload }, { put }) {
-      window.open(`http://${location.host}/purchase/taskDailyExport?id=${payload.id}`);
+      window.open(`http://${location.host}/purchase/taskDailyExport?buyerTaskNo=${payload.buyerTaskNo}`);
       yield put({ type: 'queryPurchaseList', payload: {} });
     },
     exportNoCompleteDetail({ payload }) {

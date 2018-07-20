@@ -85,14 +85,14 @@ function RouterConfig({ history }) {
         <IndexRoute component={Login} />
 
         {/* 临时处理 */}
-        <Route path={`/${routerCfg.SETTINGS}`} component={Warehouse} />
+        {/* <Route path={`/${routerCfg.SETTINGS}`} component={Warehouse} /> */}
         <Route path={`/${routerCfg.SETTINGS}/${routerCfg.WAREHOUSE}`} component={Warehouse} />
 
-        <Route path={`/${routerCfg.MYAPP}`} component={appset} />
+        {/* <Route path={`/${routerCfg.MYAPP}`} component={appset} /> */}
         <Route path={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} component={appset} />
 
 
-        <Route path={`/${routerCfg.MARKETING}`} component={SaleChannel} />
+        {/* <Route path={`/${routerCfg.MARKETING}`} component={SaleChannel} /> */}
         <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} component={SaleChannel} />
 
         <Route path={`/${routerCfg.LOGIN}`} component={Login} />
@@ -103,13 +103,15 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.PERMISSION}/${routerCfg.TEST}`} component={Test} />
         <Route path={`/${routerCfg.PERMISSION}/${routerCfg.USER}`} component={User} />
         <Route path={`/${routerCfg.PERMISSION}/${routerCfg.ORGANIZATION}`} component={Organization} />
+
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.PRODUCTS_LIST}`} component={Products} />
-        <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.FINDITEM_LIST}`} component={FindProducts} />
+        {/* <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.FINDITEM_LIST}`} component={FindProducts} /> */}
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.BRAND_LIST}`} component={Brands} />
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.SKU_LIST}`} component={Sku} />
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.PACKAGE_SCALE}`} component={PackageScale} />
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.PACKAGE_LEVEL}`} component={PackageLevel} />
         <Route path={`/${routerCfg.PRODUCTS}/${routerCfg.CATE_LIST}`} component={Category} />
+
         <Route path={`/${routerCfg.SALE}/${routerCfg.ORDER_LIST}`} component={Order} />
         <Route path={`/${routerCfg.SALE}/${routerCfg.ERP_ORDER}`} component={ErpOrder} />
         <Route path={`/${routerCfg.SALE}/${routerCfg.SHIPPING_ORDER}`} component={ShippingOrder} />
@@ -146,13 +148,16 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.REPORT}/${routerCfg.REPORT_AVGREPORT}`} component={ReportlogisticCompanyAvgPackage} />
         <Route path={`/${routerCfg.ROLE_MNG}`} component={RoleMng} />
         {/* 一级导航重定向 */}
-        <Redirect from={`/${routerCfg.PERMISSION}`} to={`/${routerCfg.PERMISSION}/${routerCfg.RESOURCE}`} />
+        <Redirect from={`/${routerCfg.PERMISSION}`} to={`/${routerCfg.PERMISSION}/${routerCfg.ROLE}`} />
         <Redirect from={`/${routerCfg.PRODUCTS}`} to={`/${routerCfg.PRODUCTS}/${routerCfg.PRODUCTS_LIST}`} />
         <Redirect from={`/${routerCfg.SALE}`} to={`/${routerCfg.SALE}/${routerCfg.ORDER_LIST}`} />
-        <Redirect from={`/${routerCfg.PURCHASE}`} to={`/${routerCfg.PURCHASE}/${routerCfg.BUYER_LIST}`} />
+        <Redirect from={`/${routerCfg.PURCHASE}`} to={`/${routerCfg.PURCHASE}/${routerCfg.PURCHASE_LIST}`} />
         <Redirect from={`/${routerCfg.PERSON}`} to={`/${routerCfg.PERSON}/${routerCfg.AGENCY_LIST}`} />
         <Redirect from={`/${routerCfg.INVENTORY}`} to={`/${routerCfg.INVENTORY}/${routerCfg.INVENTORY_LIST}`} />
         <Redirect from={`/${routerCfg.REPORT}`} to={`/${routerCfg.REPORT}/${routerCfg.REPORT_SHIPPING_BY_DAY}`} />
+        <Redirect from={`/${routerCfg.SETTINGS}`} to={`/${routerCfg.SETTINGS}/${routerCfg.WAREHOUSE}`} />
+        <Redirect from={`/${routerCfg.MARKETING}`} to={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} />
+        <Redirect from={`/${routerCfg.MYAPP}`} to={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} />        
         {/* 二级导航重定向 */}
         <Redirect from={`/${routerCfg.PURCHASE}/${routerCfg.CHECK}`} to={`/${routerCfg.PURCHASE}/${routerCfg.CHECK}/${routerCfg.JOURNAL}`} />
       </Route>

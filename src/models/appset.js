@@ -11,7 +11,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
-        if ((pathname === '/myApp/appSettings' && !window.existCacheState('/myApp/appSettings')|| (pathname === '/myApp' && !window.existCacheState('/myApp')))) {
+        if (pathname === '/myApp/appSettings' && !window.existCacheState('/myApp/appSettings')) {
           setTimeout(() => {
             dispatch({ type: 'getAuthUrlWx', payload: {} });
           }, 0);
