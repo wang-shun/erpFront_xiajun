@@ -17,6 +17,7 @@ class Order extends Component {
       visible: false,
       title: '', // modal的title
       checkId: [], // 审核时传的id
+      orderTimeVisible: false,
     };
   }
 
@@ -50,6 +51,7 @@ class Order extends Component {
   showModal() {
     this.setState({
       modalVisible: true,
+      orderTimeVisible: false,
       title: '新增',
     });
     this.props.dispatch({ type: 'order/clearOrder', payload: {} }); 
@@ -83,6 +85,7 @@ class Order extends Component {
     const p = this;
     p.setState({
       modalVisible: true,
+      orderTimeVisible: true,
       title: '修改',
     }, () => {
       p.props.dispatch({ 
@@ -202,7 +205,7 @@ class Order extends Component {
     console.log(orderList)
     let orderValue = orderListTwo[0];
     const { getFieldDecorator, resetFields } = form;
-    const { title, visible, modalVisible } = p.state;
+    const { title, visible, modalVisible, orderTimeVisible } = p.state;
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
@@ -551,6 +554,7 @@ class Order extends Component {
           agencyList={agencyList}
           title={title}
           dispatch={dispatch}
+          orderTimeVisible = {orderTimeVisible}
         />
       </div>
     );

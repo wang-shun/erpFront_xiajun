@@ -416,7 +416,7 @@ class ErpOrder extends Component {
           }
         },
       },
-      { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 100, render(text) { return text ? text.slice(0, 10) : '-'; } },
+      // { title: '销售时间', dataIndex: 'orderTime', key: 'orderTime', width: 100, render(text) { return text ? text.slice(0, 10) : '-'; } },
       { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', width: 100, render(text) { return text || '-'; } },
       //{ title: '物流公司', dataIndex: 'logisticCompany', key: 'logisticCompany', width: 100, render(text) { return text || '-'; } },
       //{ title: '物流单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 100, render(text) { return <font color="purple">{text}</font> || '-'; } },

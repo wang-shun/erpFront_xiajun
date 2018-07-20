@@ -113,7 +113,7 @@ export default {
       return { ...state, orderListTwo: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };      
     },
     clearOrder4Add(state, { payload }) {
-      return { ...state, orderListTwo: [] };
+      return { ...state, orderListTwo: [], erpDetailList:[] };
     },
     saveCurrentPage(state, { payload }) {
       return { ...state, currentPage: payload.pageIndex };
@@ -175,6 +175,7 @@ export default {
     erpOrderDeList(state, { payload }) {
       return { ...state, erpDetailList: payload.data }
     },
+
   },
   effects: {
     // 主订单

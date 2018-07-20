@@ -104,7 +104,9 @@ class OrderModal extends Component {
 
   render() {
     const p = this;
-    const { form, title, visible, modalValues = {}, agencyList = [], erpDetailListValues = {}} = p.props;
+    const { form, title, visible, modalValues = {}, agencyList = [], erpDetailListValues = {}, orderTimeVisible} = p.props;
+    console.log('this is mao zhe xia ')
+    console.log(orderTimeVisible)
     // console.log(modalValues.id)
     const orderData = modalValues || {};
     // console.log(orderData)
@@ -191,7 +193,7 @@ class OrderModal extends Component {
                   initialValue: (orderData.orderTime && moment(orderData.orderTime, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
                   rules: [{ required: true, message: '请输入订单时间' }],
                 })(
-                  <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder="请输入订单时间" />)}
+                  <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder="请输入订单时间" disabled={orderTimeVisible}/>)}
               </FormItem>
             </Col>
           </Row>
@@ -315,7 +317,7 @@ class OrderModal extends Component {
             </Col>
           </Row>
           <Row>
-            <ProductTable data={erpDetailListValues} parent={this} />
+            <ProductTable data={erpDetailListValues} orderTimeVisible = {orderTimeVisible} parent={this} />
           </Row>
         </Form>
       </Modal>

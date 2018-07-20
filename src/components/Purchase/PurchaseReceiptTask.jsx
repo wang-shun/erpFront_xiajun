@@ -158,11 +158,11 @@ class Purchase extends Component {
             </Col>
             <Col span="8">
               <FormItem
-                label="发现站点"
+                label="订购站点"
                 {...formItemLayout}
               >
                 {getFieldDecorator('skuBuysite', {})(
-                  <Input placeholder="请输入发现站点" />)}
+                  <Input placeholder="请输入订购站点" />)}
               </FormItem>
             </Col>
           </Row>
