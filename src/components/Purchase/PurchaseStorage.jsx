@@ -5,7 +5,7 @@ import { Table, Input, Button, Row, Col, Select, Form, Tabs, Popconfirm, Modal, 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
-
+const { TextArea } = Input;
 @window.regStateCache
 class PurchaseStorage extends Component {
 
@@ -22,6 +22,9 @@ class PurchaseStorage extends Component {
       wareVisible: true,
       visible: false,
       title: '',
+      memVisible: false,
+      menTitle: '',
+      memId:1,
     };
   }
   //仓库选中
@@ -168,11 +171,40 @@ class PurchaseStorage extends Component {
       visible: false,
     })
   }
+  remarked(r) {
+    console.log('this is mao')
+    console.log(r.id)
+    this.setState({
+      memVisible: true,
+      menTitle: '新增备注',
+      memId: r.id,
+    })
 
+    
+  }
+  memSubmit() {
+    const { form } = this.props;
+    const { memId } = this.state;
+    console.log(memId)
+    form.validateFields((err, values) => {
+      if (err) return;
+      console.log(values.mem, memId)
+      this.props.dispatch({
+        type: 'purchaseStorage/queryUpdateMem',
+        payload:{id: memId, mem: values.mem}
+      })
+    })
+    this.memCancel();
+  }
+  memCancel() {
+    this.setState({
+      memVisible: false,
+    })
+  }
   render() {
     const p = this;
     const { form, buyers = [], selectWhList = [], searchAllList = [], listUpc = [], alreadyList = [] } = p.props;
-    const { upsvalue, upsvalueTwo, activeTab, mStore, wareVisible, visible, title } = p.state;
+    const { upsvalue, upsvalueTwo, activeTab, mStore, wareVisible, visible, title, memVisible, menTitle } = p.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 10 },
@@ -183,8 +215,8 @@ class PurchaseStorage extends Component {
       wrapperCol: { span: 10 },
     };
     const columnsList = [
-      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' },  
-      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },    
+      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' },
+      { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
       { title: 'UPC', dataIndex: 'upc', key: 'upc' },
@@ -196,7 +228,7 @@ class PurchaseStorage extends Component {
       { title: '状态', dataIndex: 'statusName', key: 'statusName' },
     ];
     const columnsSelectList = [
-      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' }, 
+      { title: '任务单号', dataIndex: 'buyerTaskNo', key: 'buyerTaskNo' },
       { title: '批次号', dataIndex: 'batchNum', key: 'batchNum' },
       { title: '入库单号', dataIndex: 'storageNo', key: 'storageNo' },
       { title: '商品名', dataIndex: 'skuName', key: 'skuName' },
@@ -248,7 +280,7 @@ class PurchaseStorage extends Component {
             <div>
               <p><Button type="primary" size="large" style={{ marginBottom: 5, marginRight: 10 }} onClick={p.wareHouse.bind(p, r, index)}>入库</Button></p>
               <p>
-                <a href="javascript:void(0)" style={{ marginRight: 10 }}>备注 |</a>
+                <a href="javascript:void(0)" style={{ marginRight: 10 }} onClick={p.remarked.bind(p, r)}>备注 |</a>
                 <Popconfirm title="确认删除？" onConfirm={p.handleDelete.bind(p, r, index)} >
                   <a href="javascript:void(0)" style={{ marginRight: 10, color: "gray" }}>删除</a>
                 </Popconfirm>
@@ -269,6 +301,7 @@ class PurchaseStorage extends Component {
       { title: '更新时间', dataIndex: 'gmtModify', key: 'gmtModify' },
       { title: '入库时间', dataIndex: 'opTime', key: 'opTime' },
       { title: '状态', dataIndex: 'statusName', key: 'statusName' },
+      { title: '备注', dataIndex: 'mem', key: 'mem' },
       {
         title: '操作',
         dataIndex: 'operator',
@@ -309,7 +342,7 @@ class PurchaseStorage extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('buyerId', {})(
-                    <Select placeholder="请选择买手" optionLabelProp="title"  onChange={this.storehouseTwo.bind(this)}>
+                    <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.storehouseTwo.bind(this)}>
                       {buyers.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
                     </Select>)}
                 </FormItem>
@@ -409,7 +442,7 @@ class PurchaseStorage extends Component {
                       rules: [{ required: true, message: '请输入仓库号' }],
                       // initialValue: roleModal.status,
                     })(
-                      <Select labelInValue placeholder="请选择仓库" optionLabelProp="title"  onChange={this.storehouse.bind(this)}>
+                      <Select labelInValue placeholder="请选择仓库" optionLabelProp="title" onChange={this.storehouse.bind(this)}>
                         {selectWhList.map(el => <Option key={el.warehouseNo} title={el.name}>{el.name}</Option>)}
                       </Select>
                     )}
@@ -422,6 +455,27 @@ class PurchaseStorage extends Component {
                       // initialValue: roleModal.description,
                     })(
                       <InputNumber placeholder="请输入库数目" />,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+            </Form>
+          </Modal>}
+          {memVisible && <Modal
+            visible={memVisible}
+            title={menTitle}
+            onOk={this.memSubmit.bind(this)}
+            onCancel={this.memCancel.bind(this)}
+          >
+            <Form>
+              <Row>
+                <Col>
+                  <FormItem label="备注">
+                    {getFieldDecorator('mem', {
+                      rules: [{ required: true, message: '请输入备注' }],
+
+                    })(
+                      <TextArea rows={4} />
                     )}
                   </FormItem>
                 </Col>

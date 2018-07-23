@@ -27,11 +27,6 @@ class Login extends Component {
       p.submitLogin(values);
     });
   }
-  // wxRouter(payload) {
-  //   const { session = {} } = this.props;
-  //   let Mao = session.wxData
-  //   window.location.href = Mao
-  // }
   submitLogin(payload) {
     this.props.session.username=payload.username;
     this.props.dispatch({

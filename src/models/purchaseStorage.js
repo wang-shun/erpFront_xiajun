@@ -24,6 +24,7 @@ const queryHasComfirm = ({ payload }) => fetch.post('/purchaseStorage/queryHasCo
 const queryWithParam = ({ payload }) => fetch.post('/purchaseStorage/queryComfirmWithParam ', { data: payload }).catch(e => e);
 const queryWithComfirm = ({ payload }) => fetch.post('/purchaseStorage/comfirm', { data: payload }).catch(e => e);
 const queryWithDelete = ({ payload }) => fetch.post('/purchaseStorage/delete', { data: payload }).catch(e => e);
+const queryUpdateMem = ({ payload }) => fetch.post('/purchaseStorage/updateMem', { data: payload }).catch(e => e);
 // 直接入库
 const inventoryAdd = ({ payload }) => fetch.post('/inventory/add', { data: payload }).catch(e => e);
 export default {
@@ -146,6 +147,13 @@ export default {
         message.success('直接入库成功');
       }
     },
+    * queryUpdateMem({ payload }, { call }) {
+      const data = yield call(queryUpdateMem, { payload });
+      if (data.success) {
+        message.success('备注成功');
+      }
+    },
+
     //
     * queryBuyerTaskList({ payload }, { call, put }) {
       const data = yield call(queryBuyerTaskList, { payload });
