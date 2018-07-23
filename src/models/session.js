@@ -130,7 +130,7 @@ export default {
 
         //   localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
         //   localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
-        //   localStorage.setItem('HAIERP_LAST_USERNAME', payload.payload.username);
+          localStorage.setItem('HAIERP_LAST_USERNAME', payload.payload.username);
 
         //   // 更新用户名
         //   yield put({ type: 'updateUsername', payload: payload.payload.username });
