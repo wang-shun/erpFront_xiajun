@@ -7,6 +7,10 @@ const login = ({ payload }) => fetch.post('haiLogin/login', { data: payload }).c
 const logout = ({ payload }) => fetch.post('haiLogin/logout', { data: payload }).catch(e => e);
 // const queryPermissions = () => fetch.post('/user/resCodes').catch(e => e);
 // const wxRout = ({ payload }) => fetch.post('wechatLogin/getUrl', { data: payload }).catch(e => e);
+// 微信扫码中间页面
+const wechatLogin = ({ payload }) => fetch.post('/wechatLogin/getUserInfo', { data: payload }).catch(e => e);
+const loginByUserNo = ({ payload }) => fetch.post('/wechatLogin/loginByUserNo', { data: payload }).catch(e => e);
+
 
 // 首页数据
 const queryIndexData = ({ payload, url }) => fetch.post(url, { data: payload }).catch(e => e);
@@ -43,6 +47,7 @@ export default {
     overviewInfo: {},
     msgList: [],
     wxData: '',
+    wxInfo: {},
   },
   reducers: {
     updateUsername(state, { payload }) {
@@ -57,8 +62,11 @@ export default {
     commonUpdate(state, { payload }) {
       return { ...state, ...payload };
     },
-    wxRouterList(state, {payload}){
-      return { ...state, wxData: payload.data};
+    wxRouterList(state, { payload }) {
+      return { ...state, wxData: payload.data };
+    },
+    wechatLoginInfo(state, { payload }) {
+      return { ...state, wxInfo: payload.data }
     }
   },
   effects: {
@@ -98,6 +106,21 @@ export default {
         });
       }
     },
+    * wechatLogin({ payload, cb }, { call, put }) {
+      const data = yield call(wechatLogin, { payload });
+      if (data.success) {
+        message.success(data.msg);
+        yield put({ type: 'wechatLoginInfo', payload: data });
+        cb();
+      }
+    },
+    * loginByUserNo({ payload, cb }, { call, put }) {
+      const data = yield call(loginByUserNo, { payload });
+      if (data.success) {
+        message.success(data.msg);
+        cb();
+      }
+    },
     * login(payload, { call }) {
       const data = yield call(login, payload);
       if (data.success) {
@@ -130,7 +153,7 @@ export default {
 
         //   localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
         //   localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
-          localStorage.setItem('HAIERP_LAST_USERNAME', payload.payload.username);
+        localStorage.setItem('HAIERP_LAST_USERNAME', payload.payload.username);
 
         //   // 更新用户名
         //   yield put({ type: 'updateUsername', payload: payload.payload.username });

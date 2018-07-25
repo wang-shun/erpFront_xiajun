@@ -97,6 +97,7 @@ export const backendCfg = {
 export const routerCfg = {
   // 登录
   LOGIN: 'login',
+  LOGINTEST:'logintest',
   // 信息
   MESSAGE: 'message',
   // 总览

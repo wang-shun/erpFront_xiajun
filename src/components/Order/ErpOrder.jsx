@@ -190,6 +190,13 @@ class ErpOrder extends Component {
     this.props.dispatch({
       type: 'order/erpOrderNumber',
       payload: {subOrderNo:orderNumber},
+      cb: () => { this.updateList();},
+    });
+  }
+  updateList(){
+    this.props.dispatch({
+      type: 'order/queryErpOrderList',
+      payload: {},
     });
   }
   closeReturnModal() {

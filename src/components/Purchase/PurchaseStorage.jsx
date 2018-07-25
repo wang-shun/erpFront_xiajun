@@ -48,10 +48,19 @@ class PurchaseStorage extends Component {
     this.setState({
       upsvalueTwo: value,
     })
-    this.props.dispatch({
-      type: 'purchaseStorage/purchaseByopenid',
-      payload: { buyerOpenId: value }
-    })
+    if(value=='null'){
+      this.props.dispatch({
+        type: 'purchaseStorage/purchaseByopenid',
+        payload: { buyerOpenId: '' }
+      })
+    }else{
+      this.props.dispatch({
+        type: 'purchaseStorage/purchaseByopenid',
+        payload: { buyerOpenId: value }
+      })
+    }
+    
+    
   }
   changeActiveKey(key) {
     this.setState({ activeTab: key });
@@ -69,49 +78,57 @@ class PurchaseStorage extends Component {
   // }
   alreadMo(e, values) {
     if (e) e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values.buyerId)
-      console.log(values.stoOrderNo)
-      if (values.buyerId == undefined && values.stoOrderNo == undefined) {
+    this.props.form.validateFieldsAndScroll([`stoOrderNoAlready`,`buyerIdAlready` ],(err, values) => {
+      if (values.buyerIdAlready == undefined && values.stoOrderNoAlready == undefined) {
         this.props.dispatch({
           type: 'purchaseStorage/queryWithParam',
           payload: { buyerOpenId: '', upc: '' }
         })
-      } else if (values.buyerId == undefined && values.stoOrderNo != undefined) {
+      } else if (values.buyerIdAlready == undefined && values.stoOrderNoAlready != undefined) {
         this.props.dispatch({
           type: 'purchaseStorage/queryWithParam',
           payload: {
             buyerOpenId: '',
-            upc: values.stoOrderNo,
+            upc: values.stoOrderNoAlready,
           }
         })
-      } else if (values.buyerId != undefined && values.stoOrderNo == undefined) {
+      } else if (values.buyerIdAlready != undefined && values.stoOrderNoAlready == undefined) {
         this.props.dispatch({
           type: 'purchaseStorage/queryWithParam',
           payload: {
-            buyerOpenId: values.buyerId,
+            buyerOpenId: values.buyerIdAlready,
             upc: '',
           }
         })
-      } else if (values.buyerId != undefined && values.stoOrderNo != undefined) {
+      } else if (values.buyerIdAlready != undefined && values.stoOrderNoAlready != undefined) {
         this.props.dispatch({
           type: 'purchaseStorage/queryWithParam',
           payload: {
-            buyerOpenId: values.buyerId,
-            upc: values.stoOrderNo,
+            buyerOpenId: values.buyerIdAlready,
+            upc: values.stoOrderNoAlready,
           }
         })
       }
-
     })
   }
   handleSubmit(value) {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-
-      this.props.dispatch({
-        type: 'purchaseStorage/purchaseAndUpc',
-        payload: { buyerOpenId: values.buyerId, upc: values.stoOrderNo }
-      })
+    this.props.form.validateFieldsAndScroll([`buyerId`, `stoOrderNo`],(err, values) => {
+      console.log(values)
+      if(values.stoOrderNo == undefined){
+        return;
+      }
+      if(values.buyerId=='null'){
+        this.props.dispatch({
+          type: 'purchaseStorage/purchaseAndUpc',
+          payload: { buyerOpenId: '', upc: values.stoOrderNo }
+        })
+      }else{
+        this.props.dispatch({
+          type: 'purchaseStorage/purchaseAndUpc',
+          payload: { buyerOpenId: values.buyerId, upc: values.stoOrderNo }
+        })
+      }
+      
     })
   }
   wareHouse(p, r, index) {
@@ -341,8 +358,11 @@ class PurchaseStorage extends Component {
 
                   {...formItemLayout}
                 >
-                  {getFieldDecorator('buyerId', {})(
+                  {getFieldDecorator('buyerId', {
+                    initialValue: 'null',
+                  })(
                     <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.storehouseTwo.bind(this)}>
+                      <Option key={null} title='全部'>全部</Option>
                       {buyers.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
                     </Select>)}
                 </FormItem>
@@ -355,7 +375,7 @@ class PurchaseStorage extends Component {
                 >
                   {getFieldDecorator('stoOrderNo', {})(
                     // <Input placeholder="请扫UPC或手动输入" disabled={upsvalue != '' && upsvalueTwo != '' ? false : true} onKeyPress={this.handleSubmit.bind(this)} />)}
-                    <Input placeholder="请扫UPC或手动输入" disabled={upsvalue != '' && upsvalueTwo != '' ? false : true} />)}
+                    <Input placeholder="请扫UPC或手动输入" disabled={upsvalue ? false : true} />)}
                 </FormItem>
               </Col>
               <Col span="6">
@@ -492,7 +512,7 @@ class PurchaseStorage extends Component {
 
                   {...formItemLayout}
                 >
-                  {getFieldDecorator('stoOrderNo', {})(
+                  {getFieldDecorator('stoOrderNoAlready', {})(
                     <Input placeholder="请扫UPC或手动输入" />)}
                 </FormItem>
               </Col>
@@ -502,8 +522,9 @@ class PurchaseStorage extends Component {
 
                   {...formItemLayout}
                 >
-                  {getFieldDecorator('buyerId', {})(
-                    <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.storehouseTwo.bind(this)}>
+                  {getFieldDecorator('buyerIdAlready', {
+                  })(
+                    <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.storehouseTwo.bind(this)} allowClear>
                       {buyers.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
                     </Select>)}
                 </FormItem>
