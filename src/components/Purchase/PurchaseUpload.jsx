@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, message, Upload, Icon, Input, Row, Col, Button, Form, Select } from 'antd';
+import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 //import reqwest from 'reqwest';
@@ -38,17 +39,18 @@ class PurchaseUpload extends Component {
     // }, 100);
   }
   uploadModal(){
-    // const { form, close } = this.props;
-    // form.dispatch({
-    //   type: 'purchase/queryPurchaseList',
-    //   payload: {},
-    // });
-    // form.resetFields();
-    // close();
+    const { dispatch, form, close } = this.props;
+    dispatch({
+      type: 'purchase/queryPurchaseList',
+      payload: {},
+    });
+    form.resetFields();
+    close();
   }
   render() {
     const p = this;
     const { title, visible } = p.props;
+    console.log(p.props)
     const {mao} = this.state;
 
     // const { previewImage, defaultBuyer, defaultStartTime, defaultEndTime } = p.state;
@@ -67,9 +69,6 @@ class PurchaseUpload extends Component {
       maskClosable: false,
       closable: true,
       okText: 'OK',
-      onOk() {
-        p.closeModal();
-      },
       onCancel() {
         p.closeModal();
       },
@@ -113,7 +112,9 @@ class PurchaseUpload extends Component {
       },
     };
     return (
-    <Modal {...modalProps}>
+    <Modal {...modalProps}
+      onOk={this.uploadModal.bind(this)} 
+    >
         <Form >
           <Row>
             <Col>
@@ -144,5 +145,8 @@ class PurchaseUpload extends Component {
     );
   }
 }
-
-export default Form.create()(PurchaseUpload);
+function mapStateToProps(state) {
+  const {  } = state.purchase;
+  return {  };
+}
+export default connect(mapStateToProps)(Form.create()(PurchaseUpload));

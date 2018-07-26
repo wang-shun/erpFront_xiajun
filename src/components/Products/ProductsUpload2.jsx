@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, message, Upload, Icon, Input, Row, Col, Button, Form, Select } from 'antd';
+import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 //import reqwest from 'reqwest';
@@ -38,6 +39,16 @@ class ProductsUpload2 extends Component {
       this.setState({ defaultBuyer: undefined, defaultStartTime: undefined, defaultEndTime: undefined });
     }, 100);
   }
+  uploadModal(){
+    console.log(this.props)
+    const { dispatch, form, close } = this.props;
+    dispatch({
+      type: 'Products/queryItemList',
+      payload: {},
+    });
+    form.resetFields();
+    close();
+  }
   render() {
     const p = this;
     const { title, visible } = p.props;
@@ -50,9 +61,6 @@ class ProductsUpload2 extends Component {
       maskClosable: false,
       closable: true,
       okText: 'OK',
-      onOk() {
-        p.closeModal();
-      },
       onCancel() {
         p.closeModal();
       },
@@ -87,7 +95,9 @@ class ProductsUpload2 extends Component {
       },
     };
     return (
-    <Modal {...modalProps}>
+    <Modal {...modalProps}
+      onOk={this.uploadModal.bind(this)} 
+    >
         <Form >
           <Row>
             <Col>
@@ -118,5 +128,8 @@ class ProductsUpload2 extends Component {
     );
   }
 }
-
-export default Form.create()(ProductsUpload2);
+function mapStateToProps(state) {
+  const {  } = state.products;
+  return {  };
+}
+export default connect(mapStateToProps)(Form.create()(ProductsUpload2));
