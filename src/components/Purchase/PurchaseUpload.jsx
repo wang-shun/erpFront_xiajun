@@ -25,7 +25,8 @@ class PurchaseUpload extends Component {
     this.state = {
       fileList: [],
       uploading: false,
-      mao: ''
+      mao: '',
+      Yay: 1,
     };
 
   }
@@ -38,7 +39,7 @@ class PurchaseUpload extends Component {
     //   this.setState({ defaultBuyer: undefined, defaultStartTime: undefined, defaultEndTime: undefined });
     // }, 100);
   }
-  uploadModal(){
+  uploadModal() {
     const { dispatch, form, close } = this.props;
     dispatch({
       type: 'purchase/queryPurchaseList',
@@ -50,9 +51,8 @@ class PurchaseUpload extends Component {
   render() {
     const p = this;
     const { title, visible } = p.props;
-    console.log(p.props)
-    const {mao} = this.state;
-
+    const { mao, Yay } = this.state;
+    console.log(mao)
     // const { previewImage, defaultBuyer, defaultStartTime, defaultEndTime } = p.state;
     // const purchaseData = (modalValues && modalValues.data) || {};
     // const { getFieldDecorator } = form;
@@ -75,10 +75,13 @@ class PurchaseUpload extends Component {
     };
     const uploadProps = {
       action: '/purchaseTask/improtTask',
-      
+
       // action: '/uploadFile/picUpload',
-      listType: 'picture-card',
+      listType: 'text',
       multiple: true,
+      headers: {
+        authorization: 'authorization-text',
+      },
       data(file) {
         return {
           file: file.name,
@@ -96,25 +99,34 @@ class PurchaseUpload extends Component {
       //     previewImage: file.url || file.thumbUrl,
       //   });
       // },
+      onRemove() {
+        p.setState({
+          Yay: 2,
+        })
+      },
       onChange(info, test) {
-        // console.log(info.file)
-        console.log(info.file.response)
-        if(info.file.response == undefined){
-          return
-        }
-        else{
-          console.log(info.file.response.msg)
-          let kk = info.file.response.msg
+        if (Yay == 2) {
           p.setState({
-            mao: kk,
+            mao: '',
+            Yay: 1,
           })
+        } else {
+          if (info.file.response == undefined) {
+            return
+          } else {
+            let kk = info.file.response.msg
+            p.setState({
+              mao: kk,
+            })
+          }
         }
       },
+
     };
     return (
-    <Modal {...modalProps}
-      onOk={this.uploadModal.bind(this)} 
-    >
+      <Modal {...modalProps}
+        onOk={this.uploadModal.bind(this)}
+      >
         <Form >
           <Row>
             <Col>
@@ -124,9 +136,12 @@ class PurchaseUpload extends Component {
                 wrapperCol={{ span: 18 }}
                 style={{ marginRight: '-20px' }}
               >
-                <Upload {...uploadProps}>
-                    <Icon type="plus" className="uploadPlus" />
-                    <div className="ant-upload-text">点击上传</div>
+                <Upload {...uploadProps}
+                >
+                  <Button>
+                    <Icon type="upload" />点击上传
+                    {/* <div className="ant-upload-text">点击上传</div> */}
+                  </Button>
                 </Upload>
               </FormItem>
             </Col>
@@ -134,9 +149,9 @@ class PurchaseUpload extends Component {
           <Row>
             <Col>
               <FormItem>
-                <p style={{marginLeft:'30px'}}>请上传Excel需求表，每个表格最多200条记录 <span style={{ textDecoration:'underline'}}><a href="http://www.buyer007.com/采购任务导入模版v1.0.xls">采购任务模板下载</a></span></p>
-                {mao && <div style={{color:'red', marginLeft:'30px'}}>提示信息：</div>}
-                <div dangerouslySetInnerHTML={{__html:mao}} style={{color:'red', marginLeft:'30px'}}></div>
+                <p style={{ marginLeft: '30px' }}>请上传Excel需求表，每个表格最多200条记录 <span style={{ textDecoration: 'underline' }}><a href="http://www.buyer007.com/采购任务导入模版v1.0.xls">采购任务模板下载</a></span></p>
+                {mao && <div style={{ color: 'red', marginLeft: '30px' }}>提示信息：</div>}
+                <div dangerouslySetInnerHTML={{ __html: mao }} style={{ color: 'red', marginLeft: '30px' }}></div>
               </FormItem>
             </Col>
           </Row>
@@ -146,7 +161,7 @@ class PurchaseUpload extends Component {
   }
 }
 function mapStateToProps(state) {
-  const {  } = state.purchase;
-  return {  };
+  const { } = state.purchase;
+  return {};
 }
 export default connect(mapStateToProps)(Form.create()(PurchaseUpload));
