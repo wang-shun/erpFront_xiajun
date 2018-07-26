@@ -61,7 +61,7 @@ class InvoiceModal extends Component {
     initialAddress.push(data.receiverCity);
     initialAddress.push(data.receiverDistrict);
 
-    //console.log(initialAddress);
+    console.log(initialAddress);
 
     return (
       <div>
@@ -139,7 +139,7 @@ class InvoiceModal extends Component {
                   }}
                 >
                   {getFieldDecorator('addressDetail', {
-                    initialValue: data.addressDetail,
+                    initialValue: data.address,
                     rules: [{ required: true, message: '请输入详细地址' }],
                   })(
                     <Input placeholder="请输入详细地址" />)}

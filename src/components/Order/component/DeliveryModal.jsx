@@ -28,11 +28,11 @@ class DeliveryModal extends Component {
     const { checkId } = this.state;
     form.validateFields((err, values) => {
       if (err) return;
-      if (values.address) {
-        values.receiverState = values.address[0];
-        values.receiverCity = values.address[1];
-        values.receiverDistrict = values.address[2];
-        delete values.address;
+      if (values.addressArea) {
+        values.receiverState = values.addressArea[0];
+        values.receiverCity = values.addressArea[1];
+        values.receiverDistrict = values.addressArea[2];
+        delete values.addressArea;
       }
       values.mallOrders = JSON.stringify(checkId);
       dispatch({
@@ -236,7 +236,7 @@ class DeliveryModal extends Component {
                   label="收件地址"
                   {...formItemLayout}
                 >
-                  {getFieldDecorator('address', {
+                  {getFieldDecorator('addressArea', {
                     initialValue: initialAddress,
                     rules: [{ required: true, message: '请输入收件地址' }],
                   })(
@@ -263,7 +263,7 @@ class DeliveryModal extends Component {
                   label="详细地址"
                   {...formItemLayout}
                 >
-                  {getFieldDecorator('addressDetail', {
+                  {getFieldDecorator('address', {
                     initialValue: data.addressDetail,
                     rules: [{ required: true, message: '请输入详细地址' }],
                   })(
