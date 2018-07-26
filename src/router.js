@@ -58,6 +58,7 @@ import ReportlogisticCompanyAvgPackage from './components/Report/ReportlogisticC
 import RoleMng from './components/RoleMng/RoleMng';
 // 小程序设置
 import appset from './components/MyApp/appset';
+import appsetTest from './components/MyApp/appsetTest';
 
 
 
@@ -91,8 +92,8 @@ function RouterConfig({ history }) {
 
         {/* <Route path={`/${routerCfg.MYAPP}`} component={appset} /> */}
         <Route path={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} component={appset} />
-
-
+        <Route path={`/${routerCfg.MYAPP}/${routerCfg.APPSETTEST}`} component={appsetTest} />
+        
         {/* <Route path={`/${routerCfg.MARKETING}`} component={SaleChannel} /> */}
         <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} component={SaleChannel} />
 

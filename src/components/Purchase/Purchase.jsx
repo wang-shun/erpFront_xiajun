@@ -39,6 +39,7 @@ class Purchase extends Component {
         }
         delete fieldsValue.taskStart;
         delete fieldsValue.taskEnd;
+        console.log(fieldsValue)
         this.props.dispatch({
           type: 'purchase/queryPurchaseList',
           payload: {
@@ -68,12 +69,11 @@ class Purchase extends Component {
   updateModal(id, e) {
     if (e) e.stopPropagation();
     const p = this;
+    p.props.dispatch({ type: 'purchase/querypurchaseTask', payload: { id }, cb: () => {  }, });
     p.setState({
       modalVisible: true,
       title: '修改',
-    }, () => {
-      p.props.dispatch({ type: 'purchase/querypurchaseTask', payload: { id } });
-    });
+    })
   }
 
   closeModal() {
@@ -103,8 +103,6 @@ class Purchase extends Component {
   }
 
   exportPurchase(r) { // 导出采购单
-    console.log(r)
-    console.log(r.buyerTaskNo)
     let buyerTaskNo = r.buyerTaskNo
     this.props.dispatch({
       type: 'purchase/exportPurchase',
@@ -158,8 +156,8 @@ class Purchase extends Component {
 
   render() {
     const p = this;
-    const { form, list = [], currentPage, total, purchaseValues = {}, buyer = [], dispatch, savePurchaseTask={} } = p.props;
-    console.log(savePurchaseTask)
+    const { form, list = [], currentPage, total, purchaseValues = {}, buyer = [], dispatch, savePurchaseTask={}, savePurchaseTaskDetail={} } = p.props;
+    console.log(savePurchaseTaskDetail)
     const { uploadVisble, titles } = this.state
     const { getFieldDecorator, resetFields } = form;
     const { title } = p.state;
@@ -271,9 +269,9 @@ class Purchase extends Component {
                 label="买手"
                 {...formItemLayout}
               >
-                {getFieldDecorator('buyerId', {})(
-                  <Select placeholder="请选择用户" optionLabelProp="title" mode>
-                    {buyer.map(el => <Option key={el.id} title={el.nickName}>{el.nickName}</Option>)}
+                {getFieldDecorator('buyerName', {})(
+                  <Select placeholder="请选择用户" optionLabelProp="title" mode allowClear>
+                    {buyer.map(el => <Option  title={el.nickName} value={el.nickName}>{el.nickName}</Option>)}
                   </Select>,
                 )}
               </FormItem>
@@ -348,7 +346,7 @@ class Purchase extends Component {
 }
 
 function mapStateToProps(state) {
-  const { list, total, currentPage, currentPageSize, purchaseValues, buyer, savePurchaseTask } = state.purchase;
+  const { list, total, currentPage, currentPageSize, purchaseValues, buyer, savePurchaseTask, savePurchaseTaskDetail } = state.purchase;
   return {
     list,
     total,
@@ -357,6 +355,7 @@ function mapStateToProps(state) {
     purchaseValues,
     buyer,
     savePurchaseTask,
+    savePurchaseTaskDetail,
   };
 }
 

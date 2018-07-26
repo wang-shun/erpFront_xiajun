@@ -2,6 +2,7 @@ import { message } from 'antd';
 import fetch from '../utils/request';
 
 const getAuthUrlWx = ({ payload }) => fetch.post('/account/getAuthUrl', { data: payload }).catch(e => e);
+const authcallbackWx = ({ payload }) => fetch.get('/authorization/authcallback', { data: payload }).catch(e => e);
 
 
 export default {
@@ -21,15 +22,22 @@ export default {
   },
   effects: {
     * getAuthUrlWx({ payload }, { call, put }) {
-    const data = yield call(getAuthUrlWx, { payload });
-    if (data.success) {
-      yield put({
-        type: 'savegetAuthUrlWx',
-        payload: data,
-      });
-    }
-  },
-    
+      const data = yield call(getAuthUrlWx, { payload });
+      if (data.success) {
+        yield put({
+          type: 'savegetAuthUrlWx',
+          payload: data,
+        });
+      }
+    },
+
+    * authcallbackWx({ payload, cb }, { call, put }) {
+      const data = yield call(authcallbackWx, { payload });
+      if (data.success) {
+        message.success(data.msg);
+        cb();
+      }
+    },
   },
   reducers: {
     savegetAuthUrlWx(state, { payload }) {

@@ -107,7 +107,7 @@ class ProductsUpload2 extends Component {
           <Row>
             <Col>
               <FormItem>
-                <p style={{marginLeft:'30px'}}>请上传Excel商品列表，每个表格最多200条记录</p>
+                <p style={{marginLeft:'30px'}}>请上传Excel商品列表，每个表格最多200条记录 <span style={{ textDecoration:'underline'}}><a href="http://www.buyer007.com/商品导入模版v1.0.xls">商品导入模板下载</a></span></p>
                 {mao && <div style={{color:'red', marginLeft:'30px'}}>提示信息：</div>}
                 <div dangerouslySetInnerHTML={{__html:mao}} style={{color:'red', marginLeft:'30px'}}></div>
               </FormItem>

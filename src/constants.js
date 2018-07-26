@@ -106,6 +106,7 @@ export const routerCfg = {
   MYAPP: 'myApp',
   APP_SETTINGS: 'appSettings',
   APP_DECORATE: 'appDecorate',
+  APPSETTEST:'appsetTest',
   //营销管理，xiajun
   MARKETING: 'marketing',
   MARKETING_TOOLS: 'marketingTools',//营销工具
