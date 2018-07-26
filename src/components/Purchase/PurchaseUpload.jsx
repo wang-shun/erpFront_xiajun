@@ -68,7 +68,7 @@ class PurchaseUpload extends Component {
       title,
       maskClosable: false,
       closable: true,
-      okText: 'OK',
+      okText: '确定',
       onCancel() {
         p.closeModal();
       },

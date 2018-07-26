@@ -186,7 +186,7 @@ class ShippingOrder extends Component {
     };
     const columns = [
       { title: '发货单号', dataIndex: 'shippingNo', key: 'shippingNo', width: 100 / 12.27 + '%', render(text) { return text || '-'; } },
-      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 120 / 12.27 + '%', render(text) { return text || '-'; } },
+      { title: '子订单号', dataIndex: 'mallOrders', key: 'mallOrders', width: 120 / 12.27 + '%', render(text) { return text || '-'; } },
       { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 80 / 12.27 + '%', render(text) { return text || '-'; } },
       { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 85 / 12.27 + '%', render(text) { return text || '-'; } },
       { title: '物流订单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 80 / 12.27 + '%', render(text) { return <font color="purple">{text}</font> || '-'; } },
@@ -235,7 +235,7 @@ class ShippingOrder extends Component {
     ];
     const dailiColumns = [
       { title: '发货单号', dataIndex: 'shippingNo', key: 'shippingNo', width: 100, render(text) { return text || '-'; } },
-      { title: '子订单号', dataIndex: 'erpNo', key: 'erpNo', width: 120, render(text) { return text || '-'; } },
+      { title: '子订单号', dataIndex: 'mallOrders', key: 'mallOrders', width: 120, render(text) { return text || '-'; } },
       { title: '收件人', dataIndex: 'receiver', key: 'receiver', width: 80, render(text) { return text || '-'; } },
       { title: '联系电话', dataIndex: 'telephone', key: 'telephone', width: 85, render(text) { return text || '-'; } },
       { title: '物流订单号', dataIndex: 'logisticNo', key: 'logisticNo', width: 80, render(text) { return <font color="purple">{text}</font> || '-'; } },

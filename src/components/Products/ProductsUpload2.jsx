@@ -42,10 +42,7 @@ class ProductsUpload2 extends Component {
   uploadModal(){
     console.log(this.props)
     const { dispatch, form, close } = this.props;
-    dispatch({
-      type: 'Products/queryItemList',
-      payload: {},
-    });
+    dispatch({ type: 'products/queryItemList', payload: { pageIndex: 1 } });
     form.resetFields();
     close();
   }
@@ -60,7 +57,7 @@ class ProductsUpload2 extends Component {
       title,
       maskClosable: false,
       closable: true,
-      okText: 'OK',
+      okText: '确定',
       onCancel() {
         p.closeModal();
       },
