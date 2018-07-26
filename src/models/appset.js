@@ -2,7 +2,7 @@ import { message } from 'antd';
 import fetch from '../utils/request';
 
 const getAuthUrlWx = ({ payload }) => fetch.post('/account/getAuthUrl', { data: payload }).catch(e => e);
-const authcallbackWx = ({ payload }) => fetch.get('/authorization/authcallback', { data: payload }).catch(e => e);
+const authcallbackWx = ({ payload }) => fetch.get('/account/authcallback', { data: payload }).catch(e => e);
 
 
 export default {
@@ -35,8 +35,8 @@ export default {
       const data = yield call(authcallbackWx, { payload });
       if (data.success) {
         message.success(data.msg);
-        cb();
       }
+      cb();
     },
   },
   reducers: {

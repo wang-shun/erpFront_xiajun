@@ -111,8 +111,8 @@ export default {
     const data = yield call(authorizedWx, { payload });
     if (data.success) {
     message.success('授权成功');
-    cb();
     }
+    cb();
     },
     * addResource({ payload }, { call, put }) {
       const data = yield call(addResource, { payload });

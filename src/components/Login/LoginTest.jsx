@@ -15,14 +15,14 @@ class LoginTest extends Component {
         };
     }
     componentDidMount() {
-        var a =  this.props.location.query;
-        let code = a.code;
+        // var a =  this.props.location.query;
+        // let code = a.code;
         // let state = a.state;
         // console.log(code,state);
         // this.props.dispatch({ type: 'permission/authorizedWx', payload: { code,state } }); 
         // this.props.dispatch(routerRedux.push('/permission/user'));\
-        // let a = 3;
-        // let code = a;
+        let a = 3;
+        let code = a;
         this.props.dispatch({ type: 'session/wechatLogin', payload: { code: code }, cb: () => { this.wxInfoMess(); }, });
         this.setState({
             Code: code,
@@ -31,6 +31,7 @@ class LoginTest extends Component {
     wxInfoMess() {
         const { wxInfo } = this.props;
         let wxStatus = parseInt(wxInfo.status);
+        console.log(wxStatus)
         if (wxStatus == 1) {
             this.props.dispatch(routerRedux.push('/overview'));
         } else if (wxStatus == 0) {
@@ -45,8 +46,7 @@ class LoginTest extends Component {
         console.log(r)
         const { Code, LoginToken } = this.state;
         console.log('this is mao' + Code+ LoginToken)
-        this.props.dispatch({ type: 'session/loginByUserNo', payload: { code: Code, loginToken: LoginToken,userNo: r.userNo, companyNo: r.companyNo}, cb: () => { this.props.dispatch(routerRedux.push('/overview')); }, });
-
+        this.props.dispatch({ type: 'session/loginByUserNo', payload: { code: Code, loginToken: LoginToken,userNo: r.userNo, companyNo: r.companyNo}, cb: () => {this.props.dispatch(routerRedux.push('/overview')); }, });
     }
     render() {
         const p = this;

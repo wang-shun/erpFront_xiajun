@@ -335,11 +335,11 @@ class Purchase extends Component {
           buyer={buyer}
           dispatch={dispatch}
         />
-        <PurchaseUpload
+        { uploadVisble && <PurchaseUpload
         visible={uploadVisble}
         title = {titles}
         close = {this.closeMore.bind(this)}
-        />
+        />}
       </div>
     );
   }
