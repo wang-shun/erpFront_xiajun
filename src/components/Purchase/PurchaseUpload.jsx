@@ -33,9 +33,18 @@ class PurchaseUpload extends Component {
     form.resetFields();
     close();
     // 清理skuTable
-    setTimeout(() => {
-      this.setState({ defaultBuyer: undefined, defaultStartTime: undefined, defaultEndTime: undefined });
-    }, 100);
+    // setTimeout(() => {
+    //   this.setState({ defaultBuyer: undefined, defaultStartTime: undefined, defaultEndTime: undefined });
+    // }, 100);
+  }
+  uploadModal(){
+    // const { form, close } = this.props;
+    // form.dispatch({
+    //   type: 'purchase/queryPurchaseList',
+    //   payload: {},
+    // });
+    // form.resetFields();
+    // close();
   }
   render() {
     const p = this;

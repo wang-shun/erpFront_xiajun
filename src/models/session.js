@@ -118,8 +118,8 @@ export default {
       const data = yield call(loginByUserNo, { payload });
       if (data.success) {
         message.success(data.msg);
-        cb();
       }
+      cb();
     },
     * login(payload, { call }) {
       const data = yield call(login, payload);
