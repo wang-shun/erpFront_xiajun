@@ -39,13 +39,14 @@ class ProductTable extends Component {
         }),
       });
     }
+    
   }
 
   getValue(callback) {
     const { form } = this.props;
     const skuList = [];
     form.validateFieldsAndScroll((err, fieldsSku) => {
-      console.log(fieldsSku)
+      // console.log(fieldsSku)
       if (err) { return; }
       let count = 1;
       const keys = Object.keys(fieldsSku);
@@ -251,11 +252,11 @@ class ProductTable extends Component {
 
       source.forEach((value) => {
         if (value.skuCode.toString() === skuCode.toString()) {
-          console.log('this------')
-          console.log(skuData)
-          console.log(value)
+          // console.log('this------')
+          // console.log(skuData)
+          // console.log(value)
           skuData.forEach((el) => {
-            console.log(el)
+            // console.log(el)
             if (el.key.toString() === key.toString()) {
               el.skuId = value.id;
               el.skuCode = value.skuCode;
@@ -362,7 +363,7 @@ class ProductTable extends Component {
     const p = this;
     const { form, skuList = [], parent, buyer = [], defaultBuyer, defaultStartTime, defaultEndTime, total, currentPage, pageSize, skuListTwo=[] } = p.props;
     const { skuData, previewImage, previewVisible, skuSearchType } = p.state;
-    console.log(defaultBuyer)
+    // console.log(skuData)
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -686,7 +687,7 @@ class ProductTable extends Component {
                   rules: [{ required: true, message: '该项必选' }],
                 })(
                   <Select placeholder="请选择" optionLabelProp="title">
-                    {buyer.map(el => <Option key={el.id} title={el.nickName}>{el.nickName}</Option>)}
+                    {buyer.map(el => <Option value={el.id} title={el.nickName}>{el.nickName}</Option>)}
                   </Select>,
                 )}
               </FormItem>

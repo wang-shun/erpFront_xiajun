@@ -503,10 +503,11 @@ export default {
         if (cb) cb();
       }
     },
-    * erpOrderNumber({ payload }, { call }) {
+    * erpOrderNumber({ payload, cb }, { call }) {
     const data = yield call(erpOrderNumber, { payload });
     if (data.success) {
       message.success('退单成功');
+      cb();
     }
   },
     exportPdf({ payload, success }) {

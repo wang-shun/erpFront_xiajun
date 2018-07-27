@@ -474,11 +474,11 @@ class Products extends Component {
           loginRoler={loginRoler}
           countries={countries}
         />
-        <ProductsUpload2
+        {uploadVisble && <ProductsUpload2
           visible={uploadVisble}
           title={titles}
           close={this.closeMore.bind(this)}
-        />
+        />}
       </div>
     );
   }

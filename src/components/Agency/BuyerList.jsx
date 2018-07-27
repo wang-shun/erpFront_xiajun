@@ -185,12 +185,12 @@ class BuyerList extends Component {
       key: 'nickName',
       width: '25%',
     },
-    {
-      title: '所属仓库',
-      dataIndex: 'warehouseName',
-      key: 'warehouseName',
-      width: '25%',
-    },
+    // {
+    //   title: '所属仓库',
+    //   dataIndex: 'warehouseName',
+    //   key: 'warehouseName',
+    //   width: '25%',
+    // },
     {
       title: '佣金管理',
       dataIndex: 'purchaseCommissionStr',

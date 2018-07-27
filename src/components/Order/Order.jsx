@@ -202,7 +202,6 @@ class Order extends Component {
   render() {
     const p = this;
     const { form, dispatch, currentPage, orderList = [], orderTotal, currentPageSize, orderValues = {}, agencyList = [], orderDetailList = [], loginRoler, erpDetailList = [], orderListTwo= []} = p.props;
-    console.log(orderList)
     let orderValue = orderListTwo[0];
     const { getFieldDecorator, resetFields } = form;
     const { title, visible, modalVisible, orderTimeVisible } = p.state;
@@ -373,7 +372,7 @@ class Order extends Component {
 
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Form onSubmit={this.handleSubmit.bind(this)}>
           <Row gutter={20} style={{ width: 800 }}>
             <Col span="8">

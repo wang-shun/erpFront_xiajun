@@ -6,6 +6,7 @@ import { routerCfg } from './constants';
 import MainLayout from './layouts/Main';
 import Message from './components/Message';
 import Login from './components/Login';
+import LoginTest from './components/Login/LoginTest'
 import Overview from './components/Overview';
 import Products from './components/Products/Products';
 import FindProducts from './components/Products/FindProducts';
@@ -57,6 +58,7 @@ import ReportlogisticCompanyAvgPackage from './components/Report/ReportlogisticC
 import RoleMng from './components/RoleMng/RoleMng';
 // 小程序设置
 import appset from './components/MyApp/appset';
+import appsetTest from './components/MyApp/appsetTest';
 
 
 
@@ -76,7 +78,7 @@ function redirectHelper(...args) {
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-    
+    <Route path={`/${routerCfg.LOGINTEST}`} component={LoginTest} />
     <Route
         path="/"
         component={MainLayout}
@@ -84,15 +86,14 @@ function RouterConfig({ history }) {
         onChange={redirectHelper}
       >
         <IndexRoute component={Login} />
-
         {/* 临时处理 */}
         {/* <Route path={`/${routerCfg.SETTINGS}`} component={Warehouse} /> */}
         <Route path={`/${routerCfg.SETTINGS}/${routerCfg.WAREHOUSE}`} component={Warehouse} />
 
         {/* <Route path={`/${routerCfg.MYAPP}`} component={appset} /> */}
         <Route path={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} component={appset} />
-
-
+        <Route path={`/${routerCfg.MYAPP}/${routerCfg.APPSETTEST}`} component={appsetTest} />
+        
         {/* <Route path={`/${routerCfg.MARKETING}`} component={SaleChannel} /> */}
         <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} component={SaleChannel} />
 

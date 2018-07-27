@@ -38,7 +38,7 @@ class PurchaseModal extends Component {
   handleSubmit() {
     const p = this;
     const { form, dispatch, modalValues } = p.props;
-    console.log(modalValues)
+    // console.log(modalValues)
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) { return; }
       if (fieldsValue.defaultBuyer) fieldsValue.openId = fieldsValue.defaultBuyer;
@@ -167,7 +167,6 @@ class PurchaseModal extends Component {
   render() {
     const p = this;
     const { form, title, visible, modalValues = {}, buyer = [] } = p.props;
-    console.log(modalValues)
     const { previewVisible, previewImage, defaultBuyer, defaultStartTime, defaultEndTime } = p.state;
     const purchaseData =  modalValues || {};
     console.log(purchaseData)
@@ -274,7 +273,7 @@ class PurchaseModal extends Component {
                 })(
                   <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.handleChangeBuyer.bind(this)}>
                     {buyer.map((el) => {
-                      return <Option key={el.id} title={el.nickName}>{el.nickName}</Option>;
+                      return <Option value={el.id} title={el.nickName}>{el.nickName}</Option>;
                     })}
                   </Select>,
                 )}

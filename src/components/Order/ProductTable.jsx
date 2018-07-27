@@ -15,7 +15,7 @@ class ProductTable extends Component {
   }
 
   componentWillReceiveProps(...args) {
-    console.log(args)
+    // console.log(args)
     if (args[0].data && args[0].data.length > 0 && this.state.skuData.length === 0) {
       this.setState({
         skuData: args[0].data.map((el, index) => {
@@ -177,7 +177,7 @@ class ProductTable extends Component {
   render() {
     const p = this;
     const { form, skuList = [], parent, total, pageSize, skuListTwo = []  } = p.props;
-    console.log(skuListTwo)
+    // console.log(skuListTwo)
     // console.log(p.props)
     // let erpDetailLists = p.props.data
     // console.log(erpDetailLists.shopCode)
@@ -230,7 +230,7 @@ class ProductTable extends Component {
         },
         onChange(page) {
           p.handleSearch(page, pageSize);
-          console.log(page, pageSize)
+          // console.log(page, pageSize)
         },
       };
 

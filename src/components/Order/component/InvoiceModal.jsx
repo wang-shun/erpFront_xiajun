@@ -15,11 +15,11 @@ class InvoiceModal extends Component {
     const { form, dispatch, data } = this.props;
     form.validateFields((err, values) => {
       if (err) return;
-      if (values.address) {
-        values.receiverState = values.address[0];
-        values.receiverCity = values.address[1];
-        values.receiverDistrict = values.address[2];
-        delete values.address;
+      if (values.addressArea) {
+        values.receiverState = values.addressArea[0];
+        values.receiverCity = values.addressArea[1];
+        values.receiverDistrict = values.addressArea[2];
+        delete values.addressArea;
       }
       values.id = data.id;
       dispatch({
@@ -61,7 +61,7 @@ class InvoiceModal extends Component {
     initialAddress.push(data.receiverCity);
     initialAddress.push(data.receiverDistrict);
 
-    //console.log(initialAddress);
+    console.log(initialAddress);
 
     return (
       <div>
@@ -122,7 +122,7 @@ class InvoiceModal extends Component {
                   label="收件地址"
                   {...formItemLayout}
                 >
-                  {getFieldDecorator('address', {
+                  {getFieldDecorator('addressArea', {
                     initialValue: initialAddress,
                     rules: [{ required: true, message: '请输入收件人地址' }],
                   })(
@@ -138,8 +138,8 @@ class InvoiceModal extends Component {
                     wrapperCol: { span: 22 },
                   }}
                 >
-                  {getFieldDecorator('addressDetail', {
-                    initialValue: data.addressDetail,
+                  {getFieldDecorator('address', {
+                    initialValue: data.address,
                     rules: [{ required: true, message: '请输入详细地址' }],
                   })(
                     <Input placeholder="请输入详细地址" />)}

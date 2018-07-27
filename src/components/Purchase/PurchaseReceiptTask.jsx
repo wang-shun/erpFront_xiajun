@@ -24,6 +24,7 @@ class Purchase extends Component {
     if (e) e.preventDefault();
     p.setState({ taskDailyIds: [] }, () => {
       this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
+        console.log(fieldsValue)
         if (err) return;
         let startGmtCreate;
         let endGmtCreate;
@@ -32,6 +33,21 @@ class Purchase extends Component {
           endGmtCreate = new Date(fieldsValue.gmtCreate[1]).format('yyyy-MM-dd');
         }
         delete fieldsValue.gmtCreate;
+        if(fieldsValue.receiptNo == ""){
+          delete fieldsValue.receiptNo;
+        }
+        if(fieldsValue.itemName == ""){
+          delete fieldsValue.itemName;
+        }
+        if(fieldsValue.skuBuysite == ""){
+          delete fieldsValue.skuBuysite;
+        }
+        if(fieldsValue.skuCode == ""){
+          delete fieldsValue.skuCode;
+        }
+        if(fieldsValue.upc == ""){
+          delete fieldsValue.upc;
+        }
         this.props.dispatch({
           type: 'purchase/purchaseReceiptTaskList',
           payload: {
@@ -115,7 +131,7 @@ class Purchase extends Component {
 
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Form onSubmit={this.handleSubmit.bind(this)}>
           <Row gutter={20} style={{ width: 1000 }}>
             <Col span="8">
@@ -124,7 +140,7 @@ class Purchase extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('receiptNo', {})(
-                  <Input placeholder="请输入小票单号" />)}
+                  <Input placeholder="请输入小票单号"/>)}
               </FormItem>
             </Col>
             <Col span="8">
