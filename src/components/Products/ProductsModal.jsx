@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Modal, Button, message, Input, Upload, Row, Col, Select, DatePicker, Form, Icon, Tabs, Radio, Cascader } from 'antd';
-import moment from 'moment';
+import moment from 'moment';  
 import 'moment/locale/zh-cn';
 
 import check from '../../utils/checkLib';
@@ -35,10 +35,23 @@ class ProductsModal extends Component {
       activeTab: '1',
       defaultBuyer: undefined,
       countryNameExit: false,
+      skuvalue:'',
+      channelSkuList:[],
     };
     // skuTable改写父级方法
     this.getSkuValue = null;
     this.clearSkuValue = null;
+  }
+
+  componentDidMount() {
+
+    const { channels = []} = this.props;
+    // const { modalValues = {} } = this.props;
+    // console.log("channels...."+modalValues.data.id);
+    let arrayA = channels;
+    this.setState({
+      skuvalue: arrayA,
+    })
   }
 
   changeActiveKey(id) {
@@ -90,7 +103,7 @@ class ProductsModal extends Component {
           saleOnChannels: fieldsValue.saleOnChannels,
           categoryCode: fieldsValue.categoryCode[fieldsValue.categoryCode.length - 1],
         };
-
+       
         // 处理图片
         if (values.mainPic) {
           const uploadMainPic = [];
@@ -110,8 +123,54 @@ class ProductsModal extends Component {
             }
           });
         }
+        
+        console.log("==========start=============");
+        function deleteNullElement(e) {
+          return e!=null && e!=undefined;
+        }
+        let allSku = values.skuList;
+        let skuLength = allSku.length;
+        let lastSku = null;
+        for(var k = skuLength-1;k >0;k--) {
+          if(1 == allSku[k].saleMode) {
+            lastSku = allSku[k];
+            break;
+          }
+        }
+        if(null != lastSku && lastSku.hasOwnProperty("priceList")) {
+         // console.log("has");
+          let lastSkuPriceList = lastSku.priceList;
+          if(lastSkuPriceList != null) {
+            let listLength = lastSkuPriceList.length;
+            for(let n = 0;n < skuLength;n++) {
+              allSku[n].priceList = [];
+           }        
+            for(let m = 0;m < listLength;m++) {
+              let currentPrice = lastSkuPriceList[m];
+              let curPriceIndex = currentPrice.skuIndex;
+              allSku[curPriceIndex-1].priceList.push(currentPrice);
+            }
+          }         
+        }
+        
+  
+    
 
+        console.log("==========end=============");
+       
+        // console.log("******************"+values.skuList.length);
+        
+        // var objj = values.skuList[0];
+        // for(var att in objj) {
+        //   console.log(att+":"+objj[att]);
+        // }
+       
+        
         values.skuList = JSON.stringify(values.skuList);
+        console.log("******************"+values.skuList);
+
+        // let channelPrice = values.skuList.
+        
 
         // 处理图文详情
         const detailInfo = editor && editor.$txt && editor.$txt.html();
@@ -234,22 +293,50 @@ class ProductsModal extends Component {
       });
     }
   }
+  handleChange(value){
+    //console.log("value...."+value)
+    const { channels = []} = this.props;
+    //console.log("channels...."+channels)
+    let arrayA = channels;
+    let arrayB = value;
+    let arrayC = arrayA.filter((a, i) =>{
+      return (arrayB.some(f=>(f === a.channelName)))
+    })
+   // console.log("arrc=============================>:"+arrayC);
 
+    this.setState({
+      skuvalue: arrayC,
+    })
+  }
   render() {
     const p = this;
     const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [], countries = [], channels = [] } = this.props;
-    console.log(this.props)
-    console.log(tree)
-    const { previewVisible, previewImage, activeTab, countryNameExit } = this.state;
+    //console.log(channels)
+    const { previewVisible, previewImage, activeTab, countryNameExit, skuvalue } = this.state;
     const { getFieldDecorator } = form;
     // 图片字符串解析
     let mainPicNum;
     let picList = [];
+   
     if (modalValues.data && modalValues.data.mainPic) {
+      //console.log("main:"+modalValues.data.mainPic);
       const picObj = JSON.parse(modalValues.data.mainPic);
       mainPicNum = toString(picObj.mainPicNum, 'SELECT') || '1';
       picList = picObj.picList || [];
     }
+    //渠道价格处理
+    // let skuPriceList = [];
+    // if (modalValues.data && modalValues.data.itemSkus) {
+    //   let skus = modalValues.data.itemSkus;
+    //   let skuLength = skus.length;
+    //   for(let i = 0;i < skuLength;i++) {
+    //     let currentSku = skus[i];
+    //     if(currentSku.channelSalePriceList) {
+    //       let priceList = currentSku.channelSalePriceList;
+    //       skuPriceList.push(priceList);
+    //     }
+    //   }
+    // }
     // 详情数据
     const productData = (modalValues && modalValues.data) || {};
     const _roleIds = [];
@@ -258,6 +345,24 @@ class ProductsModal extends Component {
         if (el && el.id) _roleIds.push(el.id.toString());
       });
     }
+    // let allPrice = [];
+    // if(productData.itemSkus) {
+    //   let skuList = productData.itemSkus;
+    //   let skuLength = skuList.length;
+    //   for(let i = 0;i < skuLength;i++) {
+    //     let currentSku = skuList[i];
+    //     if(currentSku.channelSalePriceList) {
+    //       allPrice.push(currentSku.channelSalePriceList)
+    //     }       
+    //   }
+    // }
+    // for(let j = 0;j < allPrice.length;j++) {
+    //   console.log(j+":"+allPrice[j][0].salePrice);
+    // }
+    
+    // p.setState({
+    //   channelSkuList: allPrice,
+    // });
     const modalProps = {
       visible,
       width: 1350,
@@ -335,7 +440,7 @@ class ProductsModal extends Component {
         }
       })
     }
-
+//console.log("ch......"+productData.itemSkus);
 
 
     
@@ -593,9 +698,9 @@ class ProductsModal extends Component {
                       initialValue: productData.saleOnChannels || [],
                       rules: [{ required: false, message: '请选择第三方销售' }],
                     })(
-                      <Select placeholder="请选择第三方销售" mode="multiple" allowClear>
+                      <Select placeholder="请选择第三方销售" mode="multiple" allowClear onChange={this.handleChange.bind(this)}>
                         {channels.map((el, index) => (
-                          <Option key={index} value={el.type}>{el.name}</Option>
+                          <Option key={index} value={el.channelName}>{el.channelName}</Option>
                           ))}
                       </Select>,
                     )}
@@ -739,6 +844,7 @@ class ProductsModal extends Component {
                   packageScales={packageScales}
                   scaleTypes={scaleTypes}
                   parent={p}
+                  sve = {skuvalue}
                 />
               </Row>
             </Form>
