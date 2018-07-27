@@ -1,11 +1,31 @@
 ﻿import React, { Component } from 'react';
-import { Row, Col, Form, Table, Input, InputNumber, Button, Popconfirm, Upload, Icon, Cascader, message, Popover, Checkbox, Select, Modal } from 'antd';
-
+// import { Row, Col, Form, Table, Input, InputNumber, Button, Popconfirm, Upload, Icon, Cascader, message, Popover, Checkbox, Select, Modal, Radio } from 'antd';
+import {
+  Row,
+  Col,
+  Form,
+  Table,
+  Input,
+  InputNumber,
+  Button,
+  Popconfirm,
+  Upload,
+  Icon,
+  Cascader,
+  message,
+  Popover,
+  Checkbox,
+  Select,
+  Modal
+} from 'antd';
+import { Radio } from 'antd';
+import SkuChannelModal from './SkuChannelTable';
 import styles from './Products.less';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
+const RadioGroup = Radio.Group;
 
 const formItemLayout = {
   labelCol: { span: 11 },
@@ -41,6 +61,11 @@ class SkuTable extends Component {
       previewImage: '',
       batchFileList: [],
       mouseOverVisible: false,
+      skuVisible: false,
+      resourceList: [],
+      skuChannelPrice: {},
+      skuIndex:0,
+      oldPriceList:[],
     };
   }
   componentWillReceiveProps(...args) {
@@ -73,8 +98,16 @@ class SkuTable extends Component {
               url: el.url || el.response.data,
             });
           });
+          // skuSingle.skuPic = JSON.stringify({ picList: uploadMainPic })
           skuSingle.skuPic = JSON.stringify({ picList: uploadMainPic });
         }
+        skuSingle.priceList = this.state.skuChannelPrice[`r_${count}_skuChannelPrice`];
+        console.log("******************************************");
+        console.log("priceList:"+skuSingle.priceList);
+        for(var att in skuSingle.priceList) {
+          console.log(att+":"+skuSingle.priceList[att]);
+        }
+        console.log(count);
         skuList.push(skuSingle);
         count += 1;
       }
@@ -90,6 +123,7 @@ class SkuTable extends Component {
     this.setState({ skuData: [] }, () => {
       form.resetFields();
     });
+
   }
   initData(data) {
     data.forEach((el, index) => {
@@ -102,6 +136,7 @@ class SkuTable extends Component {
     const skuLen = skuData.length;
     const lastId = skuLen < 1 ? 0 : skuData[skuData.length - 1].key;
     const newId = parseInt(lastId, 10) + 1;
+   
     // 处理图片
     const pic = this.dealSkuPic(obj.batchFileList);
 
@@ -122,6 +157,10 @@ class SkuTable extends Component {
       upc: obj.upc || '',
       inventory: obj.inventory || '',
       thirdSkuCode: obj.thirdSkuCode || '',
+      saleMode: typeof obj.saleMode === 'number' ? obj.saleMode : '',
+      // priceList: obj.priceList ? JSON.stringify(obj.priceList) : [],
+      priceList: [],
+
     };
     skuData.push(newItem);
     this.setState({ skuData });
@@ -149,7 +188,14 @@ class SkuTable extends Component {
     const newSkuData = skuData.filter(item => key !== item.key);
     this.setState({ skuData: newSkuData }, () => {
       setTimeout(() => {
-        this.setState({ skuData: newSkuData.map((el, index) => { el.key = index + 1; return el; }) });
+        // this.setState({ skuData: newSkuData.map((el, index) => { el.key = index + 1; return el; }) });
+        this.setState({
+          skuData: newSkuData.map((el, index) => {
+            el.key = index + 1;
+            return el;
+          })
+        });
+
       }, 100);
     });
   }
@@ -302,8 +348,26 @@ class SkuTable extends Component {
       }
       if (!isUpdate) {
         batchSelected.forEach((el) => {
-          const obj = { scale: el, salePrice, costPrice, discount, purchasePrice, color, batchFileList, weight, virtualInv, packageLevelId };
+          // const obj = { scale: el, salePrice, costPrice, discount, purchasePrice, color, batchFileList, weight, virtualInv, packageLevelId };
+          // const obj = { scale: el, salePrice, costPrice, discount, purchasePrice, color, batchFileList, weight, virtualInv, packageLevelId, priceList, saleMode, channelType };
+          const obj = {
+            scale: el,
+            salePrice,
+            costPrice,
+            discount,
+            purchasePrice,
+            color,
+            batchFileList,
+            weight,
+            virtualInv,
+            packageLevelId,
+            priceList,
+            saleMode,
+            channelName
+          };
+
           this.addItem(obj);
+
         });
       }
       this.setState({ batchSkuSort: '', batchSelected: [] });
@@ -355,7 +419,8 @@ class SkuTable extends Component {
       }
       if (!isUpdate) {
         batchSelected.forEach((el) => {
-          const obj = { scale: el, salePrice, color, batchFileList, weight, virtualInv, packageLevelId };
+          // const obj = { scale: el, salePrice, color, batchFileList, weight, virtualInv, packageLevelId };
+          const obj = {scale: el, salePrice, color, batchFileList, weight, virtualInv, packageLevelId};
           this.addItem(obj);
         });
       }
@@ -411,12 +476,110 @@ class SkuTable extends Component {
     console.log(this.state.batchFileList);
     this.addItem(obj);
   }
+  skuOK(p, r) {
+   
+  // console.log("t........."+p.skuCode)
+  // for(var i in t) {
+  //   console.log(i+":"+t[i]);
+  // }
+    // let skuCode= r.skuCode;
+    // console.log("skuCode.............."+skuCode)
+    const Key = p.key;
+    //console.log("Key:"+Key);
+    const value = r.target.value;
+    const { sve = [] } = this.props;
+    // const { hehe } = this.props;
+    // console.log("hehe..........."+hehe);
+    const { data } = this.props;
+     //筛选渠道价格
+    let skuPriceList = [];
+    if(data) {
+      let skuLength = data.length;
+      if(p.skuCode) {
+        let curSkuCode = p.skuCode;
+        for(let i = 0;i < skuLength;i++) {
+          let currentSku = data[i];
+          if(currentSku.channelSalePriceList) {
+           let prices = currentSku.channelSalePriceList;
+            
+            if(curSkuCode == prices[0].skuCode) {
+              skuPriceList = prices;
+              console.log("sdfs:"+curSkuCode);
+            console.log("sdfssdfs:"+skuPriceList[0].skuCode);
+            console.log("sdfssdfs:"+skuPriceList[0].salePrice);
+              // console.log("price0........."+priceList[0].salePrice)
+              // console.log("price1........."+priceList[1].salePrice)
+              this.setState({
+                oldPriceList:prices,
+              })
+              this.state.oldPriceList = prices
+              // console.log("price0........."+this.state.oldPriceList[0].salePrice)
+              // console.log("price1........."+this.state.oldPriceList[1].salePrice)
+            }
+          }
+        }
+      }
+    }
+    
+    
+    //取出其中的渠道价格
+    
+      
+    
+    let sves = JSON.stringify(sve);
+    let svesNew = sves.replace(/channelName/g, 'channelName')
+    // let Newsve = JSON.parse(svesNew)
+    let Newsve = null;
+    if(skuPriceList.length == 0) {
+      Newsve = JSON.parse(svesNew)
+    } else {
+     
+      Newsve = skuPriceList;
+      console.log("cao"+skuPriceList[0].salePrice)
+      console.log("cao"+skuPriceList[1].salePrice)
+    }
+    // for(var att in Newsve) {
+    //   console.log(att+"....."+Newsve[att])
+    // }
+    // for(var i = 0;i < Newsve.length;i++) {
+    //   var myo = Newsve[i];
+    //   for(var att in myo) {
+    //     console.log(att+":"+myo[att]);
+    //   }
+    // }
+    if (value == 0) {
+      console.log(1)
+    } else {
+      // console.log("Newsve:"+Newsve)
+      this.setState({
+        resourceList: Newsve,
+        skuVisible: true,
+        skuKey: `r_${p.key}_skuChannelPrice`,
+        skuIndex:Key,
+        oldPriceList:skuPriceList,
+      })
+      // console.log("skuKey:"+this.state.skuKey);
+      this.state.skuVisible = true
+    }
+  }
+  skuOKs() {
+    this.props.form2.validateFieldsAndScroll((err, values) => {
+      if (err) return;
+      console.log(values);
+    });
+  }
+  skuCancel() {
+    this.setState({ skuVisible: false });
+  }
+
   render() {
     const p = this;
     const rolerFlage = p.props.parent.props.loginRoler;
     const { form, parent, packageScales, scaleTypes } = this.props;
     const { getFieldDecorator } = form;
-    const { skuData, batchSkuSort, batchSelected, previewImage, previewVisible, batchFileList, mouseOverVisible } = this.state;
+    // const { skuData, batchSkuSort, batchSelected, previewImage, previewVisible, batchFileList, mouseOverVisible } = this.state;
+    // const { skuData, batchSkuSort, batchSelected, previewImage, previewVisible, batchFileList, mouseOverVisible, skuVisible } = this.state;
+    const { skuData, batchSkuSort, batchSelected, previewImage, previewVisible, batchFileList, mouseOverVisible, skuVisible, resourceList, skuIndex, oldPriceList} = this.state;
     // 注册props
     if (!parent.clearSkuValue) parent.clearSkuValue = this.clearValue.bind(this);
     if (!parent.getSkuValue) parent.getSkuValue = this.getValue.bind(this);
@@ -478,7 +641,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_thirdSkuCode`, { initialValue: t || '' })(
-                  <Input  disabled="disabled"/>)}
+                  <Input disabled="disabled" />)}
               </FormItem>
             );
           },
@@ -491,8 +654,8 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem required="true">
-                {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '',rules: [{ required: true, message: '该项必填' }]})(
-                  <Input placeholder="颜色等" required='required'/>)}
+                {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
+                  <Input placeholder="颜色等" required='required' />)}
               </FormItem>
             );
           },
@@ -505,8 +668,8 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_scale`, { initialValue: t || '',rules: [{ required: true, message: '该项必填' }] })(
-                  <Input placeholder="尺寸等" required='required'/>)}
+                {getFieldDecorator(`r_${r.key}_scale`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
+                  <Input placeholder="尺寸等" required='required' />)}
                 {getFieldDecorator(`r_${r.key}_id`, { initialValue: r.id || null })(
                   <Input style={{ display: 'none' }} />)}
               </FormItem>
@@ -523,6 +686,24 @@ class SkuTable extends Component {
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_salePrice`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
                   <InputNumber step={0.01} min={0} placeholder="必填" />)}
+              </FormItem>
+            );
+          },
+        },
+        {
+          title: '',
+          dataIndex: 'saleMode',
+          key: 'saleMode',
+          width: '10%',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.key}_saleMode`, { initialValue: t || '0', rules: [{ required: true, message: '该项必填' }] })(
+                  <RadioGroup onChange={p.skuOK.bind(p, r)} value={p.state.value}>
+                    <Radio value='0'>应用全渠道</Radio>
+                    <Radio value='1'>分渠道设置</Radio>
+                  </RadioGroup>
+                )}
               </FormItem>
             );
           },
@@ -552,8 +733,10 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_weight`, { initialValue: t || '', 
-                rules: [{ required: true, message: '该项必填' }] })(
+                {getFieldDecorator(`r_${r.key}_weight`, {
+                  initialValue: t || '',
+                  rules: [{ required: true, message: '该项必填' }]
+                })(
                   <InputNumber step={0.01} min={0} placeholder="必填" />)}
               </FormItem>
             );
@@ -567,8 +750,10 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_upc`, { initialValue: t || '',
-                rules: [{ required: true, message: '该项必填'}] })(
+                {getFieldDecorator(`r_${r.key}_upc`, {
+                  initialValue: t || '',
+                  rules: [{ required: true, message: '该项必填' }]
+                })(
                   <Input placeholder="必填" />)}
               </FormItem>
             );
@@ -634,9 +819,9 @@ class SkuTable extends Component {
           render(text, record) {
             return (
               <div>
-              <Popconfirm title="确定删除?" onConfirm={p.delItem.bind(p, record.key)}>
-                <a href="javascript:void(0)">删除</a>
-              </Popconfirm><br /><a href="javascript:void(0)" onClick={p.copyItem.bind(p, record)}>复制</a>
+                <Popconfirm title="确定删除?" onConfirm={p.delItem.bind(p, record.key)}>
+                  <a href="javascript:void(0)">删除</a>
+                </Popconfirm><br /><a href="javascript:void(0)" onClick={p.copyItem.bind(p, record)}>复制</a>
               </div>
             );
           },
@@ -647,6 +832,21 @@ class SkuTable extends Component {
     };
     const modalTablePropsTure = {
       columns: [
+        {
+          title: 'SKU索引',
+          dataIndex: 'skuCode',
+          key: 'skuCode',
+          width: '5%',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.key}_skuCode`, { initialValue: t || '' })(
+                  r.skuCode ? <Input placeholder="请填写SKU代码" disabled /> : <span style={{ color: '#ccc' }}>自动生成</span>,
+                )}
+              </FormItem>
+            );
+          },
+        },
         {
           title: 'SKU代码',
           dataIndex: 'skuCode',
@@ -721,6 +921,25 @@ class SkuTable extends Component {
           },
         },
         {
+          title: '',
+          dataIndex: 'saleMode',
+          key: 'saleMode',
+          width: '10%',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.key}_saleMode`, { initialValue: t || '0', rules: [{ required: true, message: '该项必填' }] })(
+                  <RadioGroup onChange={p.skuOK.bind(p, r)} value={p.state.value}>
+                    <Radio value='0'>应用全渠道</Radio>
+                    <Radio value='1'>分渠道设置</Radio>
+                  </RadioGroup>
+                )}
+              </FormItem>
+            );
+          },
+        },
+
+        {
           title: '虚拟库存',
           dataIndex: 'virtualInv',
           key: 'virtualInv',
@@ -762,8 +981,10 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_weight`, { initialValue: t || '', 
-                rules: [{ required: true, message: '该项必填' }] })(
+                {getFieldDecorator(`r_${r.key}_weight`, {
+                  initialValue: t || '',
+                  rules: [{ required: true, message: '该项必填' }]
+                })(
                   <InputNumber step={0.01} min={0} placeholder="请填写" />)}
               </FormItem>
             );
@@ -777,8 +998,10 @@ class SkuTable extends Component {
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_upc`, { initialValue: t || '',
-                rules: [{ required: true, message: '该项必填' }] })(
+                {getFieldDecorator(`r_${r.key}_upc`, {
+                  initialValue: t || '',
+                  rules: [{ required: true, message: '该项必填' }]
+                })(
                   <Input placeholder="请填写" />)}
               </FormItem>
             );
@@ -886,9 +1109,9 @@ class SkuTable extends Component {
           render(text, record) {
             return (
               <div>
-              <Popconfirm title="确定删除?" onConfirm={p.delItem.bind(p, record.key)}>
-                <a href="javascript:void(0)">删除</a>
-              </Popconfirm><br /><a href="javascript:void(0)" onClick={p.copyItem.bind(p, record)}>复制</a>
+                <Popconfirm title="确定删除?" onConfirm={p.delItem.bind(p, record.key)}>
+                  <a href="javascript:void(0)">删除</a>
+                </Popconfirm><br /><a href="javascript:void(0)" onClick={p.copyItem.bind(p, record)}>复制</a>
               </div>
             );
           },
@@ -897,6 +1120,37 @@ class SkuTable extends Component {
       dataSource: skuData,
       bordered: false,
     };
+    const authColumns = {
+      columns: [
+        {
+          title: '分销渠道',
+          dataIndex: 'channelName',
+          key: 'channelName',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.channelName}_name`, { initialValue: t || '' })(
+                  <Input placeholder="请填写分销渠道" />)}
+              </FormItem>
+            );
+          },
+        },
+        {
+          title: '分销价格',
+          dataIndex: 'channelSalePrice',
+          key: 'channelSalePrice',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.channelName}_channelSalePrice`, { initialValue: t || '' })(
+                  <Input placeholder="请填写分销价格" />)}
+              </FormItem>
+            );
+          },
+        }
+      ]
+    }
+
     const batchUploadProps = {
       action: '/uploadFile/picUpload',
       fileList: batchFileList,
@@ -1065,6 +1319,11 @@ class SkuTable extends Component {
             pagination={false}
             scroll={{ x: '100%' }}
           />
+           <SkuChannelModal resourceList={resourceList} visible={skuVisible} skuIndexs={skuIndex} oldPriceLists={oldPriceList}
+                           onOk={(data) => this.setState({skuVisible:false,skuChannelPrice: {[this.state.skuKey]: data}})}
+                           onCancel={this.skuCancel.bind(this)}>
+          </SkuChannelModal>
+
           <Modal visible={previewVisible} title="预览图片" footer={null} onCancel={this.handleCancel.bind(this)} style={{ marginLeft: '40%' }} >
             <img role="presentation" src={previewImage} style={{ width: '100%' }} />
           </Modal>
