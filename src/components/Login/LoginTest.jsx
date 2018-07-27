@@ -15,14 +15,14 @@ class LoginTest extends Component {
         };
     }
     componentDidMount() {
-        var a =  this.props.location.query;
-        let code = a.code;
+        // var a =  this.props.location.query;
+        // let code = a.code;
         // let state = a.state;
         // console.log(code,state);
         // this.props.dispatch({ type: 'permission/authorizedWx', payload: { code,state } }); 
         // this.props.dispatch(routerRedux.push('/permission/user'));\
-        // let a = 3;
-        // let code = a;
+        let a = 1;
+        let code = a;
         this.props.dispatch({ type: 'session/wechatLogin', payload: { code: code }, cb: () => { this.wxInfoMess(); }, });
         this.setState({
             Code: code,
@@ -43,9 +43,7 @@ class LoginTest extends Component {
         }
     }
     selectWx(r) {
-        console.log(r)
         const { Code, LoginToken } = this.state;
-        console.log('this is mao' + Code+ LoginToken)
         this.props.dispatch({ type: 'session/loginByUserNo', payload: { code: Code, loginToken: LoginToken,userNo: r.userNo, companyNo: r.companyNo}, cb: () => {this.props.dispatch(routerRedux.push('/overview')); }, });
     }
     render() {
