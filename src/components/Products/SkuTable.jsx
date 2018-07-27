@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+import React, { Component } from 'react';
 // import { Row, Col, Form, Table, Input, InputNumber, Button, Popconfirm, Upload, Icon, Cascader, message, Popover, Checkbox, Select, Modal, Radio } from 'antd';
 import {
   Row,
@@ -476,8 +476,7 @@ class SkuTable extends Component {
     console.log(this.state.batchFileList);
     this.addItem(obj);
   }
-  skuOK(p, r) {
-   
+  skuOK(p, r) { 
   // console.log("t........."+p.skuCode)
   // for(var i in t) {
   //   console.log(i+":"+t[i]);
@@ -501,12 +500,12 @@ class SkuTable extends Component {
           let currentSku = data[i];
           if(currentSku.channelSalePriceList) {
            let prices = currentSku.channelSalePriceList;
-            
+           if(prices) {
             if(curSkuCode == prices[0].skuCode) {
               skuPriceList = prices;
               console.log("sdfs:"+curSkuCode);
-            console.log("sdfssdfs:"+skuPriceList[0].skuCode);
-            console.log("sdfssdfs:"+skuPriceList[0].salePrice);
+              console.log("sdfssdfs:"+skuPriceList[0].skuCode);
+              console.log("sdfssdfs:"+skuPriceList[0].salePrice);
               // console.log("price0........."+priceList[0].salePrice)
               // console.log("price1........."+priceList[1].salePrice)
               this.setState({
@@ -516,6 +515,7 @@ class SkuTable extends Component {
               // console.log("price0........."+this.state.oldPriceList[0].salePrice)
               // console.log("price1........."+this.state.oldPriceList[1].salePrice)
             }
+           }                       
           }
         }
       }
