@@ -8,7 +8,7 @@ const queryPurchase = ({ payload }) => fetch.post('/purchase/query', { data: pay
 const querypurchaseTask = ({ payload }) => fetch.post('/purchaseTask/query', { data: payload }).catch(e => e);
 
 const queryBuyers = ({ payload }) => fetch.post('/purchase/queryBuyers', { data: payload }).catch(e => e);
-const deletePurchase = ({ payload }) => fetch.post('/purchase/delete', { data: payload }).catch(e => e);
+const deletePurchase = ({ payload }) => fetch.post('/purchaseTask/delete', { data: payload }).catch(e => e);
 // 取消采购
 const closeTaskDaily = ({ payload }) => fetch.post('/purchaseTask/closeTaskDaily', { data: payload }).catch(e => e);
 // 完成采购
@@ -50,6 +50,7 @@ export default {
     noCompleteTimePageSize: 20,
     noCompleteTimeTotal: 1,
     savePurchaseTask: {},
+    savePurchaseTaskDetail:{},
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -126,13 +127,15 @@ export default {
         });
       }
     },
-    * querypurchaseTask({ payload }, { call, put }) {
+    * querypurchaseTask({ payload, cb }, { call, put }) {
       const data = yield call(querypurchaseTask, { payload });
       if (data.success) {
         yield put({
           type: 'savequerypurchaseTask',
           payload: data,
+          
         });
+        cb();
       }
     },
 
@@ -286,7 +289,7 @@ export default {
       return { ...state, noCompleteTimePageSize: payload.pageSize };
     },
     savequerypurchaseTask(state, { payload }) {
-      return { ...state, savePurchaseTask: payload.data }
+      return { ...state, savePurchaseTask: payload.data, savePurchaseTaskDetail: payload.data.taskDetailList }
     },
     clearOrder4Add(state, { payload }) {
       return { ...state, savePurchaseTask: {} };

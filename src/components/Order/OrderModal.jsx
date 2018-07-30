@@ -105,11 +105,7 @@ class OrderModal extends Component {
   render() {
     const p = this;
     const { form, title, visible, modalValues = {}, agencyList = [], erpDetailListValues = {}, orderTimeVisible} = p.props;
-    console.log('this is mao zhe xia ')
-    console.log(orderTimeVisible)
-    // console.log(modalValues.id)
     const orderData = modalValues || {};
-    // console.log(orderData)
     const { getFieldDecorator } = form;
     const modalProps = {
       visible,
