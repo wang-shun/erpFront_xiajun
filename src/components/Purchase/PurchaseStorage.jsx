@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Input, Button, Row, Col, Select, Form, Tabs, Popconfirm, Modal, InputNumber } from 'antd';
+import { all } from 'any-promise';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -48,7 +49,7 @@ class PurchaseStorage extends Component {
     this.setState({
       upsvalueTwo: value,
     })
-    if(value=='null'){
+    if(value== 'all'){
       this.props.dispatch({
         type: 'purchaseStorage/purchaseByopenid',
         payload: { buyerOpenId: '' }
@@ -359,10 +360,10 @@ class PurchaseStorage extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('buyerId', {
-                    initialValue: 'null',
+                    initialValue: 'all',
                   })(
                     <Select placeholder="请选择买手" optionLabelProp="title" onChange={this.storehouseTwo.bind(this)}>
-                      <Option key={null} title='全部'>全部</Option>
+                      <Option key={'all'} title='全部'>全部</Option>
                       {buyers.map(el => <Option key={el.openId} title={el.nickName}>{el.nickName}</Option>)}
                     </Select>)}
                 </FormItem>

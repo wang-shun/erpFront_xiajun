@@ -247,6 +247,13 @@ export const originalNavigation = [
     ],
   },
   {
+    key: routerCfg.MYAPP, name: '我的小程序', icon: 'message',
+    child: [
+      { key: routerCfg.APP_SETTINGS, name: '小程序设置' },
+      // { key: routerCfg.APP_DECORATE, name: '小程序装修' },
+    ],
+  },
+  {
     key: routerCfg.MARKETING, name: '营销管理', icon: 'pie-chart',
     child: [
       //{ key: routerCfg.MARKETING_TOOLS, name: '营销工具' },
@@ -315,13 +322,6 @@ export const originalNavigation = [
       { key: routerCfg.USER, name: '用户管理' },
       { key: routerCfg.ORGANIZATION, name: '部门管理' },
       { key: routerCfg.RESOURCE, name: '资源管理' },
-    ],
-  },
-  {
-    key: routerCfg.MYAPP, name: '我的小程序', icon: 'message',
-    child: [
-      { key: routerCfg.APP_SETTINGS, name: '小程序设置' },
-      // { key: routerCfg.APP_DECORATE, name: '小程序装修' },
     ],
   },
 ];
