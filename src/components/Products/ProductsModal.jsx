@@ -37,6 +37,7 @@ class ProductsModal extends Component {
       countryNameExit: false,
       skuvalue:'',
       channelSkuList:[],
+      picUploadDisabled:false,
     };
     // skuTable改写父级方法
     this.getSkuValue = null;
@@ -124,7 +125,7 @@ class ProductsModal extends Component {
           });
         }
         
-        console.log("==========start=============");
+        //console.log("==========start=============");
         function deleteNullElement(e) {
           return e!=null && e!=undefined;
         }
@@ -156,7 +157,7 @@ class ProductsModal extends Component {
   
     
 
-        console.log("==========end=============");
+        //console.log("==========end=============");
        
         // console.log("******************"+values.skuList.length);
         
@@ -167,7 +168,7 @@ class ProductsModal extends Component {
        
         
         values.skuList = JSON.stringify(values.skuList);
-        console.log("******************"+values.skuList);
+       // console.log("******************"+values.skuList);
 
         // let channelPrice = values.skuList.
         
@@ -194,6 +195,12 @@ class ProductsModal extends Component {
       });
     });
   }
+
+  //检查上传图片的数量，最多15张，@author:xiajun
+  checkPicNum() {
+    
+    }
+  
 
   closeModal() {
     const { form, close } = this.props;
@@ -312,7 +319,7 @@ class ProductsModal extends Component {
     const p = this;
     const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [], countries = [], channels = [] } = this.props;
     //console.log(channels)
-    const { previewVisible, previewImage, activeTab, countryNameExit, skuvalue } = this.state;
+    const { picUploadDisabled,previewVisible, previewImage, activeTab, countryNameExit, skuvalue } = this.state;
     const { getFieldDecorator } = form;
     // 图片字符串解析
     let mainPicNum;
@@ -382,23 +389,35 @@ class ProductsModal extends Component {
       listType: 'picture-card',
       multiple: true,
       data(file) {
+        //console.log("...data");
         return {
           pic: file.name,
         };
       },
       beforeUpload(file) {
+        const filesList = p.state.picList || [];
+        //console.log("...checkPicNum"+filesList.length);
+        if(14 <= filesList.length) {
+          //console.log("enter");
+          message.info('您已上传15张，不可再传');
+          p.setState({ picUploadDisabled: true });
+        }
+        //console.log("...beforeUpload");
         const isImg = file.type === 'image/jpeg' || file.type === 'image/bmp' || file.type === 'image/gif' || file.type === 'image/png';
         if (!isImg) { message.error('请上传图片文件'); }
         return isImg;
       },
       name: 'pic',
       onPreview(file) {
+        //console.log("...onPreview");
         p.setState({
           previewVisible: true,
           previewImage: file.url || file.thumbUrl,
         });
+       
       },
       onChange(info) {
+        //console.log("...onChange");
         if (info.file.status === 'done') {
           if (info.file.response && info.file.response.success) {
             message.success(`${info.file.name} 成功上传`);
@@ -807,9 +826,9 @@ class ProductsModal extends Component {
                       },
                       rules: [{ validator: this.checkImg.bind(this) }],
                     })(
-                      <Upload {...uploadProps}>
+                      <Upload {...uploadProps} disabled={picUploadDisabled} >
                         <Icon type="plus" className={styles.uploadPlus} />
-                        <div className="ant-upload-text">上传图片</div>
+                        <div className="ant-upload-text"  >上传图片</div>
                       </Upload>,
                     )}
 
@@ -837,6 +856,11 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>}
+              </Row>
+              <Row>
+                  <p style={{color:"#F00",marginLeft:"11%" ,width: '80%'}}>
+                  建议尺寸：800*800像素，最多上传15张
+                  </p>
               </Row>
               <Row>
                 <SkuTable
