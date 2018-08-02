@@ -19,17 +19,22 @@ class SeeAgent extends Component {
             wxName: {},
             visibleWx: false,
             titles: '',
+            wxLink:'',
         };
     }
     componentDidMount() {
+        const { wxLink } = this.state;
         var a = this.props.location.query;
-        console.log(a)
         this.props.dispatch({
             type: 'order/queryMallSaleAgents',
             payload: {
                 parentAgent: a.parentAgent,
             },
         });
+        this.setState({
+            wxLink : "/wechatLogin/getProxyHtml?parentAgent="+a.parentAgent
+        })
+
     }
     back() {
         this.props.dispatch(routerRedux.push('/marketing/saleAgent'));
@@ -165,7 +170,7 @@ class SeeAgent extends Component {
     render() {
         const p = this;
         const { form, saleAgentList = [], skuTotal, pageSize } = this.props;
-        const { selectedRowKeys, commissionVisible, commissionTitle, visible, title, visibleWx, titles, wxName } = this.state;
+        const { selectedRowKeys, commissionVisible, commissionTitle, visible, title, visibleWx, titles, wxName, wxLink } = this.state;
         const { getFieldDecorator } = form;
         const rowSelection = {
             selectedRowKeys,
@@ -177,6 +182,8 @@ class SeeAgent extends Component {
           };
         const hasSelected = selectedRowKeys.length > 0;
         var a = this.props.location.query;
+        console.log(a)
+        let parentAgent = a.parentAgent;
         const paginationProps = {
             defaultPageSize: 20,
             showSizeChanger: true,
@@ -371,7 +378,7 @@ class SeeAgent extends Component {
                             ref="iframe"
                             // srcdoc={wxData}
                             // src="http://m.buyer007.com/wxTest.html"
-                            src="/weChatLogin/getProxyHtml"
+                            src={wxLink}
                             width="100%"
                             scrolling="no"
                             frameBorder="0"

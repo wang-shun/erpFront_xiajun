@@ -76,7 +76,7 @@ const updateCommissionValue = ({ payload }) => fetch.post('/mallSaleAgent/update
 const agentInfo = ({ payload }) => fetch.post('/agentInfo/orderList', { data: payload }).catch(e => e);
 const searchPageList = ({ payload }) => fetch.post('/settlement/searchPageList', { data: payload }).catch(e => e);
 const updateMallSaleAgent = ({ payload }) => fetch.post('/mallSaleAgent/updateMallSaleAgent', { data: payload }).catch(e => e);
-const setProxy = ({ payload }) => fetch.post('/weChatLogin/setProxy', { data: payload }).catch(e => e);
+const setProxy = ({ payload }) => fetch.post('/wechatLogin/setProxy', { data: payload }).catch(e => e);
 
 
 

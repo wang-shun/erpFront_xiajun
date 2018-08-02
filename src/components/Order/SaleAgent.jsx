@@ -686,7 +686,7 @@ class SaleAgent extends Component {
                   ref="iframe"
                   // srcdoc={wxData}
                   // src="http://m.buyer007.com/wxTest.html"
-                  src="/weChatLogin/getProxyHtml"
+                  src="/wechatLogin/getProxyHtml"
                   width="100%"
                   scrolling="no"
                   frameBorder="0"
