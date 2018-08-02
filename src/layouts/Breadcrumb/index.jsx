@@ -35,7 +35,11 @@ function Bread({ location }) {
   const breads = pathNames.map((i, key) => {
     let item = i;
     if (!(i in pathSet)) {
-      item = routerCfg.OVERVIEW[0].toUpperCase() + routerCfg.OVERVIEW.substr(1);
+      if(i == 'MarketingSaleAgentSeeAgent' || i == 'MarketingSaleAgentDetailAgent'){
+        item='MarketingSaleAgent';
+      }else{
+        item = routerCfg.OVERVIEW[0].toUpperCase() + routerCfg.OVERVIEW.substr(1);
+      }
     }
     // 面包屑生成时，推一把Tab
     // if (key === len - 1) {

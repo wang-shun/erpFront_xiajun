@@ -51,6 +51,7 @@ export const backendCfg = {
   shippingOrder: 'sale_shippingorder',
   returnOrder: 'sale_erpreturnorder',
   saleChannel: 'sale_channel',
+  saleAgent:'sale_agent',
   purchase: 'purchase',
   purchaseList: 'purchase_task',
   purchaseStorage: 'purchase_storage',
@@ -111,6 +112,9 @@ export const routerCfg = {
   MARKETING: 'marketing',
   MARKETING_TOOLS: 'marketingTools',//营销工具
   DISTRIBUTE_MANAGE: 'distributeManage',//分销管理
+  SEEAGENT:'SeeAgent',
+  DETAILAGENT:'detailAgent',
+
   // 权限管理
   PERMISSION: 'permission',
   ROLE: 'role',
@@ -141,6 +145,8 @@ export const routerCfg = {
   SHIPPING_ORDER: 'shippingOrder',
   RETURN_ORDER: 'returnOrder',
   SALE_CHANNEL: 'saleChannel',
+  SALE_AGENT: 'saleAgent',
+  AGENTTEST: 'AgentTest',
   // 采购管理
   PURCHASE: 'purchase',
   PURCHASE_LIST: 'purchaseList',
@@ -254,14 +260,14 @@ export const originalNavigation = [
     ],
   },
   {
-    key: routerCfg.MARKETING, name: '营销管理', icon: 'pie-chart',
+    key: routerCfg.MARKETING, name: '营销管理', icon: 'pie-chart', 
     child: [
       //{ key: routerCfg.MARKETING_TOOLS, name: '营销工具' },
       // { key: routerCfg.DISTRIBUTE_MANAGE, name: '分销管理' },
       { key: routerCfg.SALE_CHANNEL, name: '销售渠道管理' },
+      { key: routerCfg.SALE_AGENT, name:'代理管理'},
     ],
   },
-
   // { key: routerCfg.PERSON, name: '客户管理', icon: 'user',
   //   child: [
   //     { key: routerCfg.AGENCY_LIST, name: '销售管理' },
@@ -324,6 +330,7 @@ export const originalNavigation = [
       { key: routerCfg.RESOURCE, name: '资源管理' },
     ],
   },
+
 ];
 
 let navigation = [];
