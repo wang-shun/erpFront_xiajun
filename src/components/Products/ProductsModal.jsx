@@ -839,6 +839,11 @@ class ProductsModal extends Component {
                 </Col>}
               </Row>
               <Row>
+                  <p style={{color:"#F00",marginLeft:"11%" ,width: '80%'}}>
+                  建议尺寸：800*800像素，最多上传15张
+                  </p>
+              </Row>
+              <Row>
                 <SkuTable
                   data={productData.itemSkus}
                   packageScales={packageScales}
