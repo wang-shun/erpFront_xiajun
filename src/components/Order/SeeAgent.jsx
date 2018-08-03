@@ -278,8 +278,8 @@ class SeeAgent extends Component {
                     <Row style={{ marginBottom: 10 }} >
                         <Col>
                             <Button type="primary" size="large" onClick={this.back.bind(this)}>返回</Button>
-                            <Button size="large" disabled={!hasSelected} style={{ float: 'right', marginLeft: 10 }}>删除</Button>
-                            <Button type="primary" size="large" disabled={!hasSelected} style={{ float: 'right', marginLeft: 10 }}>解除代理</Button>
+                            {/* <Button size="large" disabled={!hasSelected} style={{ float: 'right', marginLeft: 10 }}>删除</Button> */}
+                            {/* <Button type="primary" size="large" disabled={!hasSelected} style={{ float: 'right', marginLeft: 10 }}>解除代理</Button> */}
                             <Button type="primary" size="large" style={{ float: 'right', marginLeft: 10 }} onClick={this.showWxModal.bind(this)}>增加二级代理</Button>
 
                         </Col>
@@ -287,7 +287,7 @@ class SeeAgent extends Component {
                     <Row>
                         <Col>
                             <Table
-                                rowSelection={rowSelection}
+                                // rowSelection={rowSelection}
                                 columns={columnsAgent}
                                 dataSource={saleAgentList}
                                 size="large"
@@ -346,7 +346,7 @@ class SeeAgent extends Component {
                                             initialValue: wxName.status,
                                         })(
 
-                                            <Select placeholder="请选择状态" allowClear>
+                                            <Select placeholder="请选择状态" allowClear disabled={true}>
                                                 <Option value={1}>正常</Option>
                                                 <Option value={0}>已解除</Option>
                                             </Select>,

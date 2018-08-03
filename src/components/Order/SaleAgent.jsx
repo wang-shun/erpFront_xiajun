@@ -638,7 +638,7 @@ class SaleAgent extends Component {
                           initialValue: wxName.status,
                         })(
 
-                          <Select placeholder="请选择状态" allowClear>
+                          <Select placeholder="请选择状态" allowClear disabled={true}>
                             <Option value={1}>正常</Option>
                             <Option value={0}>已解除</Option>
                           </Select>,
