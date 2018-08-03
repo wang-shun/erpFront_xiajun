@@ -20,7 +20,6 @@ function Bread({ location }) {
       }
     });
   };
-
   getPathSet(getNavigation());
 
   const pathNames = [];
@@ -35,7 +34,12 @@ function Bread({ location }) {
   const breads = pathNames.map((i, key) => {
     let item = i;
     if (!(i in pathSet)) {
-      item = routerCfg.OVERVIEW[0].toUpperCase() + routerCfg.OVERVIEW.substr(1);
+      console.log(i)
+      if(i == 'MarketingSeeAgent' || i == 'MarketingDetailAgent'){
+        item='MarketingSaleAgent';
+      }else{
+        item = routerCfg.OVERVIEW[0].toUpperCase() + routerCfg.OVERVIEW.substr(1);
+      }
     }
     // 面包屑生成时，推一把Tab
     // if (key === len - 1) {

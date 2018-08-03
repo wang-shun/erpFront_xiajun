@@ -66,6 +66,19 @@ const erpOrderDe = ({ payload }) => fetch.get('/erpOrder/detail', { data: payloa
 // 
 
 const erpOrderNumber = ({ payload }) => fetch.post('/erpOrder/return', { data: payload }).catch(e => e);
+//代理管理
+const queryMallSaleAgents = ({ payload }) => fetch.post('/mallSaleAgent/queryMallSaleAgents', { data: payload }).catch(e => e);
+const sumSettlePageList = ({ payload }) => fetch.post('/sumarydetail/sumSettlePageList', { data: payload }).catch(e => e);
+const doSettleSingle = ({ payload }) => fetch.post('/settlement/doSettleSingle', { data: payload }).catch(e => e);
+const doSettleList = ({ payload }) => fetch.post('/settlement/doSettleList', { data: payload }).catch(e => e);
+const settlementAdd = ({ payload }) => fetch.post('/settlement/add', { data: payload }).catch(e => e);
+const updateCommissionValue = ({ payload }) => fetch.post('/mallSaleAgent/updateCommissionValue', { data: payload }).catch(e => e);
+const agentInfo = ({ payload }) => fetch.post('/agentInfo/orderList', { data: payload }).catch(e => e);
+const searchPageList = ({ payload }) => fetch.post('/settlement/searchPageList', { data: payload }).catch(e => e);
+const updateMallSaleAgent = ({ payload }) => fetch.post('/mallSaleAgent/updateMallSaleAgent', { data: payload }).catch(e => e);
+const setProxy = ({ payload }) => fetch.post('/wechatLogin/setProxy', { data: payload }).catch(e => e);
+
+
 
 export default {
   namespace: 'order',
@@ -104,16 +117,28 @@ export default {
     channels: [],
     channelValues: {},
     erpDetailList: [],
+    // 代理管理
+    saleAgentList: [],
+    skuTotal: 0,
+    accountTotal: 0,
+    agentInfoTotal: 0,
+    currentPageAgent: 1,
+    currentPageAgentIndex: 1,
+    pageSize: 20,
+    SettlePageList: [],
+    currentPageAgentInfo: 1,
+    agentInfoList: [],
+    searchPageLists: [],
   },
   reducers: {
     saveOrderList(state, { payload }) {
       return { ...state, orderList: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };
     },
-    saveOrderListTwo(state, { payload }){
-      return { ...state, orderListTwo: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };      
+    saveOrderListTwo(state, { payload }) {
+      return { ...state, orderListTwo: payload.data, orderTotal: payload.totalCount, loginRoler: payload.agentRoler };
     },
     clearOrder4Add(state, { payload }) {
-      return { ...state, orderListTwo: [], erpDetailList:[] };
+      return { ...state, orderListTwo: [], erpDetailList: [] };
     },
     saveCurrentPage(state, { payload }) {
       return { ...state, currentPage: payload.pageIndex };
@@ -175,7 +200,37 @@ export default {
     erpOrderDeList(state, { payload }) {
       return { ...state, erpDetailList: payload.data }
     },
-
+    //代理管理
+    saveSaleAgents(state, { payload }) {
+      return { ...state, saleAgentList: payload.data, skuTotal: payload.totalCount }
+    },
+    saveSaleAgentsIn(state, { payload }) {
+      return { ...state, currentPageAgent: payload.pageIndex };
+    },
+    saveSaleAgentsPa(state, { payload }) {
+      return { ...state, pageSize: payload.pageSize };
+    },
+    saveSaleAgentsA(state, { payload }) {
+      return { ...state, SettlePageList: payload.data, accountTotal: payload.totalCount }
+    },
+    saveSaleAgentsAccount(state, { payload }) {
+      return { ...state, currentPageAgentIndex: payload.pageIndex };
+    },
+    saveSaleAgentsAccountT(state, { payload }) {
+      return { ...state, pageSize: payload.pageSize };
+    },
+    agentInfoAgents(state, { payload }) {
+      return { ...state, agentInfoList: payload.data, agentInfoTotal: payload.totalCount }
+    },
+    agentInfoAccount(state, { payload }) {
+      return { ...state, currentPageAgentInfo: payload.pageIndex };
+    },
+    agentInfoAccountT(state, { payload }) {
+      return { ...state, pageSize: payload.pageSize };
+    },
+    saveSearchPageList(state, { payload }) {
+      return { ...state, searchPageLists: payload.data };
+    }
   },
   effects: {
     // 主订单
@@ -252,7 +307,7 @@ export default {
         });
       }
     },
-    *queryOrderListTwo({ payload, cb }, { call, put, select }) { 
+    *queryOrderListTwo({ payload, cb }, { call, put, select }) {
       let pageIndex = yield select(({ order }) => order.currentPage);
       let pageSize = yield select(({ order }) => order.currentPageSize);
       if (payload && payload.pageIndex) {
@@ -504,12 +559,12 @@ export default {
       }
     },
     * erpOrderNumber({ payload, cb }, { call }) {
-    const data = yield call(erpOrderNumber, { payload });
-    if (data.success) {
-      message.success('退单成功');
-      cb();
-    }
-  },
+      const data = yield call(erpOrderNumber, { payload });
+      if (data.success) {
+        message.success('退单成功');
+        cb();
+      }
+    },
     exportPdf({ payload, success }) {
       window.open(`http://${location.host}/shippingOrder/shippingOrderExportPdf?shippingOrderIds=${payload}`);
       if (success) {
@@ -586,6 +641,119 @@ export default {
         });
       }
     },
+    //代理管理
+    * queryMallSaleAgents({ payload = {} }, { call, put, select }) {
+      let pageIndex = yield select(({ sku }) => sku.currentPage);
+      let pageSize = yield select(({ sku }) => sku.pageSize);
+      if (payload.pageIndex) {
+        pageIndex = payload.pageIndex;
+        yield put({ type: 'saveSaleAgentsIn', payload });
+      }
+      if (payload.pageSize) {
+        pageSize = payload.pageSize;
+        yield put({ type: 'saveSaleAgentsPa', payload });
+      }
+      const data = yield call(queryMallSaleAgents, { payload: { ...payload, pageIndex, pageSize } });
+      // if (data.success) {
+      yield put({
+        type: 'saveSaleAgents',
+        payload: data,
+      });
+      // }
+    },
+    * sumSettlePageList({ payload = {} }, { call, put, select }) {
+      let pageIndex = yield select(({ sku }) => sku.currentPage);
+      let pageSize = yield select(({ sku }) => sku.pageSize);
+      if (payload.pageIndex) {
+        pageIndex = payload.pageIndex;
+        yield put({ type: 'saveSaleAgentsAccount', payload });
+      }
+      if (payload.pageSize) {
+        pageSize = payload.pageSize;
+        yield put({ type: 'saveSaleAgentsAccountT', payload });
+      }
+      const data = yield call(sumSettlePageList, { payload: { ...payload, pageIndex, pageSize } });
+      // if (data.success) {
+      yield put({
+        type: 'saveSaleAgentsA',
+        payload: data,
+      });
+      // }
+    },
+    * agentInfo({ payload = {} }, { call, put, select }) {
+      let pageIndex = yield select(({ sku }) => sku.currentPage);
+      let pageSize = yield select(({ sku }) => sku.pageSize);
+      if (payload.pageIndex) {
+        pageIndex = payload.pageIndex;
+        yield put({ type: 'agentInfoAccount', payload });
+      }
+      if (payload.pageSize) {
+        pageSize = payload.pageSize;
+        yield put({ type: 'agentInfoAccountT', payload });
+      }
+      const data = yield call(agentInfo, { payload: { ...payload, pageIndex, pageSize } });
+      // if (data.success) {
+      yield put({
+        type: 'agentInfoAgents',
+        payload: data,
+      });
+      // }
+    },
+    * doSettleSingle({ payload, cb }, { call }) {
+      const data = yield call(doSettleSingle, { payload });
+      if (data.success) {
+        message.success('结算成功');
+        cb();
+      }
+    },
+
+    * doSettleList({ payload, cb }, { call }) {
+      const data = yield call(doSettleList, { payload });
+      if (data.success) {
+        message.success('批量结算成功');
+        cb();
+      }
+    },
+
+    * settlementAdd({ payload, cb }, { call }) {
+      const data = yield call(settlementAdd, { payload });
+      if (data.success) {
+        message.success('线下记录增加成功');
+        cb();
+      }
+    },
+
+    * updateCommissionValue({ payload, cb }, { call }) {
+      const data = yield call(updateCommissionValue, { payload });
+      if (data.success) {
+        message.success('佣金修改成功');
+        cb();
+      }
+    },
+    * searchPageList({ payload }, { call, put }) {
+      const data = yield call(searchPageList, { payload });
+      if (data.success) {
+        yield put({
+          type: 'saveSearchPageList',
+          payload: data,
+        });
+      }
+    },
+    * updateMallSaleAgent({ payload, cb }, { call }) {
+      const data = yield call(updateMallSaleAgent, { payload });
+      if (data.success) {
+        message.success('编辑成功');
+        cb();
+      }
+    },
+    * setProxy({ payload, cb }, { call }) {
+    const data = yield call(setProxy, { payload });
+    if (data.success) {
+     message.success('添加成功');
+    }
+    cb();
+    },
+
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -621,6 +789,12 @@ export default {
         if (pathname === '/marketing/saleChannel' && !window.existCacheState('/marketing/saleChannel')) {
           setTimeout(() => {
             dispatch({ type: 'queryChannelList', payload: query });
+          }, 0);
+        }
+        if (pathname === '/marketing/saleAgent' && !window.existCacheState('/marketing/saleAgent')) {
+          setTimeout(() => {
+            dispatch({ type: 'queryMallSaleAgents', payload: query });
+            dispatch({ type: 'sumSettlePageList', payload:query });
           }, 0);
         }
       });

@@ -76,7 +76,7 @@ class LoginTest extends Component {
                     <Col>
                         <Table
                             columns={columnsSelectList}
-                            dataSource={wxList}                         
+                            dataSource={wxList}                      
                             size="large"
                             rowKey={record => record.userNo}
                             pagination={false}
