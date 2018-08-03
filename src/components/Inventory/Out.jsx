@@ -122,7 +122,7 @@ class Out extends Component {
     };
     return (
       <div>
-        <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div>
+        {/* <div className="refresh-btn"><Button type="ghost" size="small" onClick={this._refreshData.bind(this)}>刷新</Button></div> */}
         <Form onSubmit={p.handleSubmit.bind(p)}>
           <Row gutter={20} style={{ width: 800 }}>
             <Col span="8">

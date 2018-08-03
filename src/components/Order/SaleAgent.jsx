@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form, Tabs, Row, Col, Button, Table, Input, Tooltip, Icon, Modal, Select, Menu, Popover, DatePicker } from 'antd';
+import { Form, Tabs, Row, Col, Button, Table, Input, Tooltip, Icon, Modal, Select, Menu, Popover, DatePicker, InputNumber } from 'antd';
 import styles from './style.less';
 import { routerRedux } from 'dva/router';
 import moment from 'moment';
@@ -60,7 +60,7 @@ class SaleAgent extends Component {
   }
   seeAgent(r) {
     let parentAgent = r.userNo;
-    this.props.dispatch(routerRedux.push('/marketing/saleAgent/SeeAgent?parentAgent=' + parentAgent));
+    this.props.dispatch(routerRedux.push('/marketing/SeeAgent?parentAgent=' + parentAgent));
   }
   goSettlement(r) {
   }
@@ -104,18 +104,20 @@ class SaleAgent extends Component {
           status: fieldsValue.status,
           phone: fieldsValue.phone,
         },
+        cb: () => {
+          this.props.dispatch({
+            type: 'order/queryMallSaleAgents',
+            payload: {},
+          });
+          this.setState({
+            visible: false,
+          })
+        }
       });
     });
   }
   hSubmit() {
     this.submitEdit();
-    this.props.dispatch({
-      type: 'order/queryMallSaleAgents',
-      payload: {},
-    });
-    this.setState({
-      visible: false,
-    })
   }
   hCancel() {
     this.setState({
@@ -187,14 +189,13 @@ class SaleAgent extends Component {
     })
   }
   orderDetailCan(r) {
-    console.log(r)
-    this.props.dispatch(routerRedux.push('/marketing/saleAgent/detailAgent?userNo=' + r.shareUserId + '&status=' + 1));
+    this.props.dispatch(routerRedux.push('/marketing/detailAgent?userNo=' + r.shareUserId + '&status=' + 1));
   }
   orderDetailWait(r) {
-    this.props.dispatch(routerRedux.push('/marketing/saleAgent/detailAgent?userNo=' + r.shareUserId + '&status=' + 0));
+    this.props.dispatch(routerRedux.push('/marketing/detailAgent?userNo=' + r.shareUserId + '&status=' + 0));
   }
   orderDetailBeen(r) {
-    this.props.dispatch(routerRedux.push('/marketing/saleAgent/detailAgent?userNo=' + r.shareUserId + '&status=' + 2));
+    this.props.dispatch(routerRedux.push('/marketing/detailAgent?userNo=' + r.shareUserId + '&status=' + 2));
   }
   handleSearch(num, size) {
     const payload = { pageIndex: typeof num === 'number' ? num : 1 };
@@ -221,7 +222,6 @@ class SaleAgent extends Component {
 
   }
   onSearchTwo(value) {
-    console.log(value)
     if (value == '') {
       this.props.dispatch({
         type: 'order/sumSettlePageList',
@@ -253,7 +253,6 @@ class SaleAgent extends Component {
     })
   }
   commissionUnder(r) {
-    console.log(r)
     const { userNos } = this.state;
     this.setState({
       underVisible: true,
@@ -261,7 +260,6 @@ class SaleAgent extends Component {
       agentNames: r.agentName,
       userNos: r.shareUserId,
     })
-    console.log(userNos)
   }
   underSubmit() {
     const { form } = this.props;
@@ -270,7 +268,7 @@ class SaleAgent extends Component {
       if (err) {
         return;
       }
-      console.log(fieldsValue, userNos)
+      // console.log(fieldsValue, userNos)
       this.props.dispatch({
         type: 'order/settlementAdd',
         payload: {
@@ -310,7 +308,7 @@ class SaleAgent extends Component {
         commissionValue: (parseFloat(fieldsValue["r_" + r.userNo + "_commissionValue"])) / 100,
         // commissionValue: fieldsValue["r_" + r.userNo + "_commissionValue"],
       }
-      console.log(comMao)
+      // console.log(comMao)
       this.setState({
         commissionVisible: true,
         commissionTitle: '修改佣金',
@@ -319,8 +317,8 @@ class SaleAgent extends Component {
     });
   }
   commissionSubmit() {
-    const { commission } = this.state;
-    console.log(commission)
+    const { commission = {} } = this.state;
+    console.log('commission' + typeof (commission.commissionValue))
     this.props.dispatch({
       type: 'order/updateCommissionValue',
       payload: {
@@ -346,7 +344,6 @@ class SaleAgent extends Component {
     })
   }
   watchAccounts(r) {
-    console.log(r)
     this.props.dispatch({
       type: 'order/searchPageList',
       payload: {
@@ -448,8 +445,8 @@ class SaleAgent extends Component {
             //   </div>
             // </div>
             <FormItem>
-              {getFieldDecorator(`r_${r.userNo}_commissionValue`, { initialValue: t ? (t * 100) : '', rules: [{ required: true, message: '请输入佣金' }], })(
-                <Input placeholder="请填写佣金" onBlur={p.onBlurMoney.bind(p, r)} style={{ width: 50 }} />
+              {getFieldDecorator(`r_${r.userNo}_commissionValue`, { initialValue: (t * 100), rules: [{ required: true, message: '请输入佣金' }], })(
+                <InputNumber placeholder="请填写佣金" onBlur={p.onBlurMoney.bind(p, r)} min={0} max={100} style={{ width: 50 }} />
               )}
               <span style={{ marginLeft: 5 }}>%</span>
             </FormItem>

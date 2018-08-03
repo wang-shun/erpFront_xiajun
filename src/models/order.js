@@ -739,10 +739,11 @@ export default {
         });
       }
     },
-    * updateMallSaleAgent({ payload }, { call }) {
+    * updateMallSaleAgent({ payload, cb }, { call }) {
       const data = yield call(updateMallSaleAgent, { payload });
       if (data.success) {
         message.success('编辑成功');
+        cb();
       }
     },
     * setProxy({ payload, cb }, { call }) {

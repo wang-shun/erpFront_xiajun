@@ -101,8 +101,8 @@ function RouterConfig({ history }) {
         {/* <Route path={`/${routerCfg.MARKETING}`} component={SaleChannel} /> */}
         <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} component={SaleChannel} />
         <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_AGENT}`} component={SaleAgent} />
-        <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_AGENT}/${routerCfg.SEEAGENT}`} component={SeeAgent} />
-        <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_AGENT}/${routerCfg.DETAILAGENT}`} component={detailAgent} />
+        <Route path={`/${routerCfg.MARKETING}/${routerCfg.SEEAGENT}`} component={SeeAgent} />
+        <Route path={`/${routerCfg.MARKETING}/${routerCfg.DETAILAGENT}`} component={detailAgent} />
         <Route path={`/${routerCfg.MARKETING}/${routerCfg.AGENTTEST}`} component={AgentTest} />
 
         <Route path={`/${routerCfg.LOGIN}`} component={Login} />

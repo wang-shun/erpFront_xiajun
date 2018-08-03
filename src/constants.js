@@ -245,7 +245,7 @@ export const originalNavigation = [
     key: routerCfg.SALE, name: '订单管理', icon: 'calendar',
     child: [
       { key: routerCfg.ORDER_LIST, name: '订单管理' },
-      { key: routerCfg.ERP_ORDER, name: '子订单管理' },
+      { key: routerCfg.ERP_ORDER, name: '发货管理' },
       { key: routerCfg.RETURN_ORDER, name: '售后管理' },
       { key: routerCfg.SHIPPING_ORDER, name: '发货单管理' },
       //{ key: routerCfg.RETURN_ORDER, name: '退单管理' },
