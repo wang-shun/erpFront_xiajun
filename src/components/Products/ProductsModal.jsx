@@ -128,6 +128,7 @@ class ProductsModal extends Component {
         values.skuList.forEach((el) => {
           if(el.skuRate) {
             el.skuRate = el.skuRate/100;
+            el.skuRate = el.skuRate.toFixed(4);
           } else {
             el.skuRate = 0;
           }
