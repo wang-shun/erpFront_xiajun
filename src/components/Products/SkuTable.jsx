@@ -680,7 +680,7 @@ class SkuTable extends Component {
           title: '销售价格',
           dataIndex: 'salePrice',
           key: 'salePrice',
-          width: '10%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
@@ -712,7 +712,7 @@ class SkuTable extends Component {
           title: '虚拟库存',
           dataIndex: 'virtualInv',
           key: 'virtualInv',
-          width: '8%',
+          width: '7%',
           render(t, r) {
             return (
               <FormItem>
@@ -729,7 +729,7 @@ class SkuTable extends Component {
           title: '重量(克)',
           dataIndex: 'weight',
           key: 'weight',
-          width: '10%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
@@ -746,7 +746,7 @@ class SkuTable extends Component {
           title: 'UPC',
           dataIndex: 'upc',
           key: 'upc',
-          width: '10%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
@@ -755,6 +755,28 @@ class SkuTable extends Component {
                   rules: [{ required: true, message: '该项必填' }]
                 })(
                   <Input placeholder="必填" />)}
+              </FormItem>
+            );
+          },
+        },
+        {
+          title: '佣金比率',
+          dataIndex: 'skuRate',
+          key: 'skuRate',
+          width: '7%',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.key}_skuRate`, {
+                  initialValue: t || 0
+                })(
+                  <InputNumber
+                min={0}
+                max={100}
+                formatter={value => `${value}%`}
+                parser={value => value.replace('%', '')}
+    />
+                  )}
               </FormItem>
             );
           },
@@ -799,7 +821,7 @@ class SkuTable extends Component {
           title: '包装规格',
           dataIndex: 'packageLevelId',
           key: 'packageLevelId',
-          width: '10%',
+          width: '9%',
           render(t, r) {
             return (
               <FormItem>
