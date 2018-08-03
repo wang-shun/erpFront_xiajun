@@ -586,14 +586,14 @@ class SaleAgent extends Component {
               <Row style={{ marginBottom: 10 }} >
                 <Col>
                   <Button type="primary" size="large" onClick={this.showWxModal.bind(this)}>扫码添加代理</Button>
-                  <Button size="large" disabled={!hasSelected} style={{ float: 'right', marginLeft: 10 }}>删除</Button>
-                  <Button type="primary" size="large" disabled={!hasSelected} style={{ float: 'right', marginLeft: 10 }}>解除代理</Button>
+                  {/* <Button size="large" disabled={!hasSelected} style={{ float: 'right', marginLeft: 10 }}>删除</Button> */}
+                  {/* <Button type="primary" size="large" disabled={!hasSelected} style={{ float: 'right', marginLeft: 10 }}>解除代理</Button> */}
                 </Col>
               </Row>
               <Row>
                 <Col>
                   <Table
-                    rowSelection={rowSelection}
+                    // rowSelection={rowSelection}
                     columns={columnsAgent}
                     dataSource={saleAgentList}
                     size="large"
