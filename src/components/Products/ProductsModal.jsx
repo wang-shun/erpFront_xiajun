@@ -124,6 +124,14 @@ class ProductsModal extends Component {
             }
           });
         }
+        // 处理skuRate
+        values.skuList.forEach((el) => {
+          if(el.skuRate) {
+            el.skuRate = el.skuRate/100;
+          } else {
+            el.skuRate = 0;
+          }
+        });
         
         //console.log("==========start=============");
         function deleteNullElement(e) {
@@ -344,6 +352,19 @@ class ProductsModal extends Component {
     //     }
     //   }
     // }
+    //skuRate处理，@author:xiajun
+    if (modalValues.data && modalValues.data.itemSkus) {
+      let skus = modalValues.data.itemSkus;
+      if (skus.length) {
+        let skuLength = skus.length;
+        for (let i = 0;i < skuLength;i++) {
+          let curSku = skus[i];
+          if (curSku.skuRate) {
+            curSku.skuRate = curSku.skuRate*100;
+          }
+        }
+      }
+    }
     // 详情数据
     const productData = (modalValues && modalValues.data) || {};
     const _roleIds = [];
@@ -858,7 +879,7 @@ class ProductsModal extends Component {
                 </Col>}
               </Row>
               <Row>
-                  <p style={{color:"#F00",marginLeft:"11%" ,width: '80%'}}>
+                  <p style={{marginLeft:"11%" ,width: '80%'}}>
                   建议尺寸：800*800像素，最多上传15张
                   </p>
               </Row>
