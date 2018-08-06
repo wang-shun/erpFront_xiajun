@@ -305,10 +305,10 @@ class SaleAgent extends Component {
       const comMao = {
         userNo: r.userNo,
         commissionMode: r.commissionMode,
-        commissionValue: (parseFloat(fieldsValue["r_" + r.userNo + "_commissionValue"])) / 100.0,
+        commissionValueStr: fieldsValue["r_" + r.userNo + "_commissionValue"].toString(),
         // commissionValue: fieldsValue["r_" + r.userNo + "_commissionValue"],
       }
-      // console.log(comMao)
+      console.log(comMao)
       this.setState({
         commissionVisible: true,
         commissionTitle: '修改佣金',
@@ -318,13 +318,13 @@ class SaleAgent extends Component {
   }
   commissionSubmit() {
     const { commission = {} } = this.state;
-    console.log('commission' + typeof (commission.commissionValue))
+    console.log('commission' + typeof (commission.commissionValueStr))
     this.props.dispatch({
       type: 'order/updateCommissionValue',
       payload: {
         userNo: commission.userNo,
         commissionMode: commission.commissionMode,
-        commissionValue: commission.commissionValue,
+        commissionValueStr: commission.commissionValueStr,
       },
       cb: () => {
         this.setState({
@@ -445,7 +445,7 @@ class SaleAgent extends Component {
             //   </div>
             // </div>
             <FormItem>
-              {getFieldDecorator(`r_${r.userNo}_commissionValue`, { initialValue: (parseInt(t * 10000)/100), rules: [{ required: true, message: '请输入佣金' }], })(
+              {getFieldDecorator(`r_${r.userNo}_commissionValue`, { initialValue: t, rules: [{ required: true, message: '请输入佣金' }], })(
                 <InputNumber placeholder="请填写佣金" onBlur={p.onBlurMoney.bind(p, r)} min={0} max={100} style={{ width: 50 }} />
               )}
               <span style={{ marginLeft: 5 }}>%</span>

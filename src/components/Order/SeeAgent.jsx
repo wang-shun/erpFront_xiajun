@@ -74,7 +74,7 @@ class SeeAgent extends Component {
             const comMao = {
                 userNo: r.userNo,
                 commissionMode: r.commissionMode,
-                commissionValue: (parseFloat(fieldsValue["r_" + r.userNo + "_commissionValue"])) / 100,
+                commissionValueStr: fieldsValue["r_" + r.userNo + "_commissionValue"].toString(),
             }
             console.log(comMao)
             this.setState({
@@ -92,7 +92,7 @@ class SeeAgent extends Component {
             payload: {
                 userNo: commission.userNo,
                 commissionMode: commission.commissionMode,
-                commissionValue: commission.commissionValue,
+                commissionValueStr: commission.commissionValueStr,
             },
             cb: () => {
                 this.setState({
@@ -234,7 +234,7 @@ class SeeAgent extends Component {
                 render(t, r, index) {
                     return (
                         <FormItem>
-                            {getFieldDecorator(`r_${r.userNo}_commissionValue`, { initialValue: t ? (t * 100) : '', rules: [{ required: true, message: '请输入佣金' }], })(
+                            {getFieldDecorator(`r_${r.userNo}_commissionValue`, { initialValue: t, rules: [{ required: true, message: '请输入佣金' }], })(
                                 <Input placeholder="请填写佣金" onBlur={p.onBlurMoney.bind(p, r)} style={{ width: 50 }} />
                             )}
                             <span style={{ marginLeft: 5 }}>%</span>
