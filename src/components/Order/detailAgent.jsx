@@ -121,21 +121,13 @@ class detailAgent extends Component {
             <div>
                 <div style={{ height: 85, borderTop: '2px solid #00cbd7', borderBottom: '1px solid #f4f4f4', borderLeft: '1px solid #f4f4f4', borderRight: '1px solid #f4f4f4', color: '#4a4a4a', marginBottom: '20px' }}>
                     <Row >
-                        <Col span={2} style={{ fontSize: 25, padding: '10px 0px 0px 20px' }}>
-                            <span><img role="presentation" src={agentInfoList.profile} width={60} height={60} /></span>
-                        </Col>
-                        <Col span={2} style={{ fontSize: 25, padding: '20px 0px 0px 20px' }}>
-                            <span>{agentInfoList.name}</span>
-                        </Col>
-                        <Col span={4} style={{ fontSize: 14, padding: '30px 0px 0px 0px' }}>
-                            <span>{agentInfoList.agentLevel}</span>
-                        </Col>
-                        <Col span={2}>
-                        </Col>
-                        <Col span={14} style={{ fontSize: 20, padding: '25px 0px 0px 0px' }}>
-                            {statusA == '1' && <span>可结算佣金 ¥ {agentInfoList.commission}</span>}
-                            {statusA == '0' && <span>待结算佣金 ¥ {agentInfoList.commission}</span>}
-                            {statusA == '2' && <span>已结算佣金 ¥ {agentInfoList.commission}</span>}
+                        <Col>
+                            <span style={{display:'inline-table',margin: '10px'}}><img role="presentation" src={agentInfoList.profile} width={60} height={60} /></span>
+                            <span style={{ fontSize:30, marginLeft:10}}>{agentInfoList.name}</span>
+                            <span style={{marginLeft:20}}>{agentInfoList.agentLevel}</span>
+                            {statusA == '1' && <span style={{ fontSize:18, marginLeft:250}}>可结算佣金 ¥ {agentInfoList.commission}</span>}
+                            {statusA == '0' && <span style={{ fontSize:18, marginLeft:250}}>待结算佣金 ¥ {agentInfoList.commission}</span>}
+                            {statusA == '2' && <span style={{ fontSize:18, marginLeft:250}}>已结算佣金 ¥ {agentInfoList.commission}</span>}
                         </Col>
                     </Row>
                 </div>
