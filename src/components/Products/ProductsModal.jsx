@@ -86,6 +86,12 @@ class ProductsModal extends Component {
   handleSubmit() {
     const p = this;
     const { form, dispatch, modalValues } = this.props;
+    const { getFieldValue } = this.props.form;
+    //let country = this.props.modalValues.data.country;
+    if (-1 == getFieldValue('country')) {
+      message.error('请填写新的国家名');
+      return;
+    }
     form.validateFieldsAndScroll((err, fieldsValue) => {
       // console.log(fieldsValue);
       if (err) {
@@ -126,11 +132,12 @@ class ProductsModal extends Component {
         }
         // 处理skuRate
         values.skuList.forEach((el) => {
-          if(el.skuRate) {
-            el.skuRate = el.skuRate/100;
-            el.skuRate = el.skuRate.toFixed(4);
+          if(el.skuRateString) {
+            el.skuRateString = el.skuRateString.toString();
+            // el.skuRate = el.skuRate/100;
+            // el.skuRate = el.skuRate.toFixed(4);
           } else {
-            el.skuRate = 0;
+            el.skuRateString = "0";
           }
         });
         
@@ -209,6 +216,14 @@ class ProductsModal extends Component {
   checkPicNum() {
     
     }
+
+  //检查国家
+  // checkCountry(rules, cb) {
+  //   const { getFieldValue } = this.props.form;
+  //   if (-1 == getFieldValue('country')) {
+  //     cb('请输入新的国家')
+  //   }
+  // }
   
 
   closeModal() {
@@ -285,7 +300,7 @@ class ProductsModal extends Component {
   }
 
   handleSelectCountry(country) {
-    if (country === 'other') {
+    if (country === '-1') {
       this.setState({
         countryNameExit: true,
       });
@@ -354,18 +369,18 @@ class ProductsModal extends Component {
     //   }
     // }
     //skuRate处理，@author:xiajun
-    if (modalValues.data && modalValues.data.itemSkus) {
-      let skus = modalValues.data.itemSkus;
-      if (skus.length) {
-        let skuLength = skus.length;
-        for (let i = 0;i < skuLength;i++) {
-          let curSku = skus[i];
-          if (curSku.skuRate) {
-            curSku.skuRate = curSku.skuRate*100;
-          }
-        }
-      }
-    }
+    // if (modalValues.data && modalValues.data.itemSkus) {
+    //   let skus = modalValues.data.itemSkus;
+    //   if (skus.length) {
+    //     let skuLength = skus.length;
+    //     for (let i = 0;i < skuLength;i++) {
+    //       let curSku = skus[i];
+    //       if (curSku.skuRate) {
+    //         curSku.skuRate = curSku.skuRate*100;
+    //       }
+    //     }
+    //   }
+    // }
     // 详情数据
     const productData = (modalValues && modalValues.data) || {};
     const _roleIds = [];
@@ -630,11 +645,11 @@ class ProductsModal extends Component {
                   >
                     {getFieldDecorator('country', {
                       initialValue: productData.country, // toString(, 'SELECT'),
-                      rules: [{ required: true, message: '请选择国家' }],
+                      rules: [{ required: true, message: '请选择国家'}],
                     })(
                       <Select placeholder="请选择国家" allowClear onChange={this.handleSelectCountry.bind(this)}>
                         {countries.map(country => <Option key={country.id} value={country.id}>{country.name}</Option>)}
-                        <Option key="_other" value="other">其他</Option>
+                        <Option key="_other" value="-1">其他</Option>
                       </Select>,
                     )}
                   </FormItem>

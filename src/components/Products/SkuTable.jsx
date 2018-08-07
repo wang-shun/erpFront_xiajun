@@ -761,13 +761,13 @@ class SkuTable extends Component {
         },
         {
           title: '佣金比率',
-          dataIndex: 'skuRate',
-          key: 'skuRate',
+          dataIndex: 'skuRateString',
+          key: 'skuRateString',
           width: '7%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_skuRate`, {
+                {getFieldDecorator(`r_${r.key}_skuRateString`, {
                   initialValue: t || 0
                 })(
                   <InputNumber
