@@ -38,17 +38,29 @@ class ProductsModal extends Component {
       skuvalue:'',
       channelSkuList:[],
       picUploadDisabled:false,
+      idCardDefault:1,
     };
     // skuTable改写父级方法
     this.getSkuValue = null;
     this.clearSkuValue = null;
   }
 
+  changeIdCardDefaultValue = (e) => {
+    if (1 == e.target.value) {
+      this.setState({
+        idCardDefault:1
+      });
+    } else {
+      this.setState({
+        idCardDefault:0
+      });
+    }
+  }
+
+
   componentDidMount() {
 
     const { channels = []} = this.props;
-    // const { modalValues = {} } = this.props;
-    // console.log("channels...."+modalValues.data.id);
     let arrayA = channels;
     this.setState({
       skuvalue: arrayA,
@@ -86,6 +98,12 @@ class ProductsModal extends Component {
   handleSubmit() {
     const p = this;
     const { form, dispatch, modalValues } = this.props;
+    const { getFieldValue } = this.props.form;
+    if (-1 == getFieldValue('country')) {
+      message.error('请填写新的国家名');
+      return;
+    }
+    
     form.validateFieldsAndScroll((err, fieldsValue) => {
       // console.log(fieldsValue);
       if (err) {
@@ -97,10 +115,8 @@ class ProductsModal extends Component {
       p.getSkuValue((skuList) => {
         const values = {
           ...fieldsValue,
-          startDate: fieldsValue.startDate && fieldsValue.startDate.format('YYYY-MM-DD HH:mm:ss'),
-          endDate: fieldsValue.endDate && fieldsValue.endDate.format('YYYY-MM-DD HH:mm:ss'),
-          bookingDate: fieldsValue.bookingDate && fieldsValue.bookingDate.format('YYYY-MM-DD HH:mm:ss'),
           skuList,
+          startTime: fieldsValue.startTime && fieldsValue.startTime.format('YYYY-MM-DD HH:mm:ss'),
           saleOnChannels: fieldsValue.saleOnChannels,
           categoryCode: fieldsValue.categoryCode[fieldsValue.categoryCode.length - 1],
         };
@@ -126,60 +142,19 @@ class ProductsModal extends Component {
         }
         // 处理skuRate
         values.skuList.forEach((el) => {
-          if(el.skuRate) {
-            el.skuRate = el.skuRate/100;
-            el.skuRate = el.skuRate.toFixed(4);
+          if(el.skuRateString) {
+            el.skuRateString = el.skuRateString.toString();
           } else {
-            el.skuRate = 0;
+            el.skuRateString = "0";
           }
         });
-        
-        //console.log("==========start=============");
+
         function deleteNullElement(e) {
           return e!=null && e!=undefined;
         }
-        let allSku = values.skuList;
-        let skuLength = allSku.length;
-        let lastSku = null;
-        for(var k = skuLength-1;k >0;k--) {
-          if(1 == allSku[k].saleMode) {
-            lastSku = allSku[k];
-            break;
-          }
-        }
-        if(null != lastSku && lastSku.hasOwnProperty("priceList")) {
-         // console.log("has");
-          let lastSkuPriceList = lastSku.priceList;
-          if(lastSkuPriceList != null) {
-            let listLength = lastSkuPriceList.length;
-            for(let n = 0;n < skuLength;n++) {
-              allSku[n].priceList = [];
-           }        
-            for(let m = 0;m < listLength;m++) {
-              let currentPrice = lastSkuPriceList[m];
-              let curPriceIndex = currentPrice.skuIndex;
-              allSku[curPriceIndex-1].priceList.push(currentPrice);
-            }
-          }         
-        }
-        
-  
-    
-
-        //console.log("==========end=============");
-       
-        // console.log("******************"+values.skuList.length);
-        
-        // var objj = values.skuList[0];
-        // for(var att in objj) {
-        //   console.log(att+":"+objj[att]);
-        // }
        
         
         values.skuList = JSON.stringify(values.skuList);
-       // console.log("******************"+values.skuList);
-
-        // let channelPrice = values.skuList.
         
 
         // 处理图文详情
@@ -187,7 +162,6 @@ class ProductsModal extends Component {
         const lastDetailInfo = modalValues && modalValues.data && modalValues.data.detail;
         values.detail = detailInfo ? encodeURIComponent(detailInfo) : lastDetailInfo ? encodeURIComponent(lastDetailInfo) : '';
 
-        // console.log(values);
         if (modalValues && modalValues.data) {
           dispatch({
             type: 'products/updateProducts',
@@ -205,10 +179,7 @@ class ProductsModal extends Component {
     });
   }
 
-  //检查上传图片的数量，最多15张，@author:xiajun
-  checkPicNum() {
-    
-    }
+
   
 
   closeModal() {
@@ -231,6 +202,7 @@ class ProductsModal extends Component {
   handleCancel() {
     this.setState({ previewVisible: false });
   }
+
 
   checkImg(rules, values, cb) {
     cb();
@@ -285,7 +257,7 @@ class ProductsModal extends Component {
   }
 
   handleSelectCountry(country) {
-    if (country === 'other') {
+    if (country === '-1') {
       this.setState({
         countryNameExit: true,
       });
@@ -318,7 +290,6 @@ class ProductsModal extends Component {
     let arrayC = arrayA.filter((a, i) =>{
       return (arrayB.some(f=>(f === a.channelName)))
     })
-   // console.log("arrc=============================>:"+arrayC);
 
     this.setState({
       skuvalue: arrayC,
@@ -328,7 +299,7 @@ class ProductsModal extends Component {
     const p = this;
     const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [], countries = [], channels = [] } = this.props;
     //console.log(channels)
-    const { picUploadDisabled,previewVisible, previewImage, activeTab, countryNameExit, skuvalue } = this.state;
+    const {idCardDefault, picUploadDisabled,previewVisible, previewImage, activeTab, countryNameExit, skuvalue } = this.state;
     const { getFieldDecorator } = form;
     // 图片字符串解析
     let mainPicNum;
@@ -340,32 +311,7 @@ class ProductsModal extends Component {
       mainPicNum = toString(picObj.mainPicNum, 'SELECT') || '1';
       picList = picObj.picList || [];
     }
-    //渠道价格处理
-    // let skuPriceList = [];
-    // if (modalValues.data && modalValues.data.itemSkus) {
-    //   let skus = modalValues.data.itemSkus;
-    //   let skuLength = skus.length;
-    //   for(let i = 0;i < skuLength;i++) {
-    //     let currentSku = skus[i];
-    //     if(currentSku.channelSalePriceList) {
-    //       let priceList = currentSku.channelSalePriceList;
-    //       skuPriceList.push(priceList);
-    //     }
-    //   }
-    // }
-    //skuRate处理，@author:xiajun
-    if (modalValues.data && modalValues.data.itemSkus) {
-      let skus = modalValues.data.itemSkus;
-      if (skus.length) {
-        let skuLength = skus.length;
-        for (let i = 0;i < skuLength;i++) {
-          let curSku = skus[i];
-          if (curSku.skuRate) {
-            curSku.skuRate = curSku.skuRate*100;
-          }
-        }
-      }
-    }
+
     // 详情数据
     const productData = (modalValues && modalValues.data) || {};
     const _roleIds = [];
@@ -374,24 +320,6 @@ class ProductsModal extends Component {
         if (el && el.id) _roleIds.push(el.id.toString());
       });
     }
-    // let allPrice = [];
-    // if(productData.itemSkus) {
-    //   let skuList = productData.itemSkus;
-    //   let skuLength = skuList.length;
-    //   for(let i = 0;i < skuLength;i++) {
-    //     let currentSku = skuList[i];
-    //     if(currentSku.channelSalePriceList) {
-    //       allPrice.push(currentSku.channelSalePriceList)
-    //     }       
-    //   }
-    // }
-    // for(let j = 0;j < allPrice.length;j++) {
-    //   console.log(j+":"+allPrice[j][0].salePrice);
-    // }
-    
-    // p.setState({
-    //   channelSkuList: allPrice,
-    // });
     const modalProps = {
       visible,
       width: 1350,
@@ -418,7 +346,6 @@ class ProductsModal extends Component {
       },
       beforeUpload(file) {
         const filesList = p.state.picList || [];
-        //console.log("...checkPicNum"+filesList.length);
         if(14 <= filesList.length) {
           //console.log("enter");
           message.info('您已上传15张，不可再传');
@@ -462,6 +389,14 @@ class ProductsModal extends Component {
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
     };
+    const formItemLayoutSpecial = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 16 },
+    };
+    const formItemLayoutWxIsSale = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 13 },
+    };
     const fileListSource = this.state.picList || picList;
 
     let selectedCategoryCode = [];
@@ -481,11 +416,16 @@ class ProductsModal extends Component {
         }
       })
     }
-//console.log("ch......"+productData.itemSkus);
 
-
-    
-    //console.log(productData.categoryId, selectedCategoryId);
+    let idCardDefaultValue = this.state.idCardDefault;
+    //计算是否身份证、上架时间的初始值
+    if (productData.idCard) {
+      idCardDefaultValue = productData.idCard;
+    }
+    let shelfMethodDefaultValue = 0;
+    if (productData.shelfMethod) {
+      shelfMethodDefaultValue = productData.shelfMethod;
+    }
 
     return (
       <Modal
@@ -498,44 +438,20 @@ class ProductsModal extends Component {
               <Row>
                 <Col span={7}>
                   <FormItem
-                    label="所属类目"
+                    label="商品类型"
+                    {...formItemLayout}
                     required="true"
-                    {...formItemLayout}
                   >
-                    {getFieldDecorator('categoryCode', {
-                      initialValue: selectedCategoryCode,
-                      rules: [{ required: true, validator: this.chooseCate.bind(this) }],
+                    {getFieldDecorator('isAbroad', {
+                      initialValue: productData.isAbroad == 0 ? 0 : 1,
                     })(
-                      <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover"/>,
-                      // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
+                      <RadioGroup onChange={this.changeIdCardDefaultValue} >
+                        <Radio value={1}>海外商品</Radio>
+                        <Radio value={0}>国内商品</Radio>
+                      </RadioGroup>,
                     )}
                   </FormItem>
                 </Col>
-
-                <Col span={7}>
-                  <FormItem
-                    label="男女款"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('sexStyle', {
-                      initialValue: productData.sexStyle || undefined,
-                    })(
-                      <Select placeholder="请选择" allowClear>
-                        <Option key="男款">男款</Option>
-                        <Option key="女款">女款</Option>
-                        <Option key="大童男款">大童男款</Option>
-                        <Option key="大童女款">大童女款</Option>
-                        <Option key="小童男款">小童男款</Option>
-                        <Option key="小童女款">小童女款</Option>
-                        <Option key="大童款">大童款</Option>
-                        <Option key="小童款">小童款</Option>
-                        <Option key="婴儿款">婴儿款</Option>
-                      </Select>,
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row>
                 <Col span={7}>
                   <FormItem
                     label="品牌"
@@ -558,24 +474,12 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>
+              </Row>
+              <Row>
                 <Col span={7}>
                   <FormItem
-                    label="英文名称"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('enName', {
-                      initialValue: toString(productData.enName),
-                      rules: [{ message: '请输入英文名称' }],
-                    })(
-                      <Input placeholder="请输入英文名称" maxLength="128"/>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={14}>
-                  <FormItem
                     label="商品名称"
-                    labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 19 }}
+                    {...formItemLayout}
                   >
                     {getFieldDecorator('name', {
                       initialValue: toString(productData.name),
@@ -585,39 +489,15 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-              </Row>
-              <Row>
                 <Col span={7}>
                   <FormItem
-                    label="币种"
+                    label="商品分组"
                     {...formItemLayout}
                   >
-                    {getFieldDecorator('currency', {
-                      initialValue: toString(productData.currency || '1', 'SELECT'),
-                      rules: [{ required: true, message: '请选择币种' }],
+                    {getFieldDecorator('itemGroup', {
+                      rules: [{ message: '请输入分组' }],
                     })(
-                      <Select placeholder="请选择币种" allowClear>
-                        <Option value="1">人民币</Option>
-                        <Option value="2">美元</Option>
-                        <Option value="3">欧元</Option>
-                        <Option value="4">港币</Option>
-                      </Select>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={7}>
-                  <FormItem
-                    label="是否身份证"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('idCard', {
-                      initialValue: toString(productData.idCard, 'SELECT') || '1',
-                      rules: [{ required: true, message: '请选择是否身份证' }],
-                    })(
-                      <Select placeholder="请选择是否身份证" allowClear>
-                        <Option value="1">是</Option>
-                        <Option value="0">否</Option>
-                      </Select>,
+                      <Input placeholder="请输入分组" maxLength="60"/>,
                     )}
                   </FormItem>
                 </Col>
@@ -625,16 +505,34 @@ class ProductsModal extends Component {
               <Row>
                 <Col span={7}>
                   <FormItem
-                    label="采购地"
+                    label="三级类目"
+                    required="true"
+                    {...formItemLayout}
+                  >
+                    {getFieldDecorator('categoryCode', {
+                      initialValue: selectedCategoryCode,
+                      rules: [{ required: true, validator: this.chooseCate.bind(this) }],
+                    })(
+                      <Cascader options={tree} placeholder="请选择所属类目" expandTrigger="hover"/>,
+                      // <TreeSelect placeholder="请选择所属类目" treeDefaultExpandAll treeData={tree} />,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col span={7}>
+                  <FormItem
+                    label="选择国家"
                     {...formItemLayout}
                   >
                     {getFieldDecorator('country', {
                       initialValue: productData.country, // toString(, 'SELECT'),
-                      rules: [{ required: true, message: '请选择国家' }],
+                      rules: [{ required: true, message: '请选择国家'}],
                     })(
                       <Select placeholder="请选择国家" allowClear onChange={this.handleSelectCountry.bind(this)}>
                         {countries.map(country => <Option key={country.id} value={country.id}>{country.name}</Option>)}
-                        <Option key="_other" value="other">其他</Option>
+                        <Option key="_other" value="-1">其他</Option>
                       </Select>,
                     )}
                   </FormItem>
@@ -654,176 +552,72 @@ class ProductsModal extends Component {
                   <FormItem><Button style={{ marginLeft: 10 }} type="primary" size="small" onClick={this.handleAddCountry.bind(this)} >添加</Button></FormItem>
                 </Col>]}
               </Row>
+            
               <Row>
                 <Col span={7}>
                   <FormItem
-                    label="销售开始时间"
+                    label="小程序可售"
+                     {...formItemLayoutWxIsSale}
+                   
+                    required="true"
+                  >
+                    {getFieldDecorator('wxisSale', {
+                      initialValue: productData.wxisSale == 0 ? 0 : 1, 
+                    })(
+                      <RadioGroup>
+                        <Radio value={1}>是</Radio>
+                        <Radio value={0}>否</Radio>
+                      </RadioGroup>,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={7}>
+                  <FormItem
+                    label="是否身份证"
                     {...formItemLayout}
                   >
-                    {getFieldDecorator('startDate', {
-                      initialValue: (productData.startDateStr && moment(productData.startDateStr, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+                    {getFieldDecorator('idCard', {
+                      initialValue: idCardDefaultValue,
+                      rules: [{ required: true, message: '请选择是否身份证' }],
+                    })(
+                      <RadioGroup>
+                      <Radio value={1}>是</Radio>
+                      <Radio value={0}>否</Radio>
+                    </RadioGroup>,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={9}>
+                  <FormItem
+                    label="上架时间"
+                    {...formItemLayoutSpecial}
+                    required="true"
+                  >
+                    {getFieldDecorator('shelfMethod', {
+                      initialValue: shelfMethodDefaultValue,
+                    })(
+                      <RadioGroup on>
+                        <Radio value={0}>立即上架售卖</Radio>
+                        <Radio value={1}>暂不售卖</Radio>
+                        <Radio value={2}>自定义上架时间</Radio>
+                      </RadioGroup>,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={3}>
+                  <FormItem
+                  >
+                    {getFieldDecorator('startTime', {
+                      initialValue: (productData.startTime && moment(productData.startTime, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
                       rules: [{ required: true, message: '请选择' }],
                     })(
                       <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />,
                     )}
                   </FormItem>
                 </Col>
-                <Col span={7}>
-                  <FormItem
-                    label="销售结束时间"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('endDate', {
-                      initialValue: (productData.endDateStr && moment(modalValues.data.endDateStr, 'YYYY-MM-DD HH:mm:ss')) || undefined,
-                      rules: [{ required: true, validator: this.checkEndDate.bind(this) }],
-                    })(
-                      <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" disabledDate={this.disabledEndDate.bind(this)} style={{ width: '100%' }} />,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={7}>
-                  <FormItem
-                    label="采购站点"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('buySite', {
-                      initialValue: toString(productData.buySite),
-                    })(
-                      <Input  disabled="disabled"/>,
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row>
-                <Col span={7}>
-                  <FormItem
-                    label="发货方式"
-                    {...formItemLayout}
-                    required="true"
-                  >
-                    {getFieldDecorator('logisticType', {
-                      initialValue: toString(productData.logisticType || '1'),
-                    })(
-                      <RadioGroup on>
-                        <Radio value="1">海外直邮</Radio>
-                        <Radio value="2">海外拼邮</Radio>
-                        <Radio value="3">国内直发</Radio>
-                      </RadioGroup>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={7}>
-                  <FormItem
-                    label="预售时间"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('bookingDate', {
-                      initialValue: (productData.bookingDateStr && moment(modalValues.data.bookingDateStr, 'YYYY-MM-DD HH:mm:ss')) || undefined,
-                      rules: [{ required: false, message: '请选择' }],
-                    })(
-                      <DatePicker
-                        showTime
-                        format="YYYY-MM-DD HH:mm:ss"
-                        placeholder="请选择预售时间"
-                      />,
-                    )}
-                  </FormItem>
-                </Col>
 
-                <Col span={7}>
-                  {<FormItem
-                    label="第三方销售平台"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('saleOnChannels', {
-                      initialValue: productData.saleOnChannels || [],
-                      rules: [{ required: false, message: '请选择第三方销售' }],
-                    })(
-                      <Select placeholder="请选择第三方销售" mode="multiple" allowClear onChange={this.handleChange.bind(this)}>
-                        {channels.map((el, index) => (
-                          <Option key={index} value={el.channelName}>{el.channelName}</Option>
-                          ))}
-                      </Select>,
-                    )}
-                  </FormItem>}
-                </Col>
-              </Row>
-              <Row>
-                <Col span={7}>
-                  <FormItem
-                    label="小程序可售"
-                    {...formItemLayout}
-                    required="true"
-                  >
-                    {getFieldDecorator('wxisSale', {
-                      initialValue: toString(productData.wxisSale !== 0 ? 1 : 0), // 神解决
-                    })(
-                      <RadioGroup>
-                        <Radio value="1">是</Radio>
-                        <Radio value="0">否</Radio>
-                      </RadioGroup>,
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row>
-                {/* <Col span={7}>
-                  <FormItem
-                    label="运费"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('freight', {
-                      initialValue: toString(productData.freight),
-                    })(
-                      <InputNumber min={0} step={0.01} placeholder="请输入运费" />,
-                    )}
-                  </FormItem>
-                </Col> */}
-
-                {/* <Col span={7}>
-                  <FormItem
-                    label="商品代码"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('itemCode', {
-                      initialValue: toString(productData.itemCode),
-                      rules: [{ message: '请输入商品代码' }],
-                    })(
-                      <Input disabled placeholder="请输入商品代码" />,
-                    )}
-                  </FormItem>
-                </Col> */}
-                <Col span={7}>
-                  <FormItem
-                    label="选择商品归属买手"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('owners', {
-                      initialValue: _roleIds,
-                      rules: [{ required: false, message: '请选择买手' }],
-                    })(
-                      <Select  mode="multiple" allowClear disabled="disabled">
-                        {allBuyers.map((el) => {
-                          return <Option key={el.id} value={el.id.toString()} >{el.nickName}</Option>;
-                        })}
-                      </Select>,
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={14}>
-                  <FormItem
-                    label="备注"
-                    labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 12 }}
-                  >
-                    {getFieldDecorator('remark', {
-                      initialValue: toString(productData.remark),
-                      rules: [{ message: '请输入备注' }],
-                    })(
-                      <Input type="textarea" placeholder="请输入备注" />,
-                    )}
-                  </FormItem>
-                </Col>
               </Row>
               <Row>
                 <Col span={21}>

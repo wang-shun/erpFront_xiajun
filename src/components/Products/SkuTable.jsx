@@ -621,7 +621,8 @@ class SkuTable extends Component {
           title: 'SKU代码',
           dataIndex: 'skuCode',
           key: 'skuCode',
-          width: '5%',
+          width: '8%',
+          display:"none",
           render(t, r) {
             return (
               <FormItem>
@@ -634,14 +635,15 @@ class SkuTable extends Component {
         },
         {
           title: '货号',
-          dataIndex: 'thirdSkuCode',
-          key: 'thirdSkuCode',
-          width: '7%',
+          dataIndex: 'goodsNo',
+          key: 'goodsNo',
+          width: '9%',
+          marginLeft: "2%",
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_thirdSkuCode`, { initialValue: t || '' })(
-                  <Input disabled="disabled" />)}
+                {getFieldDecorator(`r_${r.key}_goodsNo`, { initialValue: t || '' })(
+                  <Input />)}
               </FormItem>
             );
           },
@@ -650,12 +652,12 @@ class SkuTable extends Component {
           title: '规格1',
           dataIndex: 'color',
           key: 'color',
-          width: '6%',
+          width: '9%',
           render(t, r) {
             return (
-              <FormItem required="true">
-                {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
-                  <Input placeholder="颜色等" required='required' />)}
+              <FormItem>
+                {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
+                  <Input placeholder="颜色尺寸等"  />)}
               </FormItem>
             );
           },
@@ -664,46 +666,12 @@ class SkuTable extends Component {
           title: '规格2',
           dataIndex: 'scale',
           key: 'scale',
-          width: '7%',
+          width: '9%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_scale`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
-                  <Input placeholder="尺寸等" required='required' />)}
-                {getFieldDecorator(`r_${r.key}_id`, { initialValue: r.id || null })(
-                  <Input style={{ display: 'none' }} />)}
-              </FormItem>
-            );
-          },
-        },
-        {
-          title: '销售价格',
-          dataIndex: 'salePrice',
-          key: 'salePrice',
-          width: '8%',
-          render(t, r) {
-            return (
-              <FormItem>
-                {getFieldDecorator(`r_${r.key}_salePrice`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
-                  <InputNumber step={0.01} min={0} placeholder="必填" />)}
-              </FormItem>
-            );
-          },
-        },
-        {
-          title: '',
-          dataIndex: 'saleMode',
-          key: 'saleMode',
-          width: '10%',
-          render(t, r) {
-            return (
-              <FormItem>
-                {getFieldDecorator(`r_${r.key}_saleMode`, { initialValue: t || '0', rules: [{ required: true, message: '该项必填' }] })(
-                  <RadioGroup onChange={p.skuOK.bind(p, r)} value={p.state.value}>
-                    <Radio value='0'>应用全渠道</Radio>
-                    <Radio value='1'>分渠道设置</Radio>
-                  </RadioGroup>
-                )}
+                {getFieldDecorator(`r_${r.key}_scale`, { initialValue: t || '' })(
+                  <Input placeholder="颜色尺寸等"/>)}
               </FormItem>
             );
           },
@@ -712,7 +680,7 @@ class SkuTable extends Component {
           title: '虚拟库存',
           dataIndex: 'virtualInv',
           key: 'virtualInv',
-          width: '7%',
+          width: '9%',
           render(t, r) {
             return (
               <FormItem>
@@ -729,7 +697,7 @@ class SkuTable extends Component {
           title: '重量(克)',
           dataIndex: 'weight',
           key: 'weight',
-          width: '8%',
+          width: '9%',
           render(t, r) {
             return (
               <FormItem>
@@ -746,7 +714,7 @@ class SkuTable extends Component {
           title: 'UPC',
           dataIndex: 'upc',
           key: 'upc',
-          width: '8%',
+          width: '9%',
           render(t, r) {
             return (
               <FormItem>
@@ -760,14 +728,31 @@ class SkuTable extends Component {
           },
         },
         {
-          title: '佣金比率',
-          dataIndex: 'skuRate',
-          key: 'skuRate',
-          width: '7%',
+          title: '销售价格',
+          dataIndex: 'salePrice',
+          key: 'salePrice',
+          width: '9%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_skuRate`, {
+                {getFieldDecorator(`r_${r.key}_salePrice`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
+                  <InputNumber step={0.01} min={0} placeholder="必填" />)}
+              </FormItem>
+            );
+          },
+        },
+        
+       
+        
+        {
+          title: '佣金比率',
+          dataIndex: 'skuRateString',
+          key: 'skuRateString',
+          width: '9%',
+          render(t, r) {
+            return (
+              <FormItem>
+                {getFieldDecorator(`r_${r.key}_skuRateString`, {
                   initialValue: t || 0
                 })(
                   <InputNumber
@@ -817,23 +802,7 @@ class SkuTable extends Component {
             );
           },
         },
-        {
-          title: '包装规格',
-          dataIndex: 'packageLevelId',
-          key: 'packageLevelId',
-          width: '9%',
-          render(t, r) {
-            return (
-              <FormItem>
-                {getFieldDecorator(`r_${r.key}_packageLevelId`, {
-                  initialValue: t && typeof t === 'string' ? t.match(/\[/g) ? JSON.parse(t) : t.split(',') : '',
-                  rules: [{ required: false, message: '该项选填' }],
-                })(
-                  <Cascader options={packageScales} placeholder="选填" />)}
-              </FormItem>
-            );
-          },
-        },
+
         {
           title: '操作',
           key: 'operator',

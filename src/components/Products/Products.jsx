@@ -27,13 +27,9 @@ class Products extends Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if (err) return;
         if (values.saleDate && values.saleDate[0] && values.saleDate[1]) {
-          values.startDate = new Date(values.saleDate[0]).format('yyyy-MM-dd');
-          values.endDate = new Date(values.saleDate[1]).format('yyyy-MM-dd');
+          values.startTime = new Date(values.saleDate[0]).format('yyyy-MM-dd');
+          values.endTime = new Date(values.saleDate[1]).format('yyyy-MM-dd');
         }
-        if (values.hasVirtualInventory) values.hasVirtualInventory = 1;
-        else values.hasVirtualInventory = 0;
-        if (values.hasInventory) values.hasInventory = 1;
-        else values.hasInventory = 0;
         delete values.saleDate;
         this.props.dispatch({
           type: 'products/queryItemList',
@@ -53,6 +49,20 @@ class Products extends Component {
     this.setState({ modalVisible: true }, () => {
       p.props.dispatch({ type: 'products/queryProduct', payload: { id } });
     });
+  }
+
+  //单品下架
+  putoffItem(id) {
+    const p = this;
+    let type = 'products/batchDelistingYouzan';
+    let checkId = [];
+    checkId.push(id);
+
+        p.props.dispatch({
+          type,
+          payload: { itemIds: JSON.stringify(checkId) },
+          cb() { p._refreshData(); },
+        });
   }
 
   showModal() {
@@ -180,6 +190,37 @@ class Products extends Component {
     const yzBasicUrl = 'https://h5.youzan.com/v2/goods/';
     const columns = [
       {
+        title: '商品图片',
+        dataIndex: 'mainPic',
+        key: 'mainPic',
+        width: 60,
+        render(text) {
+          if (!text) return '-';
+          const picList = JSON.parse(text).picList;
+          const t = (picList.length && picList[0]) ? picList[0].url : '';
+          return (
+            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
+            </Popover> : '-'
+          );
+        },
+      },
+      {
+        title: '二维码图片',
+        dataIndex: 'dimensionCodePic',
+        key: 'dimensionCodePic',
+        width: 40,
+        render(text) {
+          if (!text) return '-';
+          const t = text;
+          return (
+            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
+            </Popover> : '-'
+          );
+        },
+      },
+      {
         title: '商品名称',
         dataIndex: 'name',
         key: 'name',
@@ -188,7 +229,27 @@ class Products extends Component {
           return r.outerAlias ? <a href={`${yzBasicUrl}${r.outerAlias}`} rel="noopener noreferrer" target="_blank">{t}</a> : <span>{t}</span>;
         },
       },
-      { title: '商品代码', dataIndex: 'itemCode', key: 'itemCode', width: 100 / 14.32 + '%' },
+      {
+        title: '价格',
+        dataIndex: 'priceRange',
+        key: 'priceRange',
+        width: 10 + '%',
+      },
+      { title: '实际库存', dataIndex: 'inventory', key: 'inventory', width: 100 / 14.32 + '%' },
+      {
+        title: '虚拟库存',
+        key: 'virtualInv', 
+        width: 100 / 14.32 + '%',
+        render(t, r){
+          return (
+            <div>
+              {r.virtualInv}
+             {/* {r.virtualInv < 0 ? 0 : r.virtualInv} */}
+            </div>
+          );
+        },
+
+      },
       {
         title: '商品状态',
         dataIndex: 'status',
@@ -205,100 +266,30 @@ class Products extends Component {
           }
         },
       },
-      {
-        title: '商品图片',
-        dataIndex: 'mainPic',
-        key: 'mainPic',
-        width: 80,
-        render(text) {
-          if (!text) return '-';
-          const picList = JSON.parse(text).picList;
-          const t = (picList.length && picList[0]) ? picList[0].url : '';
-          return (
-            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
-              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
-            </Popover> : '-'
-          );
-        },
-      },
-      {
-        title: '二维码图片',
-        dataIndex: 'dimensionCodePic',
-        key: 'dimensionCodePic',
-        width: 80,
-        render(text) {
-          if (!text) return '-';
-          const t = text;
-          return (
-            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
-              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
-            </Popover> : '-'
-          );
-        },
-      },
-      { title: '商品品牌', dataIndex: 'brand', key: 'brand', width: 100 / 14.32 + '%', render(text) { return text || '-'; } },
-      { title: '销售类型', dataIndex: 'saleType', key: 'saleType', width: 80 / 14.32 + '%', render(text) { return <span>{text === 0 ? '代购' : '现货'}</span>; } },
-      {
-        title: '商品类目',
-        width: 100 / 14.32 + '%',
-        dataIndex: 'categoryName',
-        key: 'categoryName',
-        // render(t) {
-        //   const cate = p.interator(tree, t && t.toString()) || [];
-        //   return <span>{cate[0] ? cate[0].name : '-'}</span>;
-        // },
-      },
-      //{ title: '采购地点', dataIndex: 'buySite', key: 'buySite', width: 80 / 14.32 + '%', render(text) { return text || '-'; } },
-      {
-        title: '是否可售',
-        dataIndex: 'isSale',
-        key: 'isSale',
-        width: 80 / 14.32 + '%',
-        render(text) {
-          switch (text) {
-            case 1: return '可售';
-            default: return '不可销售';
-          }
-        },
-      },
-      { title: '实际库存', dataIndex: 'inventory', key: 'inventory', width: 80 / 14.32 + '%' },
-      {
-        title: '虚拟库存',
-        key: 'virtualInv', 
-        width: 80 / 14.32 + '%',
-        render(t, r){
-          return (
-            <div>
-              {r.virtualInv}
-             {/* {r.virtualInv < 0 ? 0 : r.virtualInv} */}
-            </div>
-          );
-        },
-
-      },
-      { title: '开始销售时间', dataIndex: 'startDate', key: 'startDate', width: 80 / 14.32 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
-      { title: '结束销售时间', dataIndex: 'endDate', key: 'endDate', width: 80 / 14.32 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
+      { title: '销量', dataIndex: 'saleNum', key: 'saleNum', width: 100 / 14.32 + '%', render(text) { return 0} },     
+      { title: '开始时间', dataIndex: 'startDate', key: 'startDate', width: 80 / 14.32 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
       {
         title: '操作',
         key: 'oper',
         width: 90,
         render(text, record) {
-          // if (!record.dimensionCodePic) {
             return (<div style={{ whiteSpace: 'nowrap' }}>
-              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>编辑</a><br /><Popconfirm title="是否要生成该小程序的二维码？" onConfirm={p.createDimensionPic.bind(p, record.id)}>
+              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>编辑</a>
+              <br />
+              <Popconfirm title="确认下架？" onConfirm={p.putoffItem.bind(p, record.id)}>
+                <a href="javascript:void(0)"><font color="green">下架</font></a>
+              </Popconfirm>
+              <br/>
+              <Popconfirm title="是否要生成该小程序的二维码？" onConfirm={p.createDimensionPic.bind(p, record.id)}>
                 <a href="javascript:void(0)"><font color="green">生成二维码</font></a>
-              </Popconfirm><br /><Popconfirm title="确定清除虚拟库存吗？" onConfirm={p.cleanVirtualInvModal.bind(p, record.id)}>
+              </Popconfirm>
+              <br />
+              <Popconfirm title="确定清除虚拟库存吗？" onConfirm={p.cleanVirtualInvModal.bind(p, record.id)}>
                 <a href="javascript:void(0)">清除虚拟库存</a>
               </Popconfirm>
+              
             </div>);
-          // }
-          return (
-            <div style={{ whiteSpace: 'nowrap' }}>
-              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>编辑</a><br /><Popconfirm title="确定清除虚拟库存吗？" onConfirm={p.cleanVirtualInvModal.bind(p, record.id)}>
-                <a href="javascript:void(0)">清除虚拟库存</a>
-              </Popconfirm>
-            </div>
-          );
+
         },
       },
     ];
@@ -358,52 +349,12 @@ class Products extends Component {
                 label="商品类目"
                 {...formItemLayout}
               >
-                {getFieldDecorator('categoryId', {
+                {getFieldDecorator('categoryCode', {
                   rules: [{ validator: this.chooseCate.bind(this) }],
                 })(
-                  <TreeSelect placeholder="请选择类目" treeDefaultExpandAll treeData={tree} />)}
+                  <TreeSelect placeholder="请选择类目" allowClear treeDefaultExpandAll treeData={tree} />)}
               </FormItem>
             </Col>
-          </Row>
-          <Row gutter={20} style={{ width: 800 }}>
-            <Col span={8}>
-              <FormItem
-                label="品牌"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('brand', {})(
-                  <Select
-                    allowClear
-                    placeholder="请输入品牌"
-                    showSearch
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    {allBrands && allBrands.map(item => <Option key={item.name}>{item.name}</Option>)}
-                  </Select>)}
-              </FormItem>
-            </Col>
-            <Col span="8">
-              <FormItem
-                label="采购站点"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('buySite', {})(
-                  <Input placeholder="请输入采购站点" suffix={p.showClear('buySite')} />)}
-              </FormItem>
-            </Col>
-            {/* <Col span="8">
-              <FormItem
-                label="归属买手"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('owners', {})(
-                  <Select placeholder="请选择" mode="multiple" allowClear>
-                    {allBuyers.map(el => <Option key={el.id} value={el.id.toString()}>{el.nickName}</Option>)}
-                  </Select>,
-                )}
-              </FormItem>
-            </Col> */}
           </Row>
           <Row gutter={20} style={{ width: 800 }}>
             <Col span={14}>
@@ -415,24 +366,27 @@ class Products extends Component {
                 {getFieldDecorator('saleDate')(<RangePicker />)}
               </FormItem>
             </Col>
-            <Col span={5}>
-              <FormItem>
-                {getFieldDecorator('hasInventory', {
-                  valuePropName: 'checked',
+            <Col span={6}>
+              <FormItem
+                label="商品状态"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('status', {
+                  initialValue:1
                 })(
-                  <Checkbox> 实际库存大于0</Checkbox>,
+                  <Select
+                    allowClear
+                    placeholder="请选择状态"
+                    showSearch
+                  >               
+                    <Option value={1}>上架</Option>
+                    <Option value={2}>下架</Option>
+                    <Option value={0}>新建</Option>
+                  </Select>
                 )}
               </FormItem>
             </Col>
-            <Col span={5}>
-              <FormItem>
-                {getFieldDecorator('hasVirtualInventory', {
-                  valuePropName: 'checked',
-                })(
-                  <Checkbox> 虚拟库存大于0</Checkbox>,
-                )}
-              </FormItem>
-            </Col>
+            
           </Row>
           <Row style={{ marginLeft: 13 }}>
             <Col className="listBtnGroup">
@@ -441,13 +395,13 @@ class Products extends Component {
             </Col>
           </Row>
         </Form>
-        <Row className="operBtn">
+        <Row className="operBtn" >
           <Col>
-            <Button type="primary" style={{ float: 'left' }} size="large" onClick={() => { this.showModal(); }}>添加商品</Button>
-            <Button style={{ float: 'left', left: '20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>批量导入商品</Button>
-            <Button type="primary" style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.batchAction.bind(p, 'syn')}>批量同步</Button>
-            <Button type="primary" style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.batchAction.bind(p, 'onSell')}>批量上架</Button>
-            <Button type="primary" style={{ float: 'right', marginLeft: 10 }} size="large" onClick={p.batchAction.bind(p, 'offSell')}>批量下架</Button>
+            <Button type="primary" style={{ float: 'left' }} size="large" onClick={() => { this.showModal(); }}>商品发布</Button>
+            <Button style={{ float: 'left', marginLeft: '20px' }} type="primary" size="large" onClick={p.showMore.bind(p)}>批量导入商品</Button>
+            <Button type="primary" style={{ float: 'left', marginLeft: '20px' }} size="large" onClick={p.batchAction.bind(p, 'syn')}>批量同步</Button>
+            <Button type="primary" style={{ float: 'left', marginLeft: '20px' }} size="large" onClick={p.batchAction.bind(p, 'onSell')}>批量上架</Button>
+            <Button type="primary" style={{ float: 'left', marginLeft: '20px' }} size="large" onClick={p.batchAction.bind(p, 'offSell')}>批量下架</Button>
           </Col>
         </Row>
         <Row>
