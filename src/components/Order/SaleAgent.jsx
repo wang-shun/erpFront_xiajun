@@ -297,15 +297,17 @@ class SaleAgent extends Component {
     })
   }
   onBlurMoney(r) {
+    console.log(r)
     const { form } = this.props;
-    form.validateFieldsAndScroll([`r_${r.userNo}_commissionValue`], (err, fieldsValue) => {
+    form.validateFieldsAndScroll([`r_${r.userNo}_commissionValueStr`], (err, fieldsValue) => {
+      console.log(fieldsValue)
       if (err) {
         return;
       }
       const comMao = {
         userNo: r.userNo,
         commissionMode: r.commissionMode,
-        commissionValueStr: fieldsValue["r_" + r.userNo + "_commissionValue"].toString(),
+        commissionValueStr: fieldsValue["r_" + r.userNo + "_commissionValueStr"].toString(),
         // commissionValue: fieldsValue["r_" + r.userNo + "_commissionValue"],
       }
       console.log(comMao)
@@ -431,8 +433,8 @@ class SaleAgent extends Component {
       },
       {
         title: '佣金',
-        dataIndex: 'commissionValue',
-        key: 'commissionValue',
+        dataIndex: 'commissionValueStr',
+        key: 'commissionValueStr',
         width: '18%',
         render(t, r, index) {
           return (
@@ -445,7 +447,7 @@ class SaleAgent extends Component {
             //   </div>
             // </div>
             <FormItem>
-              {getFieldDecorator(`r_${r.userNo}_commissionValue`, { initialValue: t, rules: [{ required: true, message: '请输入佣金' }], })(
+              {getFieldDecorator(`r_${r.userNo}_commissionValueStr`, { initialValue: t, rules: [{ required: true, message: '请输入佣金' }], })(
                 <InputNumber placeholder="请填写佣金" onBlur={p.onBlurMoney.bind(p, r)} min={0} max={100} style={{ width: 50 }} />
               )}
               <span style={{ marginLeft: 5 }}>%</span>

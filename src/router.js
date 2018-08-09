@@ -35,6 +35,7 @@ import AgencyType from './components/Agency/AgencyType';
 import BuyerList from './components/Agency/BuyerList';
 import Inventory from './components/Inventory/Inventory';
 import Warehouse from './components/Inventory/Warehouse'; // 仓库管理
+import Business from './components/Inventory/Business';
 import Inout from './components/Inventory/Inout'; // 仓库管理
 import Out from './components/Inventory/Out'; // 仓库管理
 import Resource from './components/Permission/Resource';
@@ -63,8 +64,9 @@ import RoleMng from './components/RoleMng/RoleMng';
 // 小程序设置
 import appset from './components/MyApp/appset';
 import appsetTest from './components/MyApp/appsetTest';
-
-
+// 渠道设置
+import channelBinding from './components/Channel/channelBinding';
+import channelInstall from './components/Channel/channelInstall';
 
 function redirectHelper(...args) {
   // 传入参数3，为onEnter
@@ -93,7 +95,7 @@ function RouterConfig({ history }) {
         {/* 临时处理 */}
         {/* <Route path={`/${routerCfg.SETTINGS}`} component={Warehouse} /> */}
         <Route path={`/${routerCfg.SETTINGS}/${routerCfg.WAREHOUSE}`} component={Warehouse} />
-
+        <Route path={`/${routerCfg.SETTINGS}/${routerCfg.BUSINESS}`} component={Business} />
         {/* <Route path={`/${routerCfg.MYAPP}`} component={appset} /> */}
         <Route path={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} component={appset} />
         <Route path={`/${routerCfg.MYAPP}/${routerCfg.APPSETTEST}`} component={appsetTest} />
@@ -158,6 +160,8 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.REPORT}/${routerCfg.REPORT_PXPACKAGEREPORT}`} component={ReportNoSendPackage} />
         <Route path={`/${routerCfg.REPORT}/${routerCfg.REPORT_AVGREPORT}`} component={ReportlogisticCompanyAvgPackage} />
         <Route path={`/${routerCfg.ROLE_MNG}`} component={RoleMng} />
+        <Route path={`/${routerCfg.CHANNEL}/${routerCfg.channelBinding}`} component={channelBinding} />
+        <Route path={`/${routerCfg.CHANNEL}/${routerCfg.CHANNELINSTALL}`} component={channelInstall} />
         {/* 一级导航重定向 */}
         <Redirect from={`/${routerCfg.PERMISSION}`} to={`/${routerCfg.PERMISSION}/${routerCfg.ROLE}`} />
         <Redirect from={`/${routerCfg.PRODUCTS}`} to={`/${routerCfg.PRODUCTS}/${routerCfg.PRODUCTS_LIST}`} />
@@ -168,7 +172,9 @@ function RouterConfig({ history }) {
         <Redirect from={`/${routerCfg.REPORT}`} to={`/${routerCfg.REPORT}/${routerCfg.REPORT_SHIPPING_BY_DAY}`} />
         <Redirect from={`/${routerCfg.SETTINGS}`} to={`/${routerCfg.SETTINGS}/${routerCfg.WAREHOUSE}`} />
         <Redirect from={`/${routerCfg.MARKETING}`} to={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} />
-        <Redirect from={`/${routerCfg.MYAPP}`} to={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} />    
+        <Redirect from={`/${routerCfg.MYAPP}`} to={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} /> 
+        <Redirect from={`/${routerCfg.CHANNEL}`} to={`/${routerCfg.CHANNEL}/${routerCfg.CHANNELINSTALL}`} />
+
         {/* 二级导航重定向 */}
         <Redirect from={`/${routerCfg.PURCHASE}/${routerCfg.CHECK}`} to={`/${routerCfg.PURCHASE}/${routerCfg.CHECK}/${routerCfg.JOURNAL}`} />
       </Route>

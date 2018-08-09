@@ -10,8 +10,6 @@ class Test extends Component {
     super(props);
     this.state = {};
   }
-  hadleClick = () => {
-  }
   componentDidMount(){
     var a =  this.props.location.query;
     let code = a.code;
@@ -21,7 +19,7 @@ class Test extends Component {
     }
   render() {
     return (
-      <div onClick={this.hadleClick}>1111</div>
+      <div></div>
     );
   }
 }
