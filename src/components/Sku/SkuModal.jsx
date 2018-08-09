@@ -232,7 +232,6 @@ class SkuModal extends Component {
               >
                 {getFieldDecorator('scale', {
                   initialValue: toString(skuModalData.scale),
-                  rules: [{ required: true, message: '请填写尺寸等规格' }]
                 })(
                   <Input  placeholder="尺寸等规格" />,
                 )}
@@ -240,17 +239,6 @@ class SkuModal extends Component {
             </Col>
           </Row>
           <Row gutter={10}>
-            <Col span={7}>
-              <FormItem
-                label="包装规格"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('packageLevelId', {
-                  initialValue: skuModalData.packageLevelId && typeof skuModalData.packageLevelId === 'string' ? skuModalData.packageLevelId.match(/\[/g) ? JSON.parse(skuModalData.packageLevelId) : skuModalData.packageLevelId.split(',') : undefined              
-                })(
-                  <Cascader options={packageScales} placeholder="请选择包装规格" />)}
-              </FormItem>
-            </Col>
             <Col span={7}>
               <FormItem
                 label="UPC"
@@ -277,6 +265,20 @@ class SkuModal extends Component {
                 )}
               </FormItem>
             </Col>
+            <Col span={7}>
+              <FormItem
+                label="品牌"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('brand', {
+                  initialValue: toString(skuModalData.brand, 'SELECT'),
+                })(
+                  <Select disabled placeholder="请选择品牌" combobox>
+                    {brandList.map(item => <Option key={item.id} value={item.name}>{item.name}</Option>)}
+                  </Select>,
+                )}
+              </FormItem>
+            </Col>
           </Row>
           <Row gutter={10}>
             <Col span={7}>
@@ -299,26 +301,12 @@ class SkuModal extends Component {
               >
                 {getFieldDecorator('color', {
                   initialValue: toString(skuModalData.color),
-                  rules: [{ required: true, message: '请填写颜色等规格' }]
                 })(
                   <Input placeholder="颜色等规格" />,
                 )}
               </FormItem>
             </Col>
-            <Col span={7}>
-              <FormItem
-                label="品牌"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('brand', {
-                  initialValue: toString(skuModalData.brand, 'SELECT'),
-                })(
-                  <Select disabled placeholder="请选择品牌" combobox>
-                    {brandList.map(item => <Option key={item.id} value={item.name}>{item.name}</Option>)}
-                  </Select>,
-                )}
-              </FormItem>
-            </Col>
+            
           </Row>
           <Row>
             <Col>
