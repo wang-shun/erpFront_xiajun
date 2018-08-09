@@ -418,12 +418,14 @@ class ProductsModal extends Component {
     }
 
     let idCardDefaultValue = this.state.idCardDefault;
+    console.log("this.state.idCardDefault..."+idCardDefaultValue)
+    console.log(productData)
     //计算是否身份证、上架时间的初始值
-    if (productData.idCard) {
+    if (productData) {
       idCardDefaultValue = productData.idCard;
     }
     let shelfMethodDefaultValue = 0;
-    if (productData.shelfMethod) {
+    if (productData) {
       shelfMethodDefaultValue = productData.shelfMethod;
     }
 
@@ -610,7 +612,7 @@ class ProductsModal extends Component {
                   <FormItem
                   >
                     {getFieldDecorator('startTime', {
-                      initialValue: (productData.startTime && moment(productData.startTime, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+                      initialValue: (productData.startDate && moment(productData.startDate, 'YYYY-MM-DD HH:mm:ss')) || moment(new Date(), 'YYYY-MM-DD HH:mm:ss'),
                       rules: [{ required: true, message: '请选择' }],
                     })(
                       <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />,
