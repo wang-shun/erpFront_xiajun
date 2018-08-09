@@ -59,13 +59,34 @@ class ProductsModal extends Component {
 
 
   componentDidMount() {
-
+    console.log("com...")
+    const { modalValues = {} } = this.props;
+    const productData = (modalValues && modalValues.data) || {};
     const { channels = []} = this.props;
     let arrayA = channels;
     this.setState({
       skuvalue: arrayA,
     })
+    if (productData) {
+      console.log("coms...")
+      this.setState({
+        idCardDefault: productData.idCard,
+      })
+    }
   }
+
+  componentWillMount() {
+    console.log("com...")
+    const { modalValues = {} } = this.props;
+    const productData = (modalValues && modalValues.data) || {};
+    if (productData) {
+      console.log("coms...")
+      this.setState({
+        idCardDefault: productData.idCard,
+      })
+    }
+  }
+
 
   changeActiveKey(id) {
     if (id === '2') {
@@ -314,6 +335,18 @@ class ProductsModal extends Component {
 
     // 详情数据
     const productData = (modalValues && modalValues.data) || {};
+
+     //let idCardDefaultValue = idCardDefault;
+    // console.log("this.state.idCardDefault..."+idCardDefaultValue)
+    // console.log(productData)
+    //计算是否身份证、上架时间的初始值
+    
+    // }
+    // let shelfMethodDefaultValue = 0;
+    // if (productData) {
+    //   shelfMethodDefaultValue = productData.shelfMethod;
+    // }
+
     const _roleIds = [];
     if (productData.wxList) {
       productData.wxList.forEach((el) => {
@@ -417,17 +450,7 @@ class ProductsModal extends Component {
       })
     }
 
-    let idCardDefaultValue = this.state.idCardDefault;
-    console.log("this.state.idCardDefault..."+idCardDefaultValue)
-    console.log(productData)
-    //计算是否身份证、上架时间的初始值
-    if (productData) {
-      idCardDefaultValue = productData.idCard;
-    }
-    let shelfMethodDefaultValue = 0;
-    if (productData) {
-      shelfMethodDefaultValue = productData.shelfMethod;
-    }
+   //console.log(".......................")
 
     return (
       <Modal
@@ -579,7 +602,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('idCard', {
-                      initialValue: idCardDefaultValue,
+                      initialValue:  idCardDefault == 0 ? 0 : 1,
                       rules: [{ required: true, message: '请选择是否身份证' }],
                     })(
                       <RadioGroup>
@@ -598,7 +621,7 @@ class ProductsModal extends Component {
                     required="true"
                   >
                     {getFieldDecorator('shelfMethod', {
-                      initialValue: shelfMethodDefaultValue,
+                      initialValue: productData.shelfMethod || 0,
                     })(
                       <RadioGroup on>
                         <Radio value={0}>立即上架售卖</Radio>
