@@ -227,7 +227,7 @@ class ErpOrderModal extends Component {
             <Col span={9}>
               <FormItem>
                 {getFieldDecorator('addressDetail', {
-                  initialValue: erpOrderData.addressDetail,
+                  initialValue: erpOrderData.receiverAddress, 
                 })(
                   <Input placeholder="请输入详细地址" size="large" />)}
               </FormItem>
