@@ -643,7 +643,7 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_goodsNo`, { initialValue: t || '' })(
-                  <Input />)}
+                  <Input placeholder="选填" />)}
               </FormItem>
             );
           },
