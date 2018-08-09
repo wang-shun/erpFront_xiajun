@@ -23,7 +23,7 @@ class LoginTest extends Component {
         // this.props.dispatch(routerRedux.push('/permission/user'));\
         // let a = 1;
         // let code = a;
-        this.props.dispatch({ type: 'session/wechatLogin', payload: { code: code }, cb: () => { this.wxInfoMess(); }, });
+        this.props.dispatch({ type: 'session/wechatLogin', payload: { code: code }, cb: () => { this.wxInfoMess(); },ca: () =>{ this.props.dispatch(routerRedux.push('/login'))} });
         this.setState({
             Code: code,
         })

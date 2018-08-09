@@ -106,12 +106,16 @@ export default {
         });
       }
     },
-    * wechatLogin({ payload, cb }, { call, put }) {
+    * wechatLogin({ payload, cb, ca }, { call, put }) {
       const data = yield call(wechatLogin, { payload });
       if (data.success) {
         message.success(data.msg);
         yield put({ type: 'wechatLoginInfo', payload: data });
         cb();
+      }
+      if(!data.success){
+        message.error('请勿刷新，否则需要重新扫码')
+        ca();
       }
     },
     * loginByUserNo({ payload, cb }, { call, put }) {
