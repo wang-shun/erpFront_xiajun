@@ -397,7 +397,7 @@ class BusinessModal extends Component {
                     <Input />)}
                 </FormItem>
               </Col>
-              {showCate && <Col span={10} style={{ marginLeft: 5 }}>
+              {/* {showCate && <Col span={10} style={{ marginLeft: 5 }}>
                 <FormItem
                   label="payKey"
                   {...formItemLayout}
@@ -407,7 +407,7 @@ class BusinessModal extends Component {
                   })(
                     <Input />)}
                 </FormItem>
-              </Col>}
+              </Col>} */}
               {showMessage && <Col span={10} style={{ marginLeft: 5 }}>
                 <FormItem
                   label="payKey"
@@ -499,7 +499,10 @@ class BusinessModal extends Component {
                   {getFieldDecorator('offlineAnnualSale', {
                     initialValue: cateModalData.offlineAnnualSale,
                   })(
-                    <InputNumber />)}
+                    <InputNumber 
+                    formatter={value => `${value}万元`}
+                    parser={value => value.replace('万元', '')}
+                    />)}
                 </FormItem>
               </Col>
               <Col span={11} style={{ marginLeft: 6 }}>
@@ -512,7 +515,11 @@ class BusinessModal extends Component {
                   {getFieldDecorator('onlineAnnualSale', {
                     initialValue: cateModalData.onlineAnnualSale,
                   })(
-                    <InputNumber />)}
+                    <InputNumber 
+                    formatter={value => `${value}万元`}
+                    parser={value => value.replace('万元', '')}
+                    max={10}
+                    />)}
                 </FormItem>
               </Col>
             </Row>

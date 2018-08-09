@@ -160,7 +160,7 @@ class Business extends Component {
         render(text) {
           switch (text) {
             case 0: return '正常';
-            case 1: return '关闭';
+            case 1: return '已关闭';
             default: return '-';
           }
         },
@@ -220,7 +220,7 @@ class Business extends Component {
                 {getFieldDecorator('status', {})(
                   <Select placeholder="请选择操作类型" allowClear>
                     <Option value={0}>正常</Option>
-                    <Option value={1}>关闭</Option>
+                    <Option value={1}>已关闭</Option>
                   </Select>)}
               </FormItem>
             </Col>

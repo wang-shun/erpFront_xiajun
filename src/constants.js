@@ -335,7 +335,7 @@ export const originalNavigation = [
       //{ key: routerCfg.BASE_SETTINGS, name: '基本设置'},
       //{ key: routerCfg.E_COMMERCE_CHANNEL_SETTINGS, name: '电商渠道设置' },
       { key: routerCfg.WAREHOUSE, name: '仓库设置' },
-      { key: routerCfg.BUSINESS, name: '商家信息管理' },
+      // { key: routerCfg.BUSINESS, name: '商家信息管理' },
       //{ key: routerCfg.WAREHOUSE, name: '物流模块管理' },
       //{ key: routerCfg.STOCKWAREHOUSE, name: '备货仓管理' },
     ],
