@@ -33,6 +33,16 @@ const deleteOut = ({ payload }) => fetch.post('/inventory/inventoryOutDelete', {
 const queryStockWarehouse = ({ payload }) => fetch.get('/inventory/stockWarehouse', { data: payload }).catch(e => e);
 // 备货仓盘出到库存
 const checkStockIn = ({ payload }) => fetch.post('/inventory/inventoryStockCheckIn', { data: payload }).catch(e => e);
+
+//商家信息管理
+const companyList = ({ payload }) => fetch.post('/company/list', { data: payload }).catch(e => e);
+const companyDelete = ({ payload }) => fetch.post('/company/delete', { data: payload }).catch(e => e);
+const companyDisable = ({ payload }) => fetch.post('/company/disable', { data: payload }).catch(e => e);
+const companyAdd = ({ payload }) => fetch.post('/company/add', { data: payload }).catch(e => e);
+const companyUpdate = ({ payload }) => fetch.post('/company/update', { data: payload }).catch(e => e);
+const companyGet = ({ payload }) => fetch.post('/company/get', { data: payload }).catch(e => e);
+const queryAllCountries = ({ payload }) => fetch.post('/country/queryAllCountries', { data: payload }).catch(e => e);
+
 export default {
   namespace: 'inventory',
   state: {
@@ -53,7 +63,12 @@ export default {
     stockCurrent: 1,
     stockTotal: 1,
     loginRoler: false, // 默认普通人员
-
+    cateList: [],
+    cateCurrent: 1,
+    cateTotal: 1,
+    catePageSize: 20,
+    cateCompanyGetList: [],
+    allCountryList: [],
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -64,7 +79,7 @@ export default {
             dispatch({ type: 'queryWareList', payload: { pageIndex: 1 } });
           }, 0);
         }
-        if (pathname === '/inventory/warehouse' && !window.existCacheState('/inventory/warehouse')) {
+        if (pathname === '/settings/warehouse' && !window.existCacheState('/settings/warehouse')) {
           setTimeout(() => {
             dispatch({ type: 'queryWareList', payload: { pageIndex: 1 } });
           }, 0);
@@ -86,6 +101,12 @@ export default {
           setTimeout(() => {
             dispatch({ type: 'queryStockWarehouse', payload: { pageIndex: 1 } });
             dispatch({ type: 'queryWareList', payload: { pageIndex: 1 } });
+          }, 0);
+        }
+        if (pathname === '/settings/business' && !window.existCacheState('/settings/business')) {
+          setTimeout(() => {
+            dispatch({ type: 'companyList', payload: { pageIndex: 1 } });
+            dispatch({ type: 'queryAllCountries', payload: {} });
           }, 0);
         }
       });
@@ -266,6 +287,78 @@ export default {
         cb();
       }
     },
+    // 商家信息管理
+    * companyList({ payload = {} }, { call, put, select }) {
+      let pageIndex = yield select(({ inventory }) => inventory.cateCurrent);
+      let pageSize = yield select(({ inventory }) => inventory.catePageSize);
+      if (payload.pageIndex) {
+        pageIndex = payload.pageIndex;
+        yield put({
+          type: 'saveCateCurrent',
+          payload,
+        });
+      }
+      if (payload.pageSize) {
+        pageSize = payload.pageSize;
+        yield put({ type: 'saveCatePageSize', payload });
+      }
+      const data = yield call(companyList, { payload: { ...payload, pageIndex, pageSize } });
+      if (data.success) {
+        yield put({ type: 'saveCateCurrentList', payload: data });
+      }
+    },
+    * companyDelete({ payload, cb }, { call }) {
+      const data = yield call(companyDelete, { payload });
+      if (data.success) {
+        message.success('删除商家成功');
+        cb();
+      }
+    },
+    * companyDisable({ payload, cb }, { call }) {
+      const data = yield call(companyDisable, { payload });
+      if (data.success) {
+        message.success('停用商家成功');
+        cb();
+      }
+    },
+    * companyAdd({ payload, cb }, { call }) {
+      const data = yield call(companyAdd, { payload });
+      if (data.success) {
+        message.success('新增商家成功');
+        cb();
+      }
+    },
+    * companyUpdate({ payload, cb }, { call }) {
+      const data = yield call(companyUpdate, { payload });
+      if (data.success) {
+        message.success('更新商家成功');
+        cb();
+      }
+    },
+    * companyGet({ payload }, { call, put }) {
+      const data = yield call(companyGet, { payload });
+      if (data.success) {
+        yield put({
+          type: 'saveCompanyGetList',
+          payload: data,
+        });
+      }
+    },
+    * deleteGet({ payload }, { put }) {
+      yield put({
+        type: 'deteleCompanyGetList',
+        payload: {},
+      });
+    },
+    * queryAllCountries({ payload }, { call, put }) {
+      const data = yield call(queryAllCountries, { payload });
+      if (data.success) {
+        yield put({
+          type: 'saveAllCountries',
+          payload: data,
+        });
+      }
+    },
   },
   reducers: {
     updateList(state, { payload }) {
@@ -301,5 +394,24 @@ export default {
     saveStockCurrentPage(state, { payload }) {
       return { ...state, stockCurrent: payload.pageIndex };
     },
+    // 商家信息管理
+    saveCateCurrent(state, { payload }) {
+      return { ...state, cateCurrent: payload.pageIndex };
+    },
+    saveCateCurrentList(state, { payload }) {
+      return { ...state, cateList: payload.data, cateTotal: payload.totalCount }
+    },
+    saveCatePageSize(state, { payload }) {
+      return { ...state, catePageSize: payload.pageSize }
+    },
+    saveCompanyGetList(state, { payload }) {
+      return { ...state, cateCompanyGetList: payload.data }
+    },
+    deteleCompanyGetList(state, { payload }) {
+      return { ...state, cateCompanyGetList: [] }
+    },
+    saveAllCountries(state, { payload }) {
+      return { ...state, allCountryList: payload.data }
+    }
   },
 };

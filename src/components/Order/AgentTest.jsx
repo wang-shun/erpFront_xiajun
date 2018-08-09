@@ -16,7 +16,7 @@ class AgentTest extends Component {
     var a =  this.props.location.query;
     let code = a.code;
     let state = a.state;
-    console.log(code,state);
+    console.log(a);
     this.props.dispatch({ type: 'order/setProxy', payload: { code,state }, cb: () => {this.props.dispatch(routerRedux.push('/marketing/saleAgent'))}, });
     }
   render() {

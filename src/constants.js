@@ -9,18 +9,13 @@ export const backendCfg = {
   resource: 'resource',
   user: 'user',
   organization: 'organization',
-
   /**xiajun */
   myApp: 'myApp',
   appSettings: 'appSettings',
   appDecorate: 'appDecorate',
   /**xiajun */
-
-
-
   products: 'item',
   productsList: 'item_list',
-
   /**xiajun */
   //finditemList: 'finditem_list', // 商品列表
   channelPriceSet: 'channelPriceSet',//渠道价格设置(new)
@@ -28,18 +23,16 @@ export const backendCfg = {
   itemImport: "itemImport",//商品导入(new)
   itemDispatchSet: 'itemDispatchSet',//商品分销设置(new)
   /**xiajun */
-
   //营销管理，xiajun
   marketing: 'marketing',
   marketingTools: 'marketingTools',//营销工具
   distributeManage: 'distributeManage',//分销管理
-
   //设置，xiajun
   settings: 'settings',
   baseSettings: 'baseSettings',//基本设置
   eCommerceChannelSettings: 'eCommerceChannelSettings',//电商渠道设置
   shippingModuleManage: 'shippingModuleManage',//物流模块管理,
-
+  business: 'business',
   brandList: 'item_brand',
   skuList: 'item_skulist',
   package: 'item_scale',
@@ -87,11 +80,18 @@ export const backendCfg = {
   reportAvgReport: 'report_AvgReport',
   /* wxuser:'wxuser',
   wxactivity:'wx_activity',*/
-
-
   // 内置
   overview: 'overview',
   roleMng: 'role_mng',
+  // 新订单管理
+  order:'order',
+  orderManage: 'orderManage',
+  deliverManage: 'deliverManage',
+  serviceManage:'serviceManage',
+  //渠道管理
+  channel:'channel',
+  channelBinding : 'channelBinding',
+  channelInstall: 'channelInstall',
 };
 
 // 路由字符串常量配置
@@ -177,7 +177,7 @@ export const routerCfg = {
   BASE_SETTINGS: 'baseSettings',//基本设置
   E_COMMERCE_CHANNEL_SETTINGS: 'eCommerceChannelSettings',//电商渠道设置
   SHIPPING_MODULE_MANAGE: 'shippingModuleManage',//物流模块管理,
-
+  BUSINESS: 'business',//商家信息管理
   // 报表管理
   REPORT: 'report',
   REPORT_SALE_BY_DAY: 'reportSaleByDay',
@@ -199,6 +199,16 @@ export const routerCfg = {
   WXUSERLIST:'wxactivity',*/
 
   // ROLE_MNG: 'roleMng',
+  //新订单管理
+  ORDER:'order',
+  ORDERMANAGE: 'orderManage',
+  DELIVERMANAGE: 'deliverManage',
+  SERVICEMANAGE:'serviceManage',
+  //渠道管理
+  CHANNEL:'channel',
+  CHANNELBINDING : 'channelBinding',
+  CHANNELINSTALL: 'channelInstall',
+
 };
 
 export const originalNavigation = [
@@ -252,6 +262,14 @@ export const originalNavigation = [
 
     ],
   },
+  // {
+  //   key: routerCfg.ORDER, name: '订单管理', icon: 'calendar',
+  //   child: [
+  //     { key: routerCfg.orderManage, name: '订单管理'},
+  //     { key: routerCfg.deliverManage, name: '发货管理'},
+  //     { key: routerCfg.serviceManage, name:'售后管理'}
+  //   ]
+  // },
   {
     key: routerCfg.MYAPP, name: '我的小程序', icon: 'message',
     child: [
@@ -317,6 +335,7 @@ export const originalNavigation = [
       //{ key: routerCfg.BASE_SETTINGS, name: '基本设置'},
       //{ key: routerCfg.E_COMMERCE_CHANNEL_SETTINGS, name: '电商渠道设置' },
       { key: routerCfg.WAREHOUSE, name: '仓库设置' },
+      { key: routerCfg.BUSINESS, name: '商家信息管理' },
       //{ key: routerCfg.WAREHOUSE, name: '物流模块管理' },
       //{ key: routerCfg.STOCKWAREHOUSE, name: '备货仓管理' },
     ],
@@ -330,6 +349,13 @@ export const originalNavigation = [
       { key: routerCfg.RESOURCE, name: '资源管理' },
     ],
   },
+  // { 
+  //   key: routerCfg.CHANNEL, name:'渠道管理', icon:'fork',
+  //   child: [
+  //     // { key:routerCfg.channelBinding, name: '渠道绑定'},
+  //     { key: routerCfg.CHANNELINSTALL, name:'价格设置'}
+  //   ]
+  // },
 
 ];
 
