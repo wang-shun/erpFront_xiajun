@@ -622,7 +622,6 @@ class SkuTable extends Component {
           dataIndex: 'skuCode',
           key: 'skuCode',
           width: '8%',
-          display:"none",
           render(t, r) {
             return (
               <FormItem>
@@ -637,8 +636,7 @@ class SkuTable extends Component {
           title: '货号',
           dataIndex: 'goodsNo',
           key: 'goodsNo',
-          width: '9%',
-          marginLeft: "2%",
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
@@ -652,12 +650,12 @@ class SkuTable extends Component {
           title: '规格1',
           dataIndex: 'color',
           key: 'color',
-          width: '9%',
+          width: '8%',
           render(t, r) {
             return (
-              <FormItem>
+              <FormItem >
                 {getFieldDecorator(`r_${r.key}_color`, { initialValue: t || '' })(
-                  <Input placeholder="颜色尺寸等"  />)}
+                  <Input placeholder="颜色等" />)}
               </FormItem>
             );
           },
@@ -666,12 +664,14 @@ class SkuTable extends Component {
           title: '规格2',
           dataIndex: 'scale',
           key: 'scale',
-          width: '9%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_scale`, { initialValue: t || '' })(
-                  <Input placeholder="颜色尺寸等"/>)}
+                  <Input placeholder="尺寸等"  />)}
+                {getFieldDecorator(`r_${r.key}_id`, { initialValue: r.id || null })(
+                  <Input style={{ display: 'none' }} />)}
               </FormItem>
             );
           },
@@ -680,7 +680,7 @@ class SkuTable extends Component {
           title: '虚拟库存',
           dataIndex: 'virtualInv',
           key: 'virtualInv',
-          width: '9%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
@@ -697,7 +697,7 @@ class SkuTable extends Component {
           title: '重量(克)',
           dataIndex: 'weight',
           key: 'weight',
-          width: '9%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
@@ -714,7 +714,7 @@ class SkuTable extends Component {
           title: 'UPC',
           dataIndex: 'upc',
           key: 'upc',
-          width: '9%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
@@ -731,7 +731,7 @@ class SkuTable extends Component {
           title: '销售价格',
           dataIndex: 'salePrice',
           key: 'salePrice',
-          width: '9%',
+          width: '8%',
           render(t, r) {
             return (
               <FormItem>
@@ -742,8 +742,9 @@ class SkuTable extends Component {
           },
         },
         
-       
         
+        
+       
         {
           title: '佣金比率',
           dataIndex: 'skuRateString',
@@ -766,6 +767,7 @@ class SkuTable extends Component {
             );
           },
         },
+
         {
           title: '商品图片',
           dataIndex: 'skuPic',
@@ -802,7 +804,7 @@ class SkuTable extends Component {
             );
           },
         },
-
+        
         {
           title: '操作',
           key: 'operator',
@@ -855,14 +857,14 @@ class SkuTable extends Component {
         },
         {
           title: '货号',
-          dataIndex: 'thirdSkuCode',
-          key: 'thirdSkuCode',
+          dataIndex: 'goodsNo',
+          key: 'goodsNo',
           width: '8%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_thirdSkuCode`, { initialValue: t || '' })(
-                  <Input placeholder="请填写" />)}
+                {getFieldDecorator(`r_${r.key}_goodsNo`, { initialValue: t || '' })(
+                  <Input placeholder="选填" />)}
               </FormItem>
             );
           },
@@ -898,39 +900,6 @@ class SkuTable extends Component {
           },
         },
         {
-          title: '销售价格(￥)',
-          dataIndex: 'salePrice',
-          key: 'salePrice',
-          width: '7%',
-          render(t, r) {
-            return (
-              <FormItem>
-                {getFieldDecorator(`r_${r.key}_salePrice`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
-                  <InputNumber step={0.01} min={0} placeholder="请填写" />)}
-              </FormItem>
-            );
-          },
-        },
-        {
-          title: '',
-          dataIndex: 'saleMode',
-          key: 'saleMode',
-          width: '10%',
-          render(t, r) {
-            return (
-              <FormItem>
-                {getFieldDecorator(`r_${r.key}_saleMode`, { initialValue: t || '0', rules: [{ required: true, message: '该项必填' }] })(
-                  <RadioGroup onChange={p.skuOK.bind(p, r)} value={p.state.value}>
-                    <Radio value='0'>应用全渠道</Radio>
-                    <Radio value='1'>分渠道设置</Radio>
-                  </RadioGroup>
-                )}
-              </FormItem>
-            );
-          },
-        },
-
-        {
           title: '虚拟库存',
           dataIndex: 'virtualInv',
           key: 'virtualInv',
@@ -939,23 +908,6 @@ class SkuTable extends Component {
             return (
               <FormItem>
                 {getFieldDecorator(`r_${r.key}_virtualInv`, {
-                  initialValue: t === 0 ? '0' : (t || ''),
-                  rules: [{ required: true, message: '请填写' }],
-                })(
-                  <InputNumber step={1} min={0} placeholder="请填写" />)}
-              </FormItem>
-            );
-          },
-        },
-        {
-          title: '实际库存',
-          dataIndex: 'inventory',
-          key: 'inventory',
-          width: '6%',
-          render(t, r) {
-            return (
-              <FormItem>
-                {getFieldDecorator(`r_${r.key}_inventory`, {
                   initialValue: t === 0 ? '0' : (t || ''),
                   rules: [{ required: true, message: '请填写' }],
                 })(
@@ -982,22 +934,25 @@ class SkuTable extends Component {
           },
         },
         {
-          title: 'UPC',
-          dataIndex: 'upc',
-          key: 'upc',
-          width: '10%',
+          title: '销售价格(￥)',
+          dataIndex: 'salePrice',
+          key: 'salePrice',
+          width: '7%',
           render(t, r) {
             return (
               <FormItem>
-                {getFieldDecorator(`r_${r.key}_upc`, {
-                  initialValue: t || '',
-                  rules: [{ required: true, message: '该项必填' }]
-                })(
-                  <Input placeholder="请填写" />)}
+                {getFieldDecorator(`r_${r.key}_salePrice`, { initialValue: t || '', rules: [{ required: true, message: '该项必填' }] })(
+                  <InputNumber step={0.01} min={0} placeholder="请填写" />)}
               </FormItem>
             );
           },
         },
+        
+
+        
+      
+       
+       
         {
           title: '原价',
           dataIndex: 'costPrice',
@@ -1076,23 +1031,7 @@ class SkuTable extends Component {
             );
           },
         },
-        {
-          title: '包装规格',
-          dataIndex: 'packageLevelId',
-          key: 'packageLevelId',
-          width: '8%',
-          render(t, r) {
-            return (
-              <FormItem>
-                {getFieldDecorator(`r_${r.key}_packageLevelId`, {
-                  initialValue: t && typeof t === 'string' ? t.match(/\[/g) ? JSON.parse(t) : t.split(',') : '',
-                  rules: [{ required: false }],
-                })(
-                  <Cascader options={packageScales} placeholder="请选择" />)}
-              </FormItem>
-            );
-          },
-        },
+       
         {
           title: '操作',
           key: 'operator',
@@ -1192,7 +1131,7 @@ class SkuTable extends Component {
         <div><Input placeholder="请输入售价" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.salePrice = c; }} /></div>
         <div><Input placeholder="请输入虚拟库存" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.virtualInv = c; }} /></div>
         <div><Input placeholder="请输入重量(磅)" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.weight = c; }} /></div>
-        <div><Cascader options={packageScales} placeholder="请选择包装规格" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.packageLevelId = c; }} /></div>
+       
         <div style={{ marginTop: 10, minHeight: 100 }}>
           <Upload {...batchUploadProps} ref={(c) => { this.batchPic = c; }}>
             {batchFileList.length >= 1 ? null : uploadButton}
@@ -1219,7 +1158,7 @@ class SkuTable extends Component {
         <div><Input placeholder="请输入折后价" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.purchasePrice = c; }} /></div>
         <div><Input placeholder="请输入虚拟库存" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.virtualInv = c; }} /></div>
         <div><Input placeholder="请输入重量(磅)" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.weight = c; }} /></div>
-        <div><Cascader options={packageScales} placeholder="请选择包装规格" style={{ marginTop: 10, width: 200 }} ref={(c) => { this.packageLevelId = c; }} /></div>
+        
         <div style={{ marginTop: 10, minHeight: 100 }}>
           <Upload {...batchUploadProps} ref={(c) => { this.batchPic = c; }}>
             {batchFileList.length >= 1 ? null : uploadButton}
