@@ -283,7 +283,7 @@ export const originalNavigation = [
       //{ key: routerCfg.MARKETING_TOOLS, name: '营销工具' },
       // { key: routerCfg.DISTRIBUTE_MANAGE, name: '分销管理' },
       { key: routerCfg.SALE_CHANNEL, name: '销售渠道管理' },
-      // { key: routerCfg.SALE_AGENT, name:'代理管理'},
+      { key: routerCfg.SALE_AGENT, name:'代理管理'},
     ],
   },
   // { key: routerCfg.PERSON, name: '客户管理', icon: 'user',
@@ -349,13 +349,13 @@ export const originalNavigation = [
       { key: routerCfg.RESOURCE, name: '资源管理' },
     ],
   },
-  { 
-    key: routerCfg.CHANNEL, name:'渠道管理', icon:'fork',
-    child: [
-      // { key:routerCfg.channelBinding, name: '渠道绑定'},
-      { key: routerCfg.CHANNELINSTALL, name:'价格设置'}
-    ]
-  },
+  // { 
+  //   key: routerCfg.CHANNEL, name:'渠道管理', icon:'fork',
+  //   child: [
+  //     // { key:routerCfg.channelBinding, name: '渠道绑定'},
+  //     { key: routerCfg.CHANNELINSTALL, name:'价格设置'}
+  //   ]
+  // },
 
 ];
 
