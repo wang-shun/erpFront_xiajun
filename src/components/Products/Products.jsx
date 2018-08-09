@@ -266,7 +266,7 @@ class Products extends Component {
           }
         },
       },
-      { title: '销量', dataIndex: 'saleNum', key: 'saleNum', width: 100 / 14.32 + '%', render(text) { return 0} },     
+      { title: '销量', dataIndex: 'salesVolume', key: 'salesVolume', width: 100 / 14.32 + '%' },     
       { title: '开始时间', dataIndex: 'startDate', key: 'startDate', width: 80 / 14.32 + '%', render(text) { return text ? text.split(' ')[0] : '-'; } },
       {
         title: '操作',
