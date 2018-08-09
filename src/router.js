@@ -65,8 +65,8 @@ import RoleMng from './components/RoleMng/RoleMng';
 import appset from './components/MyApp/appset';
 import appsetTest from './components/MyApp/appsetTest';
 // 渠道设置
-import channelBinding from './components/Channel/channelBinding';
-import channelInstall from './components/Channel/channelInstall';
+// import channelBinding from './components/Channel/channelBinding';
+// import channelInstall from './components/Channel/channelInstall';
 
 function redirectHelper(...args) {
   // 传入参数3，为onEnter
