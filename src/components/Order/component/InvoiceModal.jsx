@@ -211,10 +211,9 @@ class InvoiceModal extends Component {
                     initialValue: data.transferStatus ? data.transferStatus.toString() : '0',
                   })(
                     <Select placeholder="请选择物流状态" allowClear>
-                      <Option value="0" key="0">未预报</Option>
-                      <Option value="1" key="1">预报失败</Option>
-                      <Option value="10" key="10">预报成功</Option>
-                      <Option value="20" key="20">创建转运单成功</Option>
+                      <Option value="0" key="0">已预报</Option>
+                      <Option value="1" key="1">快递已发货</Option>
+                      <Option value="2" key="2">客户已收货</Option>
                     </Select>,
                   )}
                 </FormItem>
