@@ -380,6 +380,7 @@ class Products extends Component {
                     showSearch
                   >               
                     <Option value={1}>上架</Option>
+                    <Option value={-1}>全部</Option>
                     <Option value={2}>下架</Option>
                     <Option value={0}>新建</Option>
                   </Select>
