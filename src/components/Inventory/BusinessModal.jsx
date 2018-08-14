@@ -518,7 +518,6 @@ class BusinessModal extends Component {
                     <InputNumber 
                     formatter={value => `${value}万元`}
                     parser={value => value.replace('万元', '')}
-                    max={10}
                     />)}
                 </FormItem>
               </Col>
