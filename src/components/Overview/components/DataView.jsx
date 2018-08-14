@@ -42,7 +42,7 @@ export default class HeaderView extends Component {
           { "日期": data.seventhDay, "销售额": data.seventhSales },
         ];
         const cols = {
-          '销售额': {tickInterval: 20},
+          'sales': {tickInterval: 20},
         };
     return (
       <div>
@@ -50,7 +50,6 @@ export default class HeaderView extends Component {
         <Chart height={350} data={datas} scale={cols} width={800} >
             <Axis name="日期" title/>
             <Axis name="销售额" title/>
-            <Legend position="top" dy={-20} />
             <Tooltip crosshairs={{type : "y"}}/>
             <Geom size={15} type="interval" position="日期*销售额" color="#00cbd7" style={{ lineWidth: 0, marginLeft: 0 }} />
         </Chart>
