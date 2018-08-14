@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Input, Button, Row, Col, Select, DatePicker, Form, TreeSelect, Modal, Popover, Icon, Popconfirm, Checkbox } from 'antd';
+import { Cascader, Table, Input, Button, Row, Col, Select, DatePicker, Form, TreeSelect, Modal, Popover, Icon, Popconfirm, Checkbox } from 'antd';
 import ProductsModal from './ProductsModal';
 import ProductsUpload2 from './ProductsUpload2';
 const FormItem = Form.Item;
@@ -29,6 +29,9 @@ class Products extends Component {
         if (values.saleDate && values.saleDate[0] && values.saleDate[1]) {
           values.startTime = new Date(values.saleDate[0]).format('yyyy-MM-dd');
           values.endTime = new Date(values.saleDate[1]).format('yyyy-MM-dd');
+        }
+        if (values.categoryCode) {
+          values.categoryCode = values.categoryCode[values.categoryCode.length - 1]
         }
         delete values.saleDate;
         this.props.dispatch({
@@ -352,7 +355,8 @@ class Products extends Component {
                 {getFieldDecorator('categoryCode', {
                   rules: [{ validator: this.chooseCate.bind(this) }],
                 })(
-                  <TreeSelect placeholder="请选择类目" allowClear treeDefaultExpandAll treeData={tree} />)}
+                  <Cascader allowClear options={tree} placeholder="请选择所属类目" expandTrigger="hover"/>
+                  )}
               </FormItem>
             </Col>
           </Row>
