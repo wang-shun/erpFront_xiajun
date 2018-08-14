@@ -18,25 +18,7 @@ const querySiteMsg = ({ payload }) => fetch.post('/sitemsg/queryUserSiteMsg', { 
 const readMsg = ({ payload }) => fetch.post('/sitemsg/readMsg', { data: payload }).catch(e => e);
 
 const indexDataArr = [
-  '/home/todayOrderNum',
-  '/home/todayUnAlloOrderNum',
-  '/home/unPurItemNum',
-  '/home/todayInItemNum',
-  '/home/purExcOrderNum',
-  '/home/invExcOrderNum',
-  '/home/todayPurOrderNum',
-  '/home/todayPurItemNum',
-  '/home/balancedItemNum',
-  '/home/purchasingOrderNum',
-  '/home/waitAlloOrderNum',
-  '/home/inItemNum',
-  '/home/purchaseProblem',
-  '/home/onWayOrder',
-  '/home/weekSales',
-  '/home/monthSales',
-  '/home/weekNewItem',
-  '/home/monthNewItem',
-  '/home/todaySendOrder',
+  '/home/data',
 ];
 
 export default {
@@ -71,16 +53,15 @@ export default {
   },
   effects: {
     * queryIndexData(payload, { call, put }) {
-      for (let i = 0; i < indexDataArr.length; i++) {
-        const data = yield call(queryIndexData, { url: indexDataArr[i], payload: {} });
+        const data = yield call(queryIndexData, { url: indexDataArr[0], payload: {} });
         const pa = {
-          [indexDataArr[i].split('/')[2]]: data.data,
+          [indexDataArr[0].split('/')[2]]: data.data,
         };
         yield put({
           type: 'updateOverviewInfo',
           payload: pa,
         });
-      }
+      
     },
     * querySiteMsg(payload, { call, put }) {
       const data = yield call(querySiteMsg, payload);
