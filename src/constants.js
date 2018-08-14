@@ -13,6 +13,7 @@ export const backendCfg = {
   myApp: 'myApp',
   appSettings: 'appSettings',
   appDecorate: 'appDecorate',
+  release: 'release',
   /**xiajun */
   products: 'item',
   productsList: 'item_list',
@@ -108,6 +109,7 @@ export const routerCfg = {
   APP_SETTINGS: 'appSettings',
   APP_DECORATE: 'appDecorate',
   APPSETTEST:'appsetTest',
+  RELEASE:'release',
   //营销管理，xiajun
   MARKETING: 'marketing',
   MARKETING_TOOLS: 'marketingTools',//营销工具
@@ -275,6 +277,7 @@ export const originalNavigation = [
     child: [
       { key: routerCfg.APP_SETTINGS, name: '小程序设置' },
       // { key: routerCfg.APP_DECORATE, name: '小程序装修' },
+      { key: routerCfg.RELEASE, name: '小程序发布管理' },
     ],
   },
   {
@@ -349,13 +352,13 @@ export const originalNavigation = [
       { key: routerCfg.RESOURCE, name: '资源管理' },
     ],
   },
-  // { 
-  //   key: routerCfg.CHANNEL, name:'渠道管理', icon:'fork',
-  //   child: [
-  //     // { key:routerCfg.channelBinding, name: '渠道绑定'},
-  //     { key: routerCfg.CHANNELINSTALL, name:'价格设置'}
-  //   ]
-  // },
+  { 
+    key: routerCfg.CHANNEL, name:'渠道管理', icon:'fork',
+    child: [
+      // { key:routerCfg.channelBinding, name: '渠道绑定'},
+      { key: routerCfg.CHANNELINSTALL, name:'价格设置'}
+    ]
+  },
 
 ];
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form, Tabs, Row, Col, Button, Table, Input, Popover, Modal, Select } from 'antd';
+import { Form, Tabs, Row, Col, Button, Table, Input, Popover, Modal, Select, InputNumber  } from 'antd';
 import { routerRedux } from 'dva/router';
 const FormItem = Form.Item;
 const Search = Input.Search;
@@ -19,7 +19,7 @@ class SeeAgent extends Component {
             wxName: {},
             visibleWx: false,
             titles: '',
-            wxLink:'',
+            wxLink: '',
         };
     }
     componentDidMount() {
@@ -32,7 +32,7 @@ class SeeAgent extends Component {
             },
         });
         this.setState({
-            wxLink : "/wechatLogin/getProxyHtml?parentAgent="+a.parentAgent
+            wxLink: "/wechatLogin/getProxyHtml?parentAgent=" + a.parentAgent
         })
 
     }
@@ -67,14 +67,14 @@ class SeeAgent extends Component {
     onBlurMoney(r) {
         console.log('this is mao')
         const { form } = this.props;
-        form.validateFieldsAndScroll([`r_${r.userNo}_commissionValue`], (err, fieldsValue) => {
+        form.validateFieldsAndScroll([`r_${r.userNo}_commissionValueStr`], (err, fieldsValue) => {
             if (err) {
                 return;
             }
             const comMao = {
                 userNo: r.userNo,
                 commissionMode: r.commissionMode,
-                commissionValueStr: fieldsValue["r_" + r.userNo + "_commissionValue"].toString(),
+                commissionValueStr: fieldsValue["r_" + r.userNo + "_commissionValueStr"].toString(),
             }
             console.log(comMao)
             this.setState({
@@ -157,12 +157,12 @@ class SeeAgent extends Component {
             titles: '扫码添加代理'
         })
     }
-    wxOk(){
+    wxOk() {
         this.setState({
             visibleWx: false,
         })
     }
-    wxCancel(){
+    wxCancel() {
         this.setState({
             visibleWx: false,
         })
@@ -179,7 +179,7 @@ class SeeAgent extends Component {
         const formItemLayoutT = {
             labelCol: { span: 8 },
             wrapperCol: { span: 14 },
-          };
+        };
         const hasSelected = selectedRowKeys.length > 0;
         var a = this.props.location.query;
         console.log(a)
@@ -228,14 +228,14 @@ class SeeAgent extends Component {
             },
             {
                 title: '佣金',
-                dataIndex: 'commissionValue',
-                key: 'commissionValue',
+                dataIndex: 'commissionValueStr',
+                key: 'commissionValueStr',
                 width: '18%',
                 render(t, r, index) {
                     return (
                         <FormItem>
-                            {getFieldDecorator(`r_${r.userNo}_commissionValue`, { initialValue: t, rules: [{ required: true, message: '请输入佣金' }], })(
-                                <Input placeholder="请填写佣金" onBlur={p.onBlurMoney.bind(p, r)} style={{ width: 50 }} />
+                            {getFieldDecorator(`r_${r.userNo}_commissionValueStr`, { initialValue: t, rules: [{ required: true, message: '请输入佣金' }], })(
+                                <InputNumber placeholder="请填写佣金" onBlur={p.onBlurMoney.bind(p, r)} min={0} max={100} style={{ width: 50 }} />
                             )}
                             <span style={{ marginLeft: 5 }}>%</span>
                         </FormItem>

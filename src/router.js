@@ -64,9 +64,11 @@ import RoleMng from './components/RoleMng/RoleMng';
 // 小程序设置
 import appset from './components/MyApp/appset';
 import appsetTest from './components/MyApp/appsetTest';
+import release from './components/MyApp/release';
+
 // 渠道设置
-// import channelBinding from './components/Channel/channelBinding';
-// import channelInstall from './components/Channel/channelInstall';
+import channelBinding from './components/Channel/channelBinding';
+import channelInstall from './components/Channel/channelInstall';
 
 function redirectHelper(...args) {
   // 传入参数3，为onEnter
@@ -99,7 +101,7 @@ function RouterConfig({ history }) {
         {/* <Route path={`/${routerCfg.MYAPP}`} component={appset} /> */}
         <Route path={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} component={appset} />
         <Route path={`/${routerCfg.MYAPP}/${routerCfg.APPSETTEST}`} component={appsetTest} />
-        
+        <Route path={`/${routerCfg.MYAPP}/${routerCfg.RELEASE}`} component={release} />
         {/* <Route path={`/${routerCfg.MARKETING}`} component={SaleChannel} /> */}
         <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} component={SaleChannel} />
         <Route path={`/${routerCfg.MARKETING}/${routerCfg.SALE_AGENT}`} component={SaleAgent} />
@@ -160,8 +162,8 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.REPORT}/${routerCfg.REPORT_PXPACKAGEREPORT}`} component={ReportNoSendPackage} />
         <Route path={`/${routerCfg.REPORT}/${routerCfg.REPORT_AVGREPORT}`} component={ReportlogisticCompanyAvgPackage} />
         <Route path={`/${routerCfg.ROLE_MNG}`} component={RoleMng} />
-        {/* <Route path={`/${routerCfg.CHANNEL}/${routerCfg.channelBinding}`} component={channelBinding} />
-        <Route path={`/${routerCfg.CHANNEL}/${routerCfg.CHANNELINSTALL}`} component={channelInstall} /> */}
+        <Route path={`/${routerCfg.CHANNEL}/${routerCfg.channelBinding}`} component={channelBinding} />
+        <Route path={`/${routerCfg.CHANNEL}/${routerCfg.CHANNELINSTALL}`} component={channelInstall} />
         {/* 一级导航重定向 */}
         <Redirect from={`/${routerCfg.PERMISSION}`} to={`/${routerCfg.PERMISSION}/${routerCfg.ROLE}`} />
         <Redirect from={`/${routerCfg.PRODUCTS}`} to={`/${routerCfg.PRODUCTS}/${routerCfg.PRODUCTS_LIST}`} />
@@ -173,7 +175,7 @@ function RouterConfig({ history }) {
         <Redirect from={`/${routerCfg.SETTINGS}`} to={`/${routerCfg.SETTINGS}/${routerCfg.WAREHOUSE}`} />
         <Redirect from={`/${routerCfg.MARKETING}`} to={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} />
         <Redirect from={`/${routerCfg.MYAPP}`} to={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} /> 
-        {/* <Redirect from={`/${routerCfg.CHANNEL}`} to={`/${routerCfg.CHANNEL}/${routerCfg.CHANNELINSTALL}`} /> */}
+        <Redirect from={`/${routerCfg.CHANNEL}`} to={`/${routerCfg.CHANNEL}/${routerCfg.CHANNELINSTALL}`} />
 
         {/* 二级导航重定向 */}
         <Redirect from={`/${routerCfg.PURCHASE}/${routerCfg.CHECK}`} to={`/${routerCfg.PURCHASE}/${routerCfg.CHECK}/${routerCfg.JOURNAL}`} />

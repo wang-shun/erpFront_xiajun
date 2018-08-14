@@ -181,6 +181,7 @@ class Products extends Component {
   render() {
     const p = this;
     const { form, currentPage, currentPageSize, productsList = [], productsTotal, allBrands = [], productsValues = {}, tree = [], loginRoler, allBuyers = [], countries = [] } = this.props;
+    console.log(productsList)
     const { getFieldDecorator, resetFields } = form;
     const { uploadVisble, titles } = this.state
     const formItemLayout = {
