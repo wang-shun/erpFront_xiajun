@@ -13,11 +13,14 @@ class release extends Component {
             appids: [],
             selectedRowKeys: [],
             editVisible: false,
-            updateList:{},
+            updateList: {},
+            visibleWx: false,
+            titleWx: '',
+            appidWx:'',
         };
     }
     allBatch() {
-        
+
         this.setState({
             visible: true,
         })
@@ -54,46 +57,62 @@ class release extends Component {
         })
     }
     edit(r) {
-        console.log(r.id)
-        console.log(r.templetId)
-        this.props.dispatch({
-            type:'appset/wechatAppletUpdate',
-            payload:{
-                id: r.id,
-                templetId: r.templetId,
-            },
-            cb:() =>{
-                this.setState({
-                    editVisible: true,
-                    updateList: r,
-                })
-            }
+        this.setState({
+            editVisible: true,
+            updateList: r,
         })
-        
+
     }
-    generate() { }
+    generate(r) {
+        console.log(r.appid)
+        this.setState({
+            visibleWx: true,
+            titleWx: '扫码',
+            appidWx:"/wechatApplet/getUrl?appid="+r.appid,
+        })
+    }
+    WxCancel(){
+        this.setState({
+            visibleWx: false,
+        })
+    }
     editSubmit() {
         const { form } = this.props;
+        const { updateList } = this.state;
+        console.log(updateList.id)
         form.validateFieldsAndScroll((err, values) => {
             if (err) return;
             console.log(values.templateIdT)
-            this.setState({
-                editVisible: false,
+            this.props.dispatch({
+                type: 'appset/wechatAppletUpdate',
+                payload: {
+                    id: updateList.id,
+                    templetId: values.templateIdT,
+                },
+                cb: () => {
+                    this.props.dispatch({
+                        type: 'appset/wechatApplet',
+                        payload: {},
+                    })
+                    this.setState({
+                        editVisible: false,
+                    })
+                }
             })
         })
-        
-        
-     }
+
+
+    }
     editCancel() {
         this.setState({
             editVisible: false,
         })
-     }
+    }
     render() {
         const p = this;
         const { appletList, form } = this.props;
         const { getFieldDecorator } = form;
-        const { visible, appids = [], selectedRowKeys, editVisible, updateList = {} } = this.state;
+        const { visible, appids = [], selectedRowKeys, editVisible, updateList = {}, visibleWx, titleWx, appidWx } = this.state;
         console.log(updateList.appid)
         const paginationProps = {
             // defaultPageSize: 20,
@@ -159,8 +178,8 @@ class release extends Component {
             },
             {
                 title: '模版ID',
-                dataIndex: 'templateId',
-                key: 'templateId',
+                dataIndex: 'templetId',
+                key: 'templetId',
                 width: 10 + '%',
             },
             {
@@ -192,7 +211,7 @@ class release extends Component {
                         <div>
                             <a href="javascript:void(0)" onClick={p.edit.bind(p, r)} style={{ marginRight: 10 }}>修改</a>
                             <br />
-                            <a href="javascript:void(0)" onClick={p.generate.bind(p, r)} style={{ marginRight: 10 }}>生成体验二维码</a>
+                            {/* <a href="javascript:void(0)" onClick={p.generate.bind(p, r)} style={{ marginRight: 10 }}>生成体验二维码</a> */}
                         </div>
                     );
                 }
@@ -288,7 +307,7 @@ class release extends Component {
                                         initialValue: updateList.companyName,
                                         rules: [{ required: true, message: '请输入小程序名' }],
                                     })(
-                                        <InputNumber placeholder="请输入小程序名" disabled={true}/>,
+                                        <InputNumber placeholder="请输入小程序名" disabled={true} />,
 
                                     )}
                                 </FormItem>
@@ -299,11 +318,11 @@ class release extends Component {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('appid', {
-                                        
+
                                         initialValue: updateList.appid,
                                         rules: [{ required: true, message: '请输入AppID' }],
                                     })(
-                                        <Input placeholder="请输入AppID" disabled={true}/>,
+                                        <Input placeholder="请输入AppID" disabled={true} />,
                                     )}
                                 </FormItem>
                             </Col>
@@ -315,8 +334,8 @@ class release extends Component {
                                     {...formItemLayouT}
                                 >
                                     {getFieldDecorator('templateIdT', {
-                                         initialValue: updateList.templateId,
-                                         rules: [{ required: true, message: '请输入模板ID' }],
+                                        initialValue: updateList.templateId,
+                                        rules: [{ required: true, message: '请输入模板ID' }],
                                     })(
                                         <InputNumber placeholder="请输入模板ID" />,
                                     )}
@@ -324,6 +343,24 @@ class release extends Component {
                             </Col>
                         </Row>
                     </Form>
+                </Modal>}
+                {visibleWx && <Modal
+                    visible={visibleWx}
+                    width={500}
+                    height={500}
+                    title={titleWx}
+                    onOk={this.WxCancel.bind(this)}
+                    onCancel={this.WxCancel.bind(this)}>
+                    <iframe
+                        style={{ width: '100%', height: '500px', overflow: 'visible' }}
+                        ref="iframe"
+                        // srcdoc={wxData}
+                        // src="http://m.buyer007.com/wxTest.html"
+                        src={appidWx}
+                        width="100%"
+                        scrolling="no"
+                        frameBorder="0"
+                    />
                 </Modal>}
             </div>
         );

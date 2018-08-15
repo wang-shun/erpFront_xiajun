@@ -82,7 +82,7 @@ export const backendCfg = {
   /* wxuser:'wxuser',
   wxactivity:'wx_activity',*/
   // 内置
-  overview: 'overview',
+  
   roleMng: 'role_mng',
   // 新订单管理
   order:'order',
@@ -110,6 +110,7 @@ export const routerCfg = {
   APP_DECORATE: 'appDecorate',
   APPSETTEST:'appsetTest',
   RELEASE:'release',
+  // RELEASETEST:'releaseTest',
   //营销管理，xiajun
   MARKETING: 'marketing',
   MARKETING_TOOLS: 'marketingTools',//营销工具
@@ -338,7 +339,7 @@ export const originalNavigation = [
       //{ key: routerCfg.BASE_SETTINGS, name: '基本设置'},
       //{ key: routerCfg.E_COMMERCE_CHANNEL_SETTINGS, name: '电商渠道设置' },
       { key: routerCfg.WAREHOUSE, name: '仓库设置' },
-      // { key: routerCfg.BUSINESS, name: '商家信息管理' },
+      { key: routerCfg.BUSINESS, name: '商家信息管理' },
       //{ key: routerCfg.WAREHOUSE, name: '物流模块管理' },
       //{ key: routerCfg.STOCKWAREHOUSE, name: '备货仓管理' },
     ],

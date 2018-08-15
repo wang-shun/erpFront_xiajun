@@ -65,7 +65,6 @@ import RoleMng from './components/RoleMng/RoleMng';
 import appset from './components/MyApp/appset';
 import appsetTest from './components/MyApp/appsetTest';
 import release from './components/MyApp/release';
-
 // 渠道设置
 import channelBinding from './components/Channel/channelBinding';
 import channelInstall from './components/Channel/channelInstall';
