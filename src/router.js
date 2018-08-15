@@ -69,6 +69,7 @@ import release from './components/MyApp/release';
 // 渠道设置
 import channelBinding from './components/Channel/channelBinding';
 import channelInstall from './components/Channel/channelInstall';
+import channelAuth from './components/Channel/channelAuth';//渠道授权
 
 function redirectHelper(...args) {
   // 传入参数3，为onEnter
@@ -164,6 +165,8 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.ROLE_MNG}`} component={RoleMng} />
         <Route path={`/${routerCfg.CHANNEL}/${routerCfg.channelBinding}`} component={channelBinding} />
         <Route path={`/${routerCfg.CHANNEL}/${routerCfg.CHANNELINSTALL}`} component={channelInstall} />
+        {/* 渠道授权 */}
+        <Route path={`/${routerCfg.CHANNEL}/${routerCfg.CHANNELAUTH}`} component={channelAuth} />
         {/* 一级导航重定向 */}
         <Redirect from={`/${routerCfg.PERMISSION}`} to={`/${routerCfg.PERMISSION}/${routerCfg.ROLE}`} />
         <Redirect from={`/${routerCfg.PRODUCTS}`} to={`/${routerCfg.PRODUCTS}/${routerCfg.PRODUCTS_LIST}`} />

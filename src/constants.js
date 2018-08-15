@@ -93,6 +93,7 @@ export const backendCfg = {
   channel:'channel',
   channelBinding : 'channelBinding',
   channelInstall: 'channelInstall',
+  channelAuth: 'channelAuth',//渠道授权
 };
 
 // 路由字符串常量配置
@@ -210,6 +211,7 @@ export const routerCfg = {
   CHANNEL:'channel',
   CHANNELBINDING : 'channelBinding',
   CHANNELINSTALL: 'channelInstall',
+  CHANNELAUTH: 'channelAuth'//渠道授权
 
 };
 
@@ -356,7 +358,8 @@ export const originalNavigation = [
     key: routerCfg.CHANNEL, name:'渠道管理', icon:'fork',
     child: [
       // { key:routerCfg.channelBinding, name: '渠道绑定'},
-      { key: routerCfg.CHANNELINSTALL, name:'价格设置'}
+      { key: routerCfg.CHANNELINSTALL, name:'价格设置'},
+      { key: routerCfg.CHANNELAUTH, name:'渠道授权'}
     ]
   },
 

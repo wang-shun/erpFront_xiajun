@@ -8,6 +8,8 @@ const queryChannelListShop = ({ payload }) => fetch.get('/channelshop/queryChann
 const querySkuSalePrice = ({ payload }) => fetch.post('/itemSku/querySkuSalePrice', { data: payload }).catch(e => e);
 const saveAllItemSkuInOneChannelPrice = ({ payload }) => fetch.post('/itemSku/saveAllItemSkuInOneChannelPrice', { data: payload }).catch(e => e);
 const saveOneItemSkuMultiPrice = ({ payload }) => fetch.post('/itemSku/saveOneItemSkuMultiPrice', { data: payload }).catch(e => e);
+const queryChannelList = () => fetch.post('/channelshop/queryChannelList').catch(e => e);//渠道列表
+const getOauthUrl = () => fetch.post('/channelshop/getOauthUrl').catch(e => e);//渠道授权
 
 export default {
   namespace: 'channel',
@@ -22,6 +24,8 @@ export default {
     detailPage: 1,
     detailPageSize: 20,
     detailTotal: 1,
+    channelList: [],
+    authUrl: '',
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -32,10 +36,42 @@ export default {
             dispatch({ type: 'queryChannelListShop', payload: {} });
           }, 0);
         }
+        if (pathname === '/channel/channelAuth' && !window.existCacheState('/channel/channelAuth')) {
+          setTimeout(() => {
+            dispatch({ type: 'queryChannelList', payload: {} });
+            dispatch({ type: 'getOauthUrl', payload: {} });
+          }, 0);
+        }
       });
     },
   },
   effects: {
+    //查询渠道列表
+     * queryChannelList(_, { call, put }) {
+      const data = yield call(queryChannelList);
+      if (data.success) {
+        const channelList = data.data;
+        yield put({
+          type: 'updateState',
+          payload: {
+            channelList,
+          },
+        });
+      }
+    },
+    //授权
+    * getOauthUrl(_, { call, put }) {
+    const data = yield call(getOauthUrl);
+    if (data.success) {
+      const authUrl = data.data;
+      yield put({
+        type: 'updateState',
+        payload: {
+          authUrl,
+        },
+      });
+    }
+  },
     * queryItemSkuPriceList({ payload }, { call, put, select }) {
       let pageIndex = yield select(({ channel }) => channel.currentPage);
       let pageSize = yield select(({ channel }) => channel.currentPageSize);
@@ -139,6 +175,12 @@ export default {
     },
     saveDetailSize(state, { payload }) {
       return { ...state, detailPageSize: payload.pageSize };
+    },
+    updateState(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
     },
   },
 };
