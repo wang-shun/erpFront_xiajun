@@ -5,8 +5,7 @@ import fetch from '../utils/request';
 
 const login = ({ payload }) => fetch.post('haiLogin/login', { data: payload }).catch(e => e);
 const logout = ({ payload }) => fetch.post('haiLogin/logout', { data: payload }).catch(e => e);
-// const queryPermissions = () => fetch.post('/user/resCodes').catch(e => e);
-// const wxRout = ({ payload }) => fetch.post('wechatLogin/getUrl', { data: payload }).catch(e => e);
+const queryPermissions = () => fetch.post('/user/resCodes').catch(e => e);
 // 微信扫码中间页面
 const wechatLogin = ({ payload }) => fetch.post('/wechatLogin/getUserInfo', { data: payload }).catch(e => e);
 const loginByUserNo = ({ payload }) => fetch.post('/wechatLogin/loginByUserNo', { data: payload }).catch(e => e);
@@ -109,42 +108,42 @@ export default {
     * login(payload, { call }) {
       const data = yield call(login, payload);
       if (data.success) {
-        // const permissionData = yield call(queryPermissions);
-        // 先处理权限
-        // if (permissionData.success) {
-        //   const permissions = [...permissionData.data, routerCfg.OVERVIEW];
-        //   const newNavigation = [];
-        //   originalNavigation.forEach((el) => {
-        //     if (permissions.indexOf(backendCfg[el.key]) === -1) {
-        //       return;
-        //     }
-        //     if (!el.child || el.child.length === 0) {
-        //       newNavigation.push(el);
-        //       return;
-        //     }
-        //     // 有子代的，还要判断子代
-        //     const child = el.child;
-        //     const newChild = [];
-        //     child.forEach((c) => {
-        //       if (permissions.indexOf(backendCfg[c.key]) >= 0) {
-        //         newChild.push(c);
-        //       }
-        //     });
-        //     const newEl = { ...el, child: newChild };
-        //     newNavigation.push(newEl);
-        //   });
+        const permissionData = yield call(queryPermissions);
+        console.log(permissionData)
+        if (permissionData.success) {
+          const permissions = [...permissionData.data, routerCfg.OVERVIEW];
+          const newNavigation = [];
+          originalNavigation.forEach((el) => {
+         
+            if (permissions.indexOf(backendCfg[el.key]) === -1) {
+              return;
+            }
+            if (!el.child || el.child.length === 0) {
+              newNavigation.push(el);
+              return;
+            }
+            // 有子代的，还要判断子代
+            const child = el.child;
+            const newChild = [];
+            child.forEach((c) => {
+              if (permissions.indexOf(backendCfg[c.key]) >= 0) {
+                newChild.push(c);
+              }
+            });
+            const newEl = { ...el, child: newChild };
+            newNavigation.push(newEl);
+          });
 
-        //   setNavigation(newNavigation);
+          setNavigation(newNavigation);
 
-        //   localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
-        //   localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
-        localStorage.setItem('HAIERP_LAST_USERNAME', payload.payload.username);
+          localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
+          localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
+          localStorage.setItem('HAIERP_LAST_USERNAME', payload.payload.username);
 
-        //   // 更新用户名
-        //   yield put({ type: 'updateUsername', payload: payload.payload.username });
-
-        // window.redirector(`/${routerCfg.OVERVIEW}`);
-        // }
+          // 更新用户名
+          yield put({ type: 'updateUsername', payload: payload.payload.username });
+          window.redirector(`/${routerCfg.OVERVIEW}`);
+        }
         localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(originalNavigation));
         window.redirector(`/${routerCfg.OVERVIEW}`);
       } else message.error(data.data);

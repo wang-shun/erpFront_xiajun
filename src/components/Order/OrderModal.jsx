@@ -27,7 +27,7 @@ class OrderModal extends Component {
   handleSubmit() {
     const p = this;
     const { form, dispatch, modalValues = {}, agencyList = [] } = p.props;
-    console.log(modalValues)
+    console.log(typeof(modalValues))
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) { return; }
       // let salesName = '';
@@ -44,14 +44,15 @@ class OrderModal extends Component {
         delete fieldsValue.address;
       }
       p.getSkuValue((orderDetailList) => {
-        if (modalValues) {
-          console.log('更新')
+        if (modalValues.orderNo) {
+          // console.log(modalValues.orderNo)
+          // console.log('更新')
           dispatch({
             type: 'order/updateOrder',
             payload: { ...fieldsValue, id: modalValues.id, outerOrderDetailList: JSON.stringify(orderDetailList) },
           });
         } else {
-          console.log('新增')
+          // console.log('新增')
           dispatch({
             type: 'order/addOrder',
             payload: { ...fieldsValue, outerOrderDetailList: JSON.stringify(orderDetailList) },

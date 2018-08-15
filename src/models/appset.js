@@ -66,10 +66,7 @@ export default {
     * wechatAppletUpdate({ payload, cb }, { call, put }) {
       const data = yield call(wechatAppletUpdate, { payload });
       if (data.success) {
-        yield put({
-          type: 'saveUpdate',
-          payload: data,
-        });
+        message.success('修改成功');
         cb();
       }
     },
