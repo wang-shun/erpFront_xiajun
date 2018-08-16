@@ -8,14 +8,15 @@ import queryString from 'query-string';
 class Test extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
   componentDidMount(){
     var a =  this.props.location.query;
     let code = a.code;
     let state = a.state;
     console.log(code,state);
-    this.props.dispatch({ type: 'permission/authorizedWx', payload: { code,state }, cb: () => {this.props.dispatch(routerRedux.push('/permission/user'))}, });
+    this.props.dispatch({ type: 'permission/authorizedWx', payload: { code,state }, cb: () => {this.props.dispatch(routerRedux.push('/permission/user?wxShow='+false))}, });
     }
   render() {
     return (

@@ -245,9 +245,7 @@ class channelInstall extends Component {
                 render(t, r) {
                     return (
                         <div>
-                            <Popconfirm title="确定修改渠道价格？" onConfirm={p.handlePrice.bind(p, r)}>
-                                <a href="javascript:void(0)" style={{ marginLeft: 10 }}>修改价格</a>
-                            </Popconfirm>
+                            <a href="javascript:void(0)" style={{ marginLeft: 10 }} onClick={p.handlePrice.bind(p, r)}>确定</a>
                         </div>
                     );
                 }
@@ -280,7 +278,7 @@ class channelInstall extends Component {
                     return (
                         <FormItem>
                             {getFieldDecorator(`r_${r.id}_discountPercent`, )(
-                                <InputNumber placeholder="请填写佣金" min={0} max={100} style={{ width: 120 }} />
+                                <InputNumber placeholder="请填写折扣" min={0} max={100} style={{ width: 120 }} />
                             )}
                             <span style={{ marginLeft: 5 }}>%</span>
                         </FormItem>
