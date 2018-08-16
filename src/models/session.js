@@ -105,7 +105,7 @@ export default {
       }
       cb();
     },
-    * login(payload, { call }) {
+    * login(payload, { call, put }) {
       const data = yield call(login, payload);
       if (data.success) {
         const permissionData = yield call(queryPermissions);
