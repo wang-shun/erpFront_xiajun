@@ -57,9 +57,19 @@ class ProductsModal extends Component {
     }
   }
 
+  // componentWillUpdate() {
+   
+  //   // const { modalValues = {} } = this.props;
+  //   // const productData = (modalValues && modalValues.data) || {};
+  //   // if (productData) {
+  //   //   this.setState({
+  //   //     idCardDefault: productData.idCard,
+  //   //   })
+  //   // }
+  // }
 
   componentDidMount() {
-    console.log("com...")
+    console.log("componentDidMount...")
     const { modalValues = {} } = this.props;
     const productData = (modalValues && modalValues.data) || {};
     const { channels = []} = this.props;
@@ -67,25 +77,14 @@ class ProductsModal extends Component {
     this.setState({
       skuvalue: arrayA,
     })
-    if (productData) {
-      console.log("coms...")
-      this.setState({
-        idCardDefault: productData.idCard,
-      })
-    }
+    // console.log(productData)
+    // if (productData) {
+    //   this.setState({
+    //     idCardDefault: productData.idCard,
+    //   })
+    // }
   }
 
-  componentWillMount() {
-    console.log("com...")
-    const { modalValues = {} } = this.props;
-    const productData = (modalValues && modalValues.data) || {};
-    if (productData) {
-      console.log("coms...")
-      this.setState({
-        idCardDefault: productData.idCard,
-      })
-    }
-  }
 
 
   changeActiveKey(id) {
@@ -317,11 +316,13 @@ class ProductsModal extends Component {
     })
   }
   render() {
+   
     const p = this;
     const { form, visible, allBrands = [], modalValues = {}, tree = [], packageScales, scaleTypes, allBuyers = [], countries = [], channels = [] } = this.props;
     //console.log(channels)
     const {idCardDefault, picUploadDisabled,previewVisible, previewImage, activeTab, countryNameExit, skuvalue } = this.state;
     const { getFieldDecorator } = form;
+    let idCardDefaults = idCardDefault;
     // 图片字符串解析
     let mainPicNum;
     let picList = [];
@@ -333,19 +334,14 @@ class ProductsModal extends Component {
       picList = picObj.picList || [];
     }
 
+
+    if (modalValues.data) {
+      idCardDefaults = modalValues.data.idCard;     
+    }
+
     // 详情数据
     const productData = (modalValues && modalValues.data) || {};
 
-     //let idCardDefaultValue = idCardDefault;
-    // console.log("this.state.idCardDefault..."+idCardDefaultValue)
-    // console.log(productData)
-    //计算是否身份证、上架时间的初始值
-    
-    // }
-    // let shelfMethodDefaultValue = 0;
-    // if (productData) {
-    //   shelfMethodDefaultValue = productData.shelfMethod;
-    // }
 
     const _roleIds = [];
     if (productData.wxList) {
@@ -602,7 +598,7 @@ class ProductsModal extends Component {
                     {...formItemLayout}
                   >
                     {getFieldDecorator('idCard', {
-                      initialValue:  idCardDefault == 0 ? 0 : 1,
+                      initialValue:  idCardDefaults,
                       rules: [{ required: true, message: '请选择是否身份证' }],
                     })(
                       <RadioGroup>
