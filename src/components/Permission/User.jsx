@@ -21,14 +21,14 @@ class Resource extends Component {
       info: '',
     };
   }
-  componentDidMount() {
-    console.log('this is mao')
-    var a =  this.props.location.query;
-    this.setState({
-      visibleWx: a.wxShow,
-    })
-    console.log('关闭modal框')
-}
+//   componentDidMount() {
+//     console.log('this is mao')
+//     var a =  this.props.location.query;
+//     this.setState({
+//       visibleWx: a.wxShow,
+//     })
+//     console.log('关闭modal框')
+// }
   handleSubmit() {
     const p = this;
     const { userModal = {}, dispatch, form } = this.props;
