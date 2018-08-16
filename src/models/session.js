@@ -146,7 +146,7 @@ export default {
         }
         localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(originalNavigation));
         window.redirector(`/${routerCfg.OVERVIEW}`);
-      }// else message.error(data.data);
+      } else message.error(data.data);
     },
   },
   subscriptions: {
