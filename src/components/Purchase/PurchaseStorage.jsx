@@ -224,11 +224,6 @@ class PurchaseStorage extends Component {
     const p = this;
     const { form, buyers = [], selectWhList = [], searchAllList = [], listUpc = [], alreadyList = [] } = p.props;
     const { upsvalue, upsvalueTwo, activeTab, mStore, wareVisible, visible, title, memVisible, menTitle, selectHouse } = p.state;
-    // console.log(selectWhList[0])
-    // if(selectWhList[0]) {
-    //   const selectHouse = selectWhList[0].warehouseNo? selectWhList[0]: '';
-    //   console.log(selectHouse.warehouseNo)
-    // }
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 10 },
@@ -354,7 +349,6 @@ class PurchaseStorage extends Component {
                   {...formItemLayout}
                 >
                   {getFieldDecorator('warehouseId', {
-                    // initialValue: selectHouse.warehouseNo,
                   })(
                     <Select labelInValue placeholder="请选择仓库" optionLabelProp="title" onChange={this.storehouse.bind(this)}>
                       {selectWhList.map(el => <Option key={el.warehouseNo} title={el.name} >{el.name}</Option>)}

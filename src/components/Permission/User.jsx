@@ -4,7 +4,7 @@ import { connect } from 'dva';
 
 import check from '../../utils/checkLib';
 import isNull from '../../utils/isNull';
-
+import { routerRedux } from 'dva/router';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -20,6 +20,13 @@ class Resource extends Component {
       visiblePassword: false,
       info: '',
     };
+  }
+  componentDidMount(){
+    var a =  this.props.location.query;
+    this.setState({
+      visibleWx: a.wxShow,
+    })
+    console.log('关闭modal框')
   }
   handleSubmit() {
     const p = this;
