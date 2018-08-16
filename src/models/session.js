@@ -1,6 +1,6 @@
 import { message } from 'antd';
-import { routerCfg, originalNavigation } from '../constants';
-// import { backendCfg, routerCfg, setNavigation, originalNavigation } from '../constants';
+// import { routerCfg, originalNavigation } from '../constants';
+import { backendCfg, routerCfg, setNavigation, originalNavigation } from '../constants';
 import fetch from '../utils/request';
 
 const login = ({ payload }) => fetch.post('haiLogin/login', { data: payload }).catch(e => e);

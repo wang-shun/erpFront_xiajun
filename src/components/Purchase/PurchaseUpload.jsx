@@ -149,7 +149,7 @@ class PurchaseUpload extends Component {
           <Row>
             <Col>
               <FormItem>
-                <p style={{ marginLeft: '30px' }}>请上传Excel需求表，每个表格最多200条记录 <span style={{ textDecoration: 'underline' }}><a href="http://www.buyer007.com/采购任务导入模版v1.0.xls">采购任务模板下载</a></span></p>
+                <p style={{ marginLeft: '30px' }}>请上传Excel需求表，每个表格最多1000条记录 <span style={{ textDecoration: 'underline' }}><a href="http://www.buyer007.com/采购任务导入模版v1.0.xls">采购任务模板下载</a></span></p>
                 {mao && <div style={{ color: 'red', marginLeft: '30px' }}>提示信息：</div>}
                 <div dangerouslySetInnerHTML={{ __html: mao }} style={{ color: 'red', marginLeft: '30px' }}></div>
               </FormItem>
