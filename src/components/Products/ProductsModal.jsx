@@ -169,6 +169,20 @@ class ProductsModal extends Component {
           }
         });
 
+        //禁止提交的upc之中出现重复
+        let upcArray = [];
+        values.skuList.forEach((el) => {
+          if (el.upc) {        
+            for (let i = 0;i < upcArray.length;i++) {
+              if (el.upc == upcArray[i]) {
+                message.error("输入的upc不可以重复，请在此输入");
+                return;
+              }             
+            }
+            upcArray.push(el.upc);
+          } 
+        });
+
         function deleteNullElement(e) {
           return e!=null && e!=undefined;
         }

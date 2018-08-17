@@ -295,8 +295,16 @@ export default {
     },
     * batchDelistingYouzan({ payload, cb }, { call }) {
       const data = yield call(batchDelistingYouzan, { payload });
+      let msg = "下架成功";
+      if (payload) {
+        if (payload.itemIds) {
+          if (1 < payload.itemIds.split(",").length) {
+            msg = "批量下架成功";
+          }
+        }
+      }
       if (data.success) {
-        message.success('批量下架成功');
+        message.success(msg);
         cb();
       }
     },
