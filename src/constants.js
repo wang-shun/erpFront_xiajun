@@ -2,99 +2,140 @@
 export const API_URL = 'http://localhost';
 
 // 后端权限码映射
-export const backendCfg = {
-  /* xiongjieying add */
-  permission: 'permission',
-  role: 'role',
-  resource: 'resource',
-  user: 'user',
-  organization: 'organization',
-  /**xiajun */
-  myApp: 'myApp',
-  appSettings: 'appSettings',
-  appDecorate: 'appDecorate',
-  release: 'release',
-  /**xiajun */
-  products: 'item',
-  productsList: 'item_list',
-  /**xiajun */
-  //finditemList: 'finditem_list', // 商品列表
-  channelPriceSet: 'channelPriceSet',//渠道价格设置(new)
-  itemKindManage: 'itemKindManage',//商品分类管理(new)
-  itemImport: "itemImport",//商品导入(new)
-  itemDispatchSet: 'itemDispatchSet',//商品分销设置(new)
-  /**xiajun */
-  //营销管理，xiajun
-  marketing: 'marketing',
-  marketingTools: 'marketingTools',//营销工具
-  distributeManage: 'distributeManage',//分销管理
-  //设置，xiajun
-  settings: 'settings',
-  baseSettings: 'baseSettings',//基本设置
-  eCommerceChannelSettings: 'eCommerceChannelSettings',//电商渠道设置
-  shippingModuleManage: 'shippingModuleManage',//物流模块管理,
-  business: 'business',
-  brandList: 'item_brand',
-  skuList: 'item_skulist',
-  package: 'item_scale',
-  packageLevel: 'item_level',
-  category: 'category',
-  sale: 'sale',
-  orderList: 'sale_outerorder',
-  erpOrder: 'sale_erporder',
-  shippingOrder: 'sale_shippingorder',
-  returnOrder: 'sale_erpreturnorder',
-  saleChannel: 'sale_channel',
-  saleAgent:'sale_agent',
-  purchase: 'purchase',
-  purchaseList: 'purchase_task',
-  purchaseStorage: 'purchase_storage',
-  uncompleteTaskDailyOrder: 'uncomplete_task_daily_order',
-  person: 'seller',
-  agencyType: 'seller_type',
-  agencyList: 'seller_list',
-  buyerList: 'buyer_list',
-  inventory: 'inventory',
-  sendingGoodsManage: 'sendingGoodsManage',//发货管理new
-  inventoryList: 'inventory_list',
-  warehouse: 'inventory_warehouse',
-  //stockwarehouse: 'inventory_stockwarehouse', // 备货仓库管理
-  inout: 'inventory_inout',
-  inventoryCheck: 'inventoryCheck', // 盘点管理
-  out: 'inventory_out',
-  report: 'report',
-  reportSaleByDay: 'report_sale_byday',
-  reportSaleByCategory: 'report_sale_bycategory',
-  reportSaleByBrand: 'report_sale_bybrand',
-  reportItemListing: 'report_item_listing',
-  reportShippingByDay: 'report_shipping_byday',
-  reportDeliveryByDate: 'report_delivery_bydate',
-  reportSaleRefund: 'report_sale_refund',
-  reportFreightByDay: 'report_freight_byday',
-  reportPurchaseBySku: 'report_purchase_bysku',
-  reportSaleByScale: 'report_sale_byscale',
-  reportSaleBySaleName: 'report_sale_byscalename',
-  //receiptList: 'receipt_List',
-  receiptTaskList: 'receipt_task_List',
-  reportNoStockReport: 'report_NoStockReport',
-  reportPxPackageReport: 'report_PxPackageReport',
-  reportAvgReport: 'report_AvgReport',
-  /* wxuser:'wxuser',
-  wxactivity:'wx_activity',*/
-  // 内置
+// export const backendCfg = {
+//   /* xiongjieying add */
+//   permission: 'permission',
+//   role: 'role',
+//   resource: 'resource',
+//   user: 'user',
+//   organization: 'organization',
+//   /**xiajun */
+//   myApp: 'myApp',
+//   appSettings: 'appSettings',
+//   appDecorate: 'appDecorate',
+//   release: 'release',
+//   /**xiajun */
+//   products: 'item',
+//   productsList: 'item_list',
+//   /**xiajun */
+//   //finditemList: 'finditem_list', // 商品列表
+//   channelPriceSet: 'channelPriceSet',//渠道价格设置(new)
+//   itemKindManage: 'itemKindManage',//商品分类管理(new)
+//   itemImport: "itemImport",//商品导入(new)
+//   itemDispatchSet: 'itemDispatchSet',//商品分销设置(new)
+//   /**xiajun */
+//   //营销管理，xiajun
+//   marketing: 'marketing',
+//   marketingTools: 'marketingTools',//营销工具
+//   distributeManage: 'distributeManage',//分销管理
+//   //设置，xiajun
+//   settings: 'settings',
+//   baseSettings: 'baseSettings',//基本设置
+//   eCommerceChannelSettings: 'eCommerceChannelSettings',//电商渠道设置
+//   shippingModuleManage: 'shippingModuleManage',//物流模块管理,
+//   business: 'business',
+//   brandList: 'item_brand',
+//   skuList: 'item_skulist',
+//   package: 'item_scale',
+//   packageLevel: 'item_level',
+//   category: 'category',
+//   sale: 'sale',
+//   orderList: 'sale_outerorder',
+//   erpOrder: 'sale_erporder',
+//   shippingOrder: 'sale_shippingorder',
+//   returnOrder: 'sale_erpreturnorder',
+//   saleChannel: 'sale_channel',
+//   saleAgent:'sale_agent',
+//   purchase: 'purchase',
+//   purchaseList: 'purchase_task',
+//   purchaseStorage: 'purchase_storage',
+//   uncompleteTaskDailyOrder: 'uncomplete_task_daily_order',
+//   person: 'seller',
+//   agencyType: 'seller_type',
+//   agencyList: 'seller_list',
+//   buyerList: 'buyer_list',
+//   inventory: 'inventory',
+//   sendingGoodsManage: 'sendingGoodsManage',//发货管理new
+//   inventoryList: 'inventory_list',
+//   warehouse: 'inventory_warehouse',
+//   //stockwarehouse: 'inventory_stockwarehouse', // 备货仓库管理
+//   inout: 'inventory_inout',
+//   inventoryCheck: 'inventoryCheck', // 盘点管理
+//   out: 'inventory_out',
+//   report: 'report',
+//   reportSaleByDay: 'report_sale_byday',
+//   reportSaleByCategory: 'report_sale_bycategory',
+//   reportSaleByBrand: 'report_sale_bybrand',
+//   reportItemListing: 'report_item_listing',
+//   reportShippingByDay: 'report_shipping_byday',
+//   reportDeliveryByDate: 'report_delivery_bydate',
+//   reportSaleRefund: 'report_sale_refund',
+//   reportFreightByDay: 'report_freight_byday',
+//   reportPurchaseBySku: 'report_purchase_bysku',
+//   reportSaleByScale: 'report_sale_byscale',
+//   reportSaleBySaleName: 'report_sale_byscalename',
+//   //receiptList: 'receipt_List',
+//   receiptTaskList: 'receipt_task_List',
+//   reportNoStockReport: 'report_NoStockReport',
+//   reportPxPackageReport: 'report_PxPackageReport',
+//   reportAvgReport: 'report_AvgReport',
+//   /* wxuser:'wxuser',
+//   wxactivity:'wx_activity',*/
+//   // 内置
   
-  roleMng: 'role_mng',
-  // 新订单管理
-  order:'order',
-  orderManage: 'orderManage',
-  deliverManage: 'deliverManage',
-  serviceManage:'serviceManage',
-  //渠道管理
-  channel:'channel',
-  channelBinding : 'channelBinding',
-  channelInstall: 'channelInstall',
-  channelAuth: 'channelAuth',//渠道授权
-};
+//   roleMng: 'role_mng',
+//   // 新订单管理
+//   order:'order',
+//   orderManage: 'orderManage',
+//   deliverManage: 'deliverManage',
+//   serviceManage:'serviceManage',
+//   //渠道管理
+//   channel:'channel',
+//   channelBinding : 'channelBinding',
+//   channelInstall: 'channelInstall',
+//   channelAuth: 'channelAuth',//渠道授权
+// };
+export const backendCfg = {
+  overview: 'overview',
+  products: 'item',//商品管理
+  productsList: 'item_list',//商品列表
+  skuList: 'item_skulist',//SKU管理
+  cateList: 'cate_list',///类目管理
+  brandList: 'item_brand',//品牌管理
+  package: 'item_scale',//包装管理
+  purchase: 'purchase',//采购管理
+  purchaseList: 'purchase_task',//采购任务管理
+  purchaseStorage: 'purchase_storage',//采购入库管理
+  receiptTaskList: 'receipt_task_List',//采购小票管理
+  buyerList: 'buyer_list',//买手管理
+  sale: 'sale',//订单管理
+  orderList: 'sale_outerorder',//订单管理
+  erpOrder: 'sale_erporder',// 发货管理
+  returnOrder: 'sale_erpreturnorder',//售后管理
+  shippingOrder: 'sale_shippingorder',//发货单管理
+  myApp: 'myApp',///我的小程序
+  appSettings: 'appSettings',///小程序设置
+  release: 'release',///小程序发布管理
+  marketing: 'marketing',///营销管理
+  saleChannel: 'sale_channel',///销售渠道管理
+  saleAgent:'sale_agent',///代理管理
+  inventory: 'inventory',//库存管理
+  inventoryList: 'inventory_list',//库存管理
+  inout: 'inventory_inout',//出入库记录
+  out: 'inventory_out',//出库单管理
+  settings: 'settings',/// 设置
+  warehouse: 'inventory_warehouse',//仓库设置
+  business: 'business',//商家信息管理
+  permission: 'permission',//权限管理
+  role: 'role',//角色管理
+  user: 'user',//用户管理
+  organization: 'organization',//部门管理
+  resource: 'resourcemanager',//资源管理
+  channel:'channel',///渠道管理
+  channelInstall: 'channelInstall',///价格设置
+  channelAuth: 'channelAuth',///渠道授权
+}
+
 
 // 路由字符串常量配置
 export const routerCfg = {
@@ -368,5 +409,5 @@ export const originalNavigation = [
 
 let navigation = [];
 
-export function getNavigation() { return originalNavigation; }
+export function getNavigation() { return navigation; }
 export function setNavigation(data) { navigation = data; }

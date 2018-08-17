@@ -133,9 +133,8 @@ export default {
             const newEl = { ...el, child: newChild };
             newNavigation.push(newEl);
           });
-
           setNavigation(newNavigation);
-
+          console.log(newNavigation)
           localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
           localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
           localStorage.setItem('HAIERP_LAST_USERNAME', payload.payload.username);
@@ -144,9 +143,10 @@ export default {
           yield put({ type: 'updateUsername', payload: payload.payload.username });
           window.redirector(`/${routerCfg.OVERVIEW}`);
         }
-        localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(originalNavigation));
+        console.log('there')
+        // localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(originalNavigation));
         window.redirector(`/${routerCfg.OVERVIEW}`);
-      } else message.error(data.data);
+      }// } else message.error(data.data);
     },
   },
   subscriptions: {
