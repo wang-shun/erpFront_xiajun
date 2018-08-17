@@ -310,8 +310,16 @@ export default {
     },
     * batchListingYouzan({ payload, cb }, { call }) {
       const data = yield call(batchListingYouzan, { payload });
+      let msg = "上架成功";
+      if (payload) {
+        if (payload.itemIds) {
+          if (1 < payload.itemIds.split(",").length) {
+            msg = "批量上架成功";
+          }
+        }
+      }
       if (data.success) {
-        message.success('批量上架成功');
+        message.success(msg);
         cb();
       }
     },

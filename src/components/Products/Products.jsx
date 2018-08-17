@@ -68,6 +68,20 @@ class Products extends Component {
         });
   }
 
+  //单品上架
+  putonItem(id) {
+    const p = this;
+    let type = 'products/batchListingYouzan';
+    let checkId = [];
+    checkId.push(id);
+
+        p.props.dispatch({
+          type,
+          payload: { itemIds: JSON.stringify(checkId) },
+          cb() { p._refreshData(); },
+        });
+  }
+
   showModal() {
     const p = this;
     this.setState({ modalVisible: true }, () => {
@@ -277,6 +291,26 @@ class Products extends Component {
         key: 'oper',
         width: 90,
         render(text, record) {
+          if (record) {
+            if (1 != record.status) {//不是上架状态的商品，提供上架操作
+              return (<div style={{ whiteSpace: 'nowrap' }}>
+              <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>编辑</a>
+              <br />
+              <Popconfirm title="确认上架？" onConfirm={p.putonItem.bind(p, record.id)}>
+                <a href="javascript:void(0)"><font color="green">上架</font></a>
+              </Popconfirm>
+              <br/>
+              <Popconfirm title="是否要生成该小程序的二维码？" onConfirm={p.createDimensionPic.bind(p, record.id)}>
+                <a href="javascript:void(0)"><font color="green">生成二维码</font></a>
+              </Popconfirm>
+              <br />
+              <Popconfirm title="确定清除虚拟库存吗？" onConfirm={p.cleanVirtualInvModal.bind(p, record.id)}>
+                <a href="javascript:void(0)">清除虚拟库存</a>
+              </Popconfirm>
+              
+            </div>);
+            }
+          }         
             return (<div style={{ whiteSpace: 'nowrap' }}>
               <a href="javascript:void(0)" onClick={p.updateModal.bind(p, record.id)}>编辑</a>
               <br />
