@@ -52,15 +52,15 @@ export default {
   },
   effects: {
     * queryIndexData(payload, { call, put }) {
-        const data = yield call(queryIndexData, { url: indexDataArr[0], payload: {} });
-        const pa = {
-          [indexDataArr[0].split('/')[2]]: data.data,
-        };
-        yield put({
-          type: 'updateOverviewInfo',
-          payload: pa,
-        });
-      
+      const data = yield call(queryIndexData, { url: indexDataArr[0], payload: {} });
+      const pa = {
+        [indexDataArr[0].split('/')[2]]: data.data,
+      };
+      yield put({
+        type: 'updateOverviewInfo',
+        payload: pa,
+      });
+
     },
     * querySiteMsg(payload, { call, put }) {
       const data = yield call(querySiteMsg, payload);
@@ -75,7 +75,11 @@ export default {
       yield call(readMsg, payload);
     },
     * logout(payload, { call }) {
-      yield call(logout, payload);
+      const data = yield call(logout, payload);
+      console.log(data, data.success)
+      if (data.success) {
+        localStorage.removeItem('HAIERP_LAST_USERNAME');
+      }
     },
     * wxRout(payload, { call, put }) {
       const data = yield call(wxRout, { payload: { ...payload } });
@@ -92,8 +96,44 @@ export default {
         message.success(data.msg);
         yield put({ type: 'wechatLoginInfo', payload: data });
         cb();
+        console.log(payload.userName)
+        const permissionData = yield call(queryPermissions);
+        if (permissionData.success) {
+          const permissions = [...permissionData.data, routerCfg.OVERVIEW];
+          const newNavigation = [];
+          originalNavigation.forEach((el) => {
+
+            if (permissions.indexOf(backendCfg[el.key]) === -1) {
+              return;
+            }
+            if (!el.child || el.child.length === 0) {
+              newNavigation.push(el);
+              return;
+            }
+            // 有子代的，还要判断子代
+            const child = el.child;
+            const newChild = [];
+            child.forEach((c) => {
+              if (permissions.indexOf(backendCfg[c.key]) >= 0) {
+                newChild.push(c);
+              }
+            });
+            const newEl = { ...el, child: newChild };
+            newNavigation.push(newEl);
+          });
+          setNavigation(newNavigation);
+          console.log(newNavigation)
+          localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
+          localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
+          localStorage.setItem('HAIERP_LAST_USERNAME', data.data.username);
+
+          // 更新用户名
+          yield put({ type: 'updateUsername', payload: data.data.username });
+          window.redirector(`/${routerCfg.OVERVIEW}`);
+        }
+          window.redirector(`/${routerCfg.OVERVIEW}`);
       }
-      if(!data.success){
+      if (!data.success) {
         message.error('请勿刷新，否则需要重新扫码')
         ca();
       }
@@ -109,12 +149,11 @@ export default {
       const data = yield call(login, payload);
       if (data.success) {
         const permissionData = yield call(queryPermissions);
-        console.log(permissionData)
         if (permissionData.success) {
           const permissions = [...permissionData.data, routerCfg.OVERVIEW];
           const newNavigation = [];
           originalNavigation.forEach((el) => {
-         
+
             if (permissions.indexOf(backendCfg[el.key]) === -1) {
               return;
             }
