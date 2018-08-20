@@ -122,10 +122,10 @@ export default {
             console.log(newNavigation)
             localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
             localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
-            localStorage.setItem('HAIERP_LAST_USERNAME', data.data.username);
+            localStorage.setItem('HAIERP_LAST_USERNAME', data.data.userName);
 
             // 更新用户名
-            yield put({ type: 'updateUsername', payload: data.data.username });
+            yield put({ type: 'updateUsername', payload: data.data.userName });
             window.redirector(`/${routerCfg.OVERVIEW}`);
           }
           console.log('there')
