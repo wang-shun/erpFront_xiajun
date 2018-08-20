@@ -15,6 +15,7 @@ class Header extends React.Component {
   }
   render() {
     const { session, location } = this.props;
+    console.log(session)
     // const { pathname } = this.props.location;
     return (
       <div>
@@ -51,7 +52,6 @@ class Header extends React.Component {
           {/* <span className={styles.mr10}><Icon type="lock" /> <Link to="/lock">修改密码</Link></span> */}
           <span style={{ marginLeft: 20 }}><Icon type="logout" /> <span onClick={this.logout.bind(this)}><Link to={`/${routerCfg.LOGIN}`}>安全退出</Link></span></span>
         </span>
-
         <Breadcrumb location={location} />
       </header>
       </div>
