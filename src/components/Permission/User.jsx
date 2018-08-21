@@ -35,6 +35,7 @@ class Resource extends Component {
     form.validateFields((err, values) => {
       if (err) return;
       if (values.createTime) values.createTime = new Date(values.createTime).format('yyyy-MM-dd hh:mm:ss');
+      console.log(values)
       if (userModal.id) {
         dispatch({ type: 'permission/updateUser', payload: { ...values, id: userModal.id } });
       } else {
@@ -99,7 +100,7 @@ class Resource extends Component {
   render() {
     const p = this;
     const { userList = [], total, form, userModal = {}, orgList = [], roleList = [], wxData } = this.props;
-    console.log(userModal)
+    console.log(roleList)
     const { visible, title, titles, visibleWx, info, visiblePassword } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
@@ -108,9 +109,11 @@ class Resource extends Component {
     };
     const _roleIds = [];
     if (userModal.rolesList) {
+      console.log(userList.rolesList)
       userModal.rolesList.forEach((el) => {
-        if (el && el.id) _roleIds.push(el.id.toString());
+        if (el && el.roleId) _roleIds.push(el.roleId.toString());
       });
+      console.log(_roleIds)
     }
     const columns = [
       { title: '登录名', key: 'loginName', dataIndex: 'loginName' },
@@ -296,7 +299,7 @@ class Resource extends Component {
                     initialValue: _roleIds,
                   })(
                     <Select placeholder="请选择角色" mode="multiple" allowClear>
-                      {roleList.map(el => <Option key={el.id} value={el.id.toString()}>{el.name}</Option>)}
+                      {roleList.map(el => <Option key={el.roleId} value={el.roleId.toString()}>{el.name}</Option>)}
                     </Select>,
                   )}
                 </FormItem>

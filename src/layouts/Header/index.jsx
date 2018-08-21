@@ -15,7 +15,6 @@ class Header extends React.Component {
   }
   render() {
     const { session, location } = this.props;
-    console.log(session)
     // const { pathname } = this.props.location;
     return (
       <div>

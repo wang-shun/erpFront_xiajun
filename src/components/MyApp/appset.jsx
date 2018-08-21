@@ -15,6 +15,9 @@ class appset extends Component {
         console.log(geturl)
         window.open(geturl);           
     }
+    newOpen(){
+        window.open("https://mp.weixin.qq.com/")
+    }
     render() {
 
         return (
@@ -32,7 +35,7 @@ class appset extends Component {
                         <p style={{ fontSize:'14px', fontWeight:600, textAlign:'center',marginBottom:'30px',marginTop:10}}>还没有微信小程序</p>
                         <p style={{textAlign:'center'}}>点击下方按钮前往微信公众平台注册；注册</p>
                         <p style={{textAlign:'center',marginBottom:'17px'}}>成功后，再授权给网擒天下即可</p>
-                        <p style={{textAlign:'center'}}><Button size="large" style={{width:200}}>小程序官方注册</Button></p>
+                        <p style={{textAlign:'center'}}><Button size="large" style={{width:200}} onClick={this.newOpen.bind(this)}>小程序官方注册</Button></p>
                     </Card>
                 </div>
             </div>
