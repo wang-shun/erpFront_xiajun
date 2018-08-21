@@ -613,13 +613,13 @@ class ProductTable extends Component {
             </TabPane>
           </Tabs>
           <Row>
-            <Button type="primary" onClick={batchSelectSku} style={{ position: 'absolute', bottom: 10, left: 0 }} disabled={p.state.selectedSku.length === 0}>批量添加</Button>
+            {/* <Button type="primary" onClick={batchSelectSku} style={{ position: 'absolute', bottom: 10, left: 0 }} disabled={p.state.selectedSku.length === 0}>批量添加</Button> */}
             <Table
               columns={columns}
               dataSource={skuListTwo}
               size="small"
               bordered
-              rowSelection={rowSelection}
+              // rowSelection={rowSelection}
               rowKey={record => record.id}
               pagination={paginationProps}
               scroll={{ x: 1100, y: 400 }}
