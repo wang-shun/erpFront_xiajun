@@ -10,6 +10,7 @@ const saveAllItemSkuInOneChannelPrice = ({ payload }) => fetch.post('/itemSku/sa
 const saveOneItemSkuMultiPrice = ({ payload }) => fetch.post('/itemSku/saveOneItemSkuMultiPrice', { data: payload }).catch(e => e);
 const queryChannelList = () => fetch.post('/channelshop/queryChannelList').catch(e => e);//渠道列表
 const getOauthUrl = () => fetch.post('/channelshop/getOauthUrl').catch(e => e);//渠道授权
+const addhaihu = () => fetch.post('/channelshop/addhaihu').catch(e => e);//添加海狐的渠道
 
 export default {
   namespace: 'channel',
@@ -26,6 +27,7 @@ export default {
     detailTotal: 1,
     channelList: [],
     authUrl: '',
+    channelShopDO: {}
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -40,6 +42,7 @@ export default {
           setTimeout(() => {
             dispatch({ type: 'queryChannelList', payload: {} });
             dispatch({ type: 'getOauthUrl', payload: {} });
+            dispatch({ type: 'addhaihu', payload: {} });
           }, 0);
         }
       });
@@ -68,6 +71,19 @@ export default {
         type: 'updateState',
         payload: {
           authUrl,
+        },
+      });
+    }
+  },
+     //添加海狐的渠道
+    * addhaihu(_, { call, put }) {
+    const data = yield call(addhaihu);
+    if (data.success) {
+      const channelShopDO = data.data;
+      yield put({
+        type: 'updateState',
+        payload: {
+          channelShopDO,
         },
       });
     }
