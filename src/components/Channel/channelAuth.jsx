@@ -127,8 +127,32 @@ class channelAuth extends Component {
 
   handleOkClickHaihu() {
     const p = this;
-    this.props.dispatch({
-      type: 'channel/queryChannelList',
+    const { dispatch, brandValue, form } = this.props;
+    //编辑渠道
+    form.validateFields((err, values) => {
+      if (err) return;
+      const { shopName, channelNo} = values;
+      console.log(shopName)
+      console.log(channelNo)
+      // if (brandValue.id) {
+      //   dispatch({
+      //     type: 'products/updateBrand',
+      //     payload: { name: enName, nameChina: cnName, nameAlias, id: brandValue.id },
+      //     cb() {
+      //       p.handleCancel();
+      //       p._refreshData();
+      //     },
+      //   });
+      // } else {
+      //   dispatch({
+      //     type: 'products/addBrand',
+      //     payload: { name: enName, nameChina: cnName, nameAlias },
+      //     cb() {
+      //       p.handleCancel();
+      //       p._refreshData();
+      //     },
+      //   });
+      // }
     });
     p.setState({
       haihuVisible: false
