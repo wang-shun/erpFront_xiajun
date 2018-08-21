@@ -50,10 +50,14 @@ class ProductsModal extends Component {
       this.setState({
         idCardDefault:1
       });
-    } else {
+    } else if(0 == e.target.value) {
       this.setState({
         idCardDefault:0
       });
+    } else if (2 == e.target.value){
+      this.setState({
+        idCardDefault: 1
+      })
     }
   }
 
@@ -471,18 +475,19 @@ class ProductsModal extends Component {
           <TabPane tab="基本信息" key="1">
             <Form onSubmit={this.handleSubmit.bind(this)}>
               <Row>
-                <Col span={7}>
+                <Col span={8}>
                   <FormItem
                     label="商品类型"
                     {...formItemLayout}
                     required="true"
                   >
                     {getFieldDecorator('isAbroad', {
-                      initialValue: productData.isAbroad == 0 ? 0 : 1,
+                      initialValue:  productData.isAbroad == undefined ? 1 : productData.isAbroad,
                     })(
-                      <RadioGroup onChange={this.changeIdCardDefaultValue} >
-                        <Radio value={1}>海外商品</Radio>
+                      <RadioGroup onChange={this.changeIdCardDefaultValue}>
+                        <Radio value={1}>海外直邮</Radio>
                         <Radio value={0}>国内商品</Radio>
+                        <Radio value={2}>保税进口</Radio>
                       </RadioGroup>,
                     )}
                   </FormItem>
