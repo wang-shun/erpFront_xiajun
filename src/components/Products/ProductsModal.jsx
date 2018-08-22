@@ -558,6 +558,24 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>
+                <Col span={7}>
+                  {<FormItem
+                    label="第三方销售平台"
+                    {...formItemLayout}
+                  >
+                    {getFieldDecorator('saleOnChannels', {
+                      initialValue: productData.saleOnChannels || [],
+                      rules: [{ required: false, message: '请选择第三方销售' }],
+                    })(
+                      <Select placeholder="请选择第三方销售" mode="multiple" allowClear >
+                        {channels.map((el, index) => (
+                          <Option key={index} value={el.channelNo}>{el.channelName}</Option>
+                          ))}
+                      </Select>,
+                    )}
+                  </FormItem>}
+                </Col>
+
               </Row>
 
               <Row>

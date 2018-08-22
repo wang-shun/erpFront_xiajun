@@ -50,14 +50,9 @@ class channelAuth extends Component {
         dispatch({
           type: 'channel/saveHaihuInfo',
           payload: { id:haihuEditModalValues.id, channelNo:channelNo, shopName:shopName, shopCode:shopCode, open:opens, expiresTime:expireTime},
-          // cb() {
-          //   this.props.dispatch({
-          //     type: 'channel/queryChannelList',
-          //   });
-          //   p.setState({
-          //     haihuVisible: false
-          //   })
-          // },
+          cb: () =>{
+            p.refreshData();
+          }
         });      
     }); 
     p.setState({
@@ -70,9 +65,9 @@ class channelAuth extends Component {
   authorize(id) {
     //console.log("id..."+id);
     if (id) {
-      this.props.dispatch({
-        type: 'channel/getOauthUrl',
-      });
+      // this.props.dispatch({
+      //   type: 'channel/getOauthUrl',
+      // });
       const { authUrl = {} } = this.props;
       // console.log("AuthUrl..." + authUrl)
       if (authUrl) {
@@ -179,6 +174,9 @@ class channelAuth extends Component {
     const p = this;
     this.props.dispatch({
       type: 'channel/queryChannelList',
+      cb: () =>{
+        p.refreshData();
+      }
     });
     p.setState({
       visible: false
@@ -203,14 +201,9 @@ class channelAuth extends Component {
         this.props.dispatch({
           type: 'channel/saveHaihuInfo',
           payload: { channelNo:channelNo, shopName:shopName, shopCode:shopCode, open:opens, expiresTime:expireTime},
-          // cb() {
-          //   this.props.dispatch({
-          //     type: 'channel/queryChannelList',
-          //   });
-          //   p.setState({
-          //     haihuVisible: false
-          //   })
-          // },
+          cb: () =>{
+            p.refreshData();
+          }
         });      
     }); 
     p.setState({
@@ -377,31 +370,24 @@ class channelAuth extends Component {
               <Button htmlType="submit" size="large" type="primary">添加渠道</Button>
             </Col>
           </Row>
-          <Row gutter={20} style={{ width: 800}}>
-            <Col span="6">
-              <FormItem
-                {...formItemLayout}
-              >
-              </FormItem>
+          <Row>
+            <Col span="4">
+              <FormItem {...formItemLayout}></FormItem>
             </Col>
-            <Col span="6">
-              <FormItem
-                {...formItemLayout}
-              >
-              </FormItem>
+            <Col span="4">
+              <FormItem {...formItemLayout}></FormItem>
             </Col>
-            <Col span="6">
-              <FormItem
-                {...formItemLayout}
-              >
-              </FormItem>
+            <Col span="4">
+              <FormItem {...formItemLayout}></FormItem>
             </Col>
-            <Col span="6" >
-              <FormItem
-                {...formItemLayout}
-
-              >
-              </FormItem>
+            <Col span="4">
+              <FormItem {...formItemLayout}></FormItem>
+            </Col>
+            <Col span="4">
+              <FormItem {...formItemLayout}></FormItem>
+            </Col>
+            <Col span="4">
+              <FormItem {...formItemLayout}></FormItem>
             </Col>
           </Row>
         </Form>
