@@ -12,16 +12,57 @@ class channelAuth extends Component {
     this.state = {
       visible: false,
       haihuVisible: false,
+      haihuEditVisible: false,
+      haihuEditModalValues: {},
       title: '',
       fontColor: 'black',
     };
   }
 
   componentDidMount() {
-    //console.log("dadfd");
     this.setState({
-      fontColor: 'red'
+      fontColor: 'red',
     })
+  }
+
+  refreshData() {
+    this.props.dispatch({
+      type: 'channel/queryChannelList',
+    });
+  }
+
+  //编辑完海狐的渠道后提交
+  editHaihuSubmit() {
+    const p = this;
+    const { dispatch, form } = this.props;
+    const { haihuEditModalValues} = this.state;
+    //编辑渠道
+    form.validateFields((err, values) => {
+      if (err) return;
+      const { shopName, shopCode, open, expiresTime} = values;
+      let channelNo = 2;
+      let opens = true;
+      if ("停用" == open) {
+        opens = false;
+      }
+      let expireTime = new Date(expiresTime).format('yyyy-MM-dd HH:mm:ss');
+      //console.log("va")
+        dispatch({
+          type: 'channel/saveHaihuInfo',
+          payload: { id:haihuEditModalValues.id, channelNo:channelNo, shopName:shopName, shopCode:shopCode, open:opens, expiresTime:expireTime},
+          // cb() {
+          //   this.props.dispatch({
+          //     type: 'channel/queryChannelList',
+          //   });
+          //   p.setState({
+          //     haihuVisible: false
+          //   })
+          // },
+        });      
+    }); 
+    p.setState({
+          haihuEditVisible: false
+        })  
   }
 
   //授权
@@ -44,20 +85,38 @@ class channelAuth extends Component {
     }
   }
 
-  editChannel(id) {
+  editHaihuChannel(r) {
     this.setState({
-      haihuVisible: true
+      haihuEditModalValues: r,
+      haihuEditVisible: true
     })
   }
 
-  stop(id) {
-    // this.setState({
-    //   haihuVisible: true
-    // })
+  //停用渠道
+  stop(shopCode) {
+    const p = this;
+    const { dispatch, form } = this.props;
+    dispatch({
+      type: 'channel/changeOpen',
+      payload: { shopCode: shopCode, open: false },
+      cb: () =>{
+        p.refreshData();
+      }
+    }); 
+    
   }
 
-  start(id) {
-    
+  //启用渠道
+  start(shopCode) {
+    const p = this;
+    const { dispatch, form } = this.props;
+    dispatch({
+      type: 'channel/changeOpen',
+      payload: { shopCode: shopCode, open: true },
+      cb: () =>{
+        p.refreshData();
+      }
+    });       
   }
 
   //弹出确认的模态框
@@ -111,7 +170,8 @@ class channelAuth extends Component {
     });
     p.setState({
       visible: false,
-      haihuVisible: false
+      haihuVisible: false,
+      haihuEditVisible: false,
     })
   }
 
@@ -125,38 +185,50 @@ class channelAuth extends Component {
     })
   }
 
+  //海狐渠道的添加
   handleOkClickHaihu() {
     const p = this;
-    const { dispatch, brandValue, form } = this.props;
+    const { dispatch, form } = this.props;
     //编辑渠道
     form.validateFields((err, values) => {
       if (err) return;
-      const { shopName, channelNo} = values;
-      console.log(shopName)
-      console.log(channelNo)
-      // if (brandValue.id) {
-      //   dispatch({
-      //     type: 'products/updateBrand',
-      //     payload: { name: enName, nameChina: cnName, nameAlias, id: brandValue.id },
-      //     cb() {
-      //       p.handleCancel();
-      //       p._refreshData();
-      //     },
-      //   });
-      // } else {
-      //   dispatch({
-      //     type: 'products/addBrand',
-      //     payload: { name: enName, nameChina: cnName, nameAlias },
-      //     cb() {
-      //       p.handleCancel();
-      //       p._refreshData();
-      //     },
-      //   });
-      // }
-    });
+      const { shopName, shopCode, open, expiresTime} = values;
+      let channelNo = 2;
+      let opens = true;
+      if ("停用" == open) {
+        opens = false;
+      }
+      let expireTime = new Date(expiresTime).format('yyyy-MM-dd HH:mm:ss');
+      //console.log("va")
+        this.props.dispatch({
+          type: 'channel/saveHaihuInfo',
+          payload: { channelNo:channelNo, shopName:shopName, shopCode:shopCode, open:opens, expiresTime:expireTime},
+          // cb() {
+          //   this.props.dispatch({
+          //     type: 'channel/queryChannelList',
+          //   });
+          //   p.setState({
+          //     haihuVisible: false
+          //   })
+          // },
+        });      
+    }); 
     p.setState({
-      haihuVisible: false
-    })
+          haihuVisible: false
+        })  
+  }
+
+  //渠道编码转渠道名字
+  channelNoToName(channelShopDO) {
+    if (channelShopDO) {
+      if (channelShopDO.channelNo != undefined && channelShopDO.channelNo != null) {
+        let cNo = channelShopDO.channelNo;
+        switch(cNo) {
+          case "1":channelShopDO.channelNo = "有赞";break;
+          case "2":channelShopDO.channelNo = "海狐海淘";break;
+        }
+      }
+    }
   }
 
 
@@ -164,29 +236,14 @@ class channelAuth extends Component {
     const p = this;
     const { form, channelList = [], channelShopDO = {} } = this.props;
     const { getFieldDecorator } = form;
-    const { haihuVisible, visible, title, fontColor } = this.state;
-    let openInit = "正常";
+    const { haihuVisible, haihuEditVisible, visible, title, haihuEditModalValues} = this.state;
     let channelInit = "";
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 15 },
     };
-    if (channelShopDO) {
-      if (channelShopDO.open != undefined && channelShopDO.open != null) {
-        if (channelShopDO.open == false) {
-          openInit = "停用";
-        }
-      }
-    }
-    if (channelShopDO) {
-      if (channelShopDO.channelNo != undefined && channelShopDO.channelNo != null) {
-        let cNo = channelShopDO.channelNo;
-        switch(cNo) {
-          case "1":channelInit = "有赞";break;
-          case "2":channelInit = "海狐海淘";break;
-        }
-      }
-    }
+    this.channelNoToName(channelShopDO);
+    this.channelNoToName(haihuEditModalValues);
     const columns = [
       {
         title: '渠道名',
@@ -248,7 +305,7 @@ class channelAuth extends Component {
                   <a href="javascript:void(0)" onClick={p.authorize.bind(p, r.id)} >授权</a>
                 </div>   
                 <div>
-                  <a href="javascript:void(0)" onClick={p.stop.bind(p, r.id)} >停用</a>
+                  <a href="javascript:void(0)" onClick={p.stop.bind(p, r.shopCode)} >停用</a>
                 </div>  
              </div>        
             );
@@ -257,10 +314,10 @@ class channelAuth extends Component {
             return (
               <div>
                 <div>
-                  <a href="javascript:void(0)" onClick={p.editChannel.bind(p, r.id)} >编辑</a>
+                  <a href="javascript:void(0)" onClick={p.editHaihuChannel.bind(p, r)} >编辑</a>
                 </div>
                 <div>
-                  <a href="javascript:void(0)" onClick={p.stop.bind(p, r.id)} >停用</a>
+                  <a href="javascript:void(0)" onClick={p.stop.bind(p, r.shopCode)} >停用</a>
                 </div>
               </div>
             );
@@ -269,10 +326,10 @@ class channelAuth extends Component {
             return (
               <div>
                 <div>
-                  <a href="javascript:void(0)" onClick={p.editChannel.bind(p, r.id)} >编辑</a>
+                  <a href="javascript:void(0)" onClick={p.editHaihuChannel.bind(p, r)} >编辑</a>
                 </div>
                 <div>
-                  <a href="javascript:void(0)" onClick={p.start.bind(p, r.id)} >启用</a>
+                  <a href="javascript:void(0)" onClick={p.start.bind(p, r.shopCode)} >启用</a>
                 </div>
               </div>
             );
@@ -284,7 +341,7 @@ class channelAuth extends Component {
                   <a href="javascript:void(0)" onClick={p.authorize.bind(p, r.id)} >授权</a>
                 </div>  
                 <div>
-                  <a href="javascript:void(0)" onClick={p.start.bind(p, r.id)} >启用</a>
+                  <a href="javascript:void(0)" onClick={p.start.bind(p, r.shopCode)} >启用</a>
                 </div>   
               </div>     
             );
@@ -349,15 +406,16 @@ class channelAuth extends Component {
           </Row>
         </Form>
         <Table columns={columns} dataSource={channelList} rowKey={r => r.id} bordered />
-        {/* 下面的内容是两个模态框 */}
+        {/* 有赞渠道添加的模态框 */}
         {
           visible && 
           <Modal visible={visible} title={title} cancelText="否" okText="是" onCancel={this.handleCancel.bind(this)} onOk={this.handleOkClick.bind(this)}>
           </Modal>
         }
+        {/* 海狐渠道添加的模态框 */}
         {
           haihuVisible && 
-          <Modal visible={haihuVisible} title="请确认海狐的渠道信息" cancelText="取消" okText="确定" onCancel={this.handleCancel.bind(this)} onOk={this.handleOkClickHaihu.bind(this)}>
+          <Modal  visible={haihuVisible} title="添加海狐渠道" cancelText="取消" okText="确定" onCancel={this.handleCancel.bind(this)} onOk={this.handleOkClickHaihu.bind(this)}>
             <Row>
               <Col>
               <FormItem
@@ -365,7 +423,7 @@ class channelAuth extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('channelNo', {
-                  initialValue: channelInit,
+                  initialValue: channelShopDO.channelNo,
                 })(
                   <Input disabled />,
                 )}
@@ -421,7 +479,83 @@ class channelAuth extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('open', {
-                  initialValue: openInit,
+                  initialValue: channelShopDO.open == true ? "正常" : "停用",
+                })(
+                  <Input disabled />,
+                )}
+              </FormItem>
+              </Col>
+           </Row>                
+          </Modal>
+        }
+        {/* 海狐渠道编辑的模态框 */}
+        {
+          haihuEditVisible && 
+          <Modal  visible={haihuEditVisible} title="编辑海狐渠道" cancelText="取消" okText="确定" onCancel={this.handleCancel.bind(this)} onOk={this.editHaihuSubmit.bind(this)}>
+            <Row>
+              <Col>
+              <FormItem
+                label="渠道名"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('channelNo', {
+                  initialValue: haihuEditModalValues.channelNo,
+                })(
+                  <Input disabled />,
+                )}
+              </FormItem>
+              </Col>
+           </Row>
+           <Row>
+              <Col>
+              <FormItem
+                label="店铺名"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('shopName', {
+                  initialValue: haihuEditModalValues.shopName,
+                })(
+                  <Input  />,
+                )}
+              </FormItem>
+              </Col>
+           </Row>
+           <Row>
+              <Col>
+              <FormItem
+                label="店铺编码"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('shopCode', {
+                  initialValue: haihuEditModalValues.shopCode,
+                })(
+                  <Input disabled/>,
+                )}
+              </FormItem>
+              </Col>
+           </Row>
+           <Row>
+              <Col>
+              <FormItem
+                label="有效期"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('expiresTime', {
+                  initialValue: haihuEditModalValues.expiresTime,
+                })(
+                  <Input disabled />,
+                )}
+              </FormItem>
+              </Col>
+           </Row>
+           <Row>
+              <Col>
+              <FormItem
+                label="状态"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('open', {
+                  initialValue: haihuEditModalValues.open == true ? "正常" : "停用",
                 })(
                   <Input disabled />,
                 )}
