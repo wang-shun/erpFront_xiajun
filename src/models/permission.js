@@ -68,6 +68,7 @@ export default {
           }, 0);
         }
         if (pathname === '/permission/user' && !window.existCacheState('/permission/user')) {
+          window.alert(pathname.state.name)
           setTimeout(() => {
             dispatch({ type: 'queryUserList', payload: {} });
             dispatch({ type: 'queryOrgList', payload: {} });
