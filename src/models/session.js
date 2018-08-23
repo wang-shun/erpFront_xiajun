@@ -93,44 +93,46 @@ export default {
         yield put({ type: 'wechatLoginInfo', payload: data });
         cb();
         if (data.success) {
-          const permissionData = yield call(queryPermissions);
-          console.log(permissionData)
-          if (permissionData.success) {
-            const permissions = [...permissionData.data, routerCfg.OVERVIEW];
-            const newNavigation = [];
-            originalNavigation.forEach((el) => {
+          if (data.data.userName) {
+            const permissionData = yield call(queryPermissions);
+            console.log(permissionData)
+            if (permissionData.success) {
+              const permissions = [...permissionData.data, routerCfg.OVERVIEW];
+              const newNavigation = [];
+              originalNavigation.forEach((el) => {
 
-              if (permissions.indexOf(backendCfg[el.key]) === -1) {
-                return;
-              }
-              if (!el.child || el.child.length === 0) {
-                newNavigation.push(el);
-                return;
-              }
-              // 有子代的，还要判断子代
-              const child = el.child;
-              const newChild = [];
-              child.forEach((c) => {
-                if (permissions.indexOf(backendCfg[c.key]) >= 0) {
-                  newChild.push(c);
+                if (permissions.indexOf(backendCfg[el.key]) === -1) {
+                  return;
                 }
+                if (!el.child || el.child.length === 0) {
+                  newNavigation.push(el);
+                  return;
+                }
+                // 有子代的，还要判断子代
+                const child = el.child;
+                const newChild = [];
+                child.forEach((c) => {
+                  if (permissions.indexOf(backendCfg[c.key]) >= 0) {
+                    newChild.push(c);
+                  }
+                });
+                const newEl = { ...el, child: newChild };
+                newNavigation.push(newEl);
               });
-              const newEl = { ...el, child: newChild };
-              newNavigation.push(newEl);
-            });
-            setNavigation(newNavigation);
-            console.log(newNavigation)
-            localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
-            localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
-            localStorage.setItem('HAIERP_LAST_USERNAME', data.data.userName);
+              setNavigation(newNavigation);
+              console.log(newNavigation)
+              localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
+              localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
+              localStorage.setItem('HAIERP_LAST_USERNAME', data.data.userName);
 
-            // 更新用户名
-            yield put({ type: 'updateUsername', payload: data.data.userName });
+              // 更新用户名
+              yield put({ type: 'updateUsername', payload: data.data.userName });
+              window.redirector(`/${routerCfg.OVERVIEW}`);
+            }
+            console.log('there')
+            // localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(originalNavigation));
             window.redirector(`/${routerCfg.OVERVIEW}`);
           }
-          console.log('there')
-          // localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(originalNavigation));
-          window.redirector(`/${routerCfg.OVERVIEW}`);
         }
       }
       if (!data.success) {
