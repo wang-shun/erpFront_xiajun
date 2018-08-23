@@ -25,10 +25,10 @@ class Resource extends Component {
     
     // console.log('this is mao')
     var a =  this.props.location.query;
-    window.alert(a)
-    // this.setState({
-    //   visibleWx: a.wxShow,
-    // })
+    window.alert(a.visible)
+    this.setState({
+      visibleWx: a.visibleWx,
+    })
     // console.log('关闭modal框')
 }
   handleSubmit() {
