@@ -134,10 +134,6 @@ export const backendCfg = {
   channel:'channel',///渠道管理
   channelInstall: 'channelInstall',///价格设置
   channelAuth: 'channelAuth',///渠道授权
-  neworder: 'neworder',// 订单管理
-  orderManagement: 'orderManagement',//订单管理
-  deliveryManagement: 'deliveryManagement',//发货管理
-  serviceManagement: 'serviceManagement',
 }
 
 
@@ -249,10 +245,10 @@ export const routerCfg = {
 
   // ROLE_MNG: 'roleMng',
   //新订单管理
-  NEWORDER: 'neworder',
-  ORDERMANAGEMENT:'orderManagement',
-  DELIVERMANAGEMENT:'deliveryManagement',
-  SERVICEMANAGEMENT:'serviceManagement',
+  ORDER:'order',
+  ORDERMANAGE: 'orderManage',
+  DELIVERMANAGE: 'deliverManage',
+  SERVICEMANAGE:'serviceManage',
   //渠道管理
   CHANNEL:'channel',
   CHANNELBINDING : 'channelBinding',
@@ -312,14 +308,14 @@ export const originalNavigation = [
 
     ],
   },
-  {
-    key: routerCfg.NEWORDER, name:'订单管理', icon: 'exception',
-    child: [
-      { key: routerCfg.ORDERMANAGEMENT,name:'订单管理'},
-      { key: routerCfg.DELIVERMANAGEMENT,name:'发货管理'},
-      { key: routerCfg.SERVICEMANAGEMENT,name:'售后管理'},
-    ]
-  },
+  // {
+  //   key: routerCfg.ORDER, name: '订单管理', icon: 'calendar',
+  //   child: [
+  //     { key: routerCfg.orderManage, name: '订单管理'},
+  //     { key: routerCfg.deliverManage, name: '发货管理'},
+  //     { key: routerCfg.serviceManage, name:'售后管理'}
+  //   ]
+  // },
   {
     key: routerCfg.MYAPP, name: '我的小程序', icon: 'message',
     child: [
@@ -413,5 +409,5 @@ export const originalNavigation = [
 
 let navigation = [];
 
-export function getNavigation() { return originalNavigation; }
+export function getNavigation() { return navigation; }
 export function setNavigation(data) { navigation = data; }
