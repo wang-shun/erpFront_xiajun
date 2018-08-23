@@ -21,16 +21,42 @@ class Resource extends Component {
       info: '',
     };
   }
+  componentWillMount() {
+    this.setState({
+      visibleWx: false,
+    })
+  }
   componentDidMount() {
     
     // console.log('this is mao')
     var a =  this.props.location.query;
-    window.alert(a.visible)
+    //window.alert(a.visible)
     this.setState({
-      visibleWx: a.visibleWx,
+      visibleWx: false,
     })
     // console.log('关闭modal框')
 }
+componentWillReceiveProps() {
+  this.setState({
+    visibleWx: false,
+  })
+}
+shouldComponentUpdate() {
+  this.setState({
+    visibleWx: false,
+  })
+}
+componentWillUpdate() {
+  this.setState({
+    visibleWx: false,
+  })
+}
+componentDidUpdate() {
+  this.setState({
+    visibleWx: false,
+  })
+}
+
   handleSubmit() {
     const p = this;
     const { userModal = {}, dispatch, form } = this.props;
