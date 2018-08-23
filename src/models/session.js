@@ -136,7 +136,7 @@ export default {
         }
       }
       if (!data.success) {
-        message.error('请勿刷新，否则需要重新扫码')
+        //message.error('请勿刷新，否则需要重新扫码')
         ca();
       }
     },
