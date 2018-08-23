@@ -22,6 +22,7 @@ class SeeAgent extends Component {
             wxLink: '',
         };
     }
+
     componentDidMount() {
         const { wxLink } = this.state;
         var a = this.props.location.query;
@@ -32,7 +33,8 @@ class SeeAgent extends Component {
             },
         });
         this.setState({
-            wxLink: "/wechatLogin/getProxyHtml?parentAgent=" + a.parentAgent
+            wxLink: "/wechatLogin/getProxyHtml?parentAgent=" + a.parentAgent,
+            visibleWx: false
         })
 
     }
