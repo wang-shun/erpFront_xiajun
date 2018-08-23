@@ -21,11 +21,11 @@ class Resource extends Component {
       info: '',
     };
   }
-  componentWillMount() {
-    this.setState({
-      visibleWx: false,
-    })
-  }
+  // componentWillMount() {
+  //   this.setState({
+  //     visibleWx: false,
+  //   })
+  // }
   componentDidMount() {
     
     // console.log('this is mao')
