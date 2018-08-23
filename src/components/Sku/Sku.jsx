@@ -156,12 +156,16 @@ class Sku extends Component {
           }
           if (!text) return '-';
           const picList = JSON.parse(text).picList;
-          const t = picList.length ? picList[0] ? picList[0].url : '' : '';
-          return (
-            t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
-              <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
-            </Popover> : '-'
-          );
+          if (picList != null && picList != undefined ) {
+            const t = picList.length ? picList[0] ? picList[0].url : '' : '';
+            return (
+              t ? <Popover title={null} content={<img role="presentation" src={imgHandlerThumbBig(t)} style={{ width: 400 }} />}>
+                <img role="presentation" src={imgHandlerThumb(t)} width={60} height={60} />
+              </Popover> : '-'
+            );
+          }
+          
+          
         },
       },
       { title: '所属分类', dataIndex: 'categoryName', key: 'categoryName', width: 80 / 11.48 + '%', render(text) { return text || '-'; } },
