@@ -29,33 +29,15 @@ class Resource extends Component {
   componentDidMount() {
     
     // console.log('this is mao')
-    var a =  this.props.location.query;
+    // var a =  this.props.location.query;
     //window.alert(a.visible)
     this.setState({
       visibleWx: false,
     })
     // console.log('关闭modal框')
 }
-componentWillReceiveProps() {
-  this.setState({
-    visibleWx: false,
-  })
-}
-shouldComponentUpdate() {
-  this.setState({
-    visibleWx: false,
-  })
-}
-componentWillUpdate() {
-  this.setState({
-    visibleWx: false,
-  })
-}
-componentDidUpdate() {
-  this.setState({
-    visibleWx: false,
-  })
-}
+
+
 
   handleSubmit() {
     const p = this;
