@@ -372,7 +372,7 @@ class channelAuth extends Component {
           </Row>
           <Row>
             <Col span="4">
-              <FormItem {...formItemLayout}></FormItem>
+              <FormItem {...formItemLayout}> </FormItem>
             </Col>
             <Col span="4">
               <FormItem {...formItemLayout}></FormItem>
@@ -404,15 +404,13 @@ class channelAuth extends Component {
           <Modal  visible={haihuVisible} title="添加海狐渠道" cancelText="取消" okText="确定" onCancel={this.handleCancel.bind(this)} onOk={this.handleOkClickHaihu.bind(this)}>
             <Row>
               <Col>
-              <FormItem
-                label="渠道名"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('channelNo', {
-                  initialValue: channelShopDO.channelNo,
-                })(
-                  <Input disabled />,
-                )}
+              <FormItem label="渠道名" {...formItemLayout}>
+                  {
+                    getFieldDecorator('channelNo', {
+                      initialValue: channelShopDO.channelNo,
+                    })
+                    (<Input disabled />,)
+                  }
               </FormItem>
               </Col>
            </Row>
