@@ -42,6 +42,11 @@ class SaleAgent extends Component {
       wxName: {},
     };
   }
+  componentDidMount() {
+    this.setState({
+      visibleWx: false,
+    })
+}
   changeActiveKey(key) {
     this.setState({
       activeTab: key,
