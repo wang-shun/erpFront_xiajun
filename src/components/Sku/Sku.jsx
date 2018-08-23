@@ -151,6 +151,9 @@ class Sku extends Component {
         key: 'skuPic',
         width: 78,
         render(text, r) {
+          if (null == text || undefined == text || '' == text) {
+            return '-';
+          }
           if (!text) return '-';
           const picList = JSON.parse(text).picList;
           const t = picList.length ? picList[0] ? picList[0].url : '' : '';
