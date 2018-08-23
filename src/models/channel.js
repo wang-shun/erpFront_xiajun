@@ -11,6 +11,8 @@ const saveOneItemSkuMultiPrice = ({ payload }) => fetch.post('/itemSku/saveOneIt
 const queryChannelList = () => fetch.post('/channelshop/queryChannelList').catch(e => e);//渠道列表
 const getOauthUrl = () => fetch.post('/channelshop/getOauthUrl').catch(e => e);//渠道授权
 const addhaihu = () => fetch.post('/channelshop/addhaihu').catch(e => e);//添加海狐的渠道
+const saveHaihuInfo = ({ payload }) => fetch.post('/channelshop/save', { data: payload }).catch(e => e);//海狐渠道编辑之后的保存
+const changeOpen = ({ payload }) => fetch.post('/channelshop/changeOpen', { data: payload }).catch(e => e);//启用或者停用渠道
 
 export default {
   namespace: 'channel',
@@ -27,7 +29,7 @@ export default {
     detailTotal: 1,
     channelList: [],
     authUrl: '',
-    channelShopDO: {}
+    channelShopDO: {},
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -114,6 +116,26 @@ export default {
         cb();
       }
     },
+    * saveHaihuInfo({ payload, cb }, { call }) {
+    const data = yield call(saveHaihuInfo, { payload });
+   // console.log("hai")
+    if (data.success) {
+      message.success('添加成功');
+      cb();
+    }
+  },
+    * changeOpen({ payload, cb }, { call }) {
+    const data = yield call(changeOpen, { payload });
+    //console.log("hai")
+    let msg = "启用成功";
+    if (!payload.open) {
+      msg = "停用成功";
+    }
+    if (data.success) {
+      message.success(msg);
+      cb();
+    }
+  },
     * queryItemSkuPriceListByCondition({ payload }, { call, put }) {
       const data = yield call(queryItemSkuPriceListByCondition, { payload });
       if (data.success) {
@@ -171,6 +193,10 @@ export default {
     saveChannelIndex(state, { payload }) {
       return { ...state, currentPage: payload.pageIndex };
     },
+    // saveHaihuInfo(state, { payload }) {
+    //   console.log("save")
+    //   return { ...state, currentPage: payload.pageIndex };
+    // },
     saveChannelSize(state, { payload }) {
       return { ...state, pageSize: payload.pageSize };
     },
