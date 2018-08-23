@@ -16,7 +16,7 @@ class Test extends Component {
     let code = a.code;
     let state = a.state;
     console.log(code,state);
-    this.props.dispatch({ type: 'permission/authorizedWx', payload: { code,state }, cb: () => {this.props.dispatch(routerRedux.push('/permission/user'))}, });
+    this.props.dispatch({ type: 'permission/authorizedWx', payload: { code,state }, cb: () => {this.props.dispatch(routerRedux.push('/permission/user',{visibleWx:false}))}, });
     }
   render() {
     return (
