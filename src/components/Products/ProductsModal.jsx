@@ -433,7 +433,7 @@ class ProductsModal extends Component {
       },
     };
     const formItemLayout = {
-      labelCol: { span: 8 },
+      labelCol: { span: 7 },
       wrapperCol: { span: 16 },
     };
     const formItemLayoutSpecial = {
@@ -441,7 +441,7 @@ class ProductsModal extends Component {
       wrapperCol: { span: 16 },
     };
     const formItemLayoutWxIsSale = {
-      labelCol: { span: 8 },
+      labelCol: { span: 7 },
       wrapperCol: { span: 13 },
     };
     const fileListSource = this.state.picList || picList;
@@ -516,7 +516,7 @@ class ProductsModal extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col span={7}>
+                <Col span={8}>
                   <FormItem
                     label="商品名称"
                     {...formItemLayout}
@@ -543,7 +543,7 @@ class ProductsModal extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col span={7}>
+                <Col span={8}>
                   <FormItem
                     label="三级类目"
                     required="true"
@@ -577,42 +577,8 @@ class ProductsModal extends Component {
                 </Col>
 
               </Row>
-
               <Row>
-                <Col span={7}>
-                  <FormItem
-                    label="选择国家"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('country', {
-                      initialValue: productData.country, // toString(, 'SELECT'),
-                      rules: [{ required: true, message: '请选择国家'}],
-                    })(
-                      <Select placeholder="请选择国家" allowClear onChange={this.handleSelectCountry.bind(this)}>
-                        {countries.map(country => <Option key={country.id} value={country.id}>{country.name}</Option>)}
-                        <Option key="_other" value="-1">其他</Option>
-                      </Select>,
-                    )}
-                  </FormItem>
-                </Col>
-                {countryNameExit && [<Col span={7} key="_1">
-                  <FormItem
-                    label="新国家名"
-                    {...formItemLayout}
-                  >
-                    {getFieldDecorator('newCountry', {
-                      initialValue: productData.newCountry,
-                    })(
-                      <Input placeholder="请输入新国家名" />,
-                    )}
-                  </FormItem>
-                </Col>, <Col span={7} key="_2">
-                  <FormItem><Button style={{ marginLeft: 10 }} type="primary" size="small" onClick={this.handleAddCountry.bind(this)} >添加</Button></FormItem>
-                </Col>]}
-              </Row>
-            
-              <Row>
-                <Col span={7}>
+                <Col span={8}>
                   <FormItem
                     label="小程序可售"
                      {...formItemLayoutWxIsSale}
@@ -675,10 +641,44 @@ class ProductsModal extends Component {
                     )}
                   </FormItem>
                 </Col>
-
               </Row>
+
+               <Row>
+                <Col span={8}>
+                  <FormItem
+                    label="选择国家"
+                    {...formItemLayout}
+                  >
+                    {getFieldDecorator('country', {
+                      initialValue: productData.country, // toString(, 'SELECT'),
+                      rules: [{ required: true, message: '请选择国家'}],
+                    })(
+                      <Select placeholder="请选择国家" allowClear onChange={this.handleSelectCountry.bind(this)}>
+                        {countries.map(country => <Option key={country.id} value={country.id}>{country.name}</Option>)}
+                        <Option key="_other" value="-1">其他</Option>
+                      </Select>,
+                    )}
+                  </FormItem>
+                </Col>
+                {countryNameExit && [<Col span={7} key="_1">
+                  <FormItem
+                    label="新国家名"
+                    {...formItemLayout}
+                  >
+                    {getFieldDecorator('newCountry', {
+                      initialValue: productData.newCountry,
+                    })(
+                      <Input placeholder="请输入新国家名" />,
+                    )}
+                  </FormItem>
+                </Col>, <Col span={7} key="_2">
+                  <FormItem><Button style={{ marginLeft: 10 }} type="primary" size="small" onClick={this.handleAddCountry.bind(this)} >添加</Button></FormItem>
+                </Col>]}
+              </Row>
+
+              
               <Row>
-                <Col span={21}>
+                <Col span={19}>
                   <FormItem
                     label="添加图片"
                     required="true"
