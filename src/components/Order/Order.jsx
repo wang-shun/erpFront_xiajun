@@ -200,6 +200,7 @@ class Order extends Component {
   }
 
   render() {
+    console.log(this.props)
     const p = this;
     const { form, dispatch, currentPage, orderList = [], orderTotal, currentPageSize, orderValues = {}, agencyList = [], orderDetailList = [], loginRoler, erpDetailList = [], orderListTwo= []} = p.props;
     let orderValue = orderListTwo[0];

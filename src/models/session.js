@@ -87,15 +87,14 @@ export default {
       }
     },
     * wechatLogin({ payload, cb, ca }, { call, put }) {
+ 
       const data = yield call(wechatLogin, { payload });
       if (data.success) {
-        message.success(data.msg);
         yield put({ type: 'wechatLoginInfo', payload: data });
         cb();
         if (data.success) {
           if (data.data.userName) {
             const permissionData = yield call(queryPermissions);
-            console.log(permissionData)
             if (permissionData.success) {
               const permissions = [...permissionData.data, routerCfg.OVERVIEW];
               const newNavigation = [];
@@ -120,7 +119,6 @@ export default {
                 newNavigation.push(newEl);
               });
               setNavigation(newNavigation);
-              console.log(newNavigation)
               localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
               localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
               localStorage.setItem('HAIERP_LAST_USERNAME', data.data.userName);
@@ -129,14 +127,13 @@ export default {
               yield put({ type: 'updateUsername', payload: data.data.userName });
               window.redirector(`/${routerCfg.OVERVIEW}`);
             }
-            console.log('there')
             // localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(originalNavigation));
             window.redirector(`/${routerCfg.OVERVIEW}`);
           }
         }
       }
       if (!data.success) {
-        message.error('请勿刷新，否则需要重新扫码')
+        // message.error('请勿刷新，否则需要重新扫码')
         ca();
       }
     },
@@ -146,7 +143,6 @@ export default {
         message.success(data.msg);
         if (data.data.userName) {
             const permissionData = yield call(queryPermissions);
-            console.log(permissionData)
             if (permissionData.success) {
               const permissions = [...permissionData.data, routerCfg.OVERVIEW];
               const newNavigation = [];
@@ -171,7 +167,6 @@ export default {
                 newNavigation.push(newEl);
               });
               setNavigation(newNavigation);
-              console.log(newNavigation)
               localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
               localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
               localStorage.setItem('HAIERP_LAST_USERNAME', data.data.userName);
@@ -180,7 +175,6 @@ export default {
               yield put({ type: 'updateUsername', payload: data.data.userName });
               window.redirector(`/${routerCfg.OVERVIEW}`);
             }
-            console.log('there')
             // localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(originalNavigation));
             window.redirector(`/${routerCfg.OVERVIEW}`);
         }
@@ -191,7 +185,6 @@ export default {
       const data = yield call(login, payload);
       if (data.success) {
         const permissionData = yield call(queryPermissions);
-        console.log(permissionData)
         if (permissionData.success) {
           const permissions = [...permissionData.data, routerCfg.OVERVIEW];
           const newNavigation = [];
@@ -216,7 +209,6 @@ export default {
             newNavigation.push(newEl);
           });
           setNavigation(newNavigation);
-          console.log(newNavigation)
           localStorage.setItem('HAIERP_LAST_LOGIN', new Date().getTime());
           localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(newNavigation));
           localStorage.setItem('HAIERP_LAST_USERNAME', payload.payload.username);
@@ -225,7 +217,6 @@ export default {
           yield put({ type: 'updateUsername', payload: payload.payload.username });
           window.redirector(`/${routerCfg.OVERVIEW}`);
         }
-        console.log('there')
         // localStorage.setItem('HAIERP_LAST_PERMISSION', JSON.stringify(originalNavigation));
         window.redirector(`/${routerCfg.OVERVIEW}`);
       }// } else message.error(data.data);

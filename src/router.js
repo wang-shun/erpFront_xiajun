@@ -69,6 +69,10 @@ import release from './components/MyApp/release';
 import channelBinding from './components/Channel/channelBinding';
 import channelInstall from './components/Channel/channelInstall';
 import channelAuth from './components/Channel/channelAuth';//渠道授权
+// 新订单管理
+import orderManagement from './components/NewOrder/orderManagement';
+import deliveryManagement from './components/NewOrder/deliveryManagement';
+import serviceManagement from './components/NewOrder/serviceManagement';
 
 function redirectHelper(...args) {
   // 传入参数3，为onEnter
@@ -131,6 +135,11 @@ function RouterConfig({ history }) {
         <Route path={`/${routerCfg.SALE}/${routerCfg.ERP_ORDER}`} component={ErpOrder} />
         <Route path={`/${routerCfg.SALE}/${routerCfg.SHIPPING_ORDER}`} component={ShippingOrder} />
         <Route path={`/${routerCfg.SALE}/${routerCfg.RETURN_ORDER}`} component={ReturnOrder} />
+
+        <Route path={`/${routerCfg.NEWORDER}/${routerCfg.ORDERMANAGEMENT}`} component={orderManagement} />
+        <Route path={`/${routerCfg.NEWORDER}/${routerCfg.DELIVERMANAGEMENT}`} component={deliveryManagement} />
+        <Route path={`/${routerCfg.NEWORDER}/${routerCfg.SERVICEMANAGEMENT}`} component={serviceManagement} />
+        
         <Route path={`/${routerCfg.SALE}/${routerCfg.SALE_CHANNEL}`} component={SaleChannel} />
         <Route path={`/${routerCfg.PURCHASE}/${routerCfg.PURCHASE_LIST}`} component={Purchase} />
         <Route path={`/${routerCfg.PURCHASE}/${routerCfg.PURCHASE_STORAGE}`} component={PurchaseStorage} />
@@ -178,7 +187,7 @@ function RouterConfig({ history }) {
         <Redirect from={`/${routerCfg.MARKETING}`} to={`/${routerCfg.MARKETING}/${routerCfg.SALE_CHANNEL}`} />
         <Redirect from={`/${routerCfg.MYAPP}`} to={`/${routerCfg.MYAPP}/${routerCfg.APP_SETTINGS}`} /> 
         <Redirect from={`/${routerCfg.CHANNEL}`} to={`/${routerCfg.CHANNEL}/${routerCfg.CHANNELINSTALL}`} />
-
+        <Redirect from={`/${routerCfg.NEWORDER}`} to={`/${routerCfg.NEWORDER}/${routerCfg.ORDERMANAGEMENT}`} />
         {/* 二级导航重定向 */}
         <Redirect from={`/${routerCfg.PURCHASE}/${routerCfg.CHECK}`} to={`/${routerCfg.PURCHASE}/${routerCfg.CHECK}/${routerCfg.JOURNAL}`} />
       </Route>
