@@ -234,20 +234,22 @@ export default {
   },
   effects: {
     // 主订单
-    * addOrder({ payload }, { call }) {
+    * addOrder({ payload, cb }, { call }) {
       if (payload.orderTime) {
         payload.orderTime = payload.orderTime.format('YYYY-MM-DD HH:mm:ss');
       }
       const data = yield call(addOrder, { payload });
       if (data.success) {
         message.success('增加订单成功');
+        cb();
       }
     },
-    * updateOrder({ payload }, { call }) {
+    * updateOrder({ payload, cb }, { call }) {
       if (payload.orderTime) { payload.orderTime = payload.orderTime.format('YYYY-MM-DD HH:mm:ss'); }
       const data = yield call(updateOrder, { payload });
       if (data.success) {
         message.success('更新订单成功');
+        cb();
       }
     },
     * deleteOrder({ payload, cb }, { call }) {
