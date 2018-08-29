@@ -282,9 +282,16 @@ class orderManagement extends Component {
       showTrack: false,
     })
   }
+  handleSearch(num, size) {
+    console.log(num, size)
+      this.props.dispatch({
+        type: 'neworder/searchPageList',
+        payload: { pageIndex: num, pageSize: size },
+      })
+  }
   render() {
     const p = this;
-    const { form, dispatch, orderList, erpDetailList, orderListTwo } = p.props;
+    const { form, dispatch, orderList, erpDetailList, orderListTwo, orderTotal, currentPageSize } = p.props;
     const { expandedRows, selectedRowKeys, orderSelected, modalVisible, title, orderTimeVisible, returnType, returnModalVisible, returnOrderValues, exportVisible, exportTitle, showTrack, showTitle, shippingTrack } = this.state;
     console.log(shippingTrack)
     const { getFieldDecorator } = form;
@@ -306,6 +313,27 @@ class orderManagement extends Component {
         }
       }
     }
+    const paginationProps = {
+      defaultPageSize: 20,
+      // showSizeChanger: true,
+      total: orderTotal,
+      pageSize: currentPageSize,
+      // pageSizeOptions: ['20', '30', '50', '100'],
+      // onShowSizeChange(current, size) {
+      //   p.props.dispatch({
+      //     type: 'order/queryMallSaleAgents',
+      //     payload: {
+      //       pageIndex: current,
+      //       pageSize: size,
+      //     },
+      //   });
+      // },
+      onChange(page, pageSize) {
+        console.log(page, pageSize)
+        p.handleSearch(page, pageSize);
+        // console.log(page, pageSize)
+      },
+    };
     const expandedRowRender = (record) => {
       const subTabData = record.subOrderDOList;
       const orderTotalStatus = record.status;
@@ -624,13 +652,14 @@ class orderManagement extends Component {
                 // className="components-table-demo-nested"
                 columns={columns}
                 dataSource={orderList}
-                // rowSelection={rowSelection}
+                rowSelection={rowSelection}
                 rowKey={record => record.orderNo}
                 expandedRowRender={expandedRowRender}
                 expandIconAsCell={false}
                 expandIconColumnIndex={-1}
                 defaultExpandAllRows={true}
                 expandedRowKeys={expandedRows}
+                pagination={paginationProps}
               />
             </Col>
           </Row>
@@ -713,11 +742,13 @@ class orderManagement extends Component {
 }
 
 function mapStateToProps(state) {
-  const { orderList, orderListTwo, erpDetailList } = state.neworder;
+  const { orderList, orderListTwo, erpDetailList, orderTotal, currentPageSize } = state.neworder;
   return {
     orderList,
     orderListTwo,
     erpDetailList,
+    orderTotal,
+    currentPageSize,
   };
 }
 export default connect(mapStateToProps)(Form.create()(orderManagement));
