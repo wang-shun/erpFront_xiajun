@@ -8,7 +8,7 @@ const querySkuList = ({ payload }) => fetch.post('/itemSku/queryItemSkuList', { 
 const querySkuList2 = ({ payload }) => fetch.post('/itemSku/queryItemSkuList', { data: payload }).catch(e => e);
 const deleteSku = ({ payload }) => fetch.post('/itemSku/delete', { data: payload }).catch(e => e);
 const queryPackageScales = () => fetch.post('/freight/getPackageScaleList').catch(e => e);
-const queryScaleTypes = () => fetch.post('/itemSku/scaleTypeList').catch(e => e);
+// const queryScaleTypes = () => fetch.post('/itemSku/scaleTypeList').catch(e => e);
 const queryItemList = ({ payload }) => fetch.post('/item/queryItemList', { data: payload }).catch(e => e);
 const lockVirtualInv = ({ payload }) => fetch.post('/itemSku/lockedVirtualInv', { data: payload }).catch(e => e);
 
@@ -160,15 +160,15 @@ export default {
         });
       }
     },
-    * queryScaleTypes(param, { call, put }) {
-      const data = yield call(queryScaleTypes);
-      if (data.success) {
-        yield put({
-          type: 'saveScaleTypes',
-          payload: { data },
-        });
-      }
-    },
+    // * queryScaleTypes(param, { call, put }) {
+    //   const data = yield call(queryScaleTypes);
+    //   if (data.success) {
+    //     yield put({
+    //       type: 'saveScaleTypes',
+    //       payload: { data },
+    //     });
+    //   }
+    // },
   },
   subscriptions: {
     setup({ dispatch, history }) {
